@@ -1,0 +1,23 @@
+<html>
+<head>
+<title>The Ada Program: pack.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: pack.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- pack.adb:  Ada package with a function</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>package</font></b> <b><font color=#228B22>body</font></b> Pack <b><font color=#228B22>is</font></b>
+<font size=-1>  4</font>    <b><font color=#228B22>type</font></b> E <b><font color=#228B22>is</font></b> (Red, Orange, Yellow, Green, Blue, Indigo, Violet);
+<font size=-1>  5</font> 
+<font size=-1>  6</font>    <b><i><font color=#BB1212>-- convert a string to the position of the corresponding</font></i></b>
+<font size=-1>  7</font>    <b><i><font color=#BB1212>-- enumeration literal in type E</font></i></b>
+<font size=-1>  8</font>    <b><font color=#228B22>function</font></b> Sub (N: <font color=#8B008B>String</font>) <b><font color=#228B22>return</font></b> <font color=#8B008B>Natural</font> <b><font color=#228B22>is</font></b>
+<font size=-1>  9</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 10</font>       <b><font color=#228B22>return</font></b> (E<font color=#8B008B>'Pos</font> (E<font color=#8B008B>'Value</font> (N)));
+<font size=-1> 11</font>    <b><font color=#228B22>end</font></b> Sub;
+<font size=-1> 12</font> <b><font color=#228B22>end</font></b> Pack;
+</pre>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<html>
+<head>
+<title>The Ada Program: test.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: test.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><font color=#228B22>with</font></b> Quantities, Ada.Numerics.Generic_Elementary_Functions;
+<font size=-1>  2</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, Ada.Long_Long_Float_Text_IO;
+<font size=-1>  3</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  4</font> 
+<font size=-1>  5</font> <b><font color=#228B22>procedure</font></b> Test <b><font color=#228B22>is</font></b>
+<font size=-1>  6</font>    <b><font color=#228B22>package</font></b> Math <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> Numerics.Generic_Elementary_Functions (Long_Long_Float);
+<font size=-1>  7</font>    X: <b><font color=#228B22>constant</font></b> := <font color=#008B8B>1.0</font>/<font color=#008B8B>10.0</font>;
+<font size=-1>  8</font>    Y: <b><font color=#228B22>constant</font></b> Long_Long_Float := <font color=#008B8B>1.0</font>/<font color=#008B8B>10.0</font>;
+<font size=-1>  9</font>    Z: <b><font color=#228B22>constant</font></b> Long_Long_Float := Math.Sqrt (<font color=#008B8B>2.0</font>);
+<font size=-1> 10</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 11</font>    Long_Long_Float_Text_IO.Put (X-Quantities.Tenth);
+<font size=-1> 12</font>    Text_IO.New_Line;
+<font size=-1> 13</font>    Long_Long_Float_Text_IO.Put (Y-Quantities.Tenth);
+<font size=-1> 14</font>    Text_IO.New_Line;
+<font size=-1> 15</font>    Long_Long_Float_Text_IO.Put (Math.Sqrt (<font color=#008B8B>2.0</font>)-Quantities.Sqrt_2);
+<font size=-1> 16</font>    Text_IO.New_Line;
+<font size=-1> 17</font>    Long_Long_Float_Text_IO.Put (Math.Log (<font color=#008B8B>2.0</font>)-Quantities.Ln_2);
+<font size=-1> 18</font>    Text_IO.New_Line;
+<font size=-1> 19</font> <b><font color=#228B22>end</font></b> Test;
+</pre>
+</body>
+</html>

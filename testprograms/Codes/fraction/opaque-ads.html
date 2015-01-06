@@ -1,0 +1,41 @@
+<html>
+<head>
+<title>The Ada Program: opaque.ads</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: opaque.ads</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- opaque.ads:  fraction package with data representation hidden</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>package</font></b> Opaque <b><font color=#228B22>is</font></b>
+<font size=-1>  4</font> 
+<font size=-1>  5</font>    <b><i><font color=#BB1212>-- Clients can use (declare objects of) type "Fraction", but</font></i></b>
+<font size=-1>  6</font>    <b><i><font color=#BB1212>-- the actually definition (representation) is not revealed.</font></i></b>
+<font size=-1>  7</font>    <b><font color=#228B22>type</font></b> Fraction <b><font color=#228B22>is</font></b> <b><font color=#228B22>private</font></b>;
+<font size=-1>  8</font> 
+<font size=-1>  9</font>    <b><font color=#228B22>function</font></b> Rat (Num: <font color=#8B008B>Integer</font>; Den: <font color=#8B008B>Positive</font>:=<font color=#008B8B>1</font>) <b><font color=#228B22>return</font></b> Fraction;
+<font size=-1> 10</font>    <b><font color=#228B22>function</font></b> Is_Zero (F: Fraction) <b><font color=#228B22>return</font></b> <font color=#8B008B>Boolean</font>;
+<font size=-1> 11</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"/"</font> (Left: <font color=#8B008B>Integer</font>; Right: <font color=#8B008B>Integer</font>) <b><font color=#228B22>return</font></b> Fraction;
+<font size=-1> 12</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"/"</font> (Left, Right: Fraction) <b><font color=#228B22>return</font></b> Fraction;
+<font size=-1> 13</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"*"</font> (Left, Right: Fraction) <b><font color=#228B22>return</font></b> Fraction;
+<font size=-1> 14</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"-"</font> (Right: Fraction) <b><font color=#228B22>return</font></b> Fraction;
+<font size=-1> 15</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"-"</font> (Left, Right: Fraction) <b><font color=#228B22>return</font></b> Fraction;
+<font size=-1> 16</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"+"</font> (Left, Right: Fraction) <b><font color=#228B22>return</font></b> Fraction;
+<font size=-1> 17</font> 
+<font size=-1> 18</font> <b><font color=#228B22>private</font></b>
+<font size=-1> 19</font> 
+<font size=-1> 20</font>    <b><i><font color=#BB1212>-- The "private" section of a package body reveals information</font></i></b>
+<font size=-1> 21</font>    <b><i><font color=#BB1212>-- needed by the compiler, but the client cannot make use of</font></i></b>
+<font size=-1> 22</font>    <b><i><font color=#BB1212>-- this infomation in the program.</font></i></b>
+<font size=-1> 23</font> 
+<font size=-1> 24</font>    <b><font color=#228B22>type</font></b> Fraction <b><font color=#228B22>is</font></b>
+<font size=-1> 25</font>       <b><font color=#228B22>record</font></b>
+<font size=-1> 26</font>          Num : <font color=#8B008B>Integer</font>;
+<font size=-1> 27</font>          Den : <font color=#8B008B>Positive</font> := <font color=#008B8B>1</font>;
+<font size=-1> 28</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>record</font></b>;
+<font size=-1> 29</font> 
+<font size=-1> 30</font> <b><font color=#228B22>end</font></b> Opaque;
+</pre>
+</body>
+</html>

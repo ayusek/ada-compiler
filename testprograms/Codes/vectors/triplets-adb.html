@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>The Ada Program: triplets.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: triplets.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- Triplets.adb:  type for triples; used as base type of vectors</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><i><font color=#BB1212>-- From Cohen, 12.2 Derived types, page 503</font></i></b>
+<font size=-1>  4</font> 
+<font size=-1>  5</font> <b><font color=#228B22>package</font></b> <b><font color=#228B22>body</font></b> Triplets <b><font color=#228B22>is</font></b>
+<font size=-1>  6</font> 
+<font size=-1>  7</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"+"</font> (Left, Right: Triplet_Type) <b><font color=#228B22>return</font></b> Triplet_Type <b><font color=#228B22>is</font></b>
+<font size=-1>  8</font>       Result: Triplet_Type;
+<font size=-1>  9</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 10</font>       <b><font color=#228B22>for</font></b> I <b><font color=#228B22>in</font></b> Result<font color=#8B008B>'Range</font> <b><font color=#228B22>loop</font></b>
+<font size=-1> 11</font>          Result(I) := Left(I) + Right(I);
+<font size=-1> 12</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 13</font>       <b><font color=#228B22>return</font></b> Result;
+<font size=-1> 14</font>    <b><font color=#228B22>end</font></b> <font color=#008B8B>"+"</font>;
+<font size=-1> 15</font> 
+<font size=-1> 16</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"*"</font> (Left, Right: Triplet_Type) <b><font color=#228B22>return</font></b> Triplet_Type <b><font color=#228B22>is</font></b>
+<font size=-1> 17</font>       Result: Triplet_Type;
+<font size=-1> 18</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 19</font>       <b><font color=#228B22>for</font></b> I <b><font color=#228B22>in</font></b> Result<font color=#8B008B>'Range</font> <b><font color=#228B22>loop</font></b>
+<font size=-1> 20</font>          Result(I) := Left(I) * Right(I);
+<font size=-1> 21</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 22</font>       <b><font color=#228B22>return</font></b> Result;
+<font size=-1> 23</font>    <b><font color=#228B22>end</font></b> <font color=#008B8B>"*"</font>;
+<font size=-1> 24</font> 
+<font size=-1> 25</font>    <b><font color=#228B22>procedure</font></b> Rescale (Triplet: <b><font color=#228B22>in</font></b> <b><font color=#228B22>out</font></b> Triplet_Type; Factor: <b><font color=#228B22>in</font></b> <font color=#8B008B>Float</font>) <b><font color=#228B22>is</font></b>
+<font size=-1> 26</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 27</font>       <b><font color=#228B22>for</font></b> I <b><font color=#228B22>in</font></b> Triplet<font color=#8B008B>'Range</font> <b><font color=#228B22>loop</font></b>
+<font size=-1> 28</font>          Triplet(I) := Triplet(I) * Factor;
+<font size=-1> 29</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 30</font>    <b><font color=#228B22>end</font></b> Rescale;
+<font size=-1> 31</font> 
+<font size=-1> 32</font> <b><font color=#228B22>end</font></b> Triplets;
+<font size=-1> 33</font> 
+</pre>
+</body>
+</html>

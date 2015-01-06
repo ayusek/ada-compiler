@@ -1,0 +1,36 @@
+<html>
+<head>
+<title>The Ada Program: twos_integer_package.ads</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: twos_integer_package.ads</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- An abstract data type for signed integers using twos complement</font></i></b>
+<font size=-1>  2</font> <b><i><font color=#BB1212>-- represenation.  Of cource, this is completely unnessary as Ada</font></i></b>
+<font size=-1>  3</font> <b><i><font color=#BB1212>-- has a predefined integer type already.</font></i></b>
+<font size=-1>  4</font> 
+<font size=-1>  5</font> <b><font color=#228B22>package</font></b> Twos_Integer_Package <b><font color=#228B22>is</font></b>
+<font size=-1>  6</font> 
+<font size=-1>  7</font>    <b><font color=#228B22>type</font></b> <font color=#8B008B>Integer</font> <b><font color=#228B22>is</font></b> <b><font color=#228B22>private</font></b>;
+<font size=-1>  8</font> 
+<font size=-1>  9</font>    Zero, One, Minus_One : <b><font color=#228B22>constant</font></b> <font color=#8B008B>Integer</font>;
+<font size=-1> 10</font> 
+<font size=-1> 11</font>    <b><i><font color=#BB1212>-- Operations on integers:</font></i></b>
+<font size=-1> 12</font>    <b><i><font color=#BB1212>-- function "+" (Left, Right: Integer) return Integer;</font></i></b>
+<font size=-1> 13</font>    <b><i><font color=#BB1212>-- function "-" (Left, Right: Integer) return Integer;</font></i></b>
+<font size=-1> 14</font>    <b><i><font color=#BB1212>-- function "*" (Left, Right: Integer) return Integer;</font></i></b>
+<font size=-1> 15</font>    <b><i><font color=#BB1212>-- function "/" (Left, Right: Integer) return Integer;</font></i></b>
+<font size=-1> 16</font> 
+<font size=-1> 17</font> <b><font color=#228B22>private</font></b>
+<font size=-1> 18</font> 
+<font size=-1> 19</font>    <b><font color=#228B22>type</font></b> <font color=#8B008B>Integer</font> <b><font color=#228B22>is</font></b> <b><font color=#228B22>array</font></b> (<font color=#008B8B>0</font> .. <font color=#008B8B>31</font>) <b><font color=#228B22>of</font></b> <font color=#8B008B>Boolean</font>;
+<font size=-1> 20</font> 
+<font size=-1> 21</font>    Zero      : <b><font color=#228B22>constant</font></b> <font color=#8B008B>Integer</font> := <font color=#8B008B>Integer</font>'(<b><font color=#228B22>others</font></b>=&#62;<font color=#8B008B>False</font>);
+<font size=-1> 22</font>    One       : <b><font color=#228B22>constant</font></b> <font color=#8B008B>Integer</font> := <font color=#8B008B>Integer</font>'(<font color=#008B8B>0</font>=&#62;<font color=#8B008B>True</font>, <b><font color=#228B22>others</font></b>=&#62;<font color=#8B008B>False</font>);
+<font size=-1> 23</font>    Minus_One : <b><font color=#228B22>constant</font></b> <font color=#8B008B>Integer</font> := <font color=#8B008B>Integer</font>'(<b><font color=#228B22>others</font></b>=&#62;<font color=#8B008B>True</font>);
+<font size=-1> 24</font> 
+<font size=-1> 25</font> <b><font color=#228B22>end</font></b> Twos_Integer_Package;
+</pre>
+</body>
+</html>

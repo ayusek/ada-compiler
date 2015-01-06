@@ -1,0 +1,25 @@
+<html>
+<head>
+<title>The Ada Program: matrix_package_3.ads</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: matrix_package_3.ads</h1>
+<pre>
+<font size=-1>  1</font> 
+<font size=-1>  2</font> <b><font color=#228B22>generic</font></b>
+<font size=-1>  3</font> 
+<font size=-1>  4</font>    N: <font color=#8B008B>Positive</font>;                    <b><i><font color=#BB1212>-- Size of matrix</font></i></b>
+<font size=-1>  5</font>    <b><font color=#228B22>type</font></b> Element_Type <b><font color=#228B22>is</font></b> <b><font color=#228B22>range</font></b> &#60;&#62;;  <b><i><font color=#BB1212>-- Type of elements (any signed integer)</font></i></b>
+<font size=-1>  6</font> 
+<font size=-1>  7</font> <b><font color=#228B22>package</font></b> Matrix_Package_3 <b><font color=#228B22>is</font></b>
+<font size=-1>  8</font> 
+<font size=-1>  9</font>    <b><font color=#228B22>type</font></b> Matrix <b><font color=#228B22>is</font></b> <b><font color=#228B22>array</font></b> (<font color=#008B8B>1</font>..N, <font color=#008B8B>1</font>..N) <b><font color=#228B22>of</font></b> Element_Type;
+<font size=-1> 10</font> 
+<font size=-1> 11</font>    <b><i><font color=#BB1212>-- Matrix addition</font></i></b>
+<font size=-1> 12</font>    <b><font color=#228B22>procedure</font></b> Add (A,B: <b><font color=#228B22>in</font></b> Matrix; C: <b><font color=#228B22>out</font></b> Matrix);
+<font size=-1> 13</font> 
+<font size=-1> 14</font> <b><font color=#228B22>end</font></b> Matrix_Package_3;
+</pre>
+</body>
+</html>

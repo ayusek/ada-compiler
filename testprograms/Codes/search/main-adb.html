@@ -1,0 +1,54 @@
+<html>
+<head>
+<title>The Ada Program: main.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: main.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>;
+<font size=-1>  2</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  3</font> <b><font color=#228B22>procedure</font></b> Main <b><font color=#228B22>is</font></b>
+<font size=-1>  4</font> 
+<font size=-1>  5</font>    <b><font color=#228B22>type</font></b> Item_Array_Type <b><font color=#228B22>is</font></b> <b><font color=#228B22>array</font></b> (<font color=#8B008B>Integer</font> <b><font color=#228B22>range</font></b> &#60;&#62;) <b><font color=#228B22>of</font></b> <font color=#8B008B>Integer</font>;
+<font size=-1>  6</font> 
+<font size=-1>  7</font>    <b><font color=#228B22>procedure</font></b> Search (List: <b><font color=#228B22>in</font></b> Item_Array_Type;
+<font size=-1>  8</font>                      Item: <b><font color=#228B22>in</font></b> <font color=#8B008B>Integer</font>;
+<font size=-1>  9</font>                      Index: <b><font color=#228B22>out</font></b> <font color=#8B008B>Integer</font>;
+<font size=-1> 10</font>                      Found: <b><font color=#228B22>out</font></b> <font color=#8B008B>Boolean</font>) <b><font color=#228B22>is</font></b>
+<font size=-1> 11</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 12</font>       <b><font color=#228B22>for</font></b> I <b><font color=#228B22>in</font></b> List<font color=#8B008B>'Range</font> <b><font color=#228B22>loop</font></b>
+<font size=-1> 13</font>         <b><font color=#228B22>if</font></b> List(I)=Item <b><font color=#228B22>then</font></b>
+<font size=-1> 14</font>            Index := I;
+<font size=-1> 15</font>            Found := <font color=#8B008B>True</font>;
+<font size=-1> 16</font>            <b><font color=#228B22>return</font></b>;
+<font size=-1> 17</font>         <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 18</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 19</font>       Index := <font color=#008B8B>0</font>;  <b><i><font color=#BB1212>-- meaningless</font></i></b>
+<font size=-1> 20</font>       Found := <font color=#8B008B>False</font>;
+<font size=-1> 21</font>    <b><font color=#228B22>end</font></b> Search;
+<font size=-1> 22</font> 
+<font size=-1> 23</font>    A: Item_Array_Type (-<font color=#008B8B>3</font>..<font color=#008B8B>11</font>) :=
+<font size=-1> 24</font>       (-<font color=#008B8B>3</font>=&#62;<font color=#008B8B>1</font>, -<font color=#008B8B>2</font>=&#62;<font color=#008B8B>2</font>, -<font color=#008B8B>1</font>=&#62;<font color=#008B8B>3</font>, <font color=#008B8B>0</font>=&#62;<font color=#008B8B>5</font>, <font color=#008B8B>1</font>=&#62;<font color=#008B8B>23</font>, <font color=#008B8B>2</font>=&#62;<font color=#008B8B>7</font>, <b><font color=#228B22>others</font></b>=&#62;<font color=#008B8B>0</font>);
+<font size=-1> 25</font> 
+<font size=-1> 26</font>    Found : <font color=#8B008B>Boolean</font>;
+<font size=-1> 27</font>    Index : <font color=#8B008B>Integer</font>;
+<font size=-1> 28</font>    Item  : <font color=#8B008B>Integer</font> := <font color=#008B8B>7</font>;
+<font size=-1> 29</font> 
+<font size=-1> 30</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 31</font>    Search (A, Item, Index, Found);
+<font size=-1> 32</font>    <b><font color=#228B22>if</font></b> Found <b><font color=#228B22>then</font></b>
+<font size=-1> 33</font>       Text_IO.Put (<font color=#008B8B>"The item"</font>);
+<font size=-1> 34</font>       Integer_Text_IO.Put (Item=&#62;Item, Width=&#62;<font color=#008B8B>2</font>);
+<font size=-1> 35</font>       Text_IO.Put (<font color=#008B8B>" was found at index "</font>);
+<font size=-1> 36</font>       Integer_Text_IO.Put (Item=&#62;Index, Width=&#62;<font color=#008B8B>2</font>);
+<font size=-1> 37</font>       Text_IO.Put_Line (<font color=#008B8B>"."</font>);
+<font size=-1> 38</font>    <b><font color=#228B22>else</font></b>
+<font size=-1> 39</font>       Text_IO.Put (<font color=#008B8B>"The item"</font>);
+<font size=-1> 40</font>       Integer_Text_IO.Put (Item=&#62;Item, Width=&#62;<font color=#008B8B>2</font>);
+<font size=-1> 41</font>       Text_IO.Put_Line (<font color=#008B8B>"was not found."</font>);
+<font size=-1> 42</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 43</font> <b><font color=#228B22>end</font></b> Main;
+</pre>
+</body>
+</html>

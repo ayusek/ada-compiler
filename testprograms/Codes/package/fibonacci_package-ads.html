@@ -1,0 +1,22 @@
+<html>
+<head>
+<title>The Ada Program: fibonacci_package.ads</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: fibonacci_package.ads</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- fibonacci_package.ads:  package to compute Fibonacci function</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>package</font></b> Fibonacci_Package <b><font color=#228B22>is</font></b>
+<font size=-1>  4</font> 
+<font size=-1>  5</font>    <b><font color=#228B22>subtype</font></b> Argument_Subtype <b><font color=#228B22>is</font></b> <font color=#8B008B>Integer</font> <b><font color=#228B22>range</font></b> <font color=#008B8B>0</font> .. <font color=#008B8B>20</font>;
+<font size=-1>  6</font> 
+<font size=-1>  7</font>    <b><font color=#228B22>subtype</font></b> Result_Subtype <b><font color=#228B22>is</font></b> <font color=#8B008B>Integer</font> <b><font color=#228B22>range</font></b> <font color=#008B8B>1</font> .. <font color=#008B8B>11_000</font>;
+<font size=-1>  8</font> 
+<font size=-1>  9</font>    <b><font color=#228B22>function</font></b> Fibonacci (N: Argument_Subtype) <b><font color=#228B22>return</font></b> Result_Subtype;
+<font size=-1> 10</font> 
+<font size=-1> 11</font> <b><font color=#228B22>end</font></b> Fibonacci_Package;
+</pre>
+</body>
+</html>

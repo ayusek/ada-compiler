@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>The Ada Program: point_main.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: point_main.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>, Point;
+<font size=-1>  2</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  3</font> 
+<font size=-1>  4</font> <b><font color=#228B22>procedure</font></b> Point_Main <b><font color=#228B22>is</font></b>
+<font size=-1>  5</font> 
+<font size=-1>  6</font>    Count   : <font color=#8B008B>Natural</font>:=<font color=#008B8B>0</font>;       <b><i><font color=#BB1212>-- keep track of the number of input sets</font></i></b>
+<font size=-1>  7</font>    Number  : <font color=#8B008B>Integer</font>;          <b><i><font color=#BB1212>-- number of points on the compass</font></i></b>
+<font size=-1>  8</font> 
+<font size=-1>  9</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 10</font> 
+<font size=-1> 11</font>    Input: <b><font color=#228B22>loop</font></b>
+<font size=-1> 12</font> 
+<font size=-1> 13</font>       Number := <font color=#008B8B>1</font>;
+<font size=-1> 14</font> 
+<font size=-1> 15</font>       Integer_Text_IO.Get (Number);
+<font size=-1> 16</font>       Text_IO.Skip_Line;
+<font size=-1> 17</font> 
+<font size=-1> 18</font>       <b><font color=#228B22>exit</font></b> <b><font color=#228B22>when</font></b> Number&#60;=<font color=#008B8B>0</font>;
+<font size=-1> 19</font> 
+<font size=-1> 20</font>       Count := Count + <font color=#008B8B>1</font>;
+<font size=-1> 21</font> 
+<font size=-1> 22</font>       <b><i><font color=#BB1212>-- separate the output of each data set with a new line</font></i></b>
+<font size=-1> 23</font>       <b><font color=#228B22>if</font></b> Count&#62;<font color=#008B8B>1</font> <b><font color=#228B22>then</font></b> Text_IO.New_Line; <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 24</font> 
+<font size=-1> 25</font>       <b><i><font color=#BB1212>-- each data set gets a heading</font></i></b>
+<font size=-1> 26</font>       Text_IO.Put (<font color=#008B8B>"Compass with "</font>);
+<font size=-1> 27</font>       Integer_Text_IO.Put (Number, Width=&#62;<font color=#008B8B>0</font>);
+<font size=-1> 28</font>       Text_IO.Put_Line (<font color=#008B8B>" points:"</font>);
+<font size=-1> 29</font> 
+<font size=-1> 30</font>       <b><i><font color=#BB1212>-- call point to read the compass points and print the degrees</font></i></b>
+<font size=-1> 31</font>       Point (Number);
+<font size=-1> 32</font> 
+<font size=-1> 33</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b> Input;
+<font size=-1> 34</font> 
+<font size=-1> 35</font> <b><font color=#228B22>end</font></b> Point_Main;
+</pre>
+</body>
+</html>

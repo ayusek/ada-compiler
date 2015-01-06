@@ -1,0 +1,42 @@
+<html>
+<head>
+<title>The Ada Program: product.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: product.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- product.adb:  use exception handling to deal with overflow</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>;
+<font size=-1>  4</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  5</font> 
+<font size=-1>  6</font> <b><font color=#228B22>procedure</font></b> Product <b><font color=#228B22>is</font></b>
+<font size=-1>  7</font> 
+<font size=-1>  8</font>    A, B, Product : <font color=#8B008B>Integer</font> := <font color=#008B8B>0</font>;
+<font size=-1>  9</font> 
+<font size=-1> 10</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 11</font> 
+<font size=-1> 12</font>    Text_IO.Put (<font color=#008B8B>"Enter two integers:  "</font>);
+<font size=-1> 13</font>    Integer_Text_IO.Get (A);
+<font size=-1> 14</font>    Integer_Text_IO.Get (B);
+<font size=-1> 15</font> 
+<font size=-1> 16</font>    Product := A * B;
+<font size=-1> 17</font> 
+<font size=-1> 18</font>    Text_IO.Put (<font color=#008B8B>"The product is "</font>);
+<font size=-1> 19</font>    Integer_Text_IO.Put (Product, Width=&#62;<font color=#008B8B>1</font>);
+<font size=-1> 20</font>    Text_IO.Put_Line (<font color=#008B8B>"."</font>);
+<font size=-1> 21</font> 
+<font size=-1> 22</font> <b><font color=#228B22>exception</font></b>
+<font size=-1> 23</font> 
+<font size=-1> 24</font>    <b><font color=#228B22>when</font></b> Constraint_Error =&#62;
+<font size=-1> 25</font>       Text_IO.Put (<font color=#008B8B>"The product is outside the range "</font>);
+<font size=-1> 26</font>       Integer_Text_IO.Put (<font color=#8B008B>Integer</font><font color=#8B008B>'First</font>, Width=&#62;<font color=#008B8B>1</font>);
+<font size=-1> 27</font>       Text_IO.Put (<font color=#008B8B>" to "</font>);
+<font size=-1> 28</font>       Integer_Text_IO.Put (<font color=#8B008B>Integer</font><font color=#8B008B>'Last</font>, Width=&#62;<font color=#008B8B>1</font>);
+<font size=-1> 29</font>       Text_IO.Put_Line (<font color=#008B8B>"."</font>);
+<font size=-1> 30</font> 
+<font size=-1> 31</font> <b><font color=#228B22>end</font></b> Product;
+</pre>
+</body>
+</html>

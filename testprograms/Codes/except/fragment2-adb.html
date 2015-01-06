@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>The Ada Program: fragment2.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: fragment2.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>--: an Ada block declaring, raising, and handling exceptions</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> Block_Y:  <b><font color=#228B22>declare</font></b>
+<font size=-1>  4</font> 
+<font size=-1>  5</font>     E1, E2: <b><font color=#228B22>exception</font></b>;
+<font size=-1>  6</font> 
+<font size=-1>  7</font>     <b><font color=#228B22>procedure</font></b> P (N: <font color=#8B008B>Integer</font>) <b><font color=#228B22>is</font></b> <b><font color=#228B22>begin</font></b> <b><font color=#228B22>raise</font></b> E1; <b><font color=#228B22>end</font></b> P;
+<font size=-1>  8</font> 
+<font size=-1>  9</font>     <b><font color=#228B22>function</font></b> F (N: <font color=#8B008B>Integer</font>) <b><font color=#228B22>return</font></b> <font color=#8B008B>Integer</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 10</font>     <b><font color=#228B22>begin</font></b>
+<font size=-1> 11</font>         <b><font color=#228B22>raise</font></b> E2;
+<font size=-1> 12</font>     <b><font color=#228B22>exception</font></b>
+<font size=-1> 13</font>         <b><font color=#228B22>when</font></b> E1 =&#62; Text_IO.Put_Line (<font color=#008B8B>"handler 1"</font>); <b><font color=#228B22>return</font></b> (<font color=#008B8B>1</font>);
+<font size=-1> 14</font>         <b><font color=#228B22>when</font></b> E2 =&#62; Text_IO.Put_Line (<font color=#008B8B>"handler 2"</font>); <b><font color=#228B22>return</font></b> (<font color=#008B8B>2</font>);
+<font size=-1> 15</font>     <b><font color=#228B22>end</font></b> F;
+<font size=-1> 16</font> 
+<font size=-1> 17</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 18</font> 
+<font size=-1> 19</font>     P (F (<font color=#008B8B>0</font>));
+<font size=-1> 20</font> 
+<font size=-1> 21</font> <b><font color=#228B22>exception</font></b>
+<font size=-1> 22</font> 
+<font size=-1> 23</font>     <b><font color=#228B22>when</font></b> E1 =&#62; Text_IO.Put_Line (<font color=#008B8B>"handler 3"</font>);
+<font size=-1> 24</font>     <b><font color=#228B22>when</font></b> E2 =&#62; Text_IO.Put_Line (<font color=#008B8B>"handler 4"</font>);
+<font size=-1> 25</font> 
+<font size=-1> 26</font> <b><font color=#228B22>end</font></b> Block_Y;
+</pre>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<html>
+<head>
+<title>The Ada Program: protect.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: protect.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>;
+<font size=-1>  2</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  3</font> 
+<font size=-1>  4</font> <b><font color=#228B22>procedure</font></b> Protect <b><font color=#228B22>is</font></b>
+<font size=-1>  5</font> 
+<font size=-1>  6</font>    <b><font color=#228B22>protected</font></b> <b><font color=#228B22>type</font></b> Counter <b><font color=#228B22>is</font></b>
+<font size=-1>  7</font>       <b><font color=#228B22>procedure</font></b> Update;
+<font size=-1>  8</font>       <b><font color=#228B22>function</font></b> Value <b><font color=#228B22>return</font></b> <font color=#8B008B>Natural</font>;
+<font size=-1>  9</font>    <b><font color=#228B22>private</font></b>
+<font size=-1> 10</font>       N: <font color=#8B008B>Natural</font> := <font color=#008B8B>0</font>;
+<font size=-1> 11</font>    <b><font color=#228B22>end</font></b> Counter;
+<font size=-1> 12</font> 
+<font size=-1> 13</font>    <b><font color=#228B22>protected</font></b> <b><font color=#228B22>body</font></b> Counter <b><font color=#228B22>is</font></b>
+<font size=-1> 14</font>       <b><font color=#228B22>procedure</font></b> Update <b><font color=#228B22>is</font></b>
+<font size=-1> 15</font>       <b><font color=#228B22>begin</font></b>
+<font size=-1> 16</font>          N := N + <font color=#008B8B>1</font>;
+<font size=-1> 17</font>       <b><font color=#228B22>end</font></b> Update;
+<font size=-1> 18</font>       <b><font color=#228B22>function</font></b> Value <b><font color=#228B22>return</font></b> <font color=#8B008B>Natural</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 19</font>       <b><font color=#228B22>begin</font></b>
+<font size=-1> 20</font>          <b><font color=#228B22>return</font></b> (N);
+<font size=-1> 21</font>       <b><font color=#228B22>end</font></b> Value;
+<font size=-1> 22</font>    <b><font color=#228B22>end</font></b> Counter;
+<font size=-1> 23</font> 
+<font size=-1> 24</font>    C: Counter;
+<font size=-1> 25</font> 
+<font size=-1> 26</font>    <b><font color=#228B22>task</font></b> T;
+<font size=-1> 27</font>    <b><font color=#228B22>task</font></b> <b><font color=#228B22>body</font></b> T <b><font color=#228B22>is</font></b>
+<font size=-1> 28</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 29</font>       C.Update;
+<font size=-1> 30</font>    <b><font color=#228B22>end</font></b> T;
+<font size=-1> 31</font> 
+<font size=-1> 32</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 33</font>    C.Update;
+<font size=-1> 34</font>    Integer_Text_IO.Put (C.Value);
+<font size=-1> 35</font>    Text_IO.New_Line;
+<font size=-1> 36</font> <b><font color=#228B22>end</font></b> Protect;
+</pre>
+</body>
+</html>

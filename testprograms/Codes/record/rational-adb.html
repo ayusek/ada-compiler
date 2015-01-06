@@ -1,0 +1,88 @@
+<html>
+<head>
+<title>The Ada Program: rational.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: rational.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- rational.adb:  define record and functions for rational numbers</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>procedure</font></b> Rational <b><font color=#228B22>is</font></b>
+<font size=-1>  4</font> 
+<font size=-1>  5</font>    <b><font color=#228B22>type</font></b> Rational <b><font color=#228B22>is</font></b>
+<font size=-1>  6</font>       <b><font color=#228B22>record</font></b>
+<font size=-1>  7</font>          Num : <font color=#8B008B>Integer</font>;
+<font size=-1>  8</font>          Den : <font color=#8B008B>Positive</font> := <font color=#008B8B>1</font>;
+<font size=-1>  9</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>record</font></b>;
+<font size=-1> 10</font> 
+<font size=-1> 11</font>    <b><font color=#228B22>function</font></b> GCD (X, Y: <font color=#8B008B>Natural</font>) <b><font color=#228B22>return</font></b> <font color=#8B008B>Natural</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 12</font>       X1: <font color=#8B008B>Natural</font> := X;  Y1: <font color=#8B008B>Natural</font> := Y;
+<font size=-1> 13</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 14</font>       <b><font color=#228B22>while</font></b> (Y1 /= <font color=#008B8B>0</font>) <b><font color=#228B22>loop</font></b>
+<font size=-1> 15</font>          X1 := Y1;  Y1 := X1 <b><font color=#228B22>mod</font></b> Y1;
+<font size=-1> 16</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 17</font>       <b><font color=#228B22>return</font></b> X1;
+<font size=-1> 18</font>    <b><font color=#228B22>end</font></b> GCD;
+<font size=-1> 19</font> 
+<font size=-1> 20</font>    <b><font color=#228B22>function</font></b> Rat (N: <font color=#8B008B>Integer</font>; D: <font color=#8B008B>Positive</font>:=<font color=#008B8B>1</font>) <b><font color=#228B22>return</font></b> Rational <b><font color=#228B22>is</font></b>
+<font size=-1> 21</font>       G: <font color=#8B008B>Natural</font> := GCD (<b><font color=#228B22>abs</font></b> N, D);
+<font size=-1> 22</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 23</font>       <b><font color=#228B22>return</font></b> (Rational'(Num=&#62;N/G, Den=&#62;D/G));
+<font size=-1> 24</font>    <b><font color=#228B22>end</font></b> Rat;
+<font size=-1> 25</font> 
+<font size=-1> 26</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"/"</font> (Left: <font color=#8B008B>Integer</font>; Right: <font color=#8B008B>Positive</font>) <b><font color=#228B22>return</font></b> Rational <b><font color=#228B22>is</font></b>
+<font size=-1> 27</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 28</font>       <b><font color=#228B22>return</font></b> (Rat (N=&#62;Left, D=&#62;Right));
+<font size=-1> 29</font>    <b><font color=#228B22>end</font></b> <font color=#008B8B>"/"</font>;
+<font size=-1> 30</font> 
+<font size=-1> 31</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"/"</font> (Left, Right: Rational) <b><font color=#228B22>return</font></b> Rational <b><font color=#228B22>is</font></b>
+<font size=-1> 32</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 33</font>       <b><font color=#228B22>return</font></b> ((Left.Num*Right.Den) / (Left.Den*Right.Num));
+<font size=-1> 34</font>    <b><font color=#228B22>end</font></b> <font color=#008B8B>"/"</font>;
+<font size=-1> 35</font> 
+<font size=-1> 36</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"*"</font> (Left, Right: Rational) <b><font color=#228B22>return</font></b> Rational <b><font color=#228B22>is</font></b>
+<font size=-1> 37</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 38</font>       <b><font color=#228B22>return</font></b> ((Left.Num*Right.Num) / (Left.Den*Right.Den));
+<font size=-1> 39</font>    <b><font color=#228B22>end</font></b> <font color=#008B8B>"*"</font>;
+<font size=-1> 40</font> 
+<font size=-1> 41</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"-"</font> (Left: Rational) <b><font color=#228B22>return</font></b> Rational <b><font color=#228B22>is</font></b>
+<font size=-1> 42</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 43</font>       <b><font color=#228B22>return</font></b> (Rational'(Num=&#62;-Left.Num, Den=&#62;Left.Den));
+<font size=-1> 44</font>    <b><font color=#228B22>end</font></b> <font color=#008B8B>"-"</font>;
+<font size=-1> 45</font> 
+<font size=-1> 46</font>    R: Rational;
+<font size=-1> 47</font> 
+<font size=-1> 48</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 49</font> 
+<font size=-1> 50</font>    <b><i><font color=#BB1212>-- these all create the same rational number</font></i></b>
+<font size=-1> 51</font>    R := Rational'(Num=&#62;<font color=#008B8B>5</font>, Den=&#62;<font color=#008B8B>2</font>);
+<font size=-1> 52</font>    R := Rational'(<font color=#008B8B>5</font>, <font color=#008B8B>2</font>);
+<font size=-1> 53</font>    R := Rat (N=&#62;<font color=#008B8B>5</font>, D=&#62;<font color=#008B8B>2</font>);
+<font size=-1> 54</font>    R := Rat (D=&#62;<font color=#008B8B>2</font>, N=&#62;<font color=#008B8B>5</font>);
+<font size=-1> 55</font>    R := Rat (<font color=#008B8B>5</font>, <font color=#008B8B>2</font>);
+<font size=-1> 56</font>    R := <font color=#008B8B>5</font> / <font color=#008B8B>2</font>;
+<font size=-1> 57</font> 
+<font size=-1> 58</font>    <b><i><font color=#BB1212>-- unlike "Rational'", "Rat" reduces and may omit 2nd arg</font></i></b>
+<font size=-1> 59</font>    R := Rational'(Num=&#62;<font color=#008B8B>9</font>, Den=&#62;<font color=#008B8B>3</font>);
+<font size=-1> 60</font>    R := Rat (<font color=#008B8B>9</font>, <font color=#008B8B>3</font>);
+<font size=-1> 61</font>    R := Rational'(Num=&#62;<font color=#008B8B>9</font>, Den=&#62;<font color=#008B8B>1</font>);
+<font size=-1> 62</font>    R := Rat (<font color=#008B8B>9</font>);
+<font size=-1> 63</font> 
+<font size=-1> 64</font>    <b><i><font color=#BB1212>-- "/" is overloaded to provide convenient constructor</font></i></b>
+<font size=-1> 65</font>    R := <font color=#008B8B>12</font> / <font color=#008B8B>3</font>;
+<font size=-1> 66</font> 
+<font size=-1> 67</font>    <b><i><font color=#BB1212>-- equality may not work as expected</font></i></b>
+<font size=-1> 68</font>    R := Rational'(Num=&#62;<font color=#008B8B>12</font>, Den=&#62;<font color=#008B8B>3</font>);
+<font size=-1> 69</font>    <b><font color=#228B22>if</font></b> (R = Rational'(Num=&#62;<font color=#008B8B>4</font>, Den=&#62;<font color=#008B8B>1</font>)) <b><font color=#228B22>then</font></b>
+<font size=-1> 70</font>       <b><font color=#228B22>null</font></b>;
+<font size=-1> 71</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 72</font> 
+<font size=-1> 73</font>    <b><font color=#228B22>if</font></b> (Rat (<font color=#008B8B>1</font>) = R/R) <b><font color=#228B22>then</font></b>
+<font size=-1> 74</font>       <b><font color=#228B22>null</font></b>;
+<font size=-1> 75</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 76</font> 
+<font size=-1> 77</font> <b><font color=#228B22>end</font></b> Rational;
+</pre>
+</body>
+</html>

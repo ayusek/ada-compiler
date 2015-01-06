@@ -1,0 +1,25 @@
+<html>
+<head>
+<title>The Ada Program: matrix_package_1.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: matrix_package_1.adb</h1>
+<pre>
+<font size=-1>  1</font> 
+<font size=-1>  2</font> <b><font color=#228B22>package</font></b> <b><font color=#228B22>body</font></b> Matrix_Package_1 <b><font color=#228B22>is</font></b>
+<font size=-1>  3</font> 
+<font size=-1>  4</font>    <b><i><font color=#BB1212>-- Matrix addition</font></i></b>
+<font size=-1>  5</font>    <b><font color=#228B22>procedure</font></b> Add (A,B: <b><font color=#228B22>in</font></b> Matrix; C: <b><font color=#228B22>out</font></b> Matrix) <b><font color=#228B22>is</font></b>
+<font size=-1>  6</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1>  7</font>       <b><font color=#228B22>for</font></b> Row <b><font color=#228B22>in</font></b> A<font color=#8B008B>'Range</font>(<font color=#008B8B>1</font>) <b><font color=#228B22>loop</font></b>
+<font size=-1>  8</font>          <b><font color=#228B22>for</font></b> Col <b><font color=#228B22>in</font></b> A<font color=#8B008B>'Range</font>(<font color=#008B8B>2</font>) <b><font color=#228B22>loop</font></b>
+<font size=-1>  9</font>             C(Row,Col) := A(Row,Col) + B(Row,Col);
+<font size=-1> 10</font>          <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 11</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 12</font>    <b><font color=#228B22>end</font></b> Add;
+<font size=-1> 13</font> 
+<font size=-1> 14</font> <b><font color=#228B22>end</font></b> Matrix_Package_1;
+</pre>
+</body>
+</html>

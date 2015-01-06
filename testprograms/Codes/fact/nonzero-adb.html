@@ -1,0 +1,52 @@
+<html>
+<head>
+<title>The Ada Program: nonzero.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: nonzero.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- nonzero.adb:  find last nonzero digit of N factorial</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>;
+<font size=-1>  4</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  5</font> 
+<font size=-1>  6</font> <b><font color=#228B22>procedure</font></b> Nonzero <b><font color=#228B22>is</font></b>
+<font size=-1>  7</font> 
+<font size=-1>  8</font>    N, Twos : <font color=#8B008B>Natural</font>;
+<font size=-1>  9</font>    P, J : <font color=#8B008B>Positive</font>;
+<font size=-1> 10</font> 
+<font size=-1> 11</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 12</font> 
+<font size=-1> 13</font>    <b><font color=#228B22>while</font></b> <b><font color=#228B22>not</font></b> (Text_IO.End_Of_File) <b><font color=#228B22>loop</font></b>
+<font size=-1> 14</font> 
+<font size=-1> 15</font>       Integer_Text_IO.Get (N);
+<font size=-1> 16</font>       P := <font color=#008B8B>1</font>;  Twos := <font color=#008B8B>0</font>;
+<font size=-1> 17</font> 
+<font size=-1> 18</font>       <b><font color=#228B22>for</font></b> I <b><font color=#228B22>in</font></b> <font color=#008B8B>2</font>..N <b><font color=#228B22>loop</font></b>
+<font size=-1> 19</font> 
+<font size=-1> 20</font>          <b><i><font color=#BB1212>-- discard factors of 2 and 5 from I</font></i></b>
+<font size=-1> 21</font>          J := I;
+<font size=-1> 22</font>          <b><font color=#228B22>while</font></b> J <b><font color=#228B22>mod</font></b> <font color=#008B8B>2</font> = <font color=#008B8B>0</font> <b><font color=#228B22>loop</font></b> J := J / <font color=#008B8B>2</font>; Twos := Twos + <font color=#008B8B>1</font>; <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 23</font>          <b><font color=#228B22>while</font></b> J <b><font color=#228B22>mod</font></b> <font color=#008B8B>5</font> = <font color=#008B8B>0</font> <b><font color=#228B22>loop</font></b> J := J / <font color=#008B8B>5</font>; Twos := Twos - <font color=#008B8B>1</font>; <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 24</font> 
+<font size=-1> 25</font>          <b><i><font color=#BB1212>-- compute the last digit of the factorial of I without</font></i></b>
+<font size=-1> 26</font>          <b><i><font color=#BB1212>-- any factors of 2 or 5 included</font></i></b>
+<font size=-1> 27</font>          P := (J*P) <b><font color=#228B22>mod</font></b> <font color=#008B8B>10</font>;
+<font size=-1> 28</font> 
+<font size=-1> 29</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 30</font> 
+<font size=-1> 31</font>       <b><i><font color=#BB1212>-- restore factors of 2 excepted those canceled by a 5</font></i></b>
+<font size=-1> 32</font>       <b><font color=#228B22>for</font></b> I <b><font color=#228B22>in</font></b> <font color=#008B8B>1</font>..Twos <b><font color=#228B22>loop</font></b> P := (<font color=#008B8B>2</font>*P) <b><font color=#228B22>mod</font></b> <font color=#008B8B>10</font>; <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 33</font> 
+<font size=-1> 34</font>       Integer_Text_IO.Put (N, Width=&#62;<font color=#008B8B>5</font>);
+<font size=-1> 35</font>       Text_IO.Put (<font color=#008B8B>" -&#62;"</font>);
+<font size=-1> 36</font>       Integer_Text_IO.Put (P, Width=&#62;<font color=#008B8B>1</font>);
+<font size=-1> 37</font>       Text_IO.New_Line;
+<font size=-1> 38</font> 
+<font size=-1> 39</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 40</font> 
+<font size=-1> 41</font> <b><font color=#228B22>end</font></b> Nonzero;
+</pre>
+</body>
+</html>

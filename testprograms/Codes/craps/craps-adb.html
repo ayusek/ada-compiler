@@ -1,0 +1,58 @@
+<html>
+<head>
+<title>The Ada Program: craps.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: craps.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- craps.adb:  Play one game of craps, gambling game using two dice</font></i></b>
+<font size=-1>  2</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-05-02.html">Ada.Numerics.Discrete_Random</a>;
+<font size=-1>  3</font> <b><font color=#228B22>use</font></b>  Ada;
+<font size=-1>  4</font> 
+<font size=-1>  5</font> <b><font color=#228B22>procedure</font></b> Craps <b><font color=#228B22>is</font></b>
+<font size=-1>  6</font> 
+<font size=-1>  7</font>    <b><font color=#228B22>subtype</font></b> Spots <b><font color=#228B22>is</font></b> <font color=#8B008B>Integer</font> Range <font color=#008B8B>1</font> .. <font color=#008B8B>6</font>;
+<font size=-1>  8</font>    <b><font color=#228B22>subtype</font></b> Points <b><font color=#228B22>is</font></b> <font color=#8B008B>Integer</font> Range <font color=#008B8B>2</font> .. <font color=#008B8B>12</font>;
+<font size=-1>  9</font> 
+<font size=-1> 10</font>    <b><font color=#228B22>package</font></b> Random_Package <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> Numerics.Discrete_Random (Spots);
+<font size=-1> 11</font>    Seed: Random_Package.Generator;
+<font size=-1> 12</font> 
+<font size=-1> 13</font>    <b><font color=#228B22>function</font></b> Roll_Two (Verbose: <font color=#8B008B>Boolean</font> := <font color=#8B008B>False</font>) <b><font color=#228B22>return</font></b> Points <b><font color=#228B22>is</font></b>
+<font size=-1> 14</font>       First, Second: Spots;
+<font size=-1> 15</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 16</font>       First  := Random_Package.Random (Seed);
+<font size=-1> 17</font>       Second := Random_Package.Random (Seed);
+<font size=-1> 18</font>       <b><font color=#228B22>if</font></b> (Verbose) <b><font color=#228B22>then</font></b>
+<font size=-1> 19</font>          Text_IO.Put (<font color=#008B8B>"Rolling ... "</font>);
+<font size=-1> 20</font>          Integer_Text_IO.Put (First, Width=&#62;<font color=#008B8B>3</font>);
+<font size=-1> 21</font>          Integer_Text_IO.Put (Second, Width=&#62;<font color=#008B8B>3</font>);
+<font size=-1> 22</font>          Text_IO.New_Line;
+<font size=-1> 23</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 24</font>       <b><font color=#228B22>return</font></b> (First + Second);
+<font size=-1> 25</font>    <b><font color=#228B22>end</font></b> Roll_Two;
+<font size=-1> 26</font> 
+<font size=-1> 27</font>    Initial, Total: Points;
+<font size=-1> 28</font> 
+<font size=-1> 29</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 30</font>    Random_Package.Reset (Seed); <b><i><font color=#BB1212>-- set seed different every time</font></i></b>
+<font size=-1> 31</font>    Initial := Roll_Two (<font color=#8B008B>True</font>);  <b><i><font color=#BB1212>-- "come out" roll</font></i></b>
+<font size=-1> 32</font>    <b><font color=#228B22>case</font></b> Initial <b><font color=#228B22>is</font></b>
+<font size=-1> 33</font>       <b><font color=#228B22>when</font></b> <font color=#008B8B>7</font>|<font color=#008B8B>11</font>   =&#62; Text_IO.Put_Line (<font color=#008B8B>"Natural win!"</font>);
+<font size=-1> 34</font>       <b><font color=#228B22>when</font></b> <font color=#008B8B>2</font>|<font color=#008B8B>3</font>|<font color=#008B8B>12</font> =&#62; Text_IO.Put_Line (<font color=#008B8B>"Loose!"</font>);
+<font size=-1> 35</font>       <b><font color=#228B22>when</font></b> <b><font color=#228B22>others</font></b> =&#62;
+<font size=-1> 36</font>         <b><i><font color=#BB1212>-- Point established</font></i></b>
+<font size=-1> 37</font>         <b><font color=#228B22>loop</font></b>
+<font size=-1> 38</font>            Total := Roll_Two (<font color=#8B008B>True</font>);
+<font size=-1> 39</font>            <b><font color=#228B22>exit</font></b> <b><font color=#228B22>when</font></b> Total = Initial <b><font color=#228B22>or</font></b> <b><font color=#228B22>else</font></b> Total = <font color=#008B8B>7</font>;
+<font size=-1> 40</font>         <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 41</font>         <b><font color=#228B22>if</font></b> (Total = <font color=#008B8B>7</font>) <b><font color=#228B22>then</font></b>
+<font size=-1> 42</font>            Text_IO.Put_Line (<font color=#008B8B>"Player craps out.  Loose!"</font>);
+<font size=-1> 43</font>         <b><font color=#228B22>else</font></b>
+<font size=-1> 44</font>            Text_IO.Put_Line (<font color=#008B8B>"Player makes the point.  Win!"</font>);
+<font size=-1> 45</font>         <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 46</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>case</font></b>;
+<font size=-1> 47</font> <b><font color=#228B22>end</font></b> Craps;
+</pre>
+</body>
+</html>

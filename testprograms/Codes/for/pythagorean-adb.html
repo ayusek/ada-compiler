@@ -1,0 +1,55 @@
+<html>
+<head>
+<title>The Ada Program: pythagorean.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: pythagorean.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- pythagorean.adb:  search for pythagorean triples up to N</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><i><font color=#BB1212>-- A pythagorean triple (A,B,C) has the property that A**2+B**2 = C**2.</font></i></b>
+<font size=-1>  4</font> <b><i><font color=#BB1212>-- Note:  if (A,B,C) is a pythagorean triple, then so is (B,A,C).</font></i></b>
+<font size=-1>  5</font> <b><i><font color=#BB1212>-- Also:  there are no pythagorean triples of the form (A,A,C).</font></i></b>
+<font size=-1>  6</font> 
+<font size=-1>  7</font> <b><font color=#228B22>with</font></b>
+<font size=-1>  8</font>   <a href="http://www.adahome.com/rm95/rm9x-A-15.html">Ada.Command_Line</a>,     <b><i><font color=#BB1212>-- access to external execution env (Ada95 A.15)</font></i></b>
+<font size=-1>  9</font>   <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>,          <b><i><font color=#BB1212>-- usual text (Latin 1) input/output (A.10.1)</font></i></b>
+<font size=-1> 10</font>   <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>;  <b><i><font color=#BB1212>-- preinstantiated generic for Integer IO</font></i></b>
+<font size=-1> 11</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1> 12</font> 
+<font size=-1> 13</font> <b><font color=#228B22>procedure</font></b> Pythagorean <b><font color=#228B22>is</font></b>
+<font size=-1> 14</font> 
+<font size=-1> 15</font>    Arg: <b><font color=#228B22>constant</font></b> <font color=#8B008B>String</font> := Command_Line.Argument (<font color=#008B8B>1</font>);
+<font size=-1> 16</font>    N  : <font color=#8B008B>Integer</font>;   <b><i><font color=#BB1212>-- (from the user) maximum number allowed in triple</font></i></b>
+<font size=-1> 17</font>    L  : <font color=#8B008B>Positive</font>;  <b><i><font color=#BB1212>-- last postion in string (ignored)</font></i></b>
+<font size=-1> 18</font> 
+<font size=-1> 19</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 20</font> 
+<font size=-1> 21</font>    <b><i><font color=#BB1212>-- Convert the first command line argument (a string) to an integer</font></i></b>
+<font size=-1> 22</font>    Integer_Text_IO.Get (From=&#62;Arg, Item=&#62;N, Last=&#62;L);
+<font size=-1> 23</font> 
+<font size=-1> 24</font>    <b><i><font color=#BB1212>-- Since a**2+b**2=b**2+a**2, we might as well assume a&#60;b</font></i></b>
+<font size=-1> 25</font>    <b><i><font color=#BB1212>-- (a /= b since 2*a**2=c**2 is impossible for whole numbers),</font></i></b>
+<font size=-1> 26</font>    <b><i><font color=#BB1212>-- since a,b&#60;c, we begin searching at b+1.</font></i></b>
+<font size=-1> 27</font> 
+<font size=-1> 28</font>    <b><font color=#228B22>for</font></b> A <b><font color=#228B22>in</font></b> <font color=#008B8B>1</font> .. N <b><font color=#228B22>loop</font></b>
+<font size=-1> 29</font>       <b><font color=#228B22>for</font></b> B <b><font color=#228B22>in</font></b> A+<font color=#008B8B>1</font> .. N <b><font color=#228B22>loop</font></b>
+<font size=-1> 30</font>          <b><font color=#228B22>for</font></b> C <b><font color=#228B22>in</font></b> B+<font color=#008B8B>1</font> .. N <b><font color=#228B22>loop</font></b>
+<font size=-1> 31</font>             <b><font color=#228B22>if</font></b> (A**<font color=#008B8B>2</font>+B**<font color=#008B8B>2</font> = C**<font color=#008B8B>2</font>) <b><font color=#228B22>then</font></b>
+<font size=-1> 32</font>                <b><i><font color=#BB1212>-- established (A,B,C) is a pythagorean triple</font></i></b>
+<font size=-1> 33</font>                Integer_Text_IO.Put (A, Width=&#62;<font color=#008B8B>0</font>);
+<font size=-1> 34</font>                Text_IO.Put (<font color=#008B8B>", "</font>);
+<font size=-1> 35</font>                Integer_Text_IO.Put (B, Width=&#62;<font color=#008B8B>0</font>);
+<font size=-1> 36</font>                Text_IO.Put (<font color=#008B8B>", "</font>);
+<font size=-1> 37</font>                Integer_Text_IO.Put (C, Width=&#62;<font color=#008B8B>0</font>);
+<font size=-1> 38</font>                Text_IO.New_Line;
+<font size=-1> 39</font>             <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 40</font>          <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 41</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 42</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 43</font> 
+<font size=-1> 44</font> <b><font color=#228B22>end</font></b> Pythagorean;
+</pre>
+</body>
+</html>

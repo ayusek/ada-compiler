@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>The Ada Program: pyramid.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: pyramid.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- pyramid.adb: prints a pattern of letters in shape of pyramid</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>;
+<font size=-1>  4</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  5</font> 
+<font size=-1>  6</font> <b><i><font color=#BB1212>--  For C='D', the   |   A</font></i></b>
+<font size=-1>  7</font> <b><i><font color=#BB1212>--  output looks     |  ABA</font></i></b>
+<font size=-1>  8</font> <b><i><font color=#BB1212>--  like this:       | ABCBA</font></i></b>
+<font size=-1>  9</font> <b><i><font color=#BB1212>--                   |ABCDCBA</font></i></b>
+<font size=-1> 10</font> 
+<font size=-1> 11</font> <b><font color=#228B22>procedure</font></b> Pyramid <b><font color=#228B22>is</font></b>
+<font size=-1> 12</font> 
+<font size=-1> 13</font>    C: <font color=#8B008B>Character</font>;
+<font size=-1> 14</font> 
+<font size=-1> 15</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 16</font>    Text_IO.Get (C);
+<font size=-1> 17</font> 
+<font size=-1> 18</font>    <b><font color=#228B22>for</font></b> M <b><font color=#228B22>in</font></b> <font color=#008B8B>'A'</font> .. C <b><font color=#228B22>loop</font></b>
+<font size=-1> 19</font> 
+<font size=-1> 20</font>       <b><i><font color=#BB1212>-- Spacing.  The number of spaces plus the number of</font></i></b>
+<font size=-1> 21</font>       <b><i><font color=#BB1212>-- chars in first half ('A'..M) must add upto 'A'..C</font></i></b>
+<font size=-1> 22</font>       <b><font color=#228B22>for</font></b> I <b><font color=#228B22>in</font></b> <font color=#8B008B>Character</font><font color=#8B008B>'Succ</font>(M) .. C <b><font color=#228B22>loop</font></b>
+<font size=-1> 23</font>          Text_IO.Put (<font color=#008B8B>' '</font>);
+<font size=-1> 24</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 25</font> 
+<font size=-1> 26</font>       <b><i><font color=#BB1212>-- First half of line and the middle character</font></i></b>
+<font size=-1> 27</font>       <b><font color=#228B22>for</font></b> L <b><font color=#228B22>in</font></b> <font color=#008B8B>'A'</font> .. M <b><font color=#228B22>loop</font></b>
+<font size=-1> 28</font>          Text_IO.Put (L);
+<font size=-1> 29</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 30</font> 
+<font size=-1> 31</font>       <b><i><font color=#BB1212>-- Second half of line</font></i></b>
+<font size=-1> 32</font>       <b><font color=#228B22>for</font></b> L <b><font color=#228B22>in</font></b> <b><font color=#228B22>reverse</font></b> <font color=#008B8B>'A'</font> .. <font color=#8B008B>Character</font><font color=#8B008B>'Pred</font>(M) <b><font color=#228B22>loop</font></b>
+<font size=-1> 33</font>          Text_IO.Put (L);
+<font size=-1> 34</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 35</font> 
+<font size=-1> 36</font>       Text_IO.New_Line;
+<font size=-1> 37</font> 
+<font size=-1> 38</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 39</font> 
+<font size=-1> 40</font> <b><font color=#228B22>end</font></b> Pyramid;
+</pre>
+</body>
+</html>

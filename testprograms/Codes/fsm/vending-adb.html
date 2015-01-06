@@ -1,0 +1,57 @@
+<html>
+<head>
+<title>The Ada Program: vending.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: vending.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- vending.adb:  example finite state machine for vending machine</font></i></b>
+<font size=-1>  2</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>; <b><font color=#228B22>use</font></b> Ada, Ada.Text_IO;
+<font size=-1>  3</font> 
+<font size=-1>  4</font> <b><font color=#228B22>procedure</font></b> Vending <b><font color=#228B22>is</font></b>
+<font size=-1>  5</font> 
+<font size=-1>  6</font>    <b><font color=#228B22>type</font></b> Input_Type <b><font color=#228B22>is</font></b> (Push, Nickel, Dime);
+<font size=-1>  7</font>    <b><font color=#228B22>package</font></b> Input_IO <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> Text_IO.Enumeration_IO (Enum=&#62;Input_Type);
+<font size=-1>  8</font>    Input_Action  : Input_Type;
+<font size=-1>  9</font> 
+<font size=-1> 10</font>    <b><font color=#228B22>type</font></b> State_Type <b><font color=#228B22>is</font></b> (Zero, Five, Ten, Fifteen);
+<font size=-1> 11</font>    State : State_Type := Zero;
+<font size=-1> 12</font> 
+<font size=-1> 13</font>    Transition : <b><font color=#228B22>constant</font></b> <b><font color=#228B22>array</font></b> (Input_Type, State_Type) <b><font color=#228B22>of</font></b> State_Type :=
+<font size=-1> 14</font>       (Push   =&#62; (Zero, Five, Ten, Zero),
+<font size=-1> 15</font>        Nickel =&#62; (Five, Ten, Fifteen, Fifteen),
+<font size=-1> 16</font>        Dime   =&#62; (Ten, Fifteen, Ten, Fifteen));
+<font size=-1> 17</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 18</font> 
+<font size=-1> 19</font>    Input: <b><font color=#228B22>loop</font></b>
+<font size=-1> 20</font> 
+<font size=-1> 21</font>       Text_IO.Put (<font color=#008B8B>"Enter an input action -- "</font>);
+<font size=-1> 22</font>       <b><font color=#228B22>exit</font></b> <b><font color=#228B22>when</font></b> Text_IO.End_Of_File;
+<font size=-1> 23</font>       Input_IO.Get (Input_Action);
+<font size=-1> 24</font>       Text_IO.Skip_Line;
+<font size=-1> 25</font> 
+<font size=-1> 26</font>       <b><font color=#228B22>case</font></b> Input_Action <b><font color=#228B22>is</font></b>
+<font size=-1> 27</font>          <b><font color=#228B22>when</font></b> Push =&#62;
+<font size=-1> 28</font>             <b><font color=#228B22>if</font></b> State=Fifteen <b><font color=#228B22>then</font></b>    <b><i><font color=#BB1212>-- item costs 15¢</font></i></b>
+<font size=-1> 29</font>                Put_Line (<font color=#008B8B>"Item dispensed."</font>);
+<font size=-1> 30</font>             <b><font color=#228B22>else</font></b>
+<font size=-1> 31</font>                Put_Line (<font color=#008B8B>"Not enough money deposited!"</font>);
+<font size=-1> 32</font>             <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 33</font>          <b><font color=#228B22>when</font></b> Nickel =&#62;
+<font size=-1> 34</font>             <b><font color=#228B22>if</font></b> State=Fifteen <b><font color=#228B22>then</font></b>
+<font size=-1> 35</font>                Put_Line (<font color=#008B8B>"Already enough money; nickel returned."</font>);
+<font size=-1> 36</font>             <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 37</font>          <b><font color=#228B22>when</font></b> Dime =&#62;
+<font size=-1> 38</font>             <b><font color=#228B22>if</font></b> State=Ten <b><font color=#228B22>or</font></b> <b><font color=#228B22>else</font></b> State=Fifteen <b><font color=#228B22>then</font></b>
+<font size=-1> 39</font>                Put_Line (<font color=#008B8B>"Already enough money; dime returned."</font>);
+<font size=-1> 40</font>             <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 41</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>case</font></b>;
+<font size=-1> 42</font>       State := Transition (Input_Action, State);
+<font size=-1> 43</font> 
+<font size=-1> 44</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b> Input;
+<font size=-1> 45</font> 
+<font size=-1> 46</font> <b><font color=#228B22>end</font></b> Vending;
+</pre>
+</body>
+</html>

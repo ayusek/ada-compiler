@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>The Ada Program: prompt.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<style type="text/css">
+  .key         {font-weight:bold; color:#228B22;}
+  .comment     {font-style:oblique; font-weight:bold; color:#BB1212;}
+  .linenumber  {font-size:75%;    color:#888888;}
+  .string      {color:#3333CC;}
+  .char        {color:#3333CC;}
+  .number      {color:#3333CC;}
+  .predefined  {color:#3333CC;}
+</style>
+</head>
+<body>
+<h1>The Ada Program: prompt.adb</h1>
+<pre>
+<span class="linenumber">  1</span> <span class="comment">--  prompt.adb: prompt for input, convert to degrees/minutes, and loop</span>
+<span class="linenumber">  2</span> 
+<span class="linenumber">  3</span> <span class="key">with</span> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-09.html#32">Ada.Float_Text_IO</a>;
+<span class="linenumber">  4</span> <span class="key">use</span> Ada;
+<span class="linenumber">  5</span> 
+<span class="linenumber">  6</span> <span class="key">procedure</span> Prompt <span class="key">is</span>
+<span class="linenumber">  7</span>    <span class="key">function</span> Direction (D : <span class="predefined">Float</span>) <span class="key">return</span> <span class="predefined">Character</span> <span class="key">is</span>
+<span class="linenumber">  8</span>    <span class="key">begin</span>
+<span class="linenumber">  9</span>       <span class="key">if</span> (D &#60; <span class="number">0.0</span>) <span class="key">then</span> <span class="key">return</span> <span class="string">'-'</span>; <span class="key">else</span> <span class="key">return</span> <span class="string">'+'</span>; <span class="key">end</span> <span class="key">if</span>;
+<span class="linenumber"> 10</span>    <span class="key">end</span> Direction;
+<span class="linenumber"> 11</span>    <span class="key">function</span> Degrees (D : <span class="predefined">Float</span>) <span class="key">return</span> <span class="predefined">Integer</span> <span class="key">is</span>
+<span class="linenumber"> 12</span>    <span class="key">begin</span>
+<span class="linenumber"> 13</span>       <span class="key">return</span> <span class="predefined">Integer</span> (<span class="predefined">Float</span><span class="predefined">'Truncation</span> (<span class="key">abs</span> D));
+<span class="linenumber"> 14</span>    <span class="key">end</span> Degrees;
+<span class="linenumber"> 15</span>    <span class="key">function</span> Minutes (D : <span class="predefined">Float</span>) <span class="key">return</span> <span class="predefined">Float</span> <span class="key">is</span>
+<span class="linenumber"> 16</span>    <span class="key">begin</span>
+<span class="linenumber"> 17</span>       <span class="key">return</span> (<span class="number">60.0</span> * (<span class="key">abs</span> D - <span class="predefined">Float</span><span class="predefined">'Truncation</span> (<span class="key">abs</span> D)));
+<span class="linenumber"> 18</span>    <span class="key">end</span> Minutes;
+<span class="linenumber"> 19</span> 
+<span class="linenumber"> 20</span>    Line     : <span class="predefined">String</span> (<span class="number">1</span> .. <span class="number">100</span>);
+<span class="linenumber"> 21</span>    Length   : <span class="predefined">Natural</span>;
+<span class="linenumber"> 22</span>    Lat, Lon : <span class="predefined">Float</span>;
+<span class="linenumber"> 23</span> <span class="key">begin</span>
+<span class="linenumber"> 24</span>    Input : <span class="key">loop</span>
+<span class="linenumber"> 25</span>       Text_IO.Put (<span class="string">"Enter the name of the location =&#62; "</span>);
+<span class="linenumber"> 26</span>       <span class="comment">--  We must test for EOF after prompt, because it blocks</span>
+<span class="linenumber"> 27</span>       <span class="comment">--  waiting for input, if the input comes from the user.</span>
+<span class="linenumber"> 28</span>       <span class="key">exit</span> Input <span class="key">when</span> Text_IO.End_Of_File;
+<span class="linenumber"> 29</span>       Text_IO.Get_Line (Line, Length);
+<span class="linenumber"> 30</span>       Text_IO.Put (<span class="string">"Enter the latitude and longitude in degrees =&#62; "</span>);
+<span class="linenumber"> 31</span>       Float_Text_IO.Get (Lat);
+<span class="linenumber"> 32</span>       Float_Text_IO.Get (Lon);
+<span class="linenumber"> 33</span>       Text_IO.Skip_Line;
+<span class="linenumber"> 34</span>       Text_IO.Put (Line (<span class="number">1</span> .. Length) &#38; <span class="string">" is at "</span>);
+<span class="linenumber"> 35</span>       Text_IO.Put (Direction (Lat) &#38; <span class="string">" "</span>);
+<span class="linenumber"> 36</span>       Integer_Text_IO.Put (Degrees (Lat), Width =&#62; <span class="number">0</span>);
+<span class="linenumber"> 37</span>       Text_IO.Put (<span class="string">"° "</span>);
+<span class="linenumber"> 38</span>       Float_Text_IO.Put (Minutes (Lat), Aft =&#62; <span class="number">2</span>, Exp =&#62; <span class="number">0</span>);
+<span class="linenumber"> 39</span>       Text_IO.Put (<span class="string">"' N/S and "</span> &#38; Direction (Lon) &#38; <span class="string">" "</span>);
+<span class="linenumber"> 40</span>       Integer_Text_IO.Put (Degrees (Lon), Width =&#62; <span class="number">0</span>);
+<span class="linenumber"> 41</span>       Text_IO.Put (<span class="string">"° "</span>);
+<span class="linenumber"> 42</span>       Float_Text_IO.Put (Minutes (Lon), Aft =&#62; <span class="number">2</span>, Exp =&#62; <span class="number">0</span>);
+<span class="linenumber"> 43</span>       Text_IO.Put_Line (<span class="string">"' E/W."</span>);
+<span class="linenumber"> 44</span>    <span class="key">end</span> <span class="key">loop</span> Input;
+<span class="linenumber"> 45</span> <span class="key">end</span> Prompt;
+<span class="linenumber"> 46</span> 
+</pre>
+</body>
+</html>

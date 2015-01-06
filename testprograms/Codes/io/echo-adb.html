@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>The Ada Program: echo.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<style type="text/css">
+  .key         {font-weight:bold; color:#228B22;}
+  .comment     {font-style:oblique; font-weight:bold; color:#BB1212;}
+  .linenumber  {font-size:75%;    color:#888888;}
+  .string      {color:#3333CC;}
+  .char        {color:#3333CC;}
+  .number      {color:#3333CC;}
+  .predefined  {color:#3333CC;}
+</style>
+</head>
+<body>
+<h1>The Ada Program: echo.adb</h1>
+<pre>
+<span class="linenumber">  1</span> <span class="comment">--  echo.adb:  copy a file, character by character, to standard output</span>
+<span class="linenumber">  2</span> 
+<span class="linenumber">  3</span> <span class="key">with</span> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>;
+<span class="linenumber">  4</span> <span class="key">use</span> Ada;
+<span class="linenumber">  5</span> 
+<span class="linenumber">  6</span> <span class="key">procedure</span> Echo <span class="key">is</span>
+<span class="linenumber">  7</span> 
+<span class="linenumber">  8</span>    File_Name : <span class="key">constant</span> <span class="predefined">String</span> := <span class="string">"echo.adb"</span>;
+<span class="linenumber">  9</span>    File      : Text_IO.File_Type;
+<span class="linenumber"> 10</span>    Char      : <span class="predefined">Character</span>;
+<span class="linenumber"> 11</span> 
+<span class="linenumber"> 12</span> <span class="key">begin</span>
+<span class="linenumber"> 13</span> 
+<span class="linenumber"> 14</span>    Text_IO.Open (File =&#62; File, Mode =&#62; Text_IO.In_File, Name =&#62; File_Name);
+<span class="linenumber"> 15</span>    <span class="key">while</span> <span class="key">not</span> Text_IO.End_Of_File (File) <span class="key">loop</span>
+<span class="linenumber"> 16</span>       <span class="key">while</span> <span class="key">not</span> Text_IO.End_Of_Line (File) <span class="key">loop</span>
+<span class="linenumber"> 17</span>          Text_IO.Get (File =&#62; File, Item =&#62; Char);
+<span class="linenumber"> 18</span>          Text_IO.Put (Char);
+<span class="linenumber"> 19</span>       <span class="key">end</span> <span class="key">loop</span>;
+<span class="linenumber"> 20</span>       Text_IO.Skip_Line (File);  <span class="comment">-- Move pointer in input buffer past EOL</span>
+<span class="linenumber"> 21</span>       Text_IO.New_Line;          <span class="comment">-- Write EOL to ouptut</span>
+<span class="linenumber"> 22</span>    <span class="key">end</span> <span class="key">loop</span>;
+<span class="linenumber"> 23</span> 
+<span class="linenumber"> 24</span> <span class="key">end</span> Echo;
+</pre>
+</body>
+</html>

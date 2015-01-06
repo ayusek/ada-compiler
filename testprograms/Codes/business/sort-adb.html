@@ -1,0 +1,83 @@
+<html>
+<head>
+<title>The Ada Program: sort.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: sort.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- sort.adb:  sort employee records in a file by name, id, salary, or dept</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>with</font></b>
+<font size=-1>  4</font>   <a href="http://www.adahome.com/rm95/rm9x-A-15.html">Ada.Command_Line</a>,     <b><i><font color=#BB1212>-- Access to external execution env (Ada95 A.15)</font></i></b>
+<font size=-1>  5</font>   <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>,          <b><i><font color=#BB1212>-- Usual string oriented IO package</font></i></b>
+<font size=-1>  6</font>   <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>,  <b><i><font color=#BB1212>-- Preinstantiated text IO package for integers</font></i></b>
+<font size=-1>  7</font>   Generic_Selection_Sort;
+<font size=-1>  8</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  9</font> 
+<font size=-1> 10</font> <b><font color=#228B22>procedure</font></b> Sort <b><font color=#228B22>is</font></b>
+<font size=-1> 11</font> 
+<font size=-1> 12</font>    <b><font color=#228B22>subtype</font></b> Name_String_Type <b><font color=#228B22>is</font></b> <font color=#8B008B>String</font> (<font color=#008B8B>1</font>..<font color=#008B8B>10</font>);
+<font size=-1> 13</font>    <b><font color=#228B22>subtype</font></b> ID_Number_Type   <b><font color=#228B22>is</font></b> <font color=#8B008B>Integer</font> <b><font color=#228B22>range</font></b> <font color=#008B8B>1</font>..<font color=#008B8B>999_999_999</font>;
+<font size=-1> 14</font>    <b><font color=#228B22>subtype</font></b> Salary_Type      <b><font color=#228B22>is</font></b> <font color=#8B008B>Integer</font> <b><font color=#228B22>range</font></b> <font color=#008B8B>0</font>..<font color=#008B8B>9_999_999</font>;
+<font size=-1> 15</font>    <b><font color=#228B22>subtype</font></b> Department_Code  <b><font color=#228B22>is</font></b> <font color=#8B008B>Integer</font> <b><font color=#228B22>range</font></b> <font color=#008B8B>10</font>..<font color=#008B8B>99</font>;
+<font size=-1> 16</font> 
+<font size=-1> 17</font>    <b><font color=#228B22>type</font></b> Employee_Record <b><font color=#228B22>is</font></b>
+<font size=-1> 18</font>       <b><font color=#228B22>record</font></b>
+<font size=-1> 19</font>          Name       : Name_String_Type;
+<font size=-1> 20</font>          ID         : ID_Number_Type;
+<font size=-1> 21</font>          Salary     : Salary_Type;
+<font size=-1> 22</font>          Department : Department_Code;
+<font size=-1> 23</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>record</font></b>;
+<font size=-1> 24</font> 
+<font size=-1> 25</font>    <b><font color=#228B22>type</font></b> Employee_Record_Pointer <b><font color=#228B22>is</font></b> <b><font color=#228B22>access</font></b> Employee_Record;
+<font size=-1> 26</font> 
+<font size=-1> 27</font>    <b><font color=#228B22>type</font></b> List_Type <b><font color=#228B22>is</font></b>
+<font size=-1> 28</font>       <b><font color=#228B22>array</font></b> (<font color=#8B008B>Positive</font> <b><font color=#228B22>range</font></b> &#60;&#62;) <b><font color=#228B22>of</font></b> Employee_Record_Pointer;
+<font size=-1> 29</font>    Max_Number        : <b><font color=#228B22>constant</font></b> := <font color=#008B8B>100</font>;
+<font size=-1> 30</font>    List              : List_Type (<font color=#008B8B>1</font>..Max_Number);
+<font size=-1> 31</font>    Number_Of_Records : <font color=#8B008B>Integer</font> <b><font color=#228B22>range</font></b> <font color=#008B8B>0</font> .. Max_Number := <font color=#008B8B>0</font>;
+<font size=-1> 32</font> 
+<font size=-1> 33</font>    <b><font color=#228B22>procedure</font></b> Print_Record (R: Employee_Record_Pointer) <b><font color=#228B22>is</font></b>
+<font size=-1> 34</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 35</font>       Text_IO.Put (R.Name);
+<font size=-1> 36</font>       Integer_Text_IO.Put (R.ID);
+<font size=-1> 37</font>       Integer_Text_IO.Put (R.Salary);
+<font size=-1> 38</font>       Integer_Text_IO.Put (R.Department);
+<font size=-1> 39</font>       Text_IO.New_Line;
+<font size=-1> 40</font>    <b><font color=#228B22>end</font></b> Print_Record;
+<font size=-1> 41</font> 
+<font size=-1> 42</font>    <b><font color=#228B22>procedure</font></b> Get_Data (File_Name        : <b><font color=#228B22>in</font></b> <font color=#8B008B>String</font>;
+<font size=-1> 43</font>                        List             : <b><font color=#228B22>out</font></b> List_Type;
+<font size=-1> 44</font>                        Number_Of_Records: <b><font color=#228B22>out</font></b> <font color=#8B008B>Natural</font>) <b><font color=#228B22>is</font></b> <b><font color=#228B22>separate</font></b>;
+<font size=-1> 45</font> 
+<font size=-1> 46</font>    <b><font color=#228B22>type</font></b> Key_Type <b><font color=#228B22>is</font></b> (Name, ID, Salary, Department);
+<font size=-1> 47</font> 
+<font size=-1> 48</font>    File_Name : <b><font color=#228B22>constant</font></b> <font color=#8B008B>String</font>   := Command_Line.Argument (<font color=#008B8B>1</font>);
+<font size=-1> 49</font>    Key       : <b><font color=#228B22>constant</font></b> Key_Type :=
+<font size=-1> 50</font>       Key_Type<font color=#8B008B>'Value</font> (Command_Line.Argument(<font color=#008B8B>2</font>));
+<font size=-1> 51</font> 
+<font size=-1> 52</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"&#60;"</font> (Left, Right: Employee_Record_Pointer) <b><font color=#228B22>return</font></b> <font color=#8B008B>Boolean</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 53</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 54</font>       <b><font color=#228B22>case</font></b> Key <b><font color=#228B22>is</font></b>
+<font size=-1> 55</font>         <b><font color=#228B22>when</font></b> Name       =&#62; <b><font color=#228B22>return</font></b> (Left.Name &#60; Right.Name);
+<font size=-1> 56</font>         <b><font color=#228B22>when</font></b> ID         =&#62; <b><font color=#228B22>return</font></b> (Left.ID &#60; Right.ID);
+<font size=-1> 57</font>         <b><font color=#228B22>when</font></b> Salary     =&#62; <b><font color=#228B22>return</font></b> (Left.Salary &#60; Right.Salary);
+<font size=-1> 58</font>         <b><font color=#228B22>when</font></b> Department =&#62; <b><font color=#228B22>return</font></b> (Left.Department &#60; Right.Department);
+<font size=-1> 59</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>case</font></b>;
+<font size=-1> 60</font>    <b><font color=#228B22>end</font></b> <font color=#008B8B>"&#60;"</font>;
+<font size=-1> 61</font> 
+<font size=-1> 62</font>    <b><font color=#228B22>procedure</font></b> Record_Sort <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> Generic_Selection_Sort (
+<font size=-1> 63</font>       Element_Type =&#62; Employee_Record_Pointer,
+<font size=-1> 64</font>       Array_Type =&#62; List_Type);
+<font size=-1> 65</font> 
+<font size=-1> 66</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 67</font>    Get_Data (File_Name, List, Number_Of_Records);
+<font size=-1> 68</font>    Record_Sort (List (<font color=#008B8B>1</font>..Number_Of_Records));
+<font size=-1> 69</font>    <b><font color=#228B22>for</font></b> I <b><font color=#228B22>in</font></b> <font color=#008B8B>1</font>..Number_Of_Records <b><font color=#228B22>loop</font></b>
+<font size=-1> 70</font>       Print_Record (List(I));
+<font size=-1> 71</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 72</font> <b><font color=#228B22>end</font></b> Sort;
+</pre>
+</body>
+</html>

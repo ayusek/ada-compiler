@@ -1,0 +1,48 @@
+<html>
+<head>
+<title>The Ada Program: subclass.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: subclass.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- subclass.adb:  tagged records and classwide programming</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>;
+<font size=-1>  4</font> <b><font color=#228B22>use</font></b> Ada, Ada.Tags;
+<font size=-1>  5</font> 
+<font size=-1>  6</font> <b><font color=#228B22>procedure</font></b> Subclass <b><font color=#228B22>is</font></b>
+<font size=-1>  7</font>    <b><font color=#228B22>package</font></b> Real_IO <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> Text_IO.Float_IO (<font color=#8B008B>Float</font>);
+<font size=-1>  8</font>    <b><font color=#228B22>package</font></b> Bool_IO <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> Text_IO.Enumeration_IO (<font color=#8B008B>Boolean</font>);
+<font size=-1>  9</font> 
+<font size=-1> 10</font>    <b><font color=#228B22>type</font></b> Dessert <b><font color=#228B22>is</font></b> <b><font color=#228B22>tagged</font></b> <b><font color=#228B22>record</font></b>
+<font size=-1> 11</font>       Calories: <font color=#8B008B>Float</font>;
+<font size=-1> 12</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>record</font></b>;
+<font size=-1> 13</font> 
+<font size=-1> 14</font>    <b><font color=#228B22>type</font></b> Cake <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> Dessert <b><font color=#228B22>with</font></b> <b><font color=#228B22>record</font></b>
+<font size=-1> 15</font>       Icing: <font color=#8B008B>Boolean</font>;
+<font size=-1> 16</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>record</font></b>;
+<font size=-1> 17</font> 
+<font size=-1> 18</font>    <b><font color=#228B22>type</font></b> Furniture <b><font color=#228B22>is</font></b> <b><font color=#228B22>tagged</font></b> <b><font color=#228B22>record</font></b>
+<font size=-1> 19</font>       Legs: <font color=#8B008B>Integer</font> := <font color=#008B8B>4</font>;
+<font size=-1> 20</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>record</font></b>;
+<font size=-1> 21</font> 
+<font size=-1> 22</font>    <b><font color=#228B22>type</font></b> Container <b><font color=#228B22>is</font></b> <b><font color=#228B22>access</font></b> <b><font color=#228B22>all</font></b> Dessert<font color=#8B008B>'Class</font>;
+<font size=-1> 23</font> 
+<font size=-1> 24</font>    Neapolitan: Dessert := Dessert'(Calories=&#62;<font color=#008B8B>312.4</font>);
+<font size=-1> 25</font>    D: Container;
+<font size=-1> 26</font>    German: Cake := Cake'(Icing=&#62;<font color=#8B008B>True</font>, Calories=&#62;<font color=#008B8B>323.71</font>);
+<font size=-1> 27</font>    C: Cake;
+<font size=-1> 28</font> 
+<font size=-1> 29</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 30</font>    D := <b><font color=#228B22>new</font></b> Dessert;         <b><i><font color=#BB1212>-- can point to a Dessert</font></i></b>
+<font size=-1> 31</font>    D := <b><font color=#228B22>new</font></b> Cake;            <b><i><font color=#BB1212>-- can point to a Cake</font></i></b>
+<font size=-1> 32</font>    D.<b><font color=#228B22>all</font></b> := Dessert(German); <b><i><font color=#BB1212>-- put a German (Cake) in it</font></i></b>
+<font size=-1> 33</font>    Real_IO.Put (D.Calories); Text_IO.New_Line;
+<font size=-1> 34</font>    <b><font color=#228B22>if</font></b> D.<b><font color=#228B22>all</font></b><font color=#8B008B>'Tag</font> = Cake<font color=#8B008B>'Tag</font> <b><font color=#228B22>then</font></b>
+<font size=-1> 35</font>       Bool_IO.Put (Cake(D.<b><font color=#228B22>all</font></b>).Icing); Text_IO.New_Line;
+<font size=-1> 36</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 37</font> <b><font color=#228B22>end</font></b> Subclass;
+</pre>
+</body>
+</html>

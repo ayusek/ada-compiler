@@ -1,0 +1,34 @@
+<html>
+<head>
+<title>The Ada Program: scope_rule.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: scope_rule.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><font color=#228B22>procedure</font></b> Scope_Rules <b><font color=#228B22>is</font></b>
+<font size=-1>  2</font>    A,B: <font color=#8B008B>Integer</font>;        <b><i><font color=#BB1212>-- declaration (1)</font></i></b>
+<font size=-1>  3</font>    <b><font color=#228B22>procedure</font></b> P <b><font color=#228B22>is</font></b>
+<font size=-1>  4</font>       C,D: <font color=#8B008B>Integer</font>;     <b><i><font color=#BB1212>-- declaration (2)</font></i></b>
+<font size=-1>  5</font>       <b><font color=#228B22>procedure</font></b> Q <b><font color=#228B22>is</font></b>
+<font size=-1>  6</font>          A  : <font color=#8B008B>Integer</font>;  <b><i><font color=#BB1212>-- declaration (3)</font></i></b>
+<font size=-1>  7</font>          E,F: <font color=#8B008B>Integer</font>;  <b><i><font color=#BB1212>-- declaration (4)</font></i></b>
+<font size=-1>  8</font>       <b><font color=#228B22>begin</font></b>   <b><i><font color=#BB1212>-- * * * * * *</font></i></b>
+<font size=-1>  9</font>               <b><i><font color=#BB1212>-- region (i)</font></i></b>
+<font size=-1> 10</font>        <b><font color=#228B22>end</font></b> Q; <b><i><font color=#BB1212>-- * * * * * *</font></i></b>
+<font size=-1> 11</font>    <b><font color=#228B22>begin</font></b>   <b><i><font color=#BB1212>-- * * * * * *</font></i></b>
+<font size=-1> 12</font>            <b><i><font color=#BB1212>-- region (ii)</font></i></b>
+<font size=-1> 13</font>    <b><font color=#228B22>end</font></b> P;  <b><i><font color=#BB1212>-- * * * * * *</font></i></b>
+<font size=-1> 14</font>    <b><font color=#228B22>procedure</font></b> R <b><font color=#228B22>is</font></b>
+<font size=-1> 15</font>       G,H: <font color=#8B008B>Integer</font>;    <b><i><font color=#BB1212>-- declaration (5)</font></i></b>
+<font size=-1> 16</font>    <b><font color=#228B22>begin</font></b>  <b><i><font color=#BB1212>-- * * * * * *</font></i></b>
+<font size=-1> 17</font>           <b><i><font color=#BB1212>-- region (iii)</font></i></b>
+<font size=-1> 18</font>    <b><font color=#228B22>end</font></b> R; <b><i><font color=#BB1212>-- * * * * * *</font></i></b>
+<font size=-1> 19</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 20</font>    <b><i><font color=#BB1212>-- * * * * * *</font></i></b>
+<font size=-1> 21</font>    <b><i><font color=#BB1212>-- region (iv)</font></i></b>
+<font size=-1> 22</font>    <b><i><font color=#BB1212>-- * * * * * *</font></i></b>
+<font size=-1> 23</font> <b><font color=#228B22>end</font></b> Scope_Rules;
+</pre>
+</body>
+</html>

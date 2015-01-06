@@ -1,0 +1,32 @@
+<html>
+<head>
+<title>The Ada Program: card_package.ads</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: card_package.ads</h1>
+<pre>
+<font size=-1>  1</font> <b><font color=#228B22>package</font></b> Card_Package <b><font color=#228B22>is</font></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font>    <b><font color=#228B22>type</font></b> Suit_Type <b><font color=#228B22>is</font></b> (Clubs, Diamonds, Hearts, Spades);
+<font size=-1>  4</font> 
+<font size=-1>  5</font>    <b><font color=#228B22>type</font></b> Count_Type <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> <font color=#8B008B>Integer</font> <b><font color=#228B22>range</font></b> <font color=#008B8B>1</font>..<font color=#008B8B>13</font>;
+<font size=-1>  6</font> 
+<font size=-1>  7</font>    Ace:         <b><font color=#228B22>constant</font></b> Count_Type := <font color=#008B8B>1</font>;
+<font size=-1>  8</font>    Jack, Knave: <b><font color=#228B22>constant</font></b> Count_Type := <font color=#008B8B>11</font>;
+<font size=-1>  9</font>    Queen:       <b><font color=#228B22>constant</font></b> Count_Type := <font color=#008B8B>12</font>;
+<font size=-1> 10</font>    King:        <b><font color=#228B22>constant</font></b> Count_Type := <font color=#008B8B>12</font>;
+<font size=-1> 11</font> 
+<font size=-1> 12</font>    <b><font color=#228B22>type</font></b> Card_Type <b><font color=#228B22>is</font></b>
+<font size=-1> 13</font>       <b><font color=#228B22>record</font></b>
+<font size=-1> 14</font>          Suit: Suit_Type;
+<font size=-1> 15</font>          Count: Count_Type;
+<font size=-1> 16</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>record</font></b>;
+<font size=-1> 17</font>    
+<font size=-1> 18</font>     <b><font color=#228B22>procedure</font></b> Put (Item: <b><font color=#228B22>in</font></b> Card_Type);
+<font size=-1> 19</font> 
+<font size=-1> 20</font> <b><font color=#228B22>end</font></b> Card_Package;
+<font size=-1> 21</font> 
+</pre>
+</body>
+</html>

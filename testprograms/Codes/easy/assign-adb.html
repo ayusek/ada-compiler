@@ -1,0 +1,28 @@
+<html>
+<head>
+<title>The Ada Program: assign.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: assign.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- assign.adb:  a few assignment statements</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>procedure</font></b> Assign <b><font color=#228B22>is</font></b>
+<font size=-1>  4</font> 
+<font size=-1>  5</font>    W, X, Y, Z: <font color=#8B008B>Integer</font>;
+<font size=-1>  6</font> 
+<font size=-1>  7</font> <b><font color=#228B22>begin</font></b>
+<font size=-1>  8</font> 
+<font size=-1>  9</font>    <b><i><font color=#BB1212>-------------------  W    X    Y    Z</font></i></b>
+<font size=-1> 10</font>                   <b><i><font color=#BB1212>--    ?    ?    ?    ?</font></i></b>
+<font size=-1> 11</font>    W := <font color=#008B8B>14</font>;       <b><i><font color=#BB1212>--   14    ?    ?    ?</font></i></b>
+<font size=-1> 12</font>    X := <font color=#008B8B>3</font> + <font color=#008B8B>2</font>*W;  <b><i><font color=#BB1212>--   14   31    ?    ?</font></i></b>
+<font size=-1> 13</font>    Y := X <b><font color=#228B22>mod</font></b> <font color=#008B8B>3</font>;  <b><i><font color=#BB1212>--   14   31    1    ?</font></i></b>
+<font size=-1> 14</font>    X := X + Y;    <b><i><font color=#BB1212>--   14   32    1    ?</font></i></b>
+<font size=-1> 15</font>    Z := <font color=#008B8B>5</font> + Y;    <b><i><font color=#BB1212>--   14   32    1    6</font></i></b>
+<font size=-1> 16</font> 
+<font size=-1> 17</font> <b><font color=#228B22>end</font></b> Assign;
+</pre>
+</body>
+</html>

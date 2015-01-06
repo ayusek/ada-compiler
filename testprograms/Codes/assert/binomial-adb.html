@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>The Ada Program: binomial.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<style type="text/css">
+  .key         {font-weight:bold; color:#228B22;}
+  .comment     {font-style:oblique; font-weight:bold; color:#BB1212;}
+  .linenumber  {font-size:75%;    color:#888888;}
+  .string      {color:#3333CC;}
+  .char        {color:#3333CC;}
+  .number      {color:#3333CC;}
+  .predefined  {color:#3333CC;}
+</style>
+</head>
+<body>
+<h1>The Ada Program: binomial.adb</h1>
+<pre>
+<span class="linenumber">  1</span> <span class="comment">--  binomial.adb:  compute the binomial coefficient</span>
+<span class="linenumber">  2</span> 
+<span class="linenumber">  3</span> <span class="comment">--  Binomial (N,R)</span>
+<span class="linenumber">  4</span> <span class="comment">--     Precondition   N&#62;=R&#62;=0</span>
+<span class="linenumber">  5</span> <span class="comment">--     Postcondition  Binomial (N,R) = N!/(R!*(N-R)!)</span>
+<span class="linenumber">  6</span> 
+<span class="linenumber">  7</span> <span class="comment">--                      10!   10×9×8</span>
+<span class="linenumber">  8</span> <span class="comment">--  Binomial (10,7) =   ---- = ------ = 120</span>
+<span class="linenumber">  9</span> <span class="comment">--                     7!3!    3x2×1</span>
+<span class="linenumber"> 10</span> 
+<span class="linenumber"> 11</span> <span class="key">function</span> Binomial (N, R : <span class="predefined">Natural</span>) <span class="key">return</span> <span class="predefined">Positive</span> <span class="key">is</span>
+<span class="linenumber"> 12</span> 
+<span class="linenumber"> 13</span>    <span class="key">function</span> Factorial (N : <span class="predefined">Natural</span>) <span class="key">return</span> <span class="predefined">Positive</span> <span class="key">is</span>
+<span class="linenumber"> 14</span>       F : <span class="predefined">Positive</span> := <span class="number">1</span>;
+<span class="linenumber"> 15</span>    <span class="key">begin</span>
+<span class="linenumber"> 16</span>       <span class="key">for</span> I <span class="key">in</span> <span class="number">2</span> .. N <span class="key">loop</span>
+<span class="linenumber"> 17</span>          F := F*I;
+<span class="linenumber"> 18</span>       <span class="key">end</span> <span class="key">loop</span>;
+<span class="linenumber"> 19</span>       <span class="key">return</span> F;
+<span class="linenumber"> 20</span>    <span class="key">end</span> Factorial;
+<span class="linenumber"> 21</span> 
+<span class="linenumber"> 22</span>    B : <span class="predefined">Positive</span> := <span class="number">1</span>;
+<span class="linenumber"> 23</span> 
+<span class="linenumber"> 24</span> <span class="key">begin</span>
+<span class="linenumber"> 25</span> 
+<span class="linenumber"> 26</span>    <span class="key">pragma</span> Assert (R&#62;=<span class="number">0</span>, <span class="string">"R negative"</span>);
+<span class="linenumber"> 27</span>    <span class="key">pragma</span> Assert (N&#62;=R, <span class="string">"N not greater than R"</span>);
+<span class="linenumber"> 28</span> 
+<span class="linenumber"> 29</span>    <span class="key">for</span> I <span class="key">in</span> R+<span class="number">1</span> .. N <span class="key">loop</span>
+<span class="linenumber"> 30</span>       B := B*I;
+<span class="linenumber"> 31</span>    <span class="key">end</span> <span class="key">loop</span>;
+<span class="linenumber"> 32</span> 
+<span class="linenumber"> 33</span>    <span class="key">pragma</span> Assert (B=Factorial(N)/Factorial(R), <span class="string">"B not correct"</span>);
+<span class="linenumber"> 34</span> 
+<span class="linenumber"> 35</span>    <span class="key">for</span> I <span class="key">in</span> <span class="number">2</span> .. N-R <span class="key">loop</span>
+<span class="linenumber"> 36</span>       <span class="key">pragma</span> Assert (B <span class="key">mod</span> I = <span class="number">0</span>, <span class="string">"B mod I /= 0"</span>);
+<span class="linenumber"> 37</span>       B := B/I;
+<span class="linenumber"> 38</span>    <span class="key">end</span> <span class="key">loop</span>;
+<span class="linenumber"> 39</span> 
+<span class="linenumber"> 40</span>    <span class="key">pragma</span> Assert (B=Factorial(N)/(Factorial(R)*Factorial(N-R)),
+<span class="linenumber"> 41</span>                   <span class="string">"postcondition does not hold!"</span>);
+<span class="linenumber"> 42</span> 
+<span class="linenumber"> 43</span>    <span class="key">return</span> B;
+<span class="linenumber"> 44</span> 
+<span class="linenumber"> 45</span> <span class="key">end</span> Binomial;
+</pre>
+</body>
+</html>

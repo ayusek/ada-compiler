@@ -1,0 +1,22 @@
+<html>
+<head>
+<title>The Ada Program: tree_main.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: tree_main.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><font color=#228B22>with</font></b> Tree_Package;
+<font size=-1>  2</font> <b><font color=#228B22>procedure</font></b> Tree_Main <b><font color=#228B22>is</font></b>
+<font size=-1>  3</font> 
+<font size=-1>  4</font>    T    : Tree_Package.Tree;
+<font size=-1>  5</font>    Data : <b><font color=#228B22>constant</font></b> Tree_Package.Item_Array :=
+<font size=-1>  6</font>       (<font color=#008B8B>16</font>,<font color=#008B8B>5</font>,<font color=#008B8B>2</font>,<font color=#008B8B>8</font>,<font color=#008B8B>7</font>,<font color=#008B8B>19</font>,<font color=#008B8B>18</font>,<font color=#008B8B>22</font>,<font color=#008B8B>20</font>,<font color=#008B8B>21</font>,<font color=#008B8B>23</font>);
+<font size=-1>  7</font> 
+<font size=-1>  8</font> <b><font color=#228B22>begin</font></b>
+<font size=-1>  9</font>    Tree_Package.Insert (Data, T);
+<font size=-1> 10</font>    Tree_Package.Preorder (T);
+<font size=-1> 11</font> <b><font color=#228B22>end</font></b> Tree_Main;
+</pre>
+</body>
+</html>

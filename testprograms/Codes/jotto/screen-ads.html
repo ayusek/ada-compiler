@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>The Ada Program: screen.ads</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: screen.ads</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- screen.ads:  View ASCII terminal as 2D window using escape sequences</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><i><font color=#BB1212>-- The output device must recognized ANSI X3.64 1979 terminal-control</font></i></b>
+<font size=-1>  4</font> <b><i><font color=#BB1212>-- escape sequences.  ECMA-48 is another such standard.</font></i></b>
+<font size=-1>  5</font> 
+<font size=-1>  6</font> <b><i><font color=#BB1212>--   X Window System:  use xterm (old versions don't support color)</font></i></b>
+<font size=-1>  7</font> <b><i><font color=#BB1212>--   DOS:  check for ANSI.sys</font></i></b>
+<font size=-1>  8</font> 
+<font size=-1>  9</font> <b><i><font color=#BB1212>-- Ryan Stansifer (ryan@cs.fit.edu) at Mon Mar 24 18:09:39 1997</font></i></b>
+<font size=-1> 10</font> <b><i><font color=#BB1212>-- Written for CSE1001/CSE1002 at Florida Tech.</font></i></b>
+<font size=-1> 11</font> 
+<font size=-1> 12</font> <b><font color=#228B22>package</font></b> Screen <b><font color=#228B22>is</font></b>
+<font size=-1> 13</font> 
+<font size=-1> 14</font>    <b><font color=#228B22>type</font></b> Attribute <b><font color=#228B22>is</font></b> (Normal, Bold, Inverse, Blink);
+<font size=-1> 15</font>    <b><font color=#228B22>type</font></b> Color <b><font color=#228B22>is</font></b> (Black,Red,Green,Yellow,Blue,Magenta,Cyan,White);
+<font size=-1> 16</font> 
+<font size=-1> 17</font>    <b><font color=#228B22>procedure</font></b> Beep;
+<font size=-1> 18</font>    <b><font color=#228B22>procedure</font></b> Move_Cursor (Row, Column: <font color=#8B008B>Positive</font>:=<font color=#008B8B>1</font>);
+<font size=-1> 19</font>    <b><font color=#228B22>procedure</font></b> Set_Attribute (A: Attribute);
+<font size=-1> 20</font>    <b><font color=#228B22>procedure</font></b> Set_Foreground_Color (C: Color);
+<font size=-1> 21</font>    <b><font color=#228B22>procedure</font></b> Set_Background_Color (C: Color);
+<font size=-1> 22</font>    <b><font color=#228B22>procedure</font></b> Set_Color (Fg, Bg: Color);
+<font size=-1> 23</font>    <b><font color=#228B22>procedure</font></b> Clear_Screen;
+<font size=-1> 24</font>    <b><font color=#228B22>procedure</font></b> Erase_Line;
+<font size=-1> 25</font> 
+<font size=-1> 26</font> <b><font color=#228B22>end</font></b> Screen;
+</pre>
+</body>
+</html>

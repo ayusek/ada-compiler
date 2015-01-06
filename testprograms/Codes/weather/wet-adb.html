@@ -1,0 +1,144 @@
+<html>
+<head>
+<title>The Ada Program: wet.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: wet.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-09.html#32">Ada.Float_Text_IO</a>;
+<font size=-1>  2</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  3</font> <b><i><font color=#BB1212>-- also:  http://www.usatoday.com/weather/whumcalc.htm</font></i></b>
+<font size=-1>  4</font> <b><i><font color=#BB1212>-- also: http://www.cdrom.com/pub/internet/rtfm/news/answers/meteorology/temp-dewpoint</font></i></b>
+<font size=-1>  5</font> <b><i><font color=#BB1212>-- also: http://www.uswcl.ars.ag.gov/exper/relhumeq.htm</font></i></b>
+<font size=-1>  6</font> 
+<font size=-1>  7</font> <b><i><font color=#BB1212>-- want to calculate wetbulb temperature (Tw) where my input</font></i></b>
+<font size=-1>  8</font> <b><i><font color=#BB1212>-- is drybulb temperature (T) and relative humidity (rH).</font></i></b>
+<font size=-1>  9</font> 
+<font size=-1> 10</font> <b><i><font color=#BB1212>-- using the methods from</font></i></b>
+<font size=-1> 11</font> <b><i><font color=#BB1212>-- Jensen, M.E., R.D. Burman, and R.G. Allen. 1990.</font></i></b>
+<font size=-1> 12</font> <b><i><font color=#BB1212>-- Evapotranspiration and irrigation water requirements. ASCE Manuals and Reports on Engineering</font></i></b>
+<font size=-1> 13</font> <b><i><font color=#BB1212>-- Practice No. 70.</font></i></b>
+<font size=-1> 14</font> 
+<font size=-1> 15</font> <b><i><font color=#BB1212>--1)  compute e as [es(T)*rH/100]</font></i></b>
+<font size=-1> 16</font> <b><i><font color=#BB1212>--    where es(T) = 0.611*EXP(17.27*T/(T+237.3)) in kPa</font></i></b>
+<font size=-1> 17</font> <b><i><font color=#BB1212>--    T is drybulb temp in C</font></i></b>
+<font size=-1> 18</font> 
+<font size=-1> 19</font> <b><i><font color=#BB1212>--    e = (rH/100)* 0.611*EXP(17.27*T/(T+237.3))</font></i></b>
+<font size=-1> 20</font> <b><i><font color=#BB1212>--    where e is ambient vapor pressure in kPa</font></i></b>
+<font size=-1> 21</font> 
+<font size=-1> 22</font> <b><i><font color=#BB1212>--2)  compute dewpoint temperature (Td)</font></i></b>
+<font size=-1> 23</font> <b><i><font color=#BB1212>--    Td = [116.9+237.3ln(e)]/[16.78-ln(e)] in C</font></i></b>
+<font size=-1> 24</font> 
+<font size=-1> 25</font> 
+<font size=-1> 26</font> <b><i><font color=#BB1212>--3)  compute wet bulb temperature (Tw)</font></i></b>
+<font size=-1> 27</font> <b><i><font color=#BB1212>--    Tw = [(GAMMA*T)+(DELTA*Td)]/(GAMMA+DELTA)</font></i></b>
+<font size=-1> 28</font> <b><i><font color=#BB1212>--    GAMMA = 0.00066*P where P is ambient barometric pressure in kPa</font></i></b>
+<font size=-1> 29</font> <b><i><font color=#BB1212>--    DELTA = 4098*e/(Td+237.3)^2</font></i></b>
+<font size=-1> 30</font> 
+<font size=-1> 31</font> <b><i><font color=#BB1212>--This method should be close, especially when Tw is close to Td (DELTA</font></i></b>
+<font size=-1> 32</font> <b><i><font color=#BB1212>--should be evaluated at (Tw+Td)/2.</font></i></b>
+<font size=-1> 33</font> 
+<font size=-1> 34</font> <b><i><font color=#BB1212>--For example:</font></i></b>
+<font size=-1> 35</font> 
+<font size=-1> 36</font> <b><i><font color=#BB1212>-- T = 25C</font></i></b>
+<font size=-1> 37</font> <b><i><font color=#BB1212>--rH = 50%</font></i></b>
+<font size=-1> 38</font> <b><i><font color=#BB1212>--assume elev is sea level and P = 100 kPa.</font></i></b>
+<font size=-1> 39</font> 
+<font size=-1> 40</font> <b><i><font color=#BB1212>--1)  es(25) = 0.611*EXP(17.27*25/(25+237.3)) = 3.17 kPa</font></i></b>
+<font size=-1> 41</font> <b><i><font color=#BB1212>--    e = (50/100)* es(25) = 1.58 kPa</font></i></b>
+<font size=-1> 42</font> 
+<font size=-1> 43</font> <b><i><font color=#BB1212>--2)  Td = [116.9+237.3*ln(1.30)]/[16.78-ln(1.30)] = 13.85 C</font></i></b>
+<font size=-1> 44</font> 
+<font size=-1> 45</font> <b><i><font color=#BB1212>--3)  GAMMA = 0.00066*100 = 0.066 kPa/C</font></i></b>
+<font size=-1> 46</font> <b><i><font color=#BB1212>--    DELTA = 4098*(1.58)/(13.85+237.3)^2 = 0.103 kPa/C</font></i></b>
+<font size=-1> 47</font> <b><i><font color=#BB1212>--    Tw = [(0.066*25)+(0.103*13.85)]/(0.066+0.103) = 18.21 C</font></i></b>
+<font size=-1> 48</font> 
+<font size=-1> 49</font> <b><i><font color=#BB1212>--CHECK ANSWER:</font></i></b>
+<font size=-1> 50</font> 
+<font size=-1> 51</font> <b><i><font color=#BB1212>--    EW(Tw) = 0.611*EXP(17.27*18.21/(18.21+237.3)) = 2.09 kPa</font></i></b>
+<font size=-1> 52</font> <b><i><font color=#BB1212>--    e  = EW(Tw) - GAMMA*(T-Tw)</font></i></b>
+<font size=-1> 53</font> <b><i><font color=#BB1212>--    e  = 1.58 - 0.066*(25-18.21) = 1.64 kPa</font></i></b>
+<font size=-1> 54</font> 
+<font size=-1> 55</font> <b><i><font color=#BB1212>--The exact answer for Tw is about 17.95C</font></i></b>
+<font size=-1> 56</font> <b><i><font color=#BB1212>--    EW(18.0) = 2.07 kPa;  e = 1.60 kPa</font></i></b>
+<font size=-1> 57</font> <b><i><font color=#BB1212>--    EW(17.9) = 2.05 kPa;  e = 1.58 kPa</font></i></b>
+<font size=-1> 58</font> <b><i><font color=#BB1212>--    EW(17.95) = 2.06 kPa; e = 1.59 kPa</font></i></b>
+<font size=-1> 59</font> 
+<font size=-1> 60</font> <b><i><font color=#BB1212>--Thus,</font></i></b>
+<font size=-1> 61</font> <b><i><font color=#BB1212>--    ERROR  e = [(1.64 - 1.58)/1.58]*100 = 3.1%</font></i></b>
+<font size=-1> 62</font> <b><i><font color=#BB1212>--    ERROR Tw = [(18.2-17.95)/17.95]*100 = 1.4%</font></i></b>
+<font size=-1> 63</font> 
+<font size=-1> 64</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-05-01.html">Ada.Numerics.Elementary_Functions</a>;
+<font size=-1> 65</font> <b><font color=#228B22>use</font></b>  <a href="http://www.adahome.com/rm95/rm9x-A-05-01.html">Ada.Numerics.Elementary_Functions</a>;
+<font size=-1> 66</font> 
+<font size=-1> 67</font> <b><font color=#228B22>procedure</font></b> Wet <b><font color=#228B22>is</font></b>
+<font size=-1> 68</font> 
+<font size=-1> 69</font>    <b><i><font color=#BB1212>--  T:  Drybulb temperature in degrees centegrade</font></i></b>
+<font size=-1> 70</font>    <b><i><font color=#BB1212>-- Tw:  Wetbulb temperature in degrees centegrade</font></i></b>
+<font size=-1> 71</font>    <b><i><font color=#BB1212>-- Td:  Dewpoint temperature in degrees centegrade</font></i></b>
+<font size=-1> 72</font>    <b><i><font color=#BB1212>-- rH:  Relative humidity in percent 0% -- 100%</font></i></b>
+<font size=-1> 73</font>    <b><i><font color=#BB1212>--  e:  Ambient vapor pressure in kPa (kiloPascals)</font></i></b>
+<font size=-1> 74</font> 
+<font size=-1> 75</font>    D : <b><font color=#228B22>constant</font></b> := <font color=#008B8B>237.3</font>;
+<font size=-1> 76</font> 
+<font size=-1> 77</font>    AA : <b><font color=#228B22>constant</font></b> := <font color=#008B8B>16.78</font>;
+<font size=-1> 78</font>    BB : <b><font color=#228B22>constant</font></b> := <font color=#008B8B>116.9</font>;
+<font size=-1> 79</font> 
+<font size=-1> 80</font>    <b><font color=#228B22>function</font></b> Saturation_Vapor_Pressure (Temperature: <font color=#8B008B>Float</font>) <b><font color=#228B22>return</font></b> <font color=#8B008B>Float</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 81</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 82</font>        <b><font color=#228B22>return</font></b> (Exp ((AA*Temperature - BB)/(Temperature+D)));
+<font size=-1> 83</font>    <b><font color=#228B22>end</font></b> Saturation_Vapor_Pressure;
+<font size=-1> 84</font> 
+<font size=-1> 85</font>    <b><font color=#228B22>function</font></b> Ambient_Vapor_Pressure (
+<font size=-1> 86</font>       Drybulb_Temperature, Relative_Humidity: <font color=#8B008B>Float</font>
+<font size=-1> 87</font>    ) <b><font color=#228B22>return</font></b> <font color=#8B008B>Float</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 88</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 89</font>       <b><font color=#228B22>return</font></b> (Relative_Humidity/<font color=#008B8B>100.0</font> * Saturation_Vapor_Pressure (Drybulb_Temperature));
+<font size=-1> 90</font>    <b><font color=#228B22>end</font></b> Ambient_Vapor_Pressure;
+<font size=-1> 91</font> 
+<font size=-1> 92</font> 
+<font size=-1> 93</font>    <b><font color=#228B22>function</font></b> Dewpoint (Vapor: <font color=#8B008B>Float</font>) <b><font color=#228B22>return</font></b> <font color=#8B008B>Float</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 94</font>        L : <b><font color=#228B22>constant</font></b> <font color=#8B008B>Float</font> := Log (Vapor);
+<font size=-1> 95</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 96</font>        <b><font color=#228B22>return</font></b> (BB + D*L)/(AA-L);
+<font size=-1> 97</font>    <b><font color=#228B22>end</font></b> Dewpoint;
+<font size=-1> 98</font> 
+<font size=-1> 99</font> 
+<font size=-1>100</font> <b><i><font color=#BB1212>--   Barometric : constant := 101.325 ;  -- Ambient barometric pressure in kPa at sealevel</font></i></b>
+<font size=-1>101</font>    Barometric : <b><font color=#228B22>constant</font></b> := <font color=#008B8B>100.00</font> ;  <b><i><font color=#BB1212>-- Ambient barometric pressure in kPa at sealevel</font></i></b>
+<font size=-1>102</font>    Gamma : <b><font color=#228B22>constant</font></b> := <font color=#008B8B>0.00066</font> * Barometric;  <b><i><font color=#BB1212>-- kPa/C</font></i></b>
+<font size=-1>103</font> 
+<font size=-1>104</font>    Temperature, Humidity, Td, Wetbulb, E, Del : <font color=#8B008B>Float</font>;
+<font size=-1>105</font> 
+<font size=-1>106</font> <b><font color=#228B22>begin</font></b>
+<font size=-1>107</font>    Text_IO.Put (<font color=#008B8B>"Enter temperature in degrees Celsius =&#62; "</font>);
+<font size=-1>108</font>    Float_Text_IO.Get (Temperature);
+<font size=-1>109</font>    Text_IO.Put (<font color=#008B8B>"Enter percent relative humidy =&#62; "</font>);
+<font size=-1>110</font>    Float_Text_IO.Get (Humidity);
+<font size=-1>111</font> 
+<font size=-1>112</font>    E := Ambient_Vapor_Pressure (Temperature, Humidity);
+<font size=-1>113</font>    Td := Dewpoint (E);
+<font size=-1>114</font>    Text_IO.Put (<font color=#008B8B>"The dewpoint temperature in degrees Celsius is "</font>);
+<font size=-1>115</font>    Float_Text_IO.Put (Td, Aft=&#62;<font color=#008B8B>2</font>, Exp=&#62;<font color=#008B8B>0</font>);
+<font size=-1>116</font>    Text_IO.New_Line;
+<font size=-1>117</font> 
+<font size=-1>118</font>    Del :=  <font color=#008B8B>4098.0</font> * E / (Td + D)**<font color=#008B8B>2</font>;
+<font size=-1>119</font>    Wetbulb := (Gamma*Temperature + Del*Td)/(Gamma+Del);
+<font size=-1>120</font> 
+<font size=-1>121</font> 
+<font size=-1>122</font>    Text_IO.Put (<font color=#008B8B>"The wetbulb temperature in degrees Celsius is "</font>);
+<font size=-1>123</font>    Float_Text_IO.Put (Wetbulb, Aft=&#62;<font color=#008B8B>2</font>, Exp=&#62;<font color=#008B8B>0</font>);
+<font size=-1>124</font>    Text_IO.New_Line;
+<font size=-1>125</font> <b><font color=#228B22>end</font></b> Wet;
+<font size=-1>126</font> 
+<font size=-1>127</font> 
+<font size=-1>128</font> <b><i><font color=#BB1212>--   A, B, C, X: Float;  -- temporary variables</font></i></b>
+<font size=-1>129</font> <b><i><font color=#BB1212>--   X := 1.0 - (Humidity/100.0);</font></i></b>
+<font size=-1>130</font> <b><i><font color=#BB1212>--   A := (14.55 + 0.114 * Temperature) * X;</font></i></b>
+<font size=-1>131</font> <b><i><font color=#BB1212>--   B := ((2.5 + 0.0007 * Temperature) * X) ** 3;</font></i></b>
+<font size=-1>132</font> <b><i><font color=#BB1212>--   C := ((15.9 + 0.117 * Temperature) * X) ** 14;</font></i></b>
+<font size=-1>133</font> <b><i><font color=#BB1212>--   Dew_Point := Temperature - A - B - C;</font></i></b>
+</pre>
+</body>
+</html>

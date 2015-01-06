@@ -1,0 +1,63 @@
+<html>
+<head>
+<title>The Ada Program: convert.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: convert.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- convert.adb:  convert command line string in hex to number</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>with</font></b>
+<font size=-1>  4</font>   <a href="http://www.adahome.com/rm95/rm9x-A-15.html">Ada.Command_Line</a>,     <b><i><font color=#BB1212>-- access to external execution env (Ada95 A.15)</font></i></b>
+<font size=-1>  5</font>   <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>,          <b><i><font color=#BB1212>-- usual text (Latin 1) input/output (A.10.1)</font></i></b>
+<font size=-1>  6</font>   <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>,  <b><i><font color=#BB1212>-- preinstantiated generic for Integer IO</font></i></b>
+<font size=-1>  7</font>   Ada.Unchecked_Conversion,
+<font size=-1>  8</font>   Interfaces;
+<font size=-1>  9</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1> 10</font> 
+<font size=-1> 11</font> <b><font color=#228B22>procedure</font></b> Convert <b><font color=#228B22>is</font></b>
+<font size=-1> 12</font>    <b><font color=#228B22>subtype</font></b> Word <b><font color=#228B22>is</font></b> Interfaces.Unsigned_32;
+<font size=-1> 13</font>    <b><font color=#228B22>package</font></b> Word_Text_IO <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> Text_IO.Modular_IO (Num=&#62;Word);
+<font size=-1> 14</font>    Hex : <b><font color=#228B22>constant</font></b> <font color=#8B008B>String</font> := Command_Line.Argument(<font color=#008B8B>1</font>);
+<font size=-1> 15</font>    U   : Word := Word<font color=#8B008B>'Value</font> (<font color=#008B8B>"16#"</font> &#38; Hex &#38; <font color=#008B8B>"#"</font>);
+<font size=-1> 16</font> 
+<font size=-1> 17</font>    <b><font color=#228B22>type</font></b> Sign_Bit <b><font color=#228B22>is</font></b> <b><font color=#228B22>mod</font></b> <font color=#008B8B>2</font>**<font color=#008B8B>1</font>;
+<font size=-1> 18</font>    <b><font color=#228B22>for</font></b> Sign_Bit<font color=#8B008B>'Size</font> <b><font color=#228B22>use</font></b> <font color=#008B8B>1</font>;
+<font size=-1> 19</font>    <b><font color=#228B22>type</font></b> Exponent <b><font color=#228B22>is</font></b> <b><font color=#228B22>mod</font></b> <font color=#008B8B>2</font>*<font color=#008B8B>12</font>;
+<font size=-1> 20</font>    <b><font color=#228B22>for</font></b> Exponent<font color=#8B008B>'Size</font> <b><font color=#228B22>use</font></b> <font color=#008B8B>12</font>;
+<font size=-1> 21</font>    <b><font color=#228B22>type</font></b> Mantissa <b><font color=#228B22>is</font></b> <b><font color=#228B22>mod</font></b> <font color=#008B8B>2</font>**<font color=#008B8B>19</font>;
+<font size=-1> 22</font>    <b><font color=#228B22>for</font></b> Mantissa<font color=#8B008B>'Size</font> <b><font color=#228B22>use</font></b> <font color=#008B8B>19</font>;
+<font size=-1> 23</font> 
+<font size=-1> 24</font>    <b><font color=#228B22>type</font></b> IBM_Floating_Point_Representation <b><font color=#228B22>is</font></b>
+<font size=-1> 25</font>       <b><font color=#228B22>record</font></b>
+<font size=-1> 26</font>          Sign : Sign_Bit;
+<font size=-1> 27</font>          E    : Exponent;
+<font size=-1> 28</font>          M    : Mantissa;
+<font size=-1> 29</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>record</font></b>;
+<font size=-1> 30</font> 
+<font size=-1> 31</font>    <b><font color=#228B22>for</font></b> IBM_Floating_Point_Representation <b><font color=#228B22>use</font></b>
+<font size=-1> 32</font>       <b><font color=#228B22>record</font></b>
+<font size=-1> 33</font>          Sign <b><font color=#228B22>at</font></b> <font color=#008B8B>0</font> <b><font color=#228B22>range</font></b>  <font color=#008B8B>0</font> .. <font color=#008B8B>0</font>;
+<font size=-1> 34</font>          E    <b><font color=#228B22>at</font></b> <font color=#008B8B>0</font> <b><font color=#228B22>range</font></b>  <font color=#008B8B>1</font> .. <font color=#008B8B>12</font>;
+<font size=-1> 35</font>          M    <b><font color=#228B22>at</font></b> <font color=#008B8B>0</font> <b><font color=#228B22>range</font></b> <font color=#008B8B>13</font> .. <font color=#008B8B>31</font>;
+<font size=-1> 36</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>record</font></b>;
+<font size=-1> 37</font> 
+<font size=-1> 38</font>    <b><font color=#228B22>function</font></b> To_Record <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> Unchecked_Conversion (
+<font size=-1> 39</font>       Source=&#62;Word, Target=&#62;IBM_Floating_Point_Representation);
+<font size=-1> 40</font> 
+<font size=-1> 41</font>    R : IBM_Floating_Point_Representation := To_Record (U);
+<font size=-1> 42</font> 
+<font size=-1> 43</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 44</font>    Word_Text_IO.Put (Item=&#62;U);
+<font size=-1> 45</font>    Text_IO.New_Line;
+<font size=-1> 46</font> 
+<font size=-1> 47</font>    Integer_Text_IO.Put (<font color=#8B008B>Integer</font>(R.E));
+<font size=-1> 48</font>    Text_IO.New_Line;
+<font size=-1> 49</font> 
+<font size=-1> 50</font>    Integer_Text_IO.Put (<font color=#8B008B>Integer</font>(R.M));
+<font size=-1> 51</font>    Text_IO.New_Line;
+<font size=-1> 52</font> <b><font color=#228B22>end</font></b> Convert;
+</pre>
+</body>
+</html>

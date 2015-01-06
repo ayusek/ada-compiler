@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>The Ada Program: shape_main.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<style type="text/css">
+  .key         {font-weight:bold; color:#228B22;}
+  .comment     {font-style:oblique; font-weight:bold; color:#BB1212;}
+  .linenumber  {font-size:75%;    color:#888888;}
+  .string      {color:#3333CC;}
+  .char        {color:#3333CC;}
+  .number      {color:#3333CC;}
+  .predefined  {color:#3333CC;}
+</style>
+</head>
+<body>
+<h1>The Ada Program: shape_main.adb</h1>
+<pre>
+<span class="linenumber">  1</span> <span class="comment">--  shape_main.adb:  tagged records and classwide procedures</span>
+<span class="linenumber">  2</span> 
+<span class="linenumber">  3</span> <span class="key">with</span> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-09.html#32">Ada.Float_Text_IO</a>;
+<span class="linenumber">  4</span> <span class="key">use</span> Ada, <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-09.html#32">Ada.Float_Text_IO</a>;
+<span class="linenumber">  5</span> 
+<span class="linenumber">  6</span> <span class="key">procedure</span> Shape_Main <span class="key">is</span>
+<span class="linenumber">  7</span> 
+<span class="linenumber">  8</span>    <span class="key">type</span> Shape <span class="key">is</span> <span class="key">tagged</span> <span class="key">null</span> <span class="key">record</span>;
+<span class="linenumber">  9</span> 
+<span class="linenumber"> 10</span>    <span class="key">type</span> Point <span class="key">is</span> <span class="key">new</span> Shape <span class="key">with</span> <span class="key">record</span>     <span class="comment">-- Point &#60;: Shape</span>
+<span class="linenumber"> 11</span>       X, Y: <span class="predefined">Float</span>;
+<span class="linenumber"> 12</span>    <span class="key">end</span> <span class="key">record</span>;
+<span class="linenumber"> 13</span> 
+<span class="linenumber"> 14</span>    <span class="key">procedure</span> Put_Line (P: Point) <span class="key">is</span>
+<span class="linenumber"> 15</span>    <span class="key">begin</span>
+<span class="linenumber"> 16</span>       Text_IO.Put (<span class="string">'('</span>);
+<span class="linenumber"> 17</span>       Put (P.X);  Text_IO.Put (<span class="string">','</span>);  Put (P.Y);
+<span class="linenumber"> 18</span>       Text_IO.Put (<span class="string">')'</span>);  Text_IO.New_Line;
+<span class="linenumber"> 19</span>    <span class="key">end</span> Put_Line;
+<span class="linenumber"> 20</span> 
+<span class="linenumber"> 21</span>    <span class="comment">--  Procedure "Move" will work on any subclass of tagged record</span>
+<span class="linenumber"> 22</span>    <span class="comment">--  "Point".  It is automatically "inherited" by "Rectangle".</span>
+<span class="linenumber"> 23</span>    <span class="key">procedure</span> Move (P: <span class="key">in</span> <span class="key">out</span> Point<span class="predefined">'Class</span>;  DX, DY: <span class="predefined">Float</span> := <span class="number">0.0</span>) <span class="key">is</span>
+<span class="linenumber"> 24</span>    <span class="key">begin</span>
+<span class="linenumber"> 25</span>       P.X := P.X + DX;
+<span class="linenumber"> 26</span>       P.Y := P.Y + DY;
+<span class="linenumber"> 27</span>    <span class="key">end</span> Move;
+<span class="linenumber"> 28</span> 
+<span class="linenumber"> 29</span>    <span class="key">type</span> Rectangle <span class="key">is</span> <span class="key">new</span> Point <span class="key">with</span> <span class="key">record</span> <span class="comment">-- Rectangle &#60;: Point</span>
+<span class="linenumber"> 30</span>       Height, Width: <span class="predefined">Float</span>;
+<span class="linenumber"> 31</span>    <span class="key">end</span> <span class="key">record</span>;
+<span class="linenumber"> 32</span> 
+<span class="linenumber"> 33</span>    <span class="key">procedure</span> Put_Line (R: Rectangle) <span class="key">is</span>
+<span class="linenumber"> 34</span>    <span class="key">begin</span>
+<span class="linenumber"> 35</span>       Text_IO.Put (<span class="string">'('</span>);
+<span class="linenumber"> 36</span>       Put (R.X);       Text_IO.Put (<span class="string">','</span>);  Put (R.Y);
+<span class="linenumber"> 37</span>       Text_IO.Put (<span class="string">';'</span>);
+<span class="linenumber"> 38</span>       Put (R.Height);  Text_IO.Put (<span class="string">','</span>);  Put (R.Width);
+<span class="linenumber"> 39</span>       Text_IO.Put (<span class="string">')'</span>);  Text_IO.New_Line;
+<span class="linenumber"> 40</span>    <span class="key">end</span> Put_Line;
+<span class="linenumber"> 41</span> 
+<span class="linenumber"> 42</span>    P : Point     := Point' (X=&#62;<span class="number">1.2</span>, Y=&#62;<span class="number">4.5</span>);
+<span class="linenumber"> 43</span>    R : Rectangle := Rectangle ' (P <span class="key">with</span> Height=&#62;<span class="number">45.1</span>, Width=&#62;<span class="number">89.1</span>);
+<span class="linenumber"> 44</span> 
+<span class="linenumber"> 45</span> <span class="key">begin</span>
+<span class="linenumber"> 46</span>    Move (R, DX=&#62;<span class="number">3.4</span>);  <span class="comment">-- move a rectangle</span>
+<span class="linenumber"> 47</span> 
+<span class="linenumber"> 48</span>    <span class="comment">--  (statically) overloaded procedure</span>
+<span class="linenumber"> 49</span>    Put_Line (P);
+<span class="linenumber"> 50</span>    Put_Line (R);
+<span class="linenumber"> 51</span> <span class="key">end</span> Shape_Main;
+</pre>
+</body>
+</html>

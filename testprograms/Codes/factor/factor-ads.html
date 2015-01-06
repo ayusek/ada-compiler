@@ -1,0 +1,28 @@
+<html>
+<head>
+<title>The Ada Program: factor.ads</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: factor.ads</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- factor.ads:  function and types for array of factors</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>package</font></b> Factor <b><font color=#228B22>is</font></b>
+<font size=-1>  4</font> 
+<font size=-1>  5</font>    <b><font color=#228B22>subtype</font></b> GT1 <b><font color=#228B22>is</font></b> <font color=#8B008B>Integer</font> <b><font color=#228B22>range</font></b> <font color=#008B8B>2</font> .. <font color=#8B008B>Integer</font><font color=#8B008B>'Last</font>;
+<font size=-1>  6</font> 
+<font size=-1>  7</font>    <b><font color=#228B22>type</font></b> Factor_Type <b><font color=#228B22>is</font></b>
+<font size=-1>  8</font>       <b><font color=#228B22>record</font></b>
+<font size=-1>  9</font>          Prime, Exponent: <font color=#8B008B>Positive</font>;
+<font size=-1> 10</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>record</font></b>;
+<font size=-1> 11</font> 
+<font size=-1> 12</font>    <b><font color=#228B22>type</font></b> Factors_Array_Type <b><font color=#228B22>is</font></b> <b><font color=#228B22>array</font></b> (<font color=#8B008B>Positive</font> <b><font color=#228B22>range</font></b> &#60;&#62;) <b><font color=#228B22>of</font></b> Factor_Type;
+<font size=-1> 13</font>    <b><font color=#228B22>type</font></b> Factors_Array <b><font color=#228B22>is</font></b> <b><font color=#228B22>access</font></b> Factors_Array_Type;
+<font size=-1> 14</font> 
+<font size=-1> 15</font>    <b><font color=#228B22>function</font></b> Factorize (N: GT1) <b><font color=#228B22>return</font></b> Factors_Array;
+<font size=-1> 16</font> 
+<font size=-1> 17</font> <b><font color=#228B22>end</font></b> Factor;
+</pre>
+</body>
+</html>

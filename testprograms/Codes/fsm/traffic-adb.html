@@ -1,0 +1,86 @@
+<html>
+<head>
+<title>The Ada Program: traffic.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: traffic.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>; <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>procedure</font></b> Traffic <b><font color=#228B22>is</font></b>
+<font size=-1>  4</font> 
+<font size=-1>  5</font>    <b><font color=#228B22>type</font></b> Direction <b><font color=#228B22>is</font></b> (Eastbound, Westbound);
+<font size=-1>  6</font>    <b><font color=#228B22>type</font></b> Lane <b><font color=#228B22>is</font></b> (Left_Turn, Straight);
+<font size=-1>  7</font>    <b><font color=#228B22>type</font></b> Input_Type <b><font color=#228B22>is</font></b> (West_Turn, West, East_Turn, East, Time);
+<font size=-1>  8</font>    <b><font color=#228B22>package</font></b> Input_IO <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> Text_IO.Enumeration_IO (Enum=&#62;Input_Type);
+<font size=-1>  9</font>    Input_Action  : Input_Type;
+<font size=-1> 10</font> 
+<font size=-1> 11</font>    <b><font color=#228B22>type</font></b> State_Type <b><font color=#228B22>is</font></b> <b><font color=#228B22>array</font></b> (Direction, Lane) <b><font color=#228B22>of</font></b> <font color=#8B008B>Boolean</font>;
+<font size=-1> 12</font>    State : State_Type := (Direction=&#62;(Lane=&#62;<font color=#8B008B>False</font>));
+<font size=-1> 13</font> 
+<font size=-1> 14</font>    <b><font color=#228B22>procedure</font></b> Transition (I: Input_Type; S: <b><font color=#228B22>in</font></b> <b><font color=#228B22>out</font></b> State_Type) <b><font color=#228B22>is</font></b>
+<font size=-1> 15</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 16</font>       <b><font color=#228B22>case</font></b> I <b><font color=#228B22>is</font></b>
+<font size=-1> 17</font>          <b><font color=#228B22>when</font></b> West_Turn =&#62; S(WestBound, Left_Turn) := <font color=#8B008B>True</font>;
+<font size=-1> 18</font>          <b><font color=#228B22>when</font></b> West      =&#62; S(WestBound, Straight) := <font color=#8B008B>True</font>;
+<font size=-1> 19</font>          <b><font color=#228B22>when</font></b> East_Turn =&#62; S(EastBound, Left_Turn) := <font color=#8B008B>True</font>;
+<font size=-1> 20</font>          <b><font color=#228B22>when</font></b> East      =&#62; S(EastBound, Straight) := <font color=#8B008B>True</font>;
+<font size=-1> 21</font>          When Time      =&#62; <b><font color=#228B22>null</font></b>;
+<font size=-1> 22</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>case</font></b>;
+<font size=-1> 23</font>    <b><font color=#228B22>end</font></b> Transition;
+<font size=-1> 24</font> 
+<font size=-1> 25</font>    <b><font color=#228B22>procedure</font></b> Signal (S: <b><font color=#228B22>in</font></b> State_Type) <b><font color=#228B22>is</font></b>
+<font size=-1> 26</font>       East: <font color=#8B008B>Boolean</font> := S(EastBound, Left_Turn) <b><font color=#228B22>or</font></b> <b><font color=#228B22>else</font></b> S(EastBound, Straight);
+<font size=-1> 27</font>       West: <font color=#8B008B>Boolean</font> := S(WestBound, Left_Turn) <b><font color=#228B22>or</font></b> <b><font color=#228B22>else</font></b> S(WestBound, Straight);
+<font size=-1> 28</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 29</font>       <b><font color=#228B22>if</font></b> (East <b><font color=#228B22>and</font></b> <b><font color=#228B22>not</font></b> West) <b><font color=#228B22>then</font></b>
+<font size=-1> 30</font>          <b><font color=#228B22>if</font></b> (S(EastBound, Left_Turn)) <b><font color=#228B22>then</font></b>
+<font size=-1> 31</font>             Text_IO.Put_Line (<font color=#008B8B>"Eastbound green with left turn light."</font>);
+<font size=-1> 32</font>          <b><font color=#228B22>else</font></b>
+<font size=-1> 33</font>             Text_IO.Put_Line (<font color=#008B8B>"Eastbound green."</font>);
+<font size=-1> 34</font>          <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 35</font>       <b><font color=#228B22>elsif</font></b> (West <b><font color=#228B22>and</font></b> <b><font color=#228B22>not</font></b> East) <b><font color=#228B22>then</font></b>
+<font size=-1> 36</font>          <b><font color=#228B22>if</font></b> (S(WestBound, Left_Turn)) <b><font color=#228B22>then</font></b>
+<font size=-1> 37</font>             Text_IO.Put_Line (<font color=#008B8B>"Westbound green with left turn light."</font>);
+<font size=-1> 38</font>          <b><font color=#228B22>else</font></b>
+<font size=-1> 39</font>             Text_IO.Put_Line (<font color=#008B8B>"Westbound green."</font>);
+<font size=-1> 40</font>          <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 41</font>       <b><font color=#228B22>elsif</font></b> (East <b><font color=#228B22>and</font></b> West) <b><font color=#228B22>then</font></b>
+<font size=-1> 42</font>          <b><font color=#228B22>if</font></b> (S(EastBound, Left_Turn) <b><font color=#228B22>and</font></b> <b><font color=#228B22>not</font></b> S(WestBound, Left_Turn)) <b><font color=#228B22>then</font></b>
+<font size=-1> 43</font>             Text_IO.Put_Line (<font color=#008B8B>"Eastbound green with left turn light."</font>);
+<font size=-1> 44</font>             Text_IO.Put_Line (<font color=#008B8B>"Eastbound left turn off."</font>);
+<font size=-1> 45</font>             Text_IO.Put_Line (<font color=#008B8B>"Now also westbound green."</font>);
+<font size=-1> 46</font>          <b><font color=#228B22>elsif</font></b>  (S(WestBound, Left_Turn) <b><font color=#228B22>and</font></b> <b><font color=#228B22>not</font></b> S(EastBound, Left_Turn)) <b><font color=#228B22>then</font></b>
+<font size=-1> 47</font>             Text_IO.Put_Line (<font color=#008B8B>"Westbound green with left turn light."</font>);
+<font size=-1> 48</font>             Text_IO.Put_Line (<font color=#008B8B>"Westbound left turn off."</font>);
+<font size=-1> 49</font>             Text_IO.Put_Line (<font color=#008B8B>"Now also eastbound green."</font>);
+<font size=-1> 50</font>          <b><font color=#228B22>elsif</font></b>  (S(WestBound, Left_Turn) <b><font color=#228B22>and</font></b> S(EastBound, Left_Turn)) <b><font color=#228B22>then</font></b>
+<font size=-1> 51</font>             Text_IO.Put_Line (<font color=#008B8B>"Both left turn signals."</font>);
+<font size=-1> 52</font>             Text_IO.Put_Line (<font color=#008B8B>"Green both east and west bound."</font>);
+<font size=-1> 53</font>          <b><font color=#228B22>else</font></b>
+<font size=-1> 54</font>             Text_IO.Put_Line (<font color=#008B8B>"Green both east and west bound."</font>);
+<font size=-1> 55</font>          <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 56</font>       <b><font color=#228B22>else</font></b>
+<font size=-1> 57</font>          Text_IO.Put_Line (<font color=#008B8B>"Skip cycle."</font>);
+<font size=-1> 58</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 59</font>    <b><font color=#228B22>end</font></b> Signal;
+<font size=-1> 60</font> 
+<font size=-1> 61</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 62</font> 
+<font size=-1> 63</font>    Input: <b><font color=#228B22>loop</font></b>
+<font size=-1> 64</font> 
+<font size=-1> 65</font>       Text_IO.Put (<font color=#008B8B>"Enter an input action -- "</font>);
+<font size=-1> 66</font>       Input_IO.Get (Input_Action);
+<font size=-1> 67</font>       <b><font color=#228B22>exit</font></b> <b><font color=#228B22>when</font></b> Input_Action = Time;
+<font size=-1> 68</font>       Text_IO.Skip_Line;
+<font size=-1> 69</font>       Transition (Input_Action, State);
+<font size=-1> 70</font> 
+<font size=-1> 71</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b> Input;
+<font size=-1> 72</font> 
+<font size=-1> 73</font>    Signal (State);
+<font size=-1> 74</font> 
+<font size=-1> 75</font> <b><font color=#228B22>end</font></b> Traffic;
+</pre>
+</body>
+</html>

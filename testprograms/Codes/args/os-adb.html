@@ -1,0 +1,27 @@
+<html>
+<head>
+<title>The Ada Program: os.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: os.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- osa.adb:  illustrate GNAT's hooks to underlying operating system</font></i></b>
+<font size=-1>  2</font> <b><font color=#228B22>with</font></b> GNAT.OS_Lib; <b><font color=#228B22>use</font></b> GNAT;
+<font size=-1>  3</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>; <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  4</font> 
+<font size=-1>  5</font> <b><font color=#228B22>procedure</font></b> OS <b><font color=#228B22>is</font></b>
+<font size=-1>  6</font>    Long  : OS_Lib.String_Access := <b><font color=#228B22>new</font></b> <font color=#8B008B>String</font>' (<font color=#008B8B>"-l"</font>);
+<font size=-1>  7</font>    Args  : OS_Lib.Argument_List := (<font color=#008B8B>1</font>=&#62;Long);
+<font size=-1>  8</font>    Result: <font color=#8B008B>Boolean</font>;
+<font size=-1>  9</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 10</font>    <b><i><font color=#BB1212>-- standard output directed to Ada program's standard output</font></i></b>
+<font size=-1> 11</font>    OS_Lib.Spawn (<font color=#008B8B>"/bin/ls"</font>, Args, Result);
+<font size=-1> 12</font> 
+<font size=-1> 13</font>    Text_IO.Put_Line (OS_Lib.Getenv (<font color=#008B8B>"HOME"</font>).<b><font color=#228B22>all</font></b>);
+<font size=-1> 14</font> 
+<font size=-1> 15</font>    OS_Lib.OS_Exit (<font color=#008B8B>0</font>);
+<font size=-1> 16</font> <b><font color=#228B22>end</font></b> OS;
+</pre>
+</body>
+</html>

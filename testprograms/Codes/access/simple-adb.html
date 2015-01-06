@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>The Ada Program: simple.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: simple.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- simple.adb:  some simple examples of pointers</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>;
+<font size=-1>  4</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  5</font> 
+<font size=-1>  6</font> <b><font color=#228B22>procedure</font></b> Simple <b><font color=#228B22>is</font></b>
+<font size=-1>  7</font> 
+<font size=-1>  8</font>    <b><font color=#228B22>type</font></b> Integer_Pointer <b><font color=#228B22>is</font></b> <b><font color=#228B22>access</font></b> <font color=#8B008B>Integer</font>;
+<font size=-1>  9</font>    A,B: Integer_Pointer := <b><font color=#228B22>null</font></b>;
+<font size=-1> 10</font>    C: <font color=#8B008B>Integer</font>;
+<font size=-1> 11</font> 
+<font size=-1> 12</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 13</font> 
+<font size=-1> 14</font>    A := <b><font color=#228B22>new</font></b> <font color=#8B008B>Integer</font>;
+<font size=-1> 15</font>    A := <b><font color=#228B22>new</font></b> <font color=#8B008B>Integer</font>'(<font color=#008B8B>17</font>);
+<font size=-1> 16</font> 
+<font size=-1> 17</font>    B := <b><font color=#228B22>new</font></b> <font color=#8B008B>Integer</font>'(<font color=#008B8B>32</font>);
+<font size=-1> 18</font> 
+<font size=-1> 19</font>    Integer_Text_IO.Get (Item =&#62; A.<b><font color=#228B22>all</font></b>);
+<font size=-1> 20</font>    Integer_Text_IO.Put (Item =&#62; B.<b><font color=#228B22>all</font></b>);
+<font size=-1> 21</font> 
+<font size=-1> 22</font>    C := A.<b><font color=#228B22>all</font></b> + B.<b><font color=#228B22>all</font></b>;
+<font size=-1> 23</font> 
+<font size=-1> 24</font>    <b><i><font color=#BB1212>-- copy the value</font></i></b>
+<font size=-1> 25</font>    A.<b><font color=#228B22>all</font></b> := B.<b><font color=#228B22>all</font></b>;
+<font size=-1> 26</font> 
+<font size=-1> 27</font>    <b><i><font color=#BB1212>-- make an alias</font></i></b>
+<font size=-1> 28</font>    A := B;
+<font size=-1> 29</font> 
+<font size=-1> 30</font>    A.<b><font color=#228B22>all</font></b> := <font color=#008B8B>49</font>;
+<font size=-1> 31</font>    Integer_Text_IO.Put (Item =&#62; B.<b><font color=#228B22>all</font></b>);
+<font size=-1> 32</font> 
+<font size=-1> 33</font> <b><font color=#228B22>end</font></b> Simple;
+</pre>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<html>
+<head>
+<title>The Ada Program: sqrt.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: sqrt.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- This function calculates an approximation of the square root</font></i></b>
+<font size=-1>  2</font> <b><i><font color=#BB1212>-- on the input value.  It works only for nonegative values.</font></i></b>
+<font size=-1>  3</font> 
+<font size=-1>  4</font> <b><font color=#228B22>function</font></b> Sqrt (X: <b><font color=#228B22>in</font></b> <font color=#8B008B>Float</font>) <b><font color=#228B22>return</font></b> <font color=#8B008B>Float</font> <b><font color=#228B22>is</font></b>
+<font size=-1>  5</font> 
+<font size=-1>  6</font>    Tolerance : <b><font color=#228B22>constant</font></b> <font color=#8B008B>Float</font> := <font color=#008B8B>0.000001</font>;
+<font size=-1>  7</font>    Approx    : <font color=#8B008B>Float</font> := X / <font color=#008B8B>2.0</font>;
+<font size=-1>  8</font> 
+<font size=-1>  9</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 10</font> 
+<font size=-1> 11</font>    <b><i><font color=#BB1212>-- Find the square root by iterative approximation</font></i></b>
+<font size=-1> 12</font>    <b><font color=#228B22>while</font></b> <b><font color=#228B22>abs</font></b> (Approx**<font color=#008B8B>2</font> - X) &#62; Tolerance <b><font color=#228B22>loop</font></b>
+<font size=-1> 13</font>       Approx := <font color=#008B8B>0.5</font> * (Approx + X / Approx);  <b><i><font color=#BB1212>-- compute new approximation</font></i></b>
+<font size=-1> 14</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 15</font> 
+<font size=-1> 16</font>    <b><font color=#228B22>return</font></b> (Approx);
+<font size=-1> 17</font> 
+<font size=-1> 18</font> <b><font color=#228B22>end</font></b> Sqrt;
+</pre>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>The Ada Program: card_main.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<style type="text/css">
+  .key         {font-weight:bold; color:#228B22;}
+  .comment     {font-style:oblique; font-weight:bold; color:#BB1212;}
+  .linenumber  {font-size:75%;    color:#888888;}
+  .string      {color:#3333CC;}
+  .char        {color:#3333CC;}
+  .number      {color:#3333CC;}
+  .predefined  {color:#3333CC;}
+</style>
+</head>
+<body>
+<h1>The Ada Program: card_main.adb</h1>
+<pre>
+<span class="linenumber">  1</span> <span class="key">with</span> Ada, <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, Card_Package, Deck_Package;
+<span class="linenumber">  2</span> <span class="key">use</span> Ada, Deck_Package;
+<span class="linenumber">  3</span> 
+<span class="linenumber">  4</span> <span class="key">procedure</span> Card_Main <span class="key">is</span>
+<span class="linenumber">  5</span> <span class="key">begin</span>
+<span class="linenumber">  6</span>    Deck_Package.Shuffle;
+<span class="linenumber">  7</span>    <span class="key">for</span> I <span class="key">in</span> <span class="number">1</span>..<span class="number">5</span> <span class="key">loop</span>
+<span class="linenumber">  8</span>       Card_Package.Put (Deck_Package.Deck(<span class="number">3</span>*(I-<span class="number">1</span>)+<span class="number">2</span>));
+<span class="linenumber">  9</span>       Text_IO.New_Line;
+<span class="linenumber"> 10</span>    <span class="key">end</span> <span class="key">loop</span>;
+<span class="linenumber"> 11</span> <span class="key">end</span> Card_Main;
+</pre>
+</body>
+</html>

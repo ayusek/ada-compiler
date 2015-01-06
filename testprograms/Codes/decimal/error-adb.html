@@ -1,0 +1,42 @@
+<html>
+<head>
+<title>The Ada Program: error.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: error.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- error.adb: round-off error may be avoided using "decimal" type</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-09.html#32">Ada.Float_Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-F-03-03.html">Ada.Text_IO.Editing</a>;
+<font size=-1>  4</font> <b><font color=#228B22>use</font></b> Ada, <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>;
+<font size=-1>  5</font> 
+<font size=-1>  6</font> <b><i><font color=#BB1212>-- Decimal values may not be represented exactly in binary, e.g.,</font></i></b>
+<font size=-1>  7</font> <b><i><font color=#BB1212>--       0.03 = 2#0.00000111101011100001010001111010111#</font></i></b>
+<font size=-1>  8</font> 
+<font size=-1>  9</font> <b><font color=#228B22>procedure</font></b> Error <b><font color=#228B22>is</font></b>
+<font size=-1> 10</font>    Three_Hundreths: <b><font color=#228B22>constant</font></b> <font color=#8B008B>Float</font> := <font color=#008B8B>0.03</font>;
+<font size=-1> 11</font>    Total: <font color=#8B008B>Float</font> := <font color=#008B8B>0.0</font>;
+<font size=-1> 12</font> 
+<font size=-1> 13</font>    <b><font color=#228B22>type</font></b> Money <b><font color=#228B22>is</font></b> <b><font color=#228B22>delta</font></b> <font color=#008B8B>0.01</font> <b><font color=#228B22>digits</font></b> <font color=#008B8B>8</font>;   <b><i><font color=#BB1212>-- decimal fixed-point type</font></i></b>
+<font size=-1> 14</font>    <b><font color=#228B22>package</font></b> Money_IO <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> Text_IO.Editing.Decimal_Output (Num=&#62;Money);
+<font size=-1> 15</font>    Format:<b><font color=#228B22>constant</font></b> Editing.Picture:=Editing.To_Picture(<font color=#008B8B>"BB$ZZZ_ZZ9.99"</font>);
+<font size=-1> 16</font>    Three_Pennies: <b><font color=#228B22>constant</font></b> Money := <font color=#008B8B>0.03</font>;
+<font size=-1> 17</font>    Dollars: Money := <font color=#008B8B>0.0</font>;
+<font size=-1> 18</font> 
+<font size=-1> 19</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 20</font> 
+<font size=-1> 21</font>    <b><font color=#228B22>for</font></b> Count <b><font color=#228B22>in</font></b> <font color=#008B8B>1</font>..<font color=#008B8B>100_000</font> <b><font color=#228B22>loop</font></b>
+<font size=-1> 22</font>       Total   := Total + Three_Hundreths;
+<font size=-1> 23</font>       Dollars := Dollars + Three_Pennies;
+<font size=-1> 24</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 25</font> 
+<font size=-1> 26</font>    Float_Text_IO.Put (Total, Fore=&#62;<font color=#008B8B>10</font>, Aft=&#62;<font color=#008B8B>2</font>, Exp=&#62;<font color=#008B8B>0</font>);
+<font size=-1> 27</font>    Text_IO.New_Line;
+<font size=-1> 28</font>    Money_IO.Put (Dollars, Format);
+<font size=-1> 29</font>    Text_IO.New_Line;
+<font size=-1> 30</font> 
+<font size=-1> 31</font> <b><font color=#228B22>end</font></b> Error;
+</pre>
+</body>
+</html>

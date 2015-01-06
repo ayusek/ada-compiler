@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>The Ada Program: main.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<style type="text/css">
+  .key         {font-weight:bold; color:#228B22;}
+  .comment     {font-style:oblique; font-weight:bold; color:#BB1212;}
+  .linenumber  {font-size:75%;    color:#888888;}
+  .string      {color:#3333CC;}
+  .char        {color:#3333CC;}
+  .number      {color:#3333CC;}
+  .predefined  {color:#3333CC;}
+</style>
+</head>
+<body>
+<h1>The Ada Program: main.adb</h1>
+<pre>
+<span class="linenumber">  1</span> <span class="comment">--  main.adb:  pragma "Assert" in GNAT and exception information</span>
+<span class="linenumber">  2</span> 
+<span class="linenumber">  3</span> <span class="key">with</span> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, Ada.Exceptions, System.Assertions;
+<span class="linenumber">  4</span> <span class="key">use</span> Ada;
+<span class="linenumber">  5</span> 
+<span class="linenumber">  6</span> <span class="key">procedure</span> Main <span class="key">is</span>
+<span class="linenumber">  7</span> <span class="key">begin</span>
+<span class="linenumber">  8</span>    <span class="key">null</span>;
+<span class="linenumber">  9</span>    <span class="comment">--  GNAT compiler requires "-gnata"; ow, no check</span>
+<span class="linenumber"> 10</span>    <span class="key">pragma</span> Assert (<span class="predefined">False</span>, <span class="string">"Assertion is false!"</span>);
+<span class="linenumber"> 11</span> <span class="key">exception</span>
+<span class="linenumber"> 12</span>    <span class="key">when</span> E:System.Assertions.Assert_Failure =&#62;
+<span class="linenumber"> 13</span>       Text_IO.Put (<span class="string">"Name   :  "</span>);
+<span class="linenumber"> 14</span>       Text_IO.Put_Line (Exceptions.Exception_Name (E));
+<span class="linenumber"> 15</span>       Text_IO.Put (<span class="string">"Message:  "</span>);
+<span class="linenumber"> 16</span>       Text_IO.Put_Line (Exceptions.Exception_Message (E));
+<span class="linenumber"> 17</span>       Text_IO.Put (<span class="string">"Info   :  "</span>);
+<span class="linenumber"> 18</span>       Text_IO.Put_Line (Exceptions.Exception_Information (E));
+<span class="linenumber"> 19</span> <span class="key">end</span> Main;
+</pre>
+</body>
+</html>

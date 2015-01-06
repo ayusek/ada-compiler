@@ -1,0 +1,54 @@
+<html>
+<head>
+<title>The Ada Program: write_cd.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: write_cd.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- write_cd.adb:  write records to binary file</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>with</font></b> Ada, Text_IO, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-08-01.html">Ada.Sequential_IO</a>;
+<font size=-1>  4</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  5</font> 
+<font size=-1>  6</font> <b><font color=#228B22>procedure</font></b> Write_CD <b><font color=#228B22>is</font></b>
+<font size=-1>  7</font> 
+<font size=-1>  8</font>    <b><font color=#228B22>subtype</font></b> Year_Range <b><font color=#228B22>is</font></b> <font color=#8B008B>Integer</font> <b><font color=#228B22>range</font></b> <font color=#008B8B>1900</font>..<font color=#008B8B>2990</font>;
+<font size=-1>  9</font>    <b><font color=#228B22>subtype</font></b> Track_Range <b><font color=#228B22>is</font></b> <font color=#8B008B>Integer</font> <b><font color=#228B22>range</font></b> <font color=#008B8B>1</font>..<font color=#008B8B>30</font>;
+<font size=-1> 10</font>    <b><font color=#228B22>type</font></b> Disc <b><font color=#228B22>is</font></b> <b><font color=#228B22>record</font></b>
+<font size=-1> 11</font>       Title, Artist, Album: <font color=#8B008B>String</font>(<font color=#008B8B>1</font>..<font color=#008B8B>20</font>);
+<font size=-1> 12</font>       Year: Year_Range;
+<font size=-1> 13</font>       Track: Track_Range;
+<font size=-1> 14</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>record</font></b>;
+<font size=-1> 15</font> 
+<font size=-1> 16</font>    <b><font color=#228B22>package</font></b> CD_Bin_IO <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> Sequential_IO (Disc);
+<font size=-1> 17</font>    File      : CD_Bin_IO.File_Type;
+<font size=-1> 18</font>    File_Name : <b><font color=#228B22>constant</font></b> <font color=#8B008B>String</font> := <font color=#008B8B>"disk.data"</font>;
+<font size=-1> 19</font> 
+<font size=-1> 20</font>    Song_1, Song_2: Disc;
+<font size=-1> 21</font> 
+<font size=-1> 22</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 23</font> 
+<font size=-1> 24</font>    CD_Bin_IO.Create (File=&#62;File, Name=&#62;File_Name);
+<font size=-1> 25</font>    Song_1 := Disc'(
+<font size=-1> 26</font>       Album =&#62; <font color=#008B8B>"Freewheelin'        "</font>,
+<font size=-1> 27</font>       Artist=&#62; <font color=#008B8B>"Bob Dylan           "</font>,
+<font size=-1> 28</font>       Year  =&#62; <font color=#008B8B>1963</font>,
+<font size=-1> 29</font>       Title =&#62; <font color=#008B8B>"Blowin' in the Wind "</font>,
+<font size=-1> 30</font>       Track =&#62; <font color=#008B8B>1</font>);
+<font size=-1> 31</font> 
+<font size=-1> 32</font>    Song_2 := Disc'(
+<font size=-1> 33</font>       Album =&#62; <font color=#008B8B>"Highway 61 Revisited"</font>,
+<font size=-1> 34</font>       Artist=&#62; <font color=#008B8B>"Bob Dylan           "</font>,
+<font size=-1> 35</font>       Year  =&#62; <font color=#008B8B>1965</font>,
+<font size=-1> 36</font>       Title =&#62; <font color=#008B8B>"Like a Rolling Stone"</font>,
+<font size=-1> 37</font>       Track =&#62; <font color=#008B8B>1</font>);
+<font size=-1> 38</font> 
+<font size=-1> 39</font>    CD_Bin_IO.Write (File=&#62;File, Item=&#62;Song_1);
+<font size=-1> 40</font>    CD_Bin_IO.Write (File=&#62;File, Item=&#62;Song_2);
+<font size=-1> 41</font>    CD_Bin_IO.Close (File=&#62;File);
+<font size=-1> 42</font> 
+<font size=-1> 43</font> <b><font color=#228B22>end</font></b> Write_CD;
+</pre>
+</body>
+</html>

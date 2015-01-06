@@ -1,0 +1,45 @@
+<html>
+<head>
+<title>The Ada Program: cubic.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: cubic.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- cubic.adb</font></i></b>
+<font size=-1>  2</font> <b><i><font color=#BB1212>--</font></i></b>
+<font size=-1>  3</font> <b><i><font color=#BB1212>--   Program to compute the square root of a float number to 4 decimal</font></i></b>
+<font size=-1>  4</font> <b><i><font color=#BB1212>--   places using Newton's method of approximations</font></i></b>
+<font size=-1>  5</font> 
+<font size=-1>  6</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-09.html#32">Ada.Float_Text_IO</a>;
+<font size=-1>  7</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  8</font> 
+<font size=-1>  9</font> <b><font color=#228B22>procedure</font></b> Cubic <b><font color=#228B22>is</font></b>
+<font size=-1> 10</font> 
+<font size=-1> 11</font>     Num      : <font color=#8B008B>Float</font>;          <b><i><font color=#BB1212>-- the number to find the root of</font></i></b>
+<font size=-1> 12</font>     Root     : <font color=#8B008B>Float</font>;          <b><i><font color=#BB1212>-- the current approximation</font></i></b>
+<font size=-1> 13</font>     Old_Root : <font color=#8B008B>Float</font> := <font color=#008B8B>1.0</font>;   <b><i><font color=#BB1212>-- the last approximation</font></i></b>
+<font size=-1> 14</font>     Tolerance: <b><font color=#228B22>constant</font></b> <font color=#8B008B>Float</font> := <font color=#008B8B>5.0</font>E-<font color=#008B8B>5</font>;
+<font size=-1> 15</font> 
+<font size=-1> 16</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 17</font> 
+<font size=-1> 18</font>     <b><i><font color=#BB1212>-- Get the number</font></i></b>
+<font size=-1> 19</font>     Text_IO.Put_Line (<font color=#008B8B>"Enter a real number -- "</font>);
+<font size=-1> 20</font>     Float_Text_IO.Get (Num);
+<font size=-1> 21</font> 
+<font size=-1> 22</font>     <b><i><font color=#BB1212>-- Find the cube root by iterative approximation</font></i></b>
+<font size=-1> 23</font>     <b><font color=#228B22>loop</font></b>
+<font size=-1> 24</font>         Root := Old_Root + (Num/Root**<font color=#008B8B>2</font> - Root)/<font color=#008B8B>3.0</font>;  <b><i><font color=#BB1212>-- compute new approx</font></i></b>
+<font size=-1> 25</font>         <b><font color=#228B22>exit</font></b> <b><font color=#228B22>when</font></b> <b><font color=#228B22>abs</font></b> (Root-Old_Root) &#60; Tolerance;    <b><i><font color=#BB1212>-- exit when close</font></i></b>
+<font size=-1> 26</font>         Old_Root := Root;
+<font size=-1> 27</font>     <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 28</font> 
+<font size=-1> 29</font>     <b><i><font color=#BB1212>-- Print out the Root</font></i></b>
+<font size=-1> 30</font>     Text_IO.Put (<font color=#008B8B>"The cube root is "</font>);
+<font size=-1> 31</font>     Float_Text_IO.Put (Root, <font color=#008B8B>7</font>, <font color=#008B8B>4</font>, <font color=#008B8B>0</font>);
+<font size=-1> 32</font>     Text_IO.New_Line;
+<font size=-1> 33</font> 
+<font size=-1> 34</font> <b><font color=#228B22>end</font></b> Cubic;
+</pre>
+</body>
+</html>

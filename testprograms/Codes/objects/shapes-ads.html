@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>The Ada Program: shapes.ads</title>
+<!-- Automatically created by 'sgml2html'. -->
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<style type="text/css">
+  .key         {font-weight:bold; color:#228B22;}
+  .comment     {font-style:oblique; font-weight:bold; color:#BB1212;}
+  .linenumber  {font-size:75%;    color:#888888;}
+  .string      {color:#3333CC;}
+  .char        {color:#3333CC;}
+  .number      {color:#3333CC;}
+  .predefined  {color:#3333CC;}
+</style>
+</head>
+<body>
+<h1>The Ada Program: shapes.ads</h1>
+<pre>
+<span class="linenumber">  1</span> <span class="comment">--  shapes.ads: extent "Object" to point, circle, rectangle</span>
+<span class="linenumber">  2</span> 
+<span class="linenumber">  3</span> <span class="key">with</span> Objects; <span class="key">use</span> Objects;
+<span class="linenumber">  4</span> 
+<span class="linenumber">  5</span> <span class="key">package</span> Shapes <span class="key">is</span>
+<span class="linenumber">  6</span> 
+<span class="linenumber">  7</span>    <span class="key">type</span> Point <span class="key">is</span> <span class="key">new</span> Object <span class="key">with</span> <span class="key">null</span> <span class="key">record</span>;
+<span class="linenumber">  8</span> 
+<span class="linenumber">  9</span>    <span class="key">type</span> Circle <span class="key">is</span> <span class="key">new</span> Object <span class="key">with</span> <span class="key">record</span>
+<span class="linenumber"> 10</span>       Radius: <span class="predefined">Float</span>;
+<span class="linenumber"> 11</span>    <span class="key">end</span> <span class="key">record</span>;
+<span class="linenumber"> 12</span> 
+<span class="linenumber"> 13</span>    <span class="key">type</span> Rectangle <span class="key">is</span> <span class="key">new</span> Object <span class="key">with</span> <span class="key">record</span>
+<span class="linenumber"> 14</span>       Opposite_Corner:  Object;
+<span class="linenumber"> 15</span>    <span class="key">end</span> <span class="key">record</span>;
+<span class="linenumber"> 16</span> 
+<span class="linenumber"> 17</span>    <span class="key">function</span> Area (C: Circle) <span class="key">return</span> <span class="predefined">Float</span>;
+<span class="linenumber"> 18</span>    <span class="key">function</span> Area (R: Rectangle) <span class="key">return</span> <span class="predefined">Float</span>;
+<span class="linenumber"> 19</span>    <span class="key">function</span> Circumference (C: Circle) <span class="key">return</span> <span class="predefined">Float</span>;
+<span class="linenumber"> 20</span> 
+<span class="linenumber"> 21</span> <span class="key">end</span> Shapes;
+</pre>
+</body>
+</html>

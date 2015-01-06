@@ -1,0 +1,43 @@
+<html>
+<head>
+<title>The Ada Program: trapezoid.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: trapezoid.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-09.html#32">Ada.Float_Text_IO</a>;
+<font size=-1>  2</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  3</font> 
+<font size=-1>  4</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-05-01.html">Ada.Numerics.Elementary_Functions</a>;
+<font size=-1>  5</font> <b><font color=#228B22>use</font></b>  <a href="http://www.adahome.com/rm95/rm9x-A-05-01.html">Ada.Numerics.Elementary_Functions</a>;
+<font size=-1>  6</font> 
+<font size=-1>  7</font> <b><font color=#228B22>procedure</font></b> Trapezoid <b><font color=#228B22>is</font></b>
+<font size=-1>  8</font> 
+<font size=-1>  9</font>    <b><font color=#228B22>function</font></b> F (X: <font color=#8B008B>Float</font>) <b><font color=#228B22>return</font></b> <font color=#8B008B>Float</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 10</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 11</font>        <b><font color=#228B22>return</font></b> (Sin (X));
+<font size=-1> 12</font>    <b><font color=#228B22>end</font></b> F;
+<font size=-1> 13</font> 
+<font size=-1> 14</font>    <b><font color=#228B22>function</font></b> Integrate (Lower, Upper: <font color=#8B008B>Float</font>; N: <font color=#8B008B>Integer</font>) <b><font color=#228B22>return</font></b> <font color=#8B008B>Float</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 15</font>       DX : <b><font color=#228B22>constant</font></b> <font color=#8B008B>Float</font> := (Upper-Lower)/<font color=#8B008B>Float</font>(N);
+<font size=-1> 16</font>       Sum, XI : <font color=#8B008B>Float</font>;
+<font size=-1> 17</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 18</font>       Sum := F (Lower);
+<font size=-1> 19</font>       <b><font color=#228B22>for</font></b> I <b><font color=#228B22>in</font></b> <font color=#008B8B>1</font> .. N-<font color=#008B8B>1</font> <b><font color=#228B22>loop</font></b>
+<font size=-1> 20</font>          XI := <font color=#8B008B>Float</font>(I) * DX;
+<font size=-1> 21</font>          Sum := Sum + <font color=#008B8B>2.0</font>*F(XI);
+<font size=-1> 22</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 23</font>       Sum := Sum + F (Upper);
+<font size=-1> 24</font>       <b><font color=#228B22>return</font></b> (DX/<font color=#008B8B>2.0</font> * Sum);
+<font size=-1> 25</font>    <b><font color=#228B22>end</font></b> Integrate;
+<font size=-1> 26</font> 
+<font size=-1> 27</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 28</font> 
+<font size=-1> 29</font>    Float_Text_IO.Put (Integrate (<font color=#008B8B>0.0</font>, <font color=#008B8B>1.0</font>, <font color=#008B8B>100</font>));
+<font size=-1> 30</font>    Text_IO.New_Line;
+<font size=-1> 31</font> 
+<font size=-1> 32</font> <b><font color=#228B22>end</font></b> Trapezoid;
+</pre>
+</body>
+</html>

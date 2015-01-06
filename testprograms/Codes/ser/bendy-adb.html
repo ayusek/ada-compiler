@@ -1,0 +1,91 @@
+<html>
+<head>
+<title>The Ada Program: bendy.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: bendy.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>;
+<font size=-1>  2</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  3</font> 
+<font size=-1>  4</font> <b><font color=#228B22>procedure</font></b> Bendy <b><font color=#228B22>is</font></b>
+<font size=-1>  5</font> 
+<font size=-1>  6</font>    Length, N : <font color=#8B008B>Natural</font>;
+<font size=-1>  7</font>    <b><font color=#228B22>type</font></b> Vector <b><font color=#228B22>is</font></b> <b><font color=#228B22>record</font></b> X,Y: <font color=#8B008B>Integer</font>; <b><font color=#228B22>end</font></b> <b><font color=#228B22>record</font></b>;
+<font size=-1>  8</font>    <b><font color=#228B22>type</font></b> JT <b><font color=#228B22>is</font></b> <b><font color=#228B22>array</font></b> (<font color=#8B008B>Positive</font> <b><font color=#228B22>range</font></b> &#60;&#62;) <b><font color=#228B22>of</font></b> <font color=#8B008B>Positive</font>;
+<font size=-1>  9</font>    Joints : JT (<font color=#008B8B>1</font>..<font color=#008B8B>20</font>);
+<font size=-1> 10</font>    <b><font color=#228B22>type</font></b> Dir <b><font color=#228B22>is</font></b> <b><font color=#228B22>mod</font></b> <font color=#008B8B>4</font>;
+<font size=-1> 11</font>    North: <b><font color=#228B22>constant</font></b> Dir := <font color=#008B8B>0</font>;
+<font size=-1> 12</font> 
+<font size=-1> 13</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"*"</font> (Left: Dir; Right: <font color=#8B008B>Integer</font>) <b><font color=#228B22>return</font></b> Vector <b><font color=#228B22>is</font></b>
+<font size=-1> 14</font>       V: Vector := (X=&#62;<font color=#008B8B>0</font>, Y=&#62;<font color=#008B8B>0</font>);
+<font size=-1> 15</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 16</font>       <b><font color=#228B22>case</font></b> Left <b><font color=#228B22>is</font></b>
+<font size=-1> 17</font>          <b><font color=#228B22>when</font></b> <font color=#008B8B>0</font> =&#62; V.Y :=  Right;
+<font size=-1> 18</font>          <b><font color=#228B22>when</font></b> <font color=#008B8B>1</font> =&#62; V.X :=  Right;
+<font size=-1> 19</font>          <b><font color=#228B22>when</font></b> <font color=#008B8B>2</font> =&#62; V.Y := -Right;
+<font size=-1> 20</font>          <b><font color=#228B22>when</font></b> <font color=#008B8B>3</font> =&#62; V.X := -Right;
+<font size=-1> 21</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>case</font></b>;
+<font size=-1> 22</font>       <b><font color=#228B22>return</font></b> (V);
+<font size=-1> 23</font>    <b><font color=#228B22>end</font></b>;
+<font size=-1> 24</font> 
+<font size=-1> 25</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"+"</font> (Left, Right: Vector) <b><font color=#228B22>return</font></b> Vector <b><font color=#228B22>is</font></b>
+<font size=-1> 26</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 27</font>       <b><font color=#228B22>return</font></b> Vector'(X=&#62;Right.X+Left.X, Y=&#62;Right.Y+Left.Y);
+<font size=-1> 28</font>    <b><font color=#228B22>end</font></b>;
+<font size=-1> 29</font> 
+<font size=-1> 30</font>    <b><i><font color=#BB1212>-- Given the diameter is 5 inches; using units of tenths of inches</font></i></b>
+<font size=-1> 31</font>    Radius_Squared: <b><font color=#228B22>constant</font></b> <font color=#8B008B>Integer</font> := (<font color=#008B8B>50</font>/<font color=#008B8B>2</font>)**<font color=#008B8B>2</font>;
+<font size=-1> 32</font> 
+<font size=-1> 33</font>    <b><font color=#228B22>function</font></b> InDisk (V: Vector) <b><font color=#228B22>return</font></b> <font color=#8B008B>Boolean</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 34</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 35</font>       <b><font color=#228B22>return</font></b> (V.X*V.X+V.Y*V.Y &#60;= Radius_Squared);
+<font size=-1> 36</font>    <b><font color=#228B22>end</font></b> InDisk;
+<font size=-1> 37</font> 
+<font size=-1> 38</font>    <b><font color=#228B22>function</font></b> Fits (J: JT; L: <font color=#8B008B>Integer</font>; V:Vector; D: Dir) <b><font color=#228B22>return</font></b> <font color=#8B008B>Boolean</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 39</font>       V1: Vector;
+<font size=-1> 40</font>       I1,L1: <font color=#8B008B>Integer</font>;
+<font size=-1> 41</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 42</font>       <b><font color=#228B22>if</font></b> (J<font color=#8B008B>'Length</font>&#60;=<font color=#008B8B>0</font>) <b><font color=#228B22>then</font></b>
+<font size=-1> 43</font>          <b><i><font color=#BB1212>-- Remainder of straw must fit in disk</font></i></b>
+<font size=-1> 44</font>          <b><font color=#228B22>return</font></b> InDisk (V + D*(Length-L));   <b><i><font color=#BB1212>-- "Length" global!</font></i></b>
+<font size=-1> 45</font>       <b><font color=#228B22>else</font></b>
+<font size=-1> 46</font>          L1   := J(J<font color=#8B008B>'First</font>+<font color=#008B8B>1</font>);  <b><i><font color=#BB1212>-- length from the beginning</font></i></b>
+<font size=-1> 47</font>          I1   := L1-L;          <b><i><font color=#BB1212>-- length from last joint</font></i></b>
+<font size=-1> 48</font>          V1   := V + D*I1;      <b><i><font color=#BB1212>-- location of this joint</font></i></b>
+<font size=-1> 49</font>          <b><font color=#228B22>if</font></b> (<b><font color=#228B22>not</font></b> InDisk (V1)) <b><font color=#228B22>then</font></b> <b><font color=#228B22>return</font></b> <font color=#8B008B>False</font>; <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 50</font>          <b><font color=#228B22>case</font></b> J(J<font color=#8B008B>'First</font>) <b><font color=#228B22>is</font></b>
+<font size=-1> 51</font>             <b><font color=#228B22>when</font></b> <font color=#008B8B>1</font> =&#62; <b><font color=#228B22>return</font></b>
+<font size=-1> 52</font>                Fits (J(J<font color=#8B008B>'First</font>+<font color=#008B8B>2</font>..J<font color=#8B008B>'Last</font>), L+I1, V1, D) <b><font color=#228B22>or</font></b> <b><font color=#228B22>else</font></b>
+<font size=-1> 53</font>                Fits (J(J<font color=#8B008B>'First</font>+<font color=#008B8B>2</font>..J<font color=#8B008B>'Last</font>), L+I1, V1, D-<font color=#008B8B>1</font>);  <b><i><font color=#BB1212>-- left turn</font></i></b>
+<font size=-1> 54</font>             <b><font color=#228B22>when</font></b> <font color=#008B8B>2</font> =&#62; <b><font color=#228B22>return</font></b>
+<font size=-1> 55</font>                Fits (J(J<font color=#8B008B>'First</font>+<font color=#008B8B>2</font>..J<font color=#8B008B>'Last</font>), L+I1, V1, D) <b><font color=#228B22>or</font></b> <b><font color=#228B22>else</font></b>
+<font size=-1> 56</font>                Fits (J(J<font color=#8B008B>'First</font>+<font color=#008B8B>2</font>..J<font color=#8B008B>'Last</font>), L+I1, V1, D+<font color=#008B8B>1</font>);  <b><i><font color=#BB1212>-- right turn</font></i></b>
+<font size=-1> 57</font>             <b><font color=#228B22>when</font></b> <b><font color=#228B22>others</font></b> =&#62; <b><font color=#228B22>return</font></b>
+<font size=-1> 58</font>                Fits (J(J<font color=#8B008B>'First</font>+<font color=#008B8B>2</font>..J<font color=#8B008B>'Last</font>), L+I1, V1, D) <b><font color=#228B22>or</font></b> <b><font color=#228B22>else</font></b>
+<font size=-1> 59</font>                Fits (J(J<font color=#8B008B>'First</font>+<font color=#008B8B>2</font>..J<font color=#8B008B>'Last</font>), L+I1, V1, D-<font color=#008B8B>1</font>) <b><font color=#228B22>or</font></b> <b><font color=#228B22>else</font></b>
+<font size=-1> 60</font>                Fits (J(J<font color=#8B008B>'First</font>+<font color=#008B8B>2</font>..J<font color=#8B008B>'Last</font>), L+I1, V1, D+<font color=#008B8B>1</font>);
+<font size=-1> 61</font>          <b><font color=#228B22>end</font></b> <b><font color=#228B22>case</font></b>;
+<font size=-1> 62</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 63</font>    <b><font color=#228B22>end</font></b> Fits;
+<font size=-1> 64</font> 
+<font size=-1> 65</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 66</font>    Input: <b><font color=#228B22>loop</font></b>
+<font size=-1> 67</font>       Integer_Text_IO.Get (Length);
+<font size=-1> 68</font>       <b><font color=#228B22>exit</font></b> <b><font color=#228B22>when</font></b> Length&#60;=<font color=#008B8B>0</font>;
+<font size=-1> 69</font>       Integer_Text_IO.Get (N);
+<font size=-1> 70</font>       <b><font color=#228B22>for</font></b> I <b><font color=#228B22>in</font></b> <font color=#008B8B>1</font>..N <b><font color=#228B22>loop</font></b>
+<font size=-1> 71</font>          Integer_Text_IO.Get (Joints(<font color=#008B8B>2</font>*(I-<font color=#008B8B>1</font>)+<font color=#008B8B>1</font>));  <b><i><font color=#BB1212>-- type of joint</font></i></b>
+<font size=-1> 72</font>          Integer_Text_IO.Get (Joints(<font color=#008B8B>2</font>*I));        <b><i><font color=#BB1212>-- length; in tenths</font></i></b>
+<font size=-1> 73</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 74</font>       <b><font color=#228B22>if</font></b> (Fits (Joints (<font color=#008B8B>1</font>..<font color=#008B8B>2</font>*N), <font color=#008B8B>0</font>, Vector'(<font color=#008B8B>0</font>,-<font color=#008B8B>25</font>), North)) <b><font color=#228B22>then</font></b>
+<font size=-1> 75</font>          Text_IO.Put_Line (<font color=#008B8B>"YES"</font>);
+<font size=-1> 76</font>       <b><font color=#228B22>else</font></b>
+<font size=-1> 77</font>          Text_IO.Put_Line (<font color=#008B8B>"NO"</font>);
+<font size=-1> 78</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 79</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b> Input;
+<font size=-1> 80</font> <b><font color=#228B22>end</font></b>;
+</pre>
+</body>
+</html>

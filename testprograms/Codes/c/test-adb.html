@@ -1,0 +1,41 @@
+<html>
+<head>
+<title>The Ada Program: test.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: test.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-B-03.html">Interfaces.C</a>; <b><font color=#228B22>use</font></b> Interfaces;
+<font size=-1>  2</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>;  <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  3</font> 
+<font size=-1>  4</font> <b><font color=#228B22>procedure</font></b> Test <b><font color=#228B22>is</font></b>
+<font size=-1>  5</font> 
+<font size=-1>  6</font>    <b><font color=#228B22>use</font></b> <b><font color=#228B22>type</font></b> C.char_array;
+<font size=-1>  7</font>    <b><i><font color=#BB1212>-- Call &#60;string.h&#62;strcpy:</font></i></b>
+<font size=-1>  8</font>    <b><i><font color=#BB1212>-- C definition of strcpy:  char *strcpy(char *s1, const char *s2);</font></i></b>
+<font size=-1>  9</font>    <b><i><font color=#BB1212>--    This function copies the string pointed to by s2 (including the terminating null character)</font></i></b>
+<font size=-1> 10</font>    <b><i><font color=#BB1212>--     into the array pointed to by s1.  If copying takes place between objects that overlap,</font></i></b>
+<font size=-1> 11</font>    <b><i><font color=#BB1212>--     the behavior is undefined.  The strcpy function returns the valueof s1.</font></i></b>
+<font size=-1> 12</font> 
+<font size=-1> 13</font>    <b><i><font color=#BB1212>-- Note: since the C function's return value is of no interest, the Ada interface is a procedure</font></i></b>
+<font size=-1> 14</font>    <b><font color=#228B22>procedure</font></b> Strcpy (Target : <b><font color=#228B22>out</font></b> C.char_array;
+<font size=-1> 15</font>                      Source : <b><font color=#228B22>in</font></b>  C.char_array);
+<font size=-1> 16</font> 
+<font size=-1> 17</font>    <b><i><font color=#BB1212>-- "strcpy" is found in libgnat.o which is linked in automatically</font></i></b>
+<font size=-1> 18</font>    <b><font color=#228B22>pragma</font></b> Import (C, Strcpy, <font color=#008B8B>"strcpy"</font>);
+<font size=-1> 19</font> 
+<font size=-1> 20</font>    Chars1 :  C.char_array(<font color=#008B8B>1</font>..<font color=#008B8B>20</font>);
+<font size=-1> 21</font>    Chars2 :  C.char_array(<font color=#008B8B>1</font>..<font color=#008B8B>20</font>);
+<font size=-1> 22</font> 
+<font size=-1> 23</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 24</font>    Chars2(<font color=#008B8B>1</font>..<font color=#008B8B>6</font>) := <font color=#008B8B>"qwert"</font> &#38; C.nul;
+<font size=-1> 25</font>    Strcpy(Chars1, Chars2);
+<font size=-1> 26</font>    <b><i><font color=#BB1212>-- Now Chars1(1..6) = "qwert" &#38; C.Nul</font></i></b>
+<font size=-1> 27</font> 
+<font size=-1> 28</font>    Text_IO.Put_Line (C.To_Ada(Chars1) &#38; <font color=#008B8B>"&#60;&#60;EOS&#62;&#62;"</font>);
+<font size=-1> 29</font> 
+<font size=-1> 30</font> <b><font color=#228B22>end</font></b> Test;
+</pre>
+</body>
+</html>

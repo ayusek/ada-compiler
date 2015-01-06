@@ -1,0 +1,24 @@
+<html>
+<head>
+<title>The Ada Program: transactions-deposits.ads</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: transactions-deposits.ads</h1>
+<pre>
+<font size=-1>  1</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-04-05.html">Ada.Strings.Unbounded</a>;
+<font size=-1>  2</font> <b><font color=#228B22>use</font></b> Ada.Strings;
+<font size=-1>  3</font> 
+<font size=-1>  4</font> <b><font color=#228B22>package</font></b> Transactions.Deposits <b><font color=#228B22>is</font></b>
+<font size=-1>  5</font> 
+<font size=-1>  6</font>    <b><font color=#228B22>type</font></b> Deposit_Type <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> Transaction_Type <b><font color=#228B22>with</font></b>
+<font size=-1>  7</font>       <b><font color=#228B22>record</font></b>
+<font size=-1>  8</font>          Branch_Part: Unbounded.Unbounded_String;
+<font size=-1>  9</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>record</font></b>;
+<font size=-1> 10</font> 
+<font size=-1> 11</font>    <b><font color=#228B22>procedure</font></b> Put (Item: <b><font color=#228B22>in</font></b> Deposit_Type);
+<font size=-1> 12</font> 
+<font size=-1> 13</font> <b><font color=#228B22>end</font></b> Transactions.Deposits;
+</pre>
+</body>
+</html>

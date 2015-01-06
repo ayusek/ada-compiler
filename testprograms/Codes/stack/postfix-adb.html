@@ -1,0 +1,114 @@
+<html>
+<head>
+<title>The Ada Program: postfix.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: postfix.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- postfix.adb: read postfix expressions, evaluate and print result</font></i></b>
+<font size=-1>  2</font> <b><i><font color=#BB1212>-- NB.  All operands are single digits.</font></i></b>
+<font size=-1>  3</font> 
+<font size=-1>  4</font> <b><font color=#228B22>with</font></b> Unbounded_Stack, <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>;
+<font size=-1>  5</font> <b><font color=#228B22>use</font></b> Ada, <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>;
+<font size=-1>  6</font> 
+<font size=-1>  7</font> <b><font color=#228B22>procedure</font></b> Postfix <b><font color=#228B22>is</font></b>
+<font size=-1>  8</font> 
+<font size=-1>  9</font>    EOL: <b><font color=#228B22>constant</font></b> <font color=#8B008B>Character</font> := <font color=#008B8B>' '</font>;
+<font size=-1> 10</font> 
+<font size=-1> 11</font>    <b><font color=#228B22>procedure</font></b> Get_Char (C: <b><font color=#228B22>out</font></b> <font color=#8B008B>Character</font>) <b><font color=#228B22>is</font></b>
+<font size=-1> 12</font>       Value: <font color=#8B008B>Character</font> := EOL;
+<font size=-1> 13</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 14</font>       Blank_Loop: <b><font color=#228B22>while</font></b> <b><font color=#228B22>not</font></b> End_Of_Line <b><font color=#228B22>loop</font></b>
+<font size=-1> 15</font>          Get (Value);
+<font size=-1> 16</font>          <b><font color=#228B22>exit</font></b> Blank_Loop <b><font color=#228B22>when</font></b> Value /= <font color=#008B8B>' '</font>;
+<font size=-1> 17</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b> Blank_Loop;
+<font size=-1> 18</font>       C := Value;
+<font size=-1> 19</font>    <b><font color=#228B22>end</font></b> Get_Char;
+<font size=-1> 20</font> 
+<font size=-1> 21</font>    <b><font color=#228B22>subtype</font></b> Digit <b><font color=#228B22>is</font></b> <font color=#8B008B>Character</font> <b><font color=#228B22>range</font></b> <font color=#008B8B>'0'</font> .. <font color=#008B8B>'9'</font>;
+<font size=-1> 22</font> 
+<font size=-1> 23</font>    <b><font color=#228B22>function</font></b> To_Integer (Item: Digit) <b><font color=#228B22>return</font></b> <font color=#8B008B>Integer</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 24</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 25</font>       <b><font color=#228B22>return</font></b> (Digit<font color=#8B008B>'Pos</font>(Item) - Digit<font color=#8B008B>'Pos</font>(<font color=#008B8B>'0'</font>));
+<font size=-1> 26</font>    <b><font color=#228B22>end</font></b> To_Integer;
+<font size=-1> 27</font> 
+<font size=-1> 28</font>    Bad_Operator : <b><font color=#228B22>exception</font></b>;  <b><i><font color=#BB1212>-- Raised when invalid operator is found</font></i></b>
+<font size=-1> 29</font> 
+<font size=-1> 30</font>    <b><font color=#228B22>function</font></b> Evaluate (Left:<font color=#8B008B>Integer</font>; Operator:<font color=#8B008B>Character</font>; Right:<font color=#8B008B>Integer</font>)
+<font size=-1> 31</font>                                                       <b><font color=#228B22>return</font></b> <font color=#8B008B>Integer</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 32</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 33</font>       <b><font color=#228B22>case</font></b> Operator <b><font color=#228B22>is</font></b>
+<font size=-1> 34</font>          <b><font color=#228B22>when</font></b> <font color=#008B8B>'+'</font> =&#62; <b><font color=#228B22>return</font></b> (Left + Right);
+<font size=-1> 35</font>          <b><font color=#228B22>when</font></b> <font color=#008B8B>'-'</font> =&#62; <b><font color=#228B22>return</font></b> (Left - Right);
+<font size=-1> 36</font>          <b><font color=#228B22>when</font></b> <font color=#008B8B>'*'</font> =&#62; <b><font color=#228B22>return</font></b> (Left * Right);
+<font size=-1> 37</font>          <b><font color=#228B22>when</font></b> <font color=#008B8B>'/'</font> =&#62; <b><font color=#228B22>return</font></b> (Left / Right);
+<font size=-1> 38</font>          <b><font color=#228B22>when</font></b> <b><font color=#228B22>others</font></b> =&#62; <b><font color=#228B22>raise</font></b> Bad_Operator;
+<font size=-1> 39</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>case</font></b>;
+<font size=-1> 40</font>    <b><font color=#228B22>end</font></b> Evaluate;
+<font size=-1> 41</font> 
+<font size=-1> 42</font>    <b><font color=#228B22>package</font></b> Integer_Stack <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> Unbounded_Stack (Element_Type=&#62;<font color=#8B008B>Integer</font>);
+<font size=-1> 43</font>    Stack : Integer_Stack.Stack_Type;   <b><i><font color=#BB1212>-- stack for intermediate results</font></i></b>
+<font size=-1> 44</font> 
+<font size=-1> 45</font>    <b><font color=#228B22>procedure</font></b> Evaluate (Operator: <font color=#8B008B>Character</font>) <b><font color=#228B22>is</font></b>
+<font size=-1> 46</font>       Left, Right : <font color=#8B008B>Integer</font>;   <b><i><font color=#BB1212>-- First and second operands</font></i></b>
+<font size=-1> 47</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 48</font>       Integer_Stack.Pop (Stack, Right);
+<font size=-1> 49</font>       Integer_Stack.Pop (Stack, Left);
+<font size=-1> 50</font>       Integer_Stack.Push (Stack, Evaluate (Left, Operator, Right));
+<font size=-1> 51</font>    <b><font color=#228B22>end</font></b> Evaluate;
+<font size=-1> 52</font> 
+<font size=-1> 53</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 54</font> 
+<font size=-1> 55</font>    Input:  <b><font color=#228B22>loop</font></b>
+<font size=-1> 56</font> 
+<font size=-1> 57</font>       Put (<font color=#008B8B>"Enter a postfix expression on one line;"</font>);
+<font size=-1> 58</font>       Put_Line (<font color=#008B8B>" 'x' or 'q' to exit."</font>);
+<font size=-1> 59</font>       Integer_Stack.Clear (Stack);
+<font size=-1> 60</font> 
+<font size=-1> 61</font>       Process_Line: <b><font color=#228B22>declare</font></b>
+<font size=-1> 62</font>          C : <font color=#8B008B>Character</font>; <b><i><font color=#BB1212>-- A digit, blank, or operator from input line</font></i></b>
+<font size=-1> 63</font>          R : <font color=#8B008B>Integer</font>;   <b><i><font color=#BB1212>-- Result of evaluating an expression</font></i></b>
+<font size=-1> 64</font>       <b><font color=#228B22>begin</font></b>
+<font size=-1> 65</font> 
+<font size=-1> 66</font>          Evaluate_Loop: <b><font color=#228B22>loop</font></b>
+<font size=-1> 67</font>             Get_Char (C);  <b><i><font color=#BB1212>-- get next character from input (if any)</font></i></b>
+<font size=-1> 68</font>             <b><font color=#228B22>case</font></b> C <b><font color=#228B22>is</font></b>
+<font size=-1> 69</font>                <b><font color=#228B22>when</font></b> <font color=#008B8B>'x'</font> | <font color=#008B8B>'q'</font>=&#62; <b><font color=#228B22>exit</font></b> Input;
+<font size=-1> 70</font>                <b><font color=#228B22>when</font></b> EOL      =&#62; <b><font color=#228B22>exit</font></b> Evaluate_Loop;
+<font size=-1> 71</font>                <b><font color=#228B22>when</font></b> Digit    =&#62; Integer_Stack.Push(Stack,To_Integer(C));
+<font size=-1> 72</font>                <b><font color=#228B22>when</font></b> <font color=#008B8B>'+'</font>|<font color=#008B8B>'-'</font>|<font color=#008B8B>'*'</font>|<font color=#008B8B>'/'</font> =&#62; Evaluate (C);
+<font size=-1> 73</font>                <b><font color=#228B22>when</font></b> <b><font color=#228B22>others</font></b>   =&#62; <b><font color=#228B22>raise</font></b> Bad_Operator;
+<font size=-1> 74</font>             <b><font color=#228B22>end</font></b> <b><font color=#228B22>case</font></b>;
+<font size=-1> 75</font>          <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b> Evaluate_Loop;
+<font size=-1> 76</font> 
+<font size=-1> 77</font>          Integer_Stack.Pop (Stack =&#62; Stack, Top_Element =&#62; R);
+<font size=-1> 78</font>          <b><font color=#228B22>if</font></b> Integer_Stack.Empty (Stack) <b><font color=#228B22>then</font></b>
+<font size=-1> 79</font>             Put (<font color=#008B8B>"The result is "</font>);
+<font size=-1> 80</font>             Put (R, Width=&#62;<font color=#008B8B>2</font>);
+<font size=-1> 81</font>             New_Line (<font color=#008B8B>2</font>);
+<font size=-1> 82</font>          <b><font color=#228B22>else</font></b>
+<font size=-1> 83</font>             Put_Line (<font color=#008B8B>"Invalid postfix expression"</font> &#38;
+<font size=-1> 84</font>                       <font color=#008B8B>" (operands still on the stack)."</font>);
+<font size=-1> 85</font>          <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 86</font> 
+<font size=-1> 87</font>       <b><font color=#228B22>exception</font></b>
+<font size=-1> 88</font>          <b><font color=#228B22>when</font></b> Integer_Stack.Underflow =&#62;
+<font size=-1> 89</font>             Put_Line (<font color=#008B8B>"Invalid postfix expression"</font> &#38;
+<font size=-1> 90</font>                       <font color=#008B8B>" (not enough operands)."</font>);
+<font size=-1> 91</font>          <b><font color=#228B22>when</font></b> Integer_Stack.Overflow =&#62;
+<font size=-1> 92</font>             Put_Line (<font color=#008B8B>"Too many operands for this program's stack."</font>);
+<font size=-1> 93</font>          <b><font color=#228B22>when</font></b> Bad_Operator =&#62;
+<font size=-1> 94</font>             Put_Line (<font color=#008B8B>"Expression contains an invalid character."</font>);
+<font size=-1> 95</font>          <b><font color=#228B22>when</font></b> Constraint_Error =&#62;
+<font size=-1> 96</font>             Put_Line (<font color=#008B8B>"An intermediate result is too large."</font>);
+<font size=-1> 97</font>       <b><font color=#228B22>end</font></b> Process_Line;
+<font size=-1> 98</font> 
+<font size=-1> 99</font>       Skip_Line;     <b><i><font color=#BB1212>-- consume this line; get ready for next</font></i></b>
+<font size=-1>100</font> 
+<font size=-1>101</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b> Input;
+<font size=-1>102</font> 
+<font size=-1>103</font> <b><font color=#228B22>end</font></b> Postfix;
+</pre>
+</body>
+</html>

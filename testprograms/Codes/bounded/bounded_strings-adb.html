@@ -1,0 +1,178 @@
+<html>
+<head>
+<title>The Ada Program: bounded_strings.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: bounded_strings.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- bounded_strings.adb: generic package implementing bounded-length strings</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>package</font></b> <b><font color=#228B22>body</font></b> Bounded_Strings <b><font color=#228B22>is</font></b>
+<font size=-1>  4</font> 
+<font size=-1>  5</font>    <b><font color=#228B22>function</font></b> Length (Source : <b><font color=#228B22>in</font></b> Bounded_String) <b><font color=#228B22>return</font></b> <font color=#8B008B>Natural</font> <b><font color=#228B22>is</font></b>
+<font size=-1>  6</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1>  7</font>       <b><font color=#228B22>return</font></b> Source.Length;
+<font size=-1>  8</font>    <b><font color=#228B22>end</font></b> Length;
+<font size=-1>  9</font> 
+<font size=-1> 10</font>    <b><font color=#228B22>function</font></b> Element (Source : <b><font color=#228B22>in</font></b> Bounded_String;
+<font size=-1> 11</font>                      Index  : <b><font color=#228B22>in</font></b> <font color=#8B008B>Positive</font>) <b><font color=#228B22>return</font></b> <font color=#8B008B>Character</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 12</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 13</font>       <b><font color=#228B22>return</font></b> Source.Data(Index);
+<font size=-1> 14</font>    <b><font color=#228B22>end</font></b> Element;
+<font size=-1> 15</font> 
+<font size=-1> 16</font>    <b><i><font color=#BB1212>------------------------------------------------------------------------------</font></i></b>
+<font size=-1> 17</font>    <b><i><font color=#BB1212>-- Relational operators</font></i></b>
+<font size=-1> 18</font>    <b><i><font color=#BB1212>------------------------------------------------------------------------------</font></i></b>
+<font size=-1> 19</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"&#60;"</font> (Left, Right: Bounded_String) <b><font color=#228B22>return</font></b> <font color=#8B008B>Boolean</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 20</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 21</font>       <b><font color=#228B22>return</font></b>  Left.Data(<font color=#008B8B>1</font>..Left.Length) &#60; Right.Data(<font color=#008B8B>1</font>..Right.Length);
+<font size=-1> 22</font>    <b><font color=#228B22>end</font></b> <font color=#008B8B>"&#60;"</font>;
+<font size=-1> 23</font> 
+<font size=-1> 24</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"&#60;="</font> (Left, Right: Bounded_String) <b><font color=#228B22>return</font></b> <font color=#8B008B>Boolean</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 25</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 26</font>       <b><font color=#228B22>return</font></b>  Left.Data(<font color=#008B8B>1</font>..Left.Length) &#60;= Right.Data(<font color=#008B8B>1</font>..Right.Length);
+<font size=-1> 27</font>    <b><font color=#228B22>end</font></b> <font color=#008B8B>"&#60;="</font>;
+<font size=-1> 28</font> 
+<font size=-1> 29</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"&#62;"</font> (Left, Right: Bounded_String) <b><font color=#228B22>return</font></b> <font color=#8B008B>Boolean</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 30</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 31</font>       <b><font color=#228B22>return</font></b>  Left.Data(<font color=#008B8B>1</font>..Left.Length) &#62; Right.Data(<font color=#008B8B>1</font>..Right.Length);
+<font size=-1> 32</font>    <b><font color=#228B22>end</font></b> <font color=#008B8B>"&#62;"</font>;
+<font size=-1> 33</font> 
+<font size=-1> 34</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"&#62;="</font> (Left, Right: Bounded_String) <b><font color=#228B22>return</font></b> <font color=#8B008B>Boolean</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 35</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 36</font>       <b><font color=#228B22>return</font></b>  Left.Data(<font color=#008B8B>1</font>..Left.Length) &#62;= Right.Data(<font color=#008B8B>1</font>..Right.Length);
+<font size=-1> 37</font>    <b><font color=#228B22>end</font></b> <font color=#008B8B>"&#62;="</font>;
+<font size=-1> 38</font> 
+<font size=-1> 39</font>    <b><font color=#228B22>function</font></b> Equal (Left, Right: Bounded_String) <b><font color=#228B22>return</font></b> <font color=#8B008B>Boolean</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 40</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 41</font>       <b><font color=#228B22>return</font></b>  Left.Data(<font color=#008B8B>1</font>..Left.Length) = Right.Data(<font color=#008B8B>1</font>..Right.Length);
+<font size=-1> 42</font>    <b><font color=#228B22>end</font></b> Equal;
+<font size=-1> 43</font> 
+<font size=-1> 44</font> 
+<font size=-1> 45</font>    <b><i><font color=#BB1212>------------------------------------------------------------------------------</font></i></b>
+<font size=-1> 46</font>    <b><i><font color=#BB1212>-- Concatenation operators</font></i></b>
+<font size=-1> 47</font>    <b><i><font color=#BB1212>------------------------------------------------------------------------------</font></i></b>
+<font size=-1> 48</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"&#38;"</font> (Left, Right: Bounded_String) <b><font color=#228B22>return</font></b> Bounded_String <b><font color=#228B22>is</font></b>
+<font size=-1> 49</font>       Result : Bounded_String;
+<font size=-1> 50</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 51</font>       Result.Length := Left.Length + Right.Length;
+<font size=-1> 52</font>       Result.Data(<font color=#008B8B>1</font>..Left.Length)               := Left.Data(<font color=#008B8B>1</font>..Left.Length);
+<font size=-1> 53</font>       Result.Data(Left.Length+<font color=#008B8B>1</font>..Result.Length) := Right.Data(<font color=#008B8B>1</font>..Right.Length);
+<font size=-1> 54</font>       <b><font color=#228B22>return</font></b> Result;
+<font size=-1> 55</font>    <b><font color=#228B22>end</font></b> <font color=#008B8B>"&#38;"</font>;
+<font size=-1> 56</font> 
+<font size=-1> 57</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"&#38;"</font> (Left : Bounded_String; Right: <font color=#8B008B>Character</font>) <b><font color=#228B22>return</font></b> Bounded_String <b><font color=#228B22>is</font></b>
+<font size=-1> 58</font>       Result : Bounded_String;
+<font size=-1> 59</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 60</font>       Result.Length := Left.Length + <font color=#008B8B>1</font>;
+<font size=-1> 61</font>       Result.Data(<font color=#008B8B>1</font>..Left.Length) := Left.Data(<font color=#008B8B>1</font>..Left.Length);
+<font size=-1> 62</font>       Result.Data(Result.Length)  := Right;
+<font size=-1> 63</font>       <b><font color=#228B22>return</font></b> Result;
+<font size=-1> 64</font>    <b><font color=#228B22>end</font></b> <font color=#008B8B>"&#38;"</font>;
+<font size=-1> 65</font> 
+<font size=-1> 66</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"&#38;"</font> (Left : <font color=#8B008B>Character</font>; Right: Bounded_String) <b><font color=#228B22>return</font></b> Bounded_String <b><font color=#228B22>is</font></b>
+<font size=-1> 67</font>       Result : Bounded_String;
+<font size=-1> 68</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 69</font>       Result.Length  := Right.Length + <font color=#008B8B>1</font>;
+<font size=-1> 70</font>       Result.Data(<font color=#008B8B>1</font>) := Left;
+<font size=-1> 71</font>       Result.Data(<font color=#008B8B>2</font>..Result.Length) := Right.Data(<font color=#008B8B>1</font>..Right.Length);
+<font size=-1> 72</font>       <b><font color=#228B22>return</font></b> Result;
+<font size=-1> 73</font>    <b><font color=#228B22>end</font></b> <font color=#008B8B>"&#38;"</font>;
+<font size=-1> 74</font> 
+<font size=-1> 75</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"&#38;"</font> (Left : Bounded_String; Right: <font color=#8B008B>String</font>) <b><font color=#228B22>return</font></b> Bounded_String <b><font color=#228B22>is</font></b>
+<font size=-1> 76</font>       Result : Bounded_String;
+<font size=-1> 77</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 78</font>       Result.Length := Left.Length + Right<font color=#8B008B>'Length</font>;
+<font size=-1> 79</font>       Result.Data(<font color=#008B8B>1</font>..Left.Length)               := Left.Data(<font color=#008B8B>1</font>..Left.Length);
+<font size=-1> 80</font>       Result.Data(Left.Length+<font color=#008B8B>1</font>..Result.Length) := Right;
+<font size=-1> 81</font>       <b><font color=#228B22>return</font></b> Result;
+<font size=-1> 82</font>    <b><font color=#228B22>end</font></b> <font color=#008B8B>"&#38;"</font>;
+<font size=-1> 83</font> 
+<font size=-1> 84</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"&#38;"</font> (Left : <font color=#8B008B>String</font>; Right: Bounded_String) <b><font color=#228B22>return</font></b> Bounded_String <b><font color=#228B22>is</font></b>
+<font size=-1> 85</font>       Result : Bounded_String;
+<font size=-1> 86</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 87</font>       Result.Length := Left<font color=#8B008B>'Length</font> + Right.Length;
+<font size=-1> 88</font>       Result.Data(<font color=#008B8B>1</font>..Left<font color=#8B008B>'Length</font>)               := Left;
+<font size=-1> 89</font>       Result.Data(Left<font color=#8B008B>'Length</font>+<font color=#008B8B>1</font>..Result.Length) := Right.Data(<font color=#008B8B>1</font>..Right.Length);
+<font size=-1> 90</font>       <b><font color=#228B22>return</font></b> Result;
+<font size=-1> 91</font>    <b><font color=#228B22>end</font></b> <font color=#008B8B>"&#38;"</font>;
+<font size=-1> 92</font> 
+<font size=-1> 93</font> 
+<font size=-1> 94</font>    <b><i><font color=#BB1212>------------------------------------------------------------------------------</font></i></b>
+<font size=-1> 95</font>    <b><font color=#228B22>function</font></b> Slice (Source : Bounded_String;
+<font size=-1> 96</font>                    Low    : <font color=#8B008B>Positive</font>;
+<font size=-1> 97</font>                    High   : <font color=#8B008B>Natural</font>) <b><font color=#228B22>return</font></b> Bounded_String <b><font color=#228B22>is</font></b>
+<font size=-1> 98</font>       Result : Bounded_String;
+<font size=-1> 99</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1>100</font>       <b><font color=#228B22>if</font></b> High &#60; Low <b><font color=#228B22>then</font></b>                <b><i><font color=#BB1212>-- Null string?</font></i></b>
+<font size=-1>101</font>          Result.Length := <font color=#008B8B>0</font>;
+<font size=-1>102</font>       <b><font color=#228B22>elsif</font></b> High &#60;= Source.Length <b><font color=#228B22>then</font></b>  <b><i><font color=#BB1212>-- Normal case?</font></i></b>
+<font size=-1>103</font>          Result.Length := High - Low + <font color=#008B8B>1</font>;
+<font size=-1>104</font>          Result.Data(<font color=#008B8B>1</font>..Result.Length) := Source.Data(Low..High);
+<font size=-1>105</font>       <b><font color=#228B22>else</font></b>                              <b><i><font color=#BB1212>-- Range out of bounds.</font></i></b>
+<font size=-1>106</font>          <b><font color=#228B22>raise</font></b> CONSTRAINT_ERROR;
+<font size=-1>107</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1>108</font>       <b><font color=#228B22>return</font></b> Result;
+<font size=-1>109</font>    <b><font color=#228B22>end</font></b> Slice;
+<font size=-1>110</font> 
+<font size=-1>111</font>    <b><i><font color=#BB1212>------------------------------------------------------------------------------</font></i></b>
+<font size=-1>112</font>    <b><font color=#228B22>function</font></b> Index (Source, Pattern :  Bounded_String) <b><font color=#228B22>return</font></b> <font color=#8B008B>Natural</font> <b><font color=#228B22>is</font></b>
+<font size=-1>113</font>       First : <font color=#8B008B>Positive</font>;      <b><i><font color=#BB1212>-- Pattern is compared to</font></i></b>
+<font size=-1>114</font>       Last  : <font color=#8B008B>Positive</font>;      <b><i><font color=#BB1212>-- Source (First..Last)</font></i></b>
+<font size=-1>115</font>    <b><font color=#228B22>begin</font></b>  <b><i><font color=#BB1212>-- Search</font></i></b>
+<font size=-1>116</font>       First := <font color=#008B8B>1</font>;            <b><i><font color=#BB1212>-- Begin search at the first position of Source</font></i></b>
+<font size=-1>117</font>       Last  := Pattern.Length;
+<font size=-1>118</font>       Search_Loop:  <b><i><font color=#BB1212>-- Each iteration, the pattern is compared to one slice</font></i></b>
+<font size=-1>119</font>       <b><font color=#228B22>loop</font></b>          <b><i><font color=#BB1212>-- of the source</font></i></b>
+<font size=-1>120</font>          <b><i><font color=#BB1212>-- Exit when there are fewer characters remaining in Source to check</font></i></b>
+<font size=-1>121</font>          <b><i><font color=#BB1212>-- than there are in the Pattern   or   when match is found</font></i></b>
+<font size=-1>122</font>          <b><font color=#228B22>exit</font></b> <b><font color=#228B22>when</font></b>  Last &#62; Source.Length  <b><font color=#228B22>or</font></b> <b><font color=#228B22>else</font></b>
+<font size=-1>123</font>                     Source.Data(First..Last) = Pattern.Data(<font color=#008B8B>1</font>..Pattern.Length);
+<font size=-1>124</font>          First := First + <font color=#008B8B>1</font>;
+<font size=-1>125</font>          Last  := Last  + <font color=#008B8B>1</font>;
+<font size=-1>126</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b> Search_Loop;
+<font size=-1>127</font>       <b><font color=#228B22>if</font></b> Last &#60;= Source.Length <b><font color=#228B22>then</font></b>   <b><i><font color=#BB1212>-- Did we find the pattern?</font></i></b>
+<font size=-1>128</font>          <b><font color=#228B22>return</font></b> First;
+<font size=-1>129</font>       <b><font color=#228B22>else</font></b>
+<font size=-1>130</font>          <b><font color=#228B22>return</font></b> <font color=#008B8B>0</font>;
+<font size=-1>131</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1>132</font>    <b><font color=#228B22>end</font></b> Index;
+<font size=-1>133</font> 
+<font size=-1>134</font> 
+<font size=-1>135</font>    <b><i><font color=#BB1212>------------------------------------------------------------------------------</font></i></b>
+<font size=-1>136</font>    <b><font color=#228B22>function</font></b> To_String (Source : <b><font color=#228B22>in</font></b> Bounded_String) <b><font color=#228B22>return</font></b> <font color=#8B008B>String</font> <b><font color=#228B22>is</font></b>
+<font size=-1>137</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1>138</font>       <b><font color=#228B22>return</font></b> Source.Data(<font color=#008B8B>1</font>..Source.Length);   <b><i><font color=#BB1212>-- return the slice</font></i></b>
+<font size=-1>139</font>    <b><font color=#228B22>end</font></b> To_String;
+<font size=-1>140</font> 
+<font size=-1>141</font>    <b><i><font color=#BB1212>------------------------------------------------------------------------------</font></i></b>
+<font size=-1>142</font>    <b><font color=#228B22>function</font></b> To_Bounded_String (Source : <b><font color=#228B22>in</font></b> <font color=#8B008B>String</font>) <b><font color=#228B22>return</font></b> Bounded_String <b><font color=#228B22>is</font></b>
+<font size=-1>143</font>       Result : Bounded_String;
+<font size=-1>144</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1>145</font>       Result.Length := Source<font color=#8B008B>'Last</font> - Source<font color=#8B008B>'First</font> + <font color=#008B8B>1</font>;
+<font size=-1>146</font>       Result.Data(<font color=#008B8B>1</font>..Result.Length) := Source;
+<font size=-1>147</font>       <b><font color=#228B22>return</font></b> Result;
+<font size=-1>148</font>    <b><font color=#228B22>end</font></b> To_Bounded_String;
+<font size=-1>149</font> 
+<font size=-1>150</font> 
+<font size=-1>151</font>    <b><i><font color=#BB1212>------------------------------------------------------------------------------</font></i></b>
+<font size=-1>152</font>    <b><i><font color=#BB1212>-- Input and Output Operations</font></i></b>
+<font size=-1>153</font>    <b><i><font color=#BB1212>------------------------------------------------------------------------------</font></i></b>
+<font size=-1>154</font>    <b><font color=#228B22>procedure</font></b> Get_Line (File : <b><font color=#228B22>in</font></b>  Text_IO.File_Type := Text_IO.Current_Input;
+<font size=-1>155</font>                        Item : <b><font color=#228B22>out</font></b> Bounded_String) <b><font color=#228B22>is</font></b>
+<font size=-1>156</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1>157</font>       Text_IO.Get_Line (File =&#62; File, Item =&#62; Item.Data, Last =&#62; Item.Length);
+<font size=-1>158</font>    <b><font color=#228B22>end</font></b> Get_Line;
+<font size=-1>159</font> 
+<font size=-1>160</font>    <b><i><font color=#BB1212>------------------------------------------------------------------------------</font></i></b>
+<font size=-1>161</font>    <b><font color=#228B22>procedure</font></b> Put (File : <b><font color=#228B22>in</font></b> Text_IO.File_Type := Text_IO.Current_Output;
+<font size=-1>162</font>                   Item : <b><font color=#228B22>in</font></b> Bounded_String) <b><font color=#228B22>is</font></b>
+<font size=-1>163</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1>164</font>       Text_IO.Put (File =&#62; File, Item =&#62; Item.Data (<font color=#008B8B>1</font>..Item.Length));
+<font size=-1>165</font>    <b><font color=#228B22>end</font></b> Put;
+<font size=-1>166</font> 
+<font size=-1>167</font> <b><font color=#228B22>end</font></b> Bounded_Strings;
+</pre>
+</body>
+</html>

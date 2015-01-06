@@ -1,0 +1,20 @@
+<html>
+<head>
+<title>The Ada Program: generic_selection_sort.ads</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: generic_selection_sort.ads</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- generic_selction_sort.ads:  sort array "List" in non-decreasing order using selection sort</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>generic</font></b>
+<font size=-1>  4</font>    <b><font color=#228B22>type</font></b> Element_Type <b><font color=#228B22>is</font></b> <b><font color=#228B22>private</font></b>;
+<font size=-1>  5</font>    <b><font color=#228B22>type</font></b> Array_Type <b><font color=#228B22>is</font></b> <b><font color=#228B22>array</font></b> (<font color=#8B008B>Positive</font> <b><font color=#228B22>range</font></b> &#60;&#62;) <b><font color=#228B22>of</font></b> Element_Type;
+<font size=-1>  6</font>    <b><font color=#228B22>with</font></b>
+<font size=-1>  7</font>      <b><font color=#228B22>function</font></b> <font color=#008B8B>"&#60;"</font> (Left, Right: Element_Type) <b><font color=#228B22>return</font></b> <font color=#8B008B>Boolean</font> <b><font color=#228B22>is</font></b> &#60;&#62;;
+<font size=-1>  8</font> 
+<font size=-1>  9</font> <b><font color=#228B22>procedure</font></b> Generic_Selection_Sort (List : <b><font color=#228B22>in</font></b> <b><font color=#228B22>out</font></b> Array_Type);
+</pre>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<html>
+<head>
+<title>The Ada Program: component.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: component.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- component.adb:  componentwise operations on boolean arrays</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><i><font color=#BB1212>-- Only if the component type is boolean are there any</font></i></b>
+<font size=-1>  4</font> <b><i><font color=#BB1212>-- componentwise operations predefined (ARM 3.6.2).</font></i></b>
+<font size=-1>  5</font> 
+<font size=-1>  6</font> <b><font color=#228B22>procedure</font></b> Component <b><font color=#228B22>is</font></b>
+<font size=-1>  7</font> 
+<font size=-1>  8</font>    <b><font color=#228B22>type</font></b> T <b><font color=#228B22>is</font></b> <b><font color=#228B22>array</font></b> (<font color=#008B8B>1</font>..<font color=#008B8B>100</font>) <b><font color=#228B22>of</font></b> <font color=#8B008B>Boolean</font>;
+<font size=-1>  9</font> 
+<font size=-1> 10</font>    A, B, C: T;
+<font size=-1> 11</font> 
+<font size=-1> 12</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 13</font> 
+<font size=-1> 14</font>    A := B <b><font color=#228B22>xor</font></b> (C <b><font color=#228B22>and</font></b> <b><font color=#228B22>not</font></b> (A <b><font color=#228B22>or</font></b> B));
+<font size=-1> 15</font> 
+<font size=-1> 16</font> <b><font color=#228B22>end</font></b> Component;
+</pre>
+</body>
+</html>

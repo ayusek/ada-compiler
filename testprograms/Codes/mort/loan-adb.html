@@ -1,0 +1,105 @@
+<html>
+<head>
+<title>The Ada Program: loan.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: loan.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- loan.adb:  program to print amortization table for given loan</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-09.html#32">Ada.Float_Text_IO</a>;
+<font size=-1>  4</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>.Editing;
+<font size=-1>  5</font> <b><font color=#228B22>use</font></b> Ada, <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>;
+<font size=-1>  6</font> 
+<font size=-1>  7</font> <b><font color=#228B22>procedure</font></b> Loan <b><font color=#228B22>is</font></b>
+<font size=-1>  8</font> 
+<font size=-1>  9</font>    <b><font color=#228B22>type</font></b> Money <b><font color=#228B22>is</font></b> <b><font color=#228B22>delta</font></b> <font color=#008B8B>0.01</font> <b><font color=#228B22>digits</font></b> <font color=#008B8B>10</font>;   <b><i><font color=#BB1212>-- decimal fixed-point type</font></i></b>
+<font size=-1> 10</font>    <b><font color=#228B22>package</font></b> Money_IO <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> Editing.Decimal_Output (Num=&#62;Money);
+<font size=-1> 11</font>    <b><font color=#228B22>package</font></b> Decimal_Text_IO <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> Text_IO.Decimal_IO (Num=&#62;Money);
+<font size=-1> 12</font>    Format:<b><font color=#228B22>constant</font></b> Editing.Picture:=Editing.To_Picture(<font color=#008B8B>"BBB$ZZZ_ZZ9.99"</font>);
+<font size=-1> 13</font> 
+<font size=-1> 14</font>    Loan, Payment     : Money;
+<font size=-1> 15</font>    Rate, X           : <font color=#8B008B>Float</font>;
+<font size=-1> 16</font>    Number_Of_Payments: <font color=#8B008B>Natural</font>;
+<font size=-1> 17</font>    Index             : <font color=#8B008B>Natural</font> := <font color=#008B8B>1</font>;
+<font size=-1> 18</font> 
+<font size=-1> 19</font>    Balance, Total_Interest, Principle       : Money;
+<font size=-1> 20</font>    This_Payment, New_Balance, Interest_Owed : Money;
+<font size=-1> 21</font> 
+<font size=-1> 22</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 23</font> 
+<font size=-1> 24</font>    <b><i><font color=#BB1212>-- Get amount of loan (Money), interest rate (Float),</font></i></b>
+<font size=-1> 25</font>    <b><i><font color=#BB1212>-- and number of payments (Natural)</font></i></b>
+<font size=-1> 26</font>    Decimal_Text_IO.Get (Loan, Width=&#62;<font color=#008B8B>10</font>);
+<font size=-1> 27</font>    Float_Text_IO.Get (Rate);
+<font size=-1> 28</font>    Integer_Text_IO.Get (Number_Of_Payments);
+<font size=-1> 29</font> 
+<font size=-1> 30</font>    <b><i><font color=#BB1212>-- Convert interest rate from yearly percent</font></i></b>
+<font size=-1> 31</font>    Rate := Rate / <font color=#008B8B>1200.0</font>;
+<font size=-1> 32</font> 
+<font size=-1> 33</font>    <b><i><font color=#BB1212>-- Calculate amount of monthly payment (as a floating point number)</font></i></b>
+<font size=-1> 34</font>    X := (Rate + <font color=#008B8B>1.0</font>) ** Number_Of_Payments;
+<font size=-1> 35</font>    X := <font color=#008B8B>1.0</font> + (<font color=#008B8B>1.0</font> / (X - <font color=#008B8B>1.0</font>));
+<font size=-1> 36</font>    X := <font color=#8B008B>Float</font>(Loan) * Rate * X;
+<font size=-1> 37</font> 
+<font size=-1> 38</font>    <b><i><font color=#BB1212>-- Convert to type "Money" by rounding up to the next cent</font></i></b>
+<font size=-1> 39</font>    Payment := Money (X + <font color=#008B8B>0.005</font>);
+<font size=-1> 40</font> 
+<font size=-1> 41</font>    <b><i><font color=#BB1212>-- Print as money the amount of the loan and payment just calculated</font></i></b>
+<font size=-1> 42</font>    Text_IO.Put (<font color=#008B8B>"Amount of loan     = "</font>);
+<font size=-1> 43</font>    Money_IO.Put (Loan, Format);
+<font size=-1> 44</font>    Text_IO.New_Line;
+<font size=-1> 45</font>    Text_IO.Put (<font color=#008B8B>"Interest rate      = "</font>);
+<font size=-1> 46</font>    Float_Text_IO.Put (Rate, Fore=&#62;<font color=#008B8B>11</font>, Aft=&#62;<font color=#008B8B>5</font>, Exp=&#62;<font color=#008B8B>0</font>);
+<font size=-1> 47</font>    Text_IO.New_Line;
+<font size=-1> 48</font>    Text_IO.Put (<font color=#008B8B>"Number of payments = "</font>);
+<font size=-1> 49</font>    Integer_Text_IO.Put (Number_Of_Payments,  Width=&#62;<font color=#008B8B>11</font>);
+<font size=-1> 50</font>    Text_IO.New_Line;
+<font size=-1> 51</font>    Text_IO.Put (<font color=#008B8B>"Amount of payment  = "</font>);
+<font size=-1> 52</font>    Money_IO.Put (Payment, Format);
+<font size=-1> 53</font>    Text_IO.New_Line(<font color=#008B8B>2</font>);
+<font size=-1> 54</font> 
+<font size=-1> 55</font>    <b><i><font color=#BB1212>-- Print header of table</font></i></b>
+<font size=-1> 56</font>    Text_IO.Put_Line (<font color=#008B8B>"Month     Payment     Principle      Interest       Balance"</font>);
+<font size=-1> 57</font>    Text_IO.Set_Col (<font color=#008B8B>46</font>);
+<font size=-1> 58</font>    Money_IO.Put (Loan, Format);
+<font size=-1> 59</font>    Text_IO.New_Line;
+<font size=-1> 60</font> 
+<font size=-1> 61</font>    <b><i><font color=#BB1212>-- Print each monthly payment</font></i></b>
+<font size=-1> 62</font>    Balance := Loan;
+<font size=-1> 63</font>    Total_Interest := <font color=#008B8B>0.00</font>;
+<font size=-1> 64</font> 
+<font size=-1> 65</font>    <b><font color=#228B22>for</font></b> I <b><font color=#228B22>in</font></b> <font color=#008B8B>1</font>..Number_Of_Payments <b><font color=#228B22>loop</font></b>
+<font size=-1> 66</font>       Interest_Owed := Money (Rate*<font color=#8B008B>Float</font>(Balance));<b><i><font color=#BB1212>-- round to nearest cent</font></i></b>
+<font size=-1> 67</font>       Total_Interest := Total_Interest + Interest_owed;
+<font size=-1> 68</font>       <b><font color=#228B22>if</font></b> (I=Number_Of_Payments) <b><font color=#228B22>then</font></b>
+<font size=-1> 69</font>          This_Payment := Interest_Owed + Balance;
+<font size=-1> 70</font>       <b><font color=#228B22>else</font></b>
+<font size=-1> 71</font>          This_Payment := Payment;
+<font size=-1> 72</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 73</font>       Principle   := This_Payment - Interest_Owed;
+<font size=-1> 74</font>       New_Balance := Balance - Principle;
+<font size=-1> 75</font> 
+<font size=-1> 76</font>       Integer_Text_IO.Put (Index, Width=&#62;<font color=#008B8B>3</font>);
+<font size=-1> 77</font>       Money_IO.Put (This_Payment, Format);
+<font size=-1> 78</font>       Money_IO.Put (Principle, Format);
+<font size=-1> 79</font>       Money_IO.Put (Interest_Owed, Format);
+<font size=-1> 80</font>       Money_IO.Put (New_Balance, Format);
+<font size=-1> 81</font>       Text_IO.New_Line;
+<font size=-1> 82</font> 
+<font size=-1> 83</font>       Balance := New_Balance;
+<font size=-1> 84</font>       Index := Index + <font color=#008B8B>1</font>;
+<font size=-1> 85</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 86</font> 
+<font size=-1> 87</font>    <b><i><font color=#BB1212>-- Print the sum of all the interest paid during the life of the loan</font></i></b>
+<font size=-1> 88</font>    Text_IO.New_Line;
+<font size=-1> 89</font>    Text_IO.Set_Col (<font color=#008B8B>15</font>);
+<font size=-1> 90</font>    Text_IO.Put (<font color=#008B8B>"Total interest = "</font>);
+<font size=-1> 91</font>    Money_IO.Put (Total_Interest, Format);
+<font size=-1> 92</font>    Text_IO.New_Line;
+<font size=-1> 93</font> 
+<font size=-1> 94</font> <b><font color=#228B22>end</font></b> Loan;
+</pre>
+</body>
+</html>

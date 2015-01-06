@@ -1,0 +1,24 @@
+<html>
+<head>
+<title>The Ada Program: order_main.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: order_main.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><font color=#228B22>with</font></b> Order_Package;
+<font size=-1>  2</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>;
+<font size=-1>  3</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  4</font> 
+<font size=-1>  5</font> <b><font color=#228B22>procedure</font></b> Order_Main <b><font color=#228B22>is</font></b>
+<font size=-1>  6</font>    A: <font color=#8B008B>Integer</font> := Order_Package.F;
+<font size=-1>  7</font> <b><font color=#228B22>begin</font></b>
+<font size=-1>  8</font>    Text_IO.Put (<font color=#008B8B>"Begin execution of the main program "</font>);
+<font size=-1>  9</font>    Integer_Text_IO.Put (A);
+<font size=-1> 10</font>    Integer_Text_IO.Put (Order_Package.N);
+<font size=-1> 11</font>    Integer_Text_IO.Put (Order_Package.M);
+<font size=-1> 12</font>    Text_IO.New_Line;
+<font size=-1> 13</font> <b><font color=#228B22>end</font></b> Order_Main;
+</pre>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<html>
+<head>
+<title>The Ada Program: coconuts.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: coconuts.adb</h1>
+<pre>
+<font size=-1>  1</font> 
+<font size=-1>  2</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>;
+<font size=-1>  3</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  4</font> 
+<font size=-1>  5</font> <b><i><font color=#BB1212>-- Four people are stranded on a tropical island.  They gather a large</font></i></b>
+<font size=-1>  6</font> <b><i><font color=#BB1212>-- pile of coconuts before going to sleep.  Several times during the</font></i></b>
+<font size=-1>  7</font> <b><i><font color=#BB1212>-- night someone gets up and reduces the pile of coconuts.  Each time</font></i></b>
+<font size=-1>  8</font> <b><i><font color=#BB1212>-- the person, divides the pile in to 4 equal shares and finds one</font></i></b>
+<font size=-1>  9</font> <b><i><font color=#BB1212>-- coconut left over.  This coconut is given to a monkey.  The person</font></i></b>
+<font size=-1> 10</font> <b><i><font color=#BB1212>-- takes one of the shares and pushes the rest of the coconuts together.</font></i></b>
+<font size=-1> 11</font> <b><i><font color=#BB1212>-- In the morning the people divided the pile into four equal shares</font></i></b>
+<font size=-1> 12</font> <b><i><font color=#BB1212>-- and again one coconut is left over.  How many coconuts were gathered</font></i></b>
+<font size=-1> 13</font> <b><i><font color=#BB1212>-- to begin with?</font></i></b>
+<font size=-1> 14</font> 
+<font size=-1> 15</font> <b><font color=#228B22>procedure</font></b> Coconuts <b><font color=#228B22>is</font></b>
+<font size=-1> 16</font>    Nuts : <font color=#8B008B>Natural</font> := <font color=#008B8B>1</font>;
+<font size=-1> 17</font> 
+<font size=-1> 18</font>    <b><font color=#228B22>function</font></b> Even (N: <font color=#8B008B>Natural</font>) <b><font color=#228B22>return</font></b> <font color=#8B008B>Boolean</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 19</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 20</font>       <b><font color=#228B22>return</font></b> (N <b><font color=#228B22>mod</font></b> <font color=#008B8B>4</font> = <font color=#008B8B>1</font>);
+<font size=-1> 21</font>    <b><font color=#228B22>end</font></b> Even;
+<font size=-1> 22</font> 
+<font size=-1> 23</font>    <b><font color=#228B22>function</font></b> Reduce (N: <font color=#8B008B>Natural</font>) <b><font color=#228B22>return</font></b> <font color=#8B008B>Natural</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 24</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 25</font>       <b><font color=#228B22>return</font></b> (<font color=#008B8B>3</font> * ((N-<font color=#008B8B>1</font>) / <font color=#008B8B>4</font>));
+<font size=-1> 26</font>    <b><font color=#228B22>end</font></b> Reduce;
+<font size=-1> 27</font> 
+<font size=-1> 28</font>    <b><font color=#228B22>function</font></b> Try (N, S: <font color=#8B008B>Natural</font>) <b><font color=#228B22>return</font></b> <font color=#8B008B>Boolean</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 29</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 30</font>       <b><font color=#228B22>return</font></b> (Even (N) <b><font color=#228B22>and</font></b> <b><font color=#228B22>then</font></b> (
+<font size=-1> 31</font>          S=<font color=#008B8B>0</font> <b><font color=#228B22>or</font></b> <b><font color=#228B22>else</font></b> Try (Reduce (N), S-<font color=#008B8B>1</font>)));
+<font size=-1> 32</font>    <b><font color=#228B22>end</font></b> Try;
+<font size=-1> 33</font> 
+<font size=-1> 34</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 35</font> 
+<font size=-1> 36</font>    Step: <b><font color=#228B22>loop</font></b>
+<font size=-1> 37</font>       <b><font color=#228B22>exit</font></b> <b><font color=#228B22>when</font></b> Try (Nuts, <font color=#008B8B>5</font>);
+<font size=-1> 38</font>       Nuts := Nuts + <font color=#008B8B>1</font>;
+<font size=-1> 39</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b> Step;
+<font size=-1> 40</font> 
+<font size=-1> 41</font>    Integer_Text_IO.Put (Nuts);
+<font size=-1> 42</font>    Text_IO.New_Line;
+<font size=-1> 43</font> 
+<font size=-1> 44</font> <b><font color=#228B22>end</font></b> Coconuts;
+</pre>
+</body>
+</html>

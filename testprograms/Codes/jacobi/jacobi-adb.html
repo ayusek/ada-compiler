@@ -1,0 +1,28 @@
+<html>
+<head>
+<title>The Ada Program: jacobi.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: jacobi.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- jacobi.adb:  function to compute Jacobi symbol J(A,N)</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>function</font></b> Jacobi (A,N: <font color=#8B008B>Positive</font>) <b><font color=#228B22>return</font></b> <font color=#8B008B>Integer</font> <b><font color=#228B22>is</font></b>
+<font size=-1>  4</font>    R: <font color=#8B008B>Integer</font>;
+<font size=-1>  5</font> <b><font color=#228B22>begin</font></b>
+<font size=-1>  6</font>    <b><font color=#228B22>if</font></b> A=<font color=#008B8B>1</font> <b><font color=#228B22>then</font></b>
+<font size=-1>  7</font>       <b><font color=#228B22>return</font></b> <font color=#008B8B>1</font>;
+<font size=-1>  8</font>    <b><font color=#228B22>elsif</font></b> A <b><font color=#228B22>mod</font></b> <font color=#008B8B>2</font> = <font color=#008B8B>0</font> <b><font color=#228B22>then</font></b>
+<font size=-1>  9</font>       R := Jacobi (A/<font color=#008B8B>2</font>,N);
+<font size=-1> 10</font>       <b><i><font color=#BB1212>--  R * ((-1) ** (((N**2)-1)/8))</font></i></b>
+<font size=-1> 11</font>       <b><font color=#228B22>if</font></b> (((N**<font color=#008B8B>2</font>)-<font color=#008B8B>1</font>)/<font color=#008B8B>8</font>) <b><font color=#228B22>mod</font></b> <font color=#008B8B>2</font> = <font color=#008B8B>0</font> <b><font color=#228B22>then</font></b> <b><font color=#228B22>return</font></b> R; <b><font color=#228B22>else</font></b> <b><font color=#228B22>return</font></b> -R; <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 12</font>    <b><font color=#228B22>else</font></b>
+<font size=-1> 13</font>       R := Jacobi (N <b><font color=#228B22>mod</font></b> A, A);
+<font size=-1> 14</font>       <b><i><font color=#BB1212>-- R * ((-1) ** ((A-1)*(N-1)/4))</font></i></b>
+<font size=-1> 15</font>       <b><font color=#228B22>if</font></b> (((A-<font color=#008B8B>1</font>)*(N-<font color=#008B8B>1</font>))/<font color=#008B8B>4</font>) <b><font color=#228B22>mod</font></b> <font color=#008B8B>2</font> = <font color=#008B8B>0</font> <b><font color=#228B22>then</font></b> <b><font color=#228B22>return</font></b> R; <b><font color=#228B22>else</font></b> <b><font color=#228B22>return</font></b> -R; <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 16</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 17</font> <b><font color=#228B22>end</font></b> Jacobi;
+</pre>
+</body>
+</html>

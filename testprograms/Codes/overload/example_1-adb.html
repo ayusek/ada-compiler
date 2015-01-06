@@ -1,0 +1,48 @@
+<html>
+<head>
+<title>The Ada Program: example_1.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: example_1.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- example_1.adb: illustrate overloaded subprocedures</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-09.html#32">Ada.Float_Text_IO</a>;
+<font size=-1>  4</font> <b><font color=#228B22>use</font></b> Ada, <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>;
+<font size=-1>  5</font> 
+<font size=-1>  6</font> <b><font color=#228B22>procedure</font></b> Example_1 <b><font color=#228B22>is</font></b>
+<font size=-1>  7</font> 
+<font size=-1>  8</font>    <b><font color=#228B22>procedure</font></b> Show (Item: <font color=#8B008B>Integer</font>) <b><font color=#228B22>is</font></b>
+<font size=-1>  9</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 10</font>       Integer_Text_IO.Put (Item, Width=&#62;<font color=#008B8B>7</font>);
+<font size=-1> 11</font>    <b><font color=#228B22>end</font></b> Show;
+<font size=-1> 12</font> 
+<font size=-1> 13</font>    <b><font color=#228B22>procedure</font></b> Show (Item_1, Item_2: <font color=#8B008B>Integer</font>) <b><font color=#228B22>is</font></b>
+<font size=-1> 14</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 15</font>       Integer_Text_IO.Put (Item_1, Width=&#62;<font color=#008B8B>7</font>);
+<font size=-1> 16</font>       Integer_Text_IO.Put (Item_2, Width=&#62;<font color=#008B8B>7</font>);
+<font size=-1> 17</font>    <b><font color=#228B22>end</font></b> Show;
+<font size=-1> 18</font> 
+<font size=-1> 19</font>    <b><font color=#228B22>procedure</font></b> Show (Item: <font color=#8B008B>Float</font>) <b><font color=#228B22>is</font></b>
+<font size=-1> 20</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 21</font>       Float_Text_IO.Put (Item, Fore=&#62;<font color=#008B8B>3</font>, Aft=&#62;<font color=#008B8B>3</font>, Exp=&#62;<font color=#008B8B>0</font>);
+<font size=-1> 22</font>    <b><font color=#228B22>end</font></b> Show;
+<font size=-1> 23</font> 
+<font size=-1> 24</font>    <b><font color=#228B22>procedure</font></b> Show (Item: <font color=#8B008B>String</font>) <b><font color=#228B22>is</font></b>
+<font size=-1> 25</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 26</font>       Text_IO.Put (Item);
+<font size=-1> 27</font>    <b><font color=#228B22>end</font></b> Show;
+<font size=-1> 28</font> 
+<font size=-1> 29</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 30</font> 
+<font size=-1> 31</font>    Set_Col (<font color=#008B8B>17</font>); Show (<font color=#008B8B>" ******"</font>);  Show (<font color=#008B8B>" ------"</font>);  New_Line;
+<font size=-1> 32</font>    Set_Col (<font color=#008B8B>17</font>); Show (<font color=#008B8B>1</font>,<font color=#008B8B>2</font>);                           New_Line;
+<font size=-1> 33</font>    Set_Col (<font color=#008B8B>17</font>); Show (<font color=#008B8B>4.12</font>); Show (<font color=#008B8B>75.4381</font>);          New_Line;
+<font size=-1> 34</font>    Set_Col (<font color=#008B8B>17</font>); Show (<font color=#008B8B>1_000</font>); Show (<font color=#008B8B>32_000</font>);          New_Line;
+<font size=-1> 35</font>    Set_Col (<font color=#008B8B>17</font>); Show (<font color=#008B8B>" ******"</font>);  Show (<font color=#008B8B>" ------"</font>);  New_Line;
+<font size=-1> 36</font> 
+<font size=-1> 37</font> <b><font color=#228B22>end</font></b> Example_1;
+</pre>
+</body>
+</html>

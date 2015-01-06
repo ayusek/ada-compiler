@@ -1,0 +1,96 @@
+<html>
+<head>
+<title>The Ada Program: football.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: football.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- football.adb:  simulated game of simplified US football</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>;
+<font size=-1>  4</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  5</font> 
+<font size=-1>  6</font> <b><font color=#228B22>procedure</font></b> Football <b><font color=#228B22>is</font></b>
+<font size=-1>  7</font>    <b><font color=#228B22>subtype</font></b> Team <b><font color=#228B22>is</font></b> <font color=#8B008B>Boolean</font>;  <b><i><font color=#BB1212>-- true iff home</font></i></b>
+<font size=-1>  8</font>    Home   : <b><font color=#228B22>constant</font></b> <font color=#8B008B>Boolean</font> := <font color=#8B008B>True</font>;
+<font size=-1>  9</font>    Visitor: <b><font color=#228B22>constant</font></b> <font color=#8B008B>Boolean</font> := <font color=#8B008B>False</font>;
+<font size=-1> 10</font>    Score : <b><font color=#228B22>array</font></b> (Team, <font color=#008B8B>1</font>..<font color=#008B8B>4</font>) <b><font color=#228B22>of</font></b> <font color=#8B008B>Natural</font> := (<b><font color=#228B22>others</font></b>=&#62;(<font color=#008B8B>0</font>,<font color=#008B8B>0</font>,<font color=#008B8B>0</font>,<font color=#008B8B>0</font>));
+<font size=-1> 11</font> 
+<font size=-1> 12</font>    <b><i><font color=#BB1212>-- These values persist over the end of the 1 and 3 quarters</font></i></b>
+<font size=-1> 13</font>    Ball: Team;
+<font size=-1> 14</font>    Position: <font color=#8B008B>Integer</font>;  <b><i><font color=#BB1212>-- from the perspective of team with ball</font></i></b>
+<font size=-1> 15</font>    Down, FDM: <font color=#8B008B>Natural</font>;
+<font size=-1> 16</font> 
+<font size=-1> 17</font>    <b><font color=#228B22>procedure</font></b> First_Down (B: Team:= Ball; P: <font color=#8B008B>Natural</font> := Position) <b><font color=#228B22>is</font></b>
+<font size=-1> 18</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 19</font>       Ball := B; Down:= <font color=#008B8B>1</font>; Position:=P; FDM:=P+<font color=#008B8B>10</font>;
+<font size=-1> 20</font>    <b><font color=#228B22>end</font></b> First_Down;
+<font size=-1> 21</font> 
+<font size=-1> 22</font>    <b><font color=#228B22>procedure</font></b> Quarter (Q: <font color=#8B008B>Natural</font>) <b><font color=#228B22>is</font></b>
+<font size=-1> 23</font>       Yardage: <font color=#8B008B>Integer</font>;
+<font size=-1> 24</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 25</font> 
+<font size=-1> 26</font>       <b><font color=#228B22>if</font></b> Q=<font color=#008B8B>1</font> <b><font color=#228B22>then</font></b>
+<font size=-1> 27</font>          First_Down (Visitor, <font color=#008B8B>20</font>);
+<font size=-1> 28</font>       <b><font color=#228B22>elsif</font></b> Q=<font color=#008B8B>3</font> <b><font color=#228B22>then</font></b>
+<font size=-1> 29</font>          First_Down (Home, <font color=#008B8B>20</font>);
+<font size=-1> 30</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 31</font> 
+<font size=-1> 32</font>       <b><font color=#228B22>loop</font></b>
+<font size=-1> 33</font>          Integer_Text_IO.Get (Yardage);
+<font size=-1> 34</font>          <b><font color=#228B22>exit</font></b> <b><font color=#228B22>when</font></b> Yardage&#62;<font color=#008B8B>100</font>;
+<font size=-1> 35</font>          Position := Position + Yardage;
+<font size=-1> 36</font>          <b><font color=#228B22>if</font></b> (Position &#62;= <font color=#008B8B>100</font>) <b><font color=#228B22>then</font></b>
+<font size=-1> 37</font>             Score(Ball, Q) := Score(Ball, Q) + <font color=#008B8B>6</font>;  <b><i><font color=#BB1212>-- touchdown</font></i></b>
+<font size=-1> 38</font>             Integer_Text_IO.Get (Yardage);
+<font size=-1> 39</font>             <b><font color=#228B22>if</font></b> (Yardage &#62; <font color=#008B8B>2</font>) <b><font color=#228B22>then</font></b>
+<font size=-1> 40</font>                Score(Ball, Q) := Score(Ball, Q) + <font color=#008B8B>1</font>;  <b><i><font color=#BB1212>-- PAT</font></i></b>
+<font size=-1> 41</font>             <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 42</font>             First_Down (<b><font color=#228B22>not</font></b> Ball, <font color=#008B8B>20</font>);
+<font size=-1> 43</font>          <b><font color=#228B22>elsif</font></b> Position &#60;= <font color=#008B8B>0</font> <b><font color=#228B22>then</font></b>
+<font size=-1> 44</font>             First_Down (<b><font color=#228B22>not</font></b> Ball, <font color=#008B8B>50</font>);
+<font size=-1> 45</font>             Score(Ball, Q) := Score(Ball, Q) + <font color=#008B8B>2</font>;  <b><i><font color=#BB1212>-- safety</font></i></b>
+<font size=-1> 46</font> 
+<font size=-1> 47</font>          <b><font color=#228B22>elsif</font></b> Position &#62;= FDM <b><font color=#228B22>then</font></b>     <b><i><font color=#BB1212>-- first down</font></i></b>
+<font size=-1> 48</font>             First_Down;
+<font size=-1> 49</font>          <b><font color=#228B22>elsif</font></b> Down=<font color=#008B8B>4</font> <b><font color=#228B22>then</font></b>    <b><i><font color=#BB1212>-- change of possesion</font></i></b>
+<font size=-1> 50</font>             First_Down (<b><font color=#228B22>not</font></b> Ball, <font color=#008B8B>100</font>-Position);
+<font size=-1> 51</font>          <b><font color=#228B22>else</font></b>
+<font size=-1> 52</font>             Down := Down + <font color=#008B8B>1</font>;
+<font size=-1> 53</font>          <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 54</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 55</font>    <b><font color=#228B22>end</font></b> Quarter;
+<font size=-1> 56</font> 
+<font size=-1> 57</font>    Total: <font color=#8B008B>Natural</font>;
+<font size=-1> 58</font> 
+<font size=-1> 59</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 60</font> 
+<font size=-1> 61</font>    <b><font color=#228B22>for</font></b> Q <b><font color=#228B22>in</font></b> <font color=#008B8B>1</font>..<font color=#008B8B>4</font> <b><font color=#228B22>loop</font></b>
+<font size=-1> 62</font>       Quarter (Q);
+<font size=-1> 63</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 64</font> 
+<font size=-1> 65</font>    Text_IO.Set_Col (<font color=#008B8B>16</font>);  Text_IO.Put_Line (<font color=#008B8B>"Quarter"</font>);
+<font size=-1> 66</font>    Text_IO.Set_Col (<font color=#008B8B>12</font>);  Text_IO.Put_Line (<font color=#008B8B>"1   2   3   4   Final"</font>);
+<font size=-1> 67</font> 
+<font size=-1> 68</font>    Text_IO.Put (<font color=#008B8B>"Home    "</font>);
+<font size=-1> 69</font>    Total := <font color=#008B8B>0</font>;
+<font size=-1> 70</font>    <b><font color=#228B22>for</font></b> Q <b><font color=#228B22>in</font></b> <font color=#008B8B>1</font>..<font color=#008B8B>4</font> <b><font color=#228B22>loop</font></b>
+<font size=-1> 71</font>       Total := Total + Score (<font color=#8B008B>True</font>, Q);
+<font size=-1> 72</font>       Integer_Text_IO.Put (Score (Home, Q), Width=&#62;<font color=#008B8B>4</font>);
+<font size=-1> 73</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 74</font>    Integer_Text_IO.Put (Total, Width=&#62;<font color=#008B8B>8</font>);
+<font size=-1> 75</font>    Text_IO.New_Line;
+<font size=-1> 76</font>    Text_IO.Put (<font color=#008B8B>"Visitor "</font>);
+<font size=-1> 77</font>    Total := <font color=#008B8B>0</font>;
+<font size=-1> 78</font>    <b><font color=#228B22>for</font></b> Q <b><font color=#228B22>in</font></b> <font color=#008B8B>1</font>..<font color=#008B8B>4</font> <b><font color=#228B22>loop</font></b>
+<font size=-1> 79</font>       Total := Total + Score (<font color=#8B008B>False</font>, Q);
+<font size=-1> 80</font>       Integer_Text_IO.Put (Score (Visitor, Q), Width=&#62;<font color=#008B8B>4</font>);
+<font size=-1> 81</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 82</font>    Integer_Text_IO.Put (Total, Width=&#62;<font color=#008B8B>8</font>);
+<font size=-1> 83</font>    Text_IO.New_Line;
+<font size=-1> 84</font> 
+<font size=-1> 85</font> <b><font color=#228B22>end</font></b> Football;
+</pre>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<html>
+<head>
+<title>The Ada Program: discrete_set.ads</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: discrete_set.ads</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- discrete_set.ads:  generic package for sets of discrete elements</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>generic</font></b>
+<font size=-1>  4</font> 
+<font size=-1>  5</font>    <b><font color=#228B22>type</font></b> Element_Type <b><font color=#228B22>is</font></b> (&#60;&#62;);          <b><i><font color=#BB1212>-- any discrete type</font></i></b>
+<font size=-1>  6</font> 
+<font size=-1>  7</font> <b><font color=#228B22>package</font></b> Discrete_Set <b><font color=#228B22>is</font></b>
+<font size=-1>  8</font> 
+<font size=-1>  9</font>    <b><font color=#228B22>type</font></b> Set_Type <b><font color=#228B22>is</font></b> <b><font color=#228B22>private</font></b>;
+<font size=-1> 10</font> 
+<font size=-1> 11</font>    <b><i><font color=#BB1212>-- The equality operators (= and /=) are made available</font></i></b>
+<font size=-1> 12</font>    <b><i><font color=#BB1212>-- implicitly, since type "Set_Type" is nonlimited.</font></i></b>
+<font size=-1> 13</font> 
+<font size=-1> 14</font>    Empty_Set     : <b><font color=#228B22>constant</font></b> Set_Type;  <b><i><font color=#BB1212>-- Set with no elements</font></i></b>
+<font size=-1> 15</font>    Universal_Set : <b><font color=#228B22>constant</font></b> Set_Type;  <b><i><font color=#BB1212>-- Set with all elements</font></i></b>
+<font size=-1> 16</font> 
+<font size=-1> 17</font>    <b><i><font color=#BB1212>-- This function determines whether Element is a member of Set</font></i></b>
+<font size=-1> 18</font>    <b><font color=#228B22>function</font></b> Is_Member (Element : Element_Type;
+<font size=-1> 19</font>                        Set     : Set_Type) <b><font color=#228B22>return</font></b> <font color=#8B008B>Boolean</font>;
+<font size=-1> 20</font> 
+<font size=-1> 21</font>    <b><i><font color=#BB1212>-- Returns the union of the two sets</font></i></b>
+<font size=-1> 22</font>    <b><i><font color=#BB1212>-- (elements that are in either or both sets)</font></i></b>
+<font size=-1> 23</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"+"</font> (Left, Right: Set_Type) <b><font color=#228B22>return</font></b> Set_Type;
+<font size=-1> 24</font> 
+<font size=-1> 25</font>    <b><i><font color=#BB1212>-- Adds an element to a set</font></i></b>
+<font size=-1> 26</font>    <b><i><font color=#BB1212>-- (the set is not changed if the element is already a member)</font></i></b>
+<font size=-1> 27</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"+"</font> (Left: Set_Type; Right: Element_Type) <b><font color=#228B22>return</font></b> Set_Type;
+<font size=-1> 28</font> 
+<font size=-1> 29</font>    <b><i><font color=#BB1212>-- Returns the intersection of the two sets</font></i></b>
+<font size=-1> 30</font>    <b><i><font color=#BB1212>-- (elements occurring in both sets)</font></i></b>
+<font size=-1> 31</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"*"</font> (Left, Right: Set_Type) <b><font color=#228B22>return</font></b> Set_Type;
+<font size=-1> 32</font> 
+<font size=-1> 33</font>    <b><i><font color=#BB1212>-- Returns the difference of the two sets</font></i></b>
+<font size=-1> 34</font>    <b><i><font color=#BB1212>-- (elements in Left and not in Right)</font></i></b>
+<font size=-1> 35</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"-"</font> (Left, Right: Set_Type) <b><font color=#228B22>return</font></b> Set_Type;
+<font size=-1> 36</font> 
+<font size=-1> 37</font>    <b><i><font color=#BB1212>-- Removes an element from the set</font></i></b>
+<font size=-1> 38</font>    <b><i><font color=#BB1212>-- (the set is not changed if the element is not a member)</font></i></b>
+<font size=-1> 39</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"-"</font> (Left: Set_Type; Right: Element_Type) <b><font color=#228B22>return</font></b> Set_Type;
+<font size=-1> 40</font> 
+<font size=-1> 41</font>    <b><i><font color=#BB1212>-- Now subset and proper subset operations ...</font></i></b>
+<font size=-1> 42</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"&#60;="</font> (Left, Right: Set_Type) <b><font color=#228B22>return</font></b> <font color=#8B008B>Boolean</font>;
+<font size=-1> 43</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"&#60;"</font>  (Left, Right: Set_Type) <b><font color=#228B22>return</font></b> <font color=#8B008B>Boolean</font>;
+<font size=-1> 44</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"&#62;="</font> (Left, Right: Set_Type) <b><font color=#228B22>return</font></b> <font color=#8B008B>Boolean</font>;
+<font size=-1> 45</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"&#62;"</font>  (Left, Right: Set_Type) <b><font color=#228B22>return</font></b> <font color=#8B008B>Boolean</font>;
+<font size=-1> 46</font> 
+<font size=-1> 47</font> <b><font color=#228B22>private</font></b>
+<font size=-1> 48</font> 
+<font size=-1> 49</font>    <b><font color=#228B22>type</font></b> Set_Type <b><font color=#228B22>is</font></b> <b><font color=#228B22>array</font></b> (Element_Type) <b><font color=#228B22>of</font></b> <font color=#8B008B>Boolean</font>;
+<font size=-1> 50</font> 
+<font size=-1> 51</font>    <b><i><font color=#BB1212>-- Completion of deferred constants</font></i></b>
+<font size=-1> 52</font>    Empty_Set     : <b><font color=#228B22>constant</font></b> Set_Type := (Element_Type =&#62; <font color=#8B008B>False</font>);
+<font size=-1> 53</font>    Universal_Set : <b><font color=#228B22>constant</font></b> Set_Type := (Element_Type =&#62; <font color=#8B008B>True</font>);
+<font size=-1> 54</font> 
+<font size=-1> 55</font> <b><font color=#228B22>end</font></b> Discrete_Set;
+</pre>
+</body>
+</html>

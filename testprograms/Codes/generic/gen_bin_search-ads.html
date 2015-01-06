@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>The Ada Program: gen_bin_search.ads</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: gen_bin_search.ads</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- gen_bin_search.ads:  generic procedure to do binary search</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><i><font color=#BB1212>-- Find "Location" such that "List[Location]=Value", if none, set</font></i></b>
+<font size=-1>  4</font> <b><i><font color=#BB1212>-- "Location" to 0.  We assume that "List" is sorted in ascending order</font></i></b>
+<font size=-1>  5</font> 
+<font size=-1>  6</font> <b><font color=#228B22>generic</font></b>
+<font size=-1>  7</font> 
+<font size=-1>  8</font>    <b><font color=#228B22>type</font></b> Element_Type <b><font color=#228B22>is</font></b> <b><font color=#228B22>private</font></b>;
+<font size=-1>  9</font>    <b><font color=#228B22>type</font></b> List_Type <b><font color=#228B22>is</font></b> <b><font color=#228B22>array</font></b> (<font color=#8B008B>Positive</font> <b><font color=#228B22>range</font></b> &#60;&#62;) <b><font color=#228B22>of</font></b> Element_Type;
+<font size=-1> 10</font>    <b><font color=#228B22>with</font></b>
+<font size=-1> 11</font>       <b><font color=#228B22>function</font></b> <font color=#008B8B>"&#60;"</font> (Left, Right: Element_Type) <b><font color=#228B22>return</font></b> <font color=#8B008B>Boolean</font> <b><font color=#228B22>is</font></b> &#60;&#62;;
+<font size=-1> 12</font> 
+<font size=-1> 13</font> <b><font color=#228B22>procedure</font></b> Gen_Bin_Search (List    : <b><font color=#228B22>in</font></b> List_Type;
+<font size=-1> 14</font>                           Value   : <b><font color=#228B22>in</font></b> Element_Type;
+<font size=-1> 15</font>                           Location: <b><font color=#228B22>out</font></b> <font color=#8B008B>Natural</font>);
+</pre>
+</body>
+</html>

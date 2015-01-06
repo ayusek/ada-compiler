@@ -1,0 +1,91 @@
+<html>
+<head>
+<title>The Ada Program: trains.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: trains.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>;
+<font size=-1>  2</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  3</font> 
+<font size=-1>  4</font> <b><font color=#228B22>procedure</font></b> Trains <b><font color=#228B22>is</font></b>
+<font size=-1>  5</font>    Distance, Speed_1, Speed_2, Time_1, Time_2, Simulation_End: <font color=#8B008B>Natural</font>;
+<font size=-1>  6</font>    <b><font color=#228B22>type</font></b> Interval <b><font color=#228B22>is</font></b> <b><font color=#228B22>record</font></b> Start,Stop: <font color=#8B008B>Natural</font>; <b><font color=#228B22>end</font></b> <b><font color=#228B22>record</font></b>;
+<font size=-1>  7</font> 
+<font size=-1>  8</font>    <b><font color=#228B22>function</font></b> Intersection (Left, Right: Interval) <b><font color=#228B22>return</font></b> <font color=#8B008B>Boolean</font> <b><font color=#228B22>is</font></b>
+<font size=-1>  9</font>       Contemp:  <b><font color=#228B22>constant</font></b> <font color=#8B008B>Boolean</font> := Right.Start &#60;= Left.Stop <b><font color=#228B22>or</font></b> <b><font color=#228B22>else</font></b> Left.Start &#60;= Right.Stop;
+<font size=-1> 10</font>       Complete: <b><font color=#228B22>constant</font></b> <font color=#8B008B>Boolean</font> := Left.Stop&#60;=Simulation_End <b><font color=#228B22>or</font></b> <b><font color=#228B22>else</font></b> Right.Stop&#60;=Simulation_End;
+<font size=-1> 11</font>       D1, D2: <font color=#8B008B>Natural</font>;
+<font size=-1> 12</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 13</font>       D1 := Speed_2 * (Simulation_End - Left.Start);
+<font size=-1> 14</font>       D2 := Speed_1 * (Simulation_End - Right.Start);
+<font size=-1> 15</font>       <b><i><font color=#BB1212>-- The trains must have had some part of their journey at the same time,</font></i></b>
+<font size=-1> 16</font>       <b><i><font color=#BB1212>-- in order to have a chance of passing.  If either completed the journey</font></i></b>
+<font size=-1> 17</font>       <b><i><font color=#BB1212>-- then they must have passed.  If neither completed the journey before</font></i></b>
+<font size=-1> 18</font>       <b><i><font color=#BB1212>-- the simulation ends, then to have reached each other, the total distance</font></i></b>
+<font size=-1> 19</font>       <b><i><font color=#BB1212>-- they traveled must greater or equal to the length of the track.</font></i></b>
+<font size=-1> 20</font>       <b><font color=#228B22>return</font></b> (Contemp <b><font color=#228B22>and</font></b> <b><font color=#228B22>then</font></b> (Complete <b><font color=#228B22>or</font></b> <b><font color=#228B22>else</font></b> D1+D2&#62;=Distance));
+<font size=-1> 21</font>    <b><font color=#228B22>end</font></b> Intersection;
+<font size=-1> 22</font> 
+<font size=-1> 23</font>    <b><font color=#228B22>function</font></b> Nth (N, Depart, Length: <font color=#8B008B>Natural</font>) <b><font color=#228B22>return</font></b> Interval <b><font color=#228B22>is</font></b>
+<font size=-1> 24</font>       X: <b><font color=#228B22>constant</font></b> <font color=#8B008B>Natural</font> := N * Depart;
+<font size=-1> 25</font>       I: Interval := (Start=&#62;X, Stop=&#62;X+Length);
+<font size=-1> 26</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 27</font>       <b><font color=#228B22>return</font></b> (I);
+<font size=-1> 28</font>    <b><font color=#228B22>end</font></b> Nth;
+<font size=-1> 29</font> 
+<font size=-1> 30</font>    Units, LJ_1, LJ_2: <font color=#8B008B>Natural</font>;
+<font size=-1> 31</font> 
+<font size=-1> 32</font>    <b><font color=#228B22>function</font></b> Rendezvous <b><font color=#228B22>return</font></b> <font color=#8B008B>Natural</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 33</font>       Count, N_1, N_2 : <font color=#8B008B>Natural</font> := <font color=#008B8B>0</font>;
+<font size=-1> 34</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 35</font>       <b><i><font color=#BB1212>-- trains depart at regular intervals one way</font></i></b>
+<font size=-1> 36</font>       <b><font color=#228B22>while</font></b> N_1 * Time_1 &#60;= Simulation_End <b><font color=#228B22>loop</font></b>
+<font size=-1> 37</font>          N_2 := <font color=#008B8B>0</font>;
+<font size=-1> 38</font>          <b><i><font color=#BB1212>-- trains depart at regular intervals going the other way</font></i></b>
+<font size=-1> 39</font>          <b><font color=#228B22>while</font></b> N_2 * Time_2 &#60;= Simulation_End <b><font color=#228B22>loop</font></b>
+<font size=-1> 40</font>             <b><font color=#228B22>if</font></b> Intersection (Nth (N_1, Time_1, LJ_1), Nth (N_2, Time_2, LJ_2)) <b><font color=#228B22>then</font></b>
+<font size=-1> 41</font>                Count := Count + <font color=#008B8B>1</font>;
+<font size=-1> 42</font>             <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 43</font>             N_2 := N_2 + <font color=#008B8B>1</font>;
+<font size=-1> 44</font>          <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 45</font>          N_1 := N_1 + <font color=#008B8B>1</font>;
+<font size=-1> 46</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 47</font>       <b><font color=#228B22>return</font></b> Count;
+<font size=-1> 48</font>    <b><font color=#228B22>end</font></b> Rendezvous;
+<font size=-1> 49</font> 
+<font size=-1> 50</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 51</font>    Input: <b><font color=#228B22>loop</font></b>
+<font size=-1> 52</font>       Integer_Text_IO.Get (Distance);
+<font size=-1> 53</font> 
+<font size=-1> 54</font>       <b><font color=#228B22>exit</font></b> <b><font color=#228B22>when</font></b> Distance &#60;= <font color=#008B8B>0</font>;
+<font size=-1> 55</font> 
+<font size=-1> 56</font>       Integer_Text_IO.Get (Speed_1);
+<font size=-1> 57</font>       Integer_Text_IO.Get (Speed_2);
+<font size=-1> 58</font> 
+<font size=-1> 59</font>       <b><i><font color=#BB1212>-- Instead of dividing distance by speed to get time, we convert everthing to</font></i></b>
+<font size=-1> 60</font>       <b><i><font color=#BB1212>-- units of the multiple of the speeds.  Now all calculations are in whole integers.</font></i></b>
+<font size=-1> 61</font>       Units := Speed_1 * Speed_2;
+<font size=-1> 62</font>       LJ_1 := Speed_2 * Distance;   <b><i><font color=#BB1212>-- Length of journey for trains going one way ...</font></i></b>
+<font size=-1> 63</font>       LJ_2 := Speed_1 * Distance;   <b><i><font color=#BB1212>-- and trains going the other way (in funny units).</font></i></b>
+<font size=-1> 64</font>       Distance := Units * Distance; <b><i><font color=#BB1212>-- Total distance between cities (in funny units).</font></i></b>
+<font size=-1> 65</font> 
+<font size=-1> 66</font>       Integer_Text_IO.Get (Time_1);
+<font size=-1> 67</font>       Time_1 := Units * Time_1;
+<font size=-1> 68</font> 
+<font size=-1> 69</font>       Integer_Text_IO.Get (Time_2);
+<font size=-1> 70</font>       Time_2 := Units * Time_2;
+<font size=-1> 71</font> 
+<font size=-1> 72</font>       Integer_Text_IO.Get (Simulation_End);
+<font size=-1> 73</font>       Simulation_End := Units * Simulation_End;
+<font size=-1> 74</font> 
+<font size=-1> 75</font>       <b><i><font color=#BB1212>--  Compute and print number of rendezvous</font></i></b>
+<font size=-1> 76</font>       Integer_Text_IO.Put (Rendezvous, Width=&#62;<font color=#008B8B>0</font>);
+<font size=-1> 77</font>       Text_IO.New_Line;
+<font size=-1> 78</font> 
+<font size=-1> 79</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b> Input;
+<font size=-1> 80</font> <b><font color=#228B22>end</font></b> Trains;
+</pre>
+</body>
+</html>

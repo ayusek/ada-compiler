@@ -1,0 +1,33 @@
+<html>
+<head>
+<title>The Ada Program: transactions.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: transactions.adb</h1>
+<pre>
+<font size=-1>  1</font> 
+<font size=-1>  2</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-F-03-03.html">Ada.Text_IO.Editing</a>;
+<font size=-1>  3</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  4</font> 
+<font size=-1>  5</font> <b><font color=#228B22>package</font></b> <b><font color=#228B22>body</font></b> Transactions <b><font color=#228B22>is</font></b>
+<font size=-1>  6</font> 
+<font size=-1>  7</font>    <b><font color=#228B22>package</font></b> Money_IO <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> Text_IO.Editing.Decimal_Output (Num=&#62;Money_Type);
+<font size=-1>  8</font>    Format : <b><font color=#228B22>constant</font></b> Text_IO.Editing.Picture :=
+<font size=-1>  9</font>       Text_IO.Editing.To_Picture (<font color=#008B8B>"$ZZZ_ZZ9.99"</font>);
+<font size=-1> 10</font> 
+<font size=-1> 11</font>    <b><font color=#228B22>procedure</font></b> Put (Item: <b><font color=#228B22>in</font></b> Transaction_Type) <b><font color=#228B22>is</font></b>
+<font size=-1> 12</font> 
+<font size=-1> 13</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 14</font> 
+<font size=-1> 15</font>       Text_IO.Put (Item.Account_Part);
+<font size=-1> 16</font>       Text_IO.Put (<font color=#008B8B>", Amount = "</font>);
+<font size=-1> 17</font>       Money_IO.Put (Item.Amount_Part, Format);
+<font size=-1> 18</font>       Text_IO.New_Line;
+<font size=-1> 19</font> 
+<font size=-1> 20</font>    <b><font color=#228B22>end</font></b> Put;
+<font size=-1> 21</font> 
+<font size=-1> 22</font> <b><font color=#228B22>end</font></b> Transactions;
+</pre>
+</body>
+</html>

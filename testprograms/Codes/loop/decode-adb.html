@@ -1,0 +1,40 @@
+<html>
+<head>
+<title>The Ada Program: decode.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: decode.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- decode.adb:  program illustrating nested loop/exit</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><i><font color=#BB1212>-- From Cohen, "Ada as a Second Language," page 73.</font></i></b>
+<font size=-1>  4</font> 
+<font size=-1>  5</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>;
+<font size=-1>  6</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  7</font> 
+<font size=-1>  8</font> <b><font color=#228B22>procedure</font></b> Decode <b><font color=#228B22>is</font></b>
+<font size=-1>  9</font> 
+<font size=-1> 10</font>    End_Of_Line_Code    : <b><font color=#228B22>constant</font></b> <font color=#8B008B>Integer</font> := <font color=#008B8B>27</font>;
+<font size=-1> 11</font>    End_Of_Message_Code : <b><font color=#228B22>constant</font></b> <font color=#8B008B>Integer</font> := <font color=#008B8B>28</font>;
+<font size=-1> 12</font>    Next_Code           : <font color=#8B008B>Integer</font>;
+<font size=-1> 13</font> 
+<font size=-1> 14</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 15</font> 
+<font size=-1> 16</font>    Line_Loop:  <b><font color=#228B22>loop</font></b>           <b><i><font color=#BB1212>-- each line in the message</font></i></b>
+<font size=-1> 17</font> 
+<font size=-1> 18</font>       Char_Loop:  <b><font color=#228B22>loop</font></b>        <b><i><font color=#BB1212>-- each character in the line</font></i></b>
+<font size=-1> 19</font>          Integer_Text_IO.Get (Next_Code);
+<font size=-1> 20</font>          <b><font color=#228B22>exit</font></b> Char_Loop <b><font color=#228B22>when</font></b> Next_Code = End_Of_Line_Code;
+<font size=-1> 21</font>          <b><font color=#228B22>exit</font></b> Line_Loop <b><font color=#228B22>when</font></b> Next_Code = End_Of_Message_Code;
+<font size=-1> 22</font>          Text_IO.Put (<font color=#8B008B>Character</font><font color=#8B008B>'Val</font> (Next_Code));
+<font size=-1> 23</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b> Char_Loop;
+<font size=-1> 24</font>       Text_IO.New_Line;      <b><i><font color=#BB1212>-- handle the end-of-line code</font></i></b>
+<font size=-1> 25</font> 
+<font size=-1> 26</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b> Line_Loop;
+<font size=-1> 27</font>    Text_IO.Put_Line (<font color=#008B8B>"#"</font>);   <b><i><font color=#BB1212>-- handle the end-of-message code</font></i></b>
+<font size=-1> 28</font> 
+<font size=-1> 29</font> <b><font color=#228B22>end</font></b> Decode;
+</pre>
+</body>
+</html>

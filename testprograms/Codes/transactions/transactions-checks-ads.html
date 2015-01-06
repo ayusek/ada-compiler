@@ -1,0 +1,23 @@
+<html>
+<head>
+<title>The Ada Program: transactions-checks.ads</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: transactions-checks.ads</h1>
+<pre>
+<font size=-1>  1</font> <b><font color=#228B22>package</font></b> Transactions.Checks <b><font color=#228B22>is</font></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font>    <b><font color=#228B22>subtype</font></b> Check_Number_Subtype <b><font color=#228B22>is</font></b> <font color=#8B008B>Integer</font> <b><font color=#228B22>range</font></b> <font color=#008B8B>0</font> .. <font color=#008B8B>5_000</font>;
+<font size=-1>  4</font> 
+<font size=-1>  5</font>    <b><font color=#228B22>type</font></b> Check_Type <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> Transaction_Type <b><font color=#228B22>with</font></b>
+<font size=-1>  6</font>       <b><font color=#228B22>record</font></b>
+<font size=-1>  7</font>          Check_Number_Part: Check_Number_Subtype;
+<font size=-1>  8</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>record</font></b>;
+<font size=-1>  9</font> 
+<font size=-1> 10</font>    <b><font color=#228B22>procedure</font></b> Put (Item: <b><font color=#228B22>in</font></b> Check_Type);
+<font size=-1> 11</font> 
+<font size=-1> 12</font> <b><font color=#228B22>end</font></b> Transactions.Checks;
+</pre>
+</body>
+</html>

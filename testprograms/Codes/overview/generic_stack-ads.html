@@ -1,0 +1,33 @@
+<html>
+<head>
+<title>The Ada Program: generic_stack.ads</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: generic_stack.ads</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- generic_stack.ads:  Ada generic package specification for stack</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>generic</font></b>
+<font size=-1>  4</font>    Stack_Size: <b><font color=#228B22>in</font></b> <font color=#8B008B>Integer</font>;
+<font size=-1>  5</font>    <b><font color=#228B22>type</font></b> Item_Type <b><font color=#228B22>is</font></b> <b><font color=#228B22>private</font></b>;
+<font size=-1>  6</font> 
+<font size=-1>  7</font> <b><font color=#228B22>package</font></b> Generic_Stack <b><font color=#228B22>is</font></b>
+<font size=-1>  8</font> 
+<font size=-1>  9</font>    <b><font color=#228B22>type</font></b> Stack_Type <b><font color=#228B22>is</font></b> <b><font color=#228B22>private</font></b>;
+<font size=-1> 10</font>    <b><font color=#228B22>procedure</font></b> Push (Item: <b><font color=#228B22>in</font></b> Item_Type; Stack: <b><font color=#228B22>in</font></b> <b><font color=#228B22>out</font></b> Stack_Type);
+<font size=-1> 11</font>    <b><font color=#228B22>procedure</font></b> Pop (Item: <b><font color=#228B22>out</font></b> Item_Type; Stack: <b><font color=#228B22>in</font></b> <b><font color=#228B22>out</font></b> Stack_Type);
+<font size=-1> 12</font> 
+<font size=-1> 13</font> <b><font color=#228B22>private</font></b>
+<font size=-1> 14</font>    <b><font color=#228B22>type</font></b> Item_List_Type <b><font color=#228B22>is</font></b> <b><font color=#228B22>array</font></b> (<font color=#008B8B>1</font> .. Stack_Size) <b><font color=#228B22>of</font></b> Item_Type;
+<font size=-1> 15</font> 
+<font size=-1> 16</font>    <b><font color=#228B22>type</font></b> Stack_Type <b><font color=#228B22>is</font></b>
+<font size=-1> 17</font>       <b><font color=#228B22>record</font></b>
+<font size=-1> 18</font>          Top      : <font color=#8B008B>Integer</font> <b><font color=#228B22>range</font></b> <font color=#008B8B>0</font> .. Stack_Size := <font color=#008B8B>0</font>;
+<font size=-1> 19</font>          Elements : Item_List_Type;
+<font size=-1> 20</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>record</font></b>;
+<font size=-1> 21</font> 
+<font size=-1> 22</font> <b><font color=#228B22>end</font></b> Generic_Stack;
+</pre>
+</body>
+</html>

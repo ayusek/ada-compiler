@@ -1,0 +1,42 @@
+<html>
+<head>
+<title>The Ada Program: rec_package.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: rec_package.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-09.html#32">Ada.Float_Text_IO</a>;
+<font size=-1>  2</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  3</font> 
+<font size=-1>  4</font> <b><font color=#228B22>package</font></b> <b><font color=#228B22>body</font></b> Rec_Package <b><font color=#228B22>is</font></b>
+<font size=-1>  5</font> 
+<font size=-1>  6</font>    <b><font color=#228B22>function</font></b> To_Mixed (X: <font color=#8B008B>Integer</font>) <b><font color=#228B22>return</font></b> Mixed <b><font color=#228B22>is</font></b>
+<font size=-1>  7</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1>  8</font>       <b><font color=#228B22>return</font></b> (Mixed'(Tag=&#62;Int, Int_Part=&#62;X));
+<font size=-1>  9</font>    <b><font color=#228B22>end</font></b> To_Mixed;
+<font size=-1> 10</font> 
+<font size=-1> 11</font>    <b><font color=#228B22>function</font></b> To_Mixed (X: <font color=#8B008B>Float</font>) <b><font color=#228B22>return</font></b> Mixed <b><font color=#228B22>is</font></b>
+<font size=-1> 12</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 13</font>       <b><font color=#228B22>return</font></b> (Mixed'(Tag=&#62;Real, Real_Part=&#62;X));
+<font size=-1> 14</font>    <b><font color=#228B22>end</font></b> To_Mixed;
+<font size=-1> 15</font> 
+<font size=-1> 16</font>    <b><font color=#228B22>function</font></b> To_Mixed (X: <font color=#8B008B>Character</font>) <b><font color=#228B22>return</font></b> Mixed <b><font color=#228B22>is</font></b>
+<font size=-1> 17</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 18</font>       <b><font color=#228B22>return</font></b> (Mixed'(Tag=&#62;Char, Char_Part=&#62;X));
+<font size=-1> 19</font>    <b><font color=#228B22>end</font></b> To_Mixed;
+<font size=-1> 20</font> 
+<font size=-1> 21</font>    <b><font color=#228B22>procedure</font></b> Put_Line (Item: Mixed) <b><font color=#228B22>is</font></b>
+<font size=-1> 22</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 23</font>       <b><font color=#228B22>case</font></b> Item.Tag <b><font color=#228B22>is</font></b>
+<font size=-1> 24</font>          <b><font color=#228B22>when</font></b> Int  =&#62; Integer_Text_IO.Put(Item=&#62;Item.Int_Part,Width=&#62;<font color=#008B8B>0</font>);
+<font size=-1> 25</font>          <b><font color=#228B22>when</font></b> Real =&#62; Float_Text_IO.Put (Item=&#62;Item.Real_Part, Exp=&#62;<font color=#008B8B>0</font>);
+<font size=-1> 26</font>          <b><font color=#228B22>when</font></b> Char =&#62; Text_IO.Put (Item=&#62;Item.Char_Part);
+<font size=-1> 27</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>case</font></b>;
+<font size=-1> 28</font>       Text_IO.New_Line;
+<font size=-1> 29</font>    <b><font color=#228B22>end</font></b> Put_Line;
+<font size=-1> 30</font> 
+<font size=-1> 31</font> <b><font color=#228B22>end</font></b> Rec_Package;
+</pre>
+</body>
+</html>

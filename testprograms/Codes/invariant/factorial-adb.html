@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>The Ada Program: factorial.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: factorial.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- factorial.adb:  compute factorial illustrating loop invariants</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>;
+<font size=-1>  4</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  5</font> 
+<font size=-1>  6</font> <b><font color=#228B22>procedure</font></b> Factorial <b><font color=#228B22>is</font></b>
+<font size=-1>  7</font> 
+<font size=-1>  8</font>    N,I,P: <font color=#8B008B>Integer</font>;
+<font size=-1>  9</font> 
+<font size=-1> 10</font> <b><font color=#228B22>begin</font></b> <b><i><font color=#BB1212>-- Inv</font></i></b>
+<font size=-1> 11</font> 
+<font size=-1> 12</font>    Read: <b><font color=#228B22>loop</font></b>
+<font size=-1> 13</font>       <b><i><font color=#BB1212>-- Get input interactively from user</font></i></b>
+<font size=-1> 14</font>       Text_IO.Put (<font color=#008B8B>"Enter an integer N:  "</font>);
+<font size=-1> 15</font>       Integer_Text_IO.Get (N);
+<font size=-1> 16</font> 
+<font size=-1> 17</font>       <b><font color=#228B22>exit</font></b> <b><font color=#228B22>when</font></b> N &#60; <font color=#008B8B>0</font>;
+<font size=-1> 18</font>       <b><i><font color=#BB1212>-- assertion 1:  0&#60;=N</font></i></b>
+<font size=-1> 19</font> 
+<font size=-1> 20</font>       I := <font color=#008B8B>0</font>; P := <font color=#008B8B>1</font>;
+<font size=-1> 21</font> 
+<font size=-1> 22</font>       <b><i><font color=#BB1212>-- Loop invariant:  P=I! and I&#60;=N</font></i></b>
+<font size=-1> 23</font>       <b><font color=#228B22>while</font></b> I&#60;N <b><font color=#228B22>loop</font></b>
+<font size=-1> 24</font>          <b><i><font color=#BB1212>-- Loop invariant:  P=I! and I&#60;=N</font></i></b>
+<font size=-1> 25</font>          I:=I+<font color=#008B8B>1</font>; P:=P*I;
+<font size=-1> 26</font>          <b><i><font color=#BB1212>-- Observe that:  if I&#60;N,  then (I+1)&#60;=N</font></i></b>
+<font size=-1> 27</font>          <b><i><font color=#BB1212>-- Observe that:  if P=I!, then P*(I+1)=(I+1)!</font></i></b>
+<font size=-1> 28</font>          <b><i><font color=#BB1212>-- Loop invariant:  P=I! and I&#60;=N</font></i></b>
+<font size=-1> 29</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 30</font>       <b><i><font color=#BB1212>-- assertion 2: I=N</font></i></b>
+<font size=-1> 31</font>       <b><i><font color=#BB1212>-- assertion 3: P=N!</font></i></b>
+<font size=-1> 32</font> 
+<font size=-1> 33</font>       <b><i><font color=#BB1212>-- Output results:  "N! = P"</font></i></b>
+<font size=-1> 34</font>       Integer_Text_IO.Put (Item=&#62;N, Width=&#62;<font color=#008B8B>1</font>);
+<font size=-1> 35</font>       Text_IO.Put (<font color=#008B8B>"! = "</font>);
+<font size=-1> 36</font>       Integer_Text_IO.Put (Item=&#62;P, Width=&#62;<font color=#008B8B>1</font>);
+<font size=-1> 37</font>       Text_IO.New_Line;
+<font size=-1> 38</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b> Read;
+<font size=-1> 39</font> 
+<font size=-1> 40</font> <b><font color=#228B22>end</font></b> Factorial;
+</pre>
+</body>
+</html>

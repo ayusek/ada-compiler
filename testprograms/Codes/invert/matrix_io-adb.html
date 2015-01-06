@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>The Ada Program: matrix_io.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: matrix_io.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><font color=#228B22>with</font></b> Matrix_Package;
+<font size=-1>  2</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-09.html#32">Ada.Float_Text_IO</a>;
+<font size=-1>  3</font> <b><font color=#228B22>package</font></b> <b><font color=#228B22>body</font></b> Matrix_IO <b><font color=#228B22>is</font></b>
+<font size=-1>  4</font> 
+<font size=-1>  5</font>     <b><font color=#228B22>procedure</font></b> Get_Matrix (Matrix: <b><font color=#228B22>out</font></b> Matrix_Package.Matrix_Type) <b><font color=#228B22>is</font></b>
+<font size=-1>  6</font>     <b><font color=#228B22>begin</font></b>
+<font size=-1>  7</font>        <b><font color=#228B22>for</font></b> Row <b><font color=#228B22>in</font></b> Matrix<font color=#8B008B>'Range</font>(<font color=#008B8B>1</font>) <b><font color=#228B22>loop</font></b>
+<font size=-1>  8</font>           <b><font color=#228B22>for</font></b> Column <b><font color=#228B22>in</font></b> Matrix<font color=#8B008B>'Range</font>(<font color=#008B8B>2</font>) <b><font color=#228B22>loop</font></b>
+<font size=-1>  9</font>              <a href="http://www.adahome.com/rm95/rm9x-A-10-09.html#32">Ada.Float_Text_IO</a>.Get (Matrix(Row,Column));
+<font size=-1> 10</font>           <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 11</font>        <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 12</font>     <b><font color=#228B22>end</font></b> Get_Matrix;
+<font size=-1> 13</font> 
+<font size=-1> 14</font>     <b><font color=#228B22>procedure</font></b> Put_Matrix (Matrix: <b><font color=#228B22>in</font></b> Matrix_Package.Matrix_Type) <b><font color=#228B22>is</font></b>
+<font size=-1> 15</font>     <b><font color=#228B22>begin</font></b>
+<font size=-1> 16</font>        <b><font color=#228B22>for</font></b> Row <b><font color=#228B22>in</font></b> Matrix<font color=#8B008B>'Range</font>(<font color=#008B8B>1</font>) <b><font color=#228B22>loop</font></b>
+<font size=-1> 17</font>           <b><font color=#228B22>for</font></b> Column <b><font color=#228B22>in</font></b> Matrix<font color=#8B008B>'Range</font>(<font color=#008B8B>2</font>) <b><font color=#228B22>loop</font></b>
+<font size=-1> 18</font>              <a href="http://www.adahome.com/rm95/rm9x-A-10-09.html#32">Ada.Float_Text_IO</a>.Put (Matrix(Row,Column));
+<font size=-1> 19</font>           <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 20</font>           <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>.New_Line;
+<font size=-1> 21</font>        <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 22</font>     <b><font color=#228B22>end</font></b> Put_Matrix;
+<font size=-1> 23</font> 
+<font size=-1> 24</font> <b><font color=#228B22>end</font></b> Matrix_IO;
+</pre>
+</body>
+</html>

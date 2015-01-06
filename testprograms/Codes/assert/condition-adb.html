@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>The Ada Program: condition.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<style type="text/css">
+  .key         {font-weight:bold; color:#228B22;}
+  .comment     {font-style:oblique; font-weight:bold; color:#BB1212;}
+  .linenumber  {font-size:75%;    color:#888888;}
+  .string      {color:#3333CC;}
+  .char        {color:#3333CC;}
+  .number      {color:#3333CC;}
+  .predefined  {color:#3333CC;}
+</style>
+</head>
+<body>
+<h1>The Ada Program: condition.adb</h1>
+<pre>
+<span class="linenumber">  1</span> <span class="comment">-- condition.adb:  pre- and post-conditions</span>
+<span class="linenumber">  2</span> 
+<span class="linenumber">  3</span> <span class="key">with</span> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>, Ada.Exceptions, System.Assertions;
+<span class="linenumber">  4</span> <span class="key">use</span> Ada;
+<span class="linenumber">  5</span> 
+<span class="linenumber">  6</span> <span class="key">procedure</span> Condition <span class="key">is</span>
+<span class="linenumber">  7</span> 
+<span class="linenumber">  8</span>    N,Q: <span class="predefined">Integer</span>;
+<span class="linenumber">  9</span> 
+<span class="linenumber"> 10</span> <span class="key">begin</span>
+<span class="linenumber"> 11</span> 
+<span class="linenumber"> 12</span>    Read: <span class="key">loop</span>
+<span class="linenumber"> 13</span> 
+<span class="linenumber"> 14</span>       <span class="comment">-- Get input interactively from user until N&#60;=0</span>
+<span class="linenumber"> 15</span>       Text_IO.Put (<span class="string">"Enter an integer N:  "</span>);
+<span class="linenumber"> 16</span>       Integer_Text_IO.Get (N);
+<span class="linenumber"> 17</span> 
+<span class="linenumber"> 18</span>       <span class="key">exit</span> Read <span class="key">when</span> N &#60;= <span class="number">0</span>;
+<span class="linenumber"> 19</span> 
+<span class="linenumber"> 20</span>       <span class="key">pragma</span> Assert (N/=<span class="number">0</span>, <span class="string">"N=0"</span>);
+<span class="linenumber"> 21</span> 
+<span class="linenumber"> 22</span>       Q := <span class="number">512</span> / N;
+<span class="linenumber"> 23</span> 
+<span class="linenumber"> 24</span>       <span class="comment">-- Postcondition is not</span>
+<span class="linenumber"> 25</span>       <span class="comment">--   a) "Q*N=512", because this is integer division</span>
+<span class="linenumber"> 26</span>       <span class="comment">--   b) "Q*N+(512 mod N)=512", because of N&#60;0</span>
+<span class="linenumber"> 27</span>       <span class="key">pragma</span> Assert (Q*N+(<span class="number">512</span> <span class="key">rem</span> N)=<span class="number">512</span>, <span class="string">"Q incorrect"</span>);
+<span class="linenumber"> 28</span> 
+<span class="linenumber"> 29</span>       Integer_Text_IO.Put (Q);
+<span class="linenumber"> 30</span>       Text_IO.New_Line;
+<span class="linenumber"> 31</span> 
+<span class="linenumber"> 32</span>    <span class="key">end</span> <span class="key">loop</span> Read;
+<span class="linenumber"> 33</span> 
+<span class="linenumber"> 34</span> <span class="key">exception</span>
+<span class="linenumber"> 35</span>    <span class="key">when</span> E:System.Assertions.Assert_Failure =&#62;
+<span class="linenumber"> 36</span>       Text_IO.Put (<span class="string">"Assertion failure:  "</span>);
+<span class="linenumber"> 37</span>       Text_IO.Put_Line (Exceptions.Exception_Message (E));
+<span class="linenumber"> 38</span> <span class="key">end</span> Condition;
+</pre>
+</body>
+</html>

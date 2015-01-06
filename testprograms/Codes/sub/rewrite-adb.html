@@ -1,0 +1,62 @@
+<html>
+<head>
+<title>The Ada Program: rewrite.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: rewrite.adb</h1>
+<pre>
+<font size=-1>  1</font> Original: <b><font color=#228B22>declare</font></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font>    <b><font color=#228B22>procedure</font></b> Add (A, B: <b><font color=#228B22>in</font></b> <font color=#8B008B>Integer</font>; C: <b><font color=#228B22>out</font></b> <font color=#8B008B>Integer</font>) <b><font color=#228B22>is</font></b>
+<font size=-1>  4</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1>  5</font>      C := A+B;
+<font size=-1>  6</font>    <b><font color=#228B22>end</font></b>;
+<font size=-1>  7</font> 
+<font size=-1>  8</font>    P, Q:  <font color=#8B008B>Integer</font>;
+<font size=-1>  9</font>    X, Y, Z: <font color=#8B008B>Integer</font>;
+<font size=-1> 10</font> 
+<font size=-1> 11</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 12</font> 
+<font size=-1> 13</font>    Add (<font color=#008B8B>2</font>+P, <font color=#008B8B>37</font>, Q);   <b><i><font color=#BB1212>-- call site 1</font></i></b>
+<font size=-1> 14</font> 
+<font size=-1> 15</font>    Add (X+Y, Z+<font color=#008B8B>3</font>, X);  <b><i><font color=#BB1212>-- call site 2</font></i></b>
+<font size=-1> 16</font> 
+<font size=-1> 17</font> <b><font color=#228B22>end</font></b> Original;
+<font size=-1> 18</font> 
+<font size=-1> 19</font> 
+<font size=-1> 20</font> 
+<font size=-1> 21</font> <b><font color=#228B22>declare</font></b>
+<font size=-1> 22</font> 
+<font size=-1> 23</font>    P, Q:  <font color=#8B008B>Integer</font>;
+<font size=-1> 24</font>    X, Y, Z: <font color=#8B008B>Integer</font>;
+<font size=-1> 25</font> 
+<font size=-1> 26</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 27</font> 
+<font size=-1> 28</font>    Call_Site_1:  <b><font color=#228B22>declare</font></b>
+<font size=-1> 29</font>      <b><i><font color=#BB1212>-- local copy of r-value of actuals for "in" parameters</font></i></b>
+<font size=-1> 30</font>      A: <b><font color=#228B22>constant</font></b> <font color=#8B008B>Integer</font> := <font color=#008B8B>2</font>+P;
+<font size=-1> 31</font>      B: <b><font color=#228B22>constant</font></b> <font color=#8B008B>Integer</font> := <font color=#008B8B>37</font>;
+<font size=-1> 32</font>      C: <font color=#8B008B>Integer</font>;
+<font size=-1> 33</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 34</font>      C := A+B;  <b><i><font color=#BB1212>-- body of procedure Add</font></i></b>
+<font size=-1> 35</font>      <b><i><font color=#BB1212>-- copy back "out" parameter</font></i></b>
+<font size=-1> 36</font>      Q := C;
+<font size=-1> 37</font>    <b><font color=#228B22>end</font></b> Call_Site_1;
+<font size=-1> 38</font> 
+<font size=-1> 39</font> 
+<font size=-1> 40</font>    Call_Site_2:  <b><font color=#228B22>declare</font></b>
+<font size=-1> 41</font>      <b><i><font color=#BB1212>-- local copy of r-value of actuals for "in" parameters</font></i></b>
+<font size=-1> 42</font>      A: <b><font color=#228B22>constant</font></b> <font color=#8B008B>Integer</font> := X+Y;
+<font size=-1> 43</font>      B: <b><font color=#228B22>constant</font></b> <font color=#8B008B>Integer</font> := Z+<font color=#008B8B>3</font>;
+<font size=-1> 44</font>      C: <font color=#8B008B>Integer</font>;
+<font size=-1> 45</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 46</font>      C := A+B;  <b><i><font color=#BB1212>-- body of procedure Add</font></i></b>
+<font size=-1> 47</font>      <b><i><font color=#BB1212>-- copy back "out" parameter</font></i></b>
+<font size=-1> 48</font>      X := C;
+<font size=-1> 49</font>    <b><font color=#228B22>end</font></b> Call_Site_1;
+<font size=-1> 50</font> 
+<font size=-1> 51</font> <b><font color=#228B22>end</font></b>;
+</pre>
+</body>
+</html>

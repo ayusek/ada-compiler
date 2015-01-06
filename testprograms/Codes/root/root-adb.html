@@ -1,0 +1,48 @@
+<html>
+<head>
+<title>The Ada Program: root.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: root.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- root.adb</font></i></b>
+<font size=-1>  2</font> <b><i><font color=#BB1212>--</font></i></b>
+<font size=-1>  3</font> <b><i><font color=#BB1212>--   Program to compute the square root of a float number to 3 decimal</font></i></b>
+<font size=-1>  4</font> <b><i><font color=#BB1212>--   places using Newton's method of approximations</font></i></b>
+<font size=-1>  5</font> 
+<font size=-1>  6</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-09.html#32">Ada.Float_Text_IO</a>;
+<font size=-1>  7</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  8</font> 
+<font size=-1>  9</font> <b><font color=#228B22>procedure</font></b> Root <b><font color=#228B22>is</font></b>
+<font size=-1> 10</font> 
+<font size=-1> 11</font>     Num      : <font color=#8B008B>Float</font>;   <b><i><font color=#BB1212>-- the number to find the root of</font></i></b>
+<font size=-1> 12</font>     Root     : <font color=#8B008B>Float</font>;   <b><i><font color=#BB1212>-- the current approximation</font></i></b>
+<font size=-1> 13</font>     Old_Root : <font color=#8B008B>Float</font>;   <b><i><font color=#BB1212>-- the last approximation</font></i></b>
+<font size=-1> 14</font> 
+<font size=-1> 15</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 16</font> 
+<font size=-1> 17</font>     <b><i><font color=#BB1212>-- Get the number</font></i></b>
+<font size=-1> 18</font>     Text_IO.Put_Line (<font color=#008B8B>"Enter a float number (&#62;0.0)"</font>);
+<font size=-1> 19</font>     Float_Text_IO.Get (Num);
+<font size=-1> 20</font> 
+<font size=-1> 21</font>     <b><i><font color=#BB1212>-- Get the initial approximation to the sqrt of Num</font></i></b>
+<font size=-1> 22</font>     Text_IO.Put_Line (<font color=#008B8B>"Enter initial approx to its square root (&#62;0.0)"</font>);
+<font size=-1> 23</font>     Float_Text_IO.Get (Old_Root);
+<font size=-1> 24</font> 
+<font size=-1> 25</font>     <b><i><font color=#BB1212>-- Find the square root by iterative approximation</font></i></b>
+<font size=-1> 26</font>     <b><font color=#228B22>loop</font></b>
+<font size=-1> 27</font>         Root := <font color=#008B8B>0.5</font> * (Old_Root + Num / Old_Root); <b><i><font color=#BB1212>-- compute new approx</font></i></b>
+<font size=-1> 28</font>         <b><font color=#228B22>exit</font></b> <b><font color=#228B22>when</font></b> <b><font color=#228B22>abs</font></b> (Root-Old_Root) &#60; <font color=#008B8B>0.0005</font>;    <b><i><font color=#BB1212>-- exit when close</font></i></b>
+<font size=-1> 29</font>         Old_Root := Root;
+<font size=-1> 30</font>     <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 31</font> 
+<font size=-1> 32</font>     <b><i><font color=#BB1212>-- Print out the Root</font></i></b>
+<font size=-1> 33</font>     Text_IO.Put (<font color=#008B8B>"The square root is "</font>);
+<font size=-1> 34</font>     Float_Text_IO.Put (Root, <font color=#008B8B>8</font>, <font color=#008B8B>3</font>, <font color=#008B8B>0</font>);
+<font size=-1> 35</font>     Text_IO.New_Line;
+<font size=-1> 36</font> 
+<font size=-1> 37</font> <b><font color=#228B22>end</font></b> Root;
+</pre>
+</body>
+</html>

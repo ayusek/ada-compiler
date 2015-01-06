@@ -1,0 +1,39 @@
+<html>
+<head>
+<title>The Ada Program: derived.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: derived.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- derived.adb:  type of derived subprograms</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>procedure</font></b> derived <b><font color=#228B22>is</font></b>
+<font size=-1>  4</font>    <b><i><font color=#BB1212>-- package required for subprograms to be derivable, ARM 3.4.11</font></i></b>
+<font size=-1>  5</font>    <b><font color=#228B22>package</font></b> pack <b><font color=#228B22>is</font></b>
+<font size=-1>  6</font>        <b><font color=#228B22>type</font></b> T <b><font color=#228B22>is</font></b> <b><font color=#228B22>record</font></b> <b><font color=#228B22>null</font></b>; <b><font color=#228B22>end</font></b> <b><font color=#228B22>record</font></b>;
+<font size=-1>  7</font>        <b><font color=#228B22>procedure</font></b> p (x: T);
+<font size=-1>  8</font>        <b><font color=#228B22>function</font></b> q (x,y: T) <b><font color=#228B22>return</font></b> T;
+<font size=-1>  9</font>    <b><font color=#228B22>end</font></b> pack;
+<font size=-1> 10</font>    <b><font color=#228B22>package</font></b> <b><font color=#228B22>body</font></b> pack <b><font color=#228B22>is</font></b>
+<font size=-1> 11</font>        <b><font color=#228B22>procedure</font></b> p (x: T) <b><font color=#228B22>is</font></b> <b><font color=#228B22>begin</font></b> <b><font color=#228B22>null</font></b>; <b><font color=#228B22>end</font></b> p;
+<font size=-1> 12</font>        <b><font color=#228B22>function</font></b> q (x,y: T) <b><font color=#228B22>return</font></b> T <b><font color=#228B22>is</font></b> <b><font color=#228B22>begin</font></b> <b><font color=#228B22>return</font></b> (x); <b><font color=#228B22>end</font></b> q;
+<font size=-1> 13</font>    <b><font color=#228B22>end</font></b> pack;
+<font size=-1> 14</font> 
+<font size=-1> 15</font>    <b><font color=#228B22>package</font></b> Quack <b><font color=#228B22>is</font></b>
+<font size=-1> 16</font>       <b><font color=#228B22>type</font></b> D <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> Pack.T;
+<font size=-1> 17</font>    <b><font color=#228B22>end</font></b> Quack;
+<font size=-1> 18</font> 
+<font size=-1> 19</font>    A: Pack.T;
+<font size=-1> 20</font>    B: Quack.D;
+<font size=-1> 21</font> 
+<font size=-1> 22</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 23</font>    Pack.P(A);
+<font size=-1> 24</font>    Quack.P(B);
+<font size=-1> 25</font>    B := Quack.Q (B, B);
+<font size=-1> 26</font>    A := Quack.Q (B, B);      <b><i><font color=#BB1212>-- ILLEGAL!  No such q derived</font></i></b>
+<font size=-1> 27</font>    B := Quack.Q (A, B);      <b><i><font color=#BB1212>-- ILLEGAL!  No such q derived</font></i></b>
+<font size=-1> 28</font> <b><font color=#228B22>end</font></b>;
+</pre>
+</body>
+</html>

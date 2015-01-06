@@ -1,0 +1,32 @@
+<html>
+<head>
+<title>The Ada Program: graph.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: graph.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><font color=#228B22>package</font></b> <b><font color=#228B22>body</font></b> Graph <b><font color=#228B22>is</font></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font>    <b><font color=#228B22>procedure</font></b> Add_Edge (G: <b><font color=#228B22>in</font></b> <b><font color=#228B22>out</font></b> Graph_Type; H,T: Node) <b><font color=#228B22>is</font></b>
+<font size=-1>  4</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1>  5</font>       G(<font color=#008B8B>1</font>) := Edge' (Head=&#62;H, Tail=&#62;T);
+<font size=-1>  6</font>    <b><font color=#228B22>end</font></b> Add_Edge;
+<font size=-1>  7</font> 
+<font size=-1>  8</font>    <b><font color=#228B22>function</font></b> Successors (G: Graph_Type; N: Node) <b><font color=#228B22>return</font></b> Node_List <b><font color=#228B22>is</font></b>
+<font size=-1>  9</font>       Result: Node_List (<font color=#008B8B>1</font>..<font color=#008B8B>10</font>);
+<font size=-1> 10</font>       Count: <font color=#8B008B>Natural</font> := <font color=#008B8B>0</font>;
+<font size=-1> 11</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 12</font>       <b><font color=#228B22>for</font></b> I <b><font color=#228B22>in</font></b> G<font color=#8B008B>'Range</font> <b><font color=#228B22>loop</font></b>
+<font size=-1> 13</font>          <b><font color=#228B22>if</font></b> G(I).Head=N <b><font color=#228B22>then</font></b>
+<font size=-1> 14</font>             Count:= Count + <font color=#008B8B>1</font>;
+<font size=-1> 15</font>             Result(Count) := G(I).Tail;
+<font size=-1> 16</font>          <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 17</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 18</font>       <b><font color=#228B22>return</font></b> (Result(<font color=#008B8B>1</font>..Count));
+<font size=-1> 19</font>    <b><font color=#228B22>end</font></b> Successors;
+<font size=-1> 20</font> 
+<font size=-1> 21</font> <b><font color=#228B22>end</font></b> Graph;
+</pre>
+</body>
+</html>

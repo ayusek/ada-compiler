@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>The Ada Program: bounded_stack.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: bounded_stack.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- bounded_stack.adb:  generic data structure for stack</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>package</font></b> <b><font color=#228B22>body</font></b> Bounded_Stack <b><font color=#228B22>is</font></b>
+<font size=-1>  4</font> 
+<font size=-1>  5</font>    <b><font color=#228B22>function</font></b> Empty (Stack: Stack_Type) <b><font color=#228B22>return</font></b> <font color=#8B008B>Boolean</font> <b><font color=#228B22>is</font></b>
+<font size=-1>  6</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1>  7</font>       <b><font color=#228B22>return</font></b> (Stack.Top = <font color=#008B8B>0</font>);
+<font size=-1>  8</font>    <b><font color=#228B22>end</font></b> Empty;
+<font size=-1>  9</font> 
+<font size=-1> 10</font>    <b><font color=#228B22>function</font></b> Full (Stack: Stack_Type) <b><font color=#228B22>return</font></b> <font color=#8B008B>Boolean</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 11</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 12</font>       <b><font color=#228B22>return</font></b> (Stack.Top = Stack.Max_Size);
+<font size=-1> 13</font>    <b><font color=#228B22>end</font></b> Full;
+<font size=-1> 14</font> 
+<font size=-1> 15</font>    <b><font color=#228B22>procedure</font></b> Clear (Stack: <b><font color=#228B22>in</font></b> <b><font color=#228B22>out</font></b> Stack_Type) <b><font color=#228B22>is</font></b>
+<font size=-1> 16</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 17</font>       Stack.Top := <font color=#008B8B>0</font>;
+<font size=-1> 18</font>    <b><font color=#228B22>end</font></b> Clear;
+<font size=-1> 19</font> 
+<font size=-1> 20</font>    <b><font color=#228B22>procedure</font></b> Push (Stack       : <b><font color=#228B22>in</font></b> <b><font color=#228B22>out</font></b> Stack_Type;
+<font size=-1> 21</font>                    New_Element : <b><font color=#228B22>in</font></b>     Element_Type) <b><font color=#228B22>is</font></b>
+<font size=-1> 22</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 23</font>       <b><font color=#228B22>if</font></b> <b><font color=#228B22>not</font></b> Full (Stack) <b><font color=#228B22>then</font></b>
+<font size=-1> 24</font>          Stack.Top := Stack.Top + <font color=#008B8B>1</font>;
+<font size=-1> 25</font>          Stack.Elements (Stack.Top) := New_Element;
+<font size=-1> 26</font>       <b><font color=#228B22>else</font></b>
+<font size=-1> 27</font>          <b><font color=#228B22>raise</font></b> Overflow;
+<font size=-1> 28</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 29</font>    <b><font color=#228B22>end</font></b> Push;
+<font size=-1> 30</font> 
+<font size=-1> 31</font>    <b><font color=#228B22>procedure</font></b> Pop (Stack         : <b><font color=#228B22>in</font></b> <b><font color=#228B22>out</font></b> Stack_Type;
+<font size=-1> 32</font>                   Top_Element   :    <b><font color=#228B22>out</font></b> Element_Type) <b><font color=#228B22>is</font></b>
+<font size=-1> 33</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 34</font>       <b><font color=#228B22>if</font></b> <b><font color=#228B22>not</font></b> Empty (Stack) <b><font color=#228B22>then</font></b>
+<font size=-1> 35</font>          Top_Element := Stack.Elements (Stack.Top);
+<font size=-1> 36</font>          Stack.Top := Stack.Top - <font color=#008B8B>1</font>;
+<font size=-1> 37</font>       <b><font color=#228B22>else</font></b>
+<font size=-1> 38</font>          <b><font color=#228B22>raise</font></b> Underflow;
+<font size=-1> 39</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 40</font>    <b><font color=#228B22>end</font></b> Pop;
+<font size=-1> 41</font> 
+<font size=-1> 42</font> <b><font color=#228B22>end</font></b> Bounded_Stack;
+</pre>
+</body>
+</html>

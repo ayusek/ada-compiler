@@ -1,0 +1,39 @@
+<html>
+<head>
+<title>The Ada Program: complex.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: complex.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- complex.adb:  package for complex numbers</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-05-01.html">Ada.Numerics.Elementary_Functions</a>;
+<font size=-1>  4</font> <b><font color=#228B22>use</font></b>  <a href="http://www.adahome.com/rm95/rm9x-A-05-01.html">Ada.Numerics.Elementary_Functions</a>;
+<font size=-1>  5</font> 
+<font size=-1>  6</font> <b><font color=#228B22>package</font></b> <b><font color=#228B22>body</font></b> Complex <b><font color=#228B22>is</font></b>
+<font size=-1>  7</font> 
+<font size=-1>  8</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"+"</font> (Left, Right: Complex_Number) <b><font color=#228B22>return</font></b> Complex_Number <b><font color=#228B22>is</font></b>
+<font size=-1>  9</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 10</font>       <b><font color=#228B22>return</font></b> (Complex_Number'(
+<font size=-1> 11</font>          Real      =&#62; Left.Real      + Right.Real,
+<font size=-1> 12</font>          Imaginary =&#62; Left.Imaginary + Right.Imaginary
+<font size=-1> 13</font>       ));
+<font size=-1> 14</font>    <b><font color=#228B22>end</font></b> <font color=#008B8B>"+"</font>;
+<font size=-1> 15</font> 
+<font size=-1> 16</font>    <b><i><font color=#BB1212>-- Magnitude of a complex number is its distance from the origin.</font></i></b>
+<font size=-1> 17</font>    <b><i><font color=#BB1212>-- This function is used by the comparison operators.</font></i></b>
+<font size=-1> 18</font>    <b><font color=#228B22>function</font></b> Magnitude (X: Complex_Number) <b><font color=#228B22>return</font></b> <font color=#8B008B>Float</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 19</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 20</font>       <b><font color=#228B22>return</font></b> (Sqrt (X.Real**<font color=#008B8B>2</font> + X.Imaginary**<font color=#008B8B>2</font>));
+<font size=-1> 21</font>    <b><font color=#228B22>end</font></b> Magnitude;
+<font size=-1> 22</font> 
+<font size=-1> 23</font>    <b><font color=#228B22>function</font></b> <font color=#008B8B>"&#60;"</font> (Left, Right: Complex_Number) <b><font color=#228B22>return</font></b> <font color=#8B008B>Boolean</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 24</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 25</font>       <b><font color=#228B22>return</font></b> (Magnitude(Left) &#60; Magnitude(Right));
+<font size=-1> 26</font>    <b><font color=#228B22>end</font></b> <font color=#008B8B>"&#60;"</font>;
+<font size=-1> 27</font> 
+<font size=-1> 28</font> <b><font color=#228B22>end</font></b> Complex;
+</pre>
+</body>
+</html>

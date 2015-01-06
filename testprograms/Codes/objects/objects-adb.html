@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>The Ada Program: objects.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<style type="text/css">
+  .key         {font-weight:bold; color:#228B22;}
+  .comment     {font-style:oblique; font-weight:bold; color:#BB1212;}
+  .linenumber  {font-size:75%;    color:#888888;}
+  .string      {color:#3333CC;}
+  .char        {color:#3333CC;}
+  .number      {color:#3333CC;}
+  .predefined  {color:#3333CC;}
+</style>
+</head>
+<body>
+<h1>The Ada Program: objects.adb</h1>
+<pre>
+<span class="linenumber">  1</span> <span class="comment">--  objects.adb: class of geometry objects</span>
+<span class="linenumber">  2</span> 
+<span class="linenumber">  3</span> <span class="key">with</span> <a href="http://www.adahome.com/rm95/rm9x-A-05-01.html">Ada.Numerics.Elementary_Functions</a>;
+<span class="linenumber">  4</span> <span class="key">use</span> Ada.Numerics;
+<span class="linenumber">  5</span> 
+<span class="linenumber">  6</span> <span class="key">package</span> <span class="key">body</span> Objects <span class="key">is</span>
+<span class="linenumber">  7</span> 
+<span class="linenumber">  8</span>    <span class="key">function</span> Distance (O: Object) <span class="key">return</span> <span class="predefined">Float</span> <span class="key">is</span>
+<span class="linenumber">  9</span>    <span class="key">begin</span>
+<span class="linenumber"> 10</span>       <span class="key">return</span> (Elementary_Functions.Sqrt (O.X**<span class="number">2</span> + O.Y**<span class="number">2</span>));
+<span class="linenumber"> 11</span>    <span class="key">end</span> Distance;
+<span class="linenumber"> 12</span> 
+<span class="linenumber"> 13</span>    <span class="key">function</span> Area (O: Object) <span class="key">return</span> <span class="predefined">Float</span> <span class="key">is</span>
+<span class="linenumber"> 14</span>    <span class="key">begin</span>
+<span class="linenumber"> 15</span>       <span class="key">return</span> (<span class="number">0.0</span>);
+<span class="linenumber"> 16</span>    <span class="key">end</span> Area;
+<span class="linenumber"> 17</span> 
+<span class="linenumber"> 18</span> <span class="key">end</span> Objects;
+</pre>
+</body>
+</html>

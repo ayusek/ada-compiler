@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>The Ada Program: correspondence.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: correspondence.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- correspondence.adb:  Ada program illustrating subprocedures</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>;
+<font size=-1>  4</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  5</font> 
+<font size=-1>  6</font> <b><font color=#228B22>procedure</font></b> Correspondence <b><font color=#228B22>is</font></b>
+<font size=-1>  7</font> 
+<font size=-1>  8</font>     <b><font color=#228B22>type</font></b> Month_Type <b><font color=#228B22>is</font></b> (Jan, Feb, Mar, Apr, May, Jun,
+<font size=-1>  9</font>        Jul, Aug, Sep, Oct, Nov, Dec);
+<font size=-1> 10</font> 
+<font size=-1> 11</font>     <b><font color=#228B22>procedure</font></b> Put (Day, Year: <font color=#8B008B>Integer</font>; Month: Month_Type) <b><font color=#228B22>is</font></b>
+<font size=-1> 12</font>     <b><font color=#228B22>begin</font></b>
+<font size=-1> 13</font>         Text_IO.Put (Item =&#62; Month_Type<font color=#8B008B>'Image</font> (Month));
+<font size=-1> 14</font>         Integer_Text_IO.Put (Item =&#62; Day);
+<font size=-1> 15</font>         Integer_Text_IO.Put (Item =&#62; Year);
+<font size=-1> 16</font>         Text_IO.New_Line;
+<font size=-1> 17</font>     <b><font color=#228B22>end</font></b> Put;
+<font size=-1> 18</font> 
+<font size=-1> 19</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 20</font> 
+<font size=-1> 21</font>     Put (<font color=#008B8B>10</font>, <font color=#008B8B>1998</font>, Oct);
+<font size=-1> 22</font>     Put (Month=&#62;Oct, Day=&#62;<font color=#008B8B>10</font>, Year=&#62;<font color=#008B8B>1998</font>);
+<font size=-1> 23</font> 
+<font size=-1> 24</font> <b><font color=#228B22>end</font></b> Correspondence;
+</pre>
+</body>
+</html>

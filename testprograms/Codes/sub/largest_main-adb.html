@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>The Ada Program: largest_main.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: largest_main.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- largest_main.adb:  simple function used to compute magnitude</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>procedure</font></b> Largest_Main <b><font color=#228B22>is</font></b>
+<font size=-1>  4</font> 
+<font size=-1>  5</font>    <b><font color=#228B22>function</font></b> Largest_In_Magnitude (I,J: <font color=#8B008B>Integer</font>) <b><font color=#228B22>return</font></b> <font color=#8B008B>Integer</font> <b><font color=#228B22>is</font></b>
+<font size=-1>  6</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1>  7</font>       <b><font color=#228B22>if</font></b> (<b><font color=#228B22>abs</font></b> I &#62; <b><font color=#228B22>abs</font></b> J) <b><font color=#228B22>then</font></b>
+<font size=-1>  8</font>          <b><font color=#228B22>return</font></b> I;
+<font size=-1>  9</font>       <b><font color=#228B22>else</font></b>
+<font size=-1> 10</font>          <b><font color=#228B22>return</font></b> J;
+<font size=-1> 11</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 12</font>    <b><font color=#228B22>end</font></b> Largest_In_Magnitude;
+<font size=-1> 13</font> 
+<font size=-1> 14</font>    <b><font color=#228B22>function</font></b> Largest_In_Magnitude (I,J,K: <font color=#8B008B>Integer</font>) <b><font color=#228B22>return</font></b> <font color=#8B008B>Integer</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 15</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 16</font>       <b><font color=#228B22>if</font></b> (<b><font color=#228B22>abs</font></b> I &#62; <b><font color=#228B22>abs</font></b> J) <b><font color=#228B22>then</font></b>
+<font size=-1> 17</font>          <b><font color=#228B22>if</font></b> (<b><font color=#228B22>abs</font></b> I &#62; <b><font color=#228B22>abs</font></b> K) <b><font color=#228B22>then</font></b> <b><font color=#228B22>return</font></b> I; <b><font color=#228B22>else</font></b> <b><font color=#228B22>return</font></b> K; <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 18</font>       <b><font color=#228B22>elsif</font></b> (<b><font color=#228B22>abs</font></b> J &#62; <b><font color=#228B22>abs</font></b> K) <b><font color=#228B22>then</font></b>
+<font size=-1> 19</font>          <b><font color=#228B22>return</font></b> J;
+<font size=-1> 20</font>       <b><font color=#228B22>else</font></b>
+<font size=-1> 21</font>          <b><font color=#228B22>return</font></b> K;
+<font size=-1> 22</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 23</font>    <b><font color=#228B22>end</font></b> Largest_In_Magnitude;
+<font size=-1> 24</font> 
+<font size=-1> 25</font>    X,Y,Z: <font color=#8B008B>Integer</font>;
+<font size=-1> 26</font> 
+<font size=-1> 27</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 28</font> 
+<font size=-1> 29</font>    X := <font color=#008B8B>45</font> + Largest_In_Magnitude (<font color=#008B8B>3</font>*<font color=#008B8B>25</font>, -<font color=#008B8B>89</font>);
+<font size=-1> 30</font> 
+<font size=-1> 31</font>    Y := Largest_In_Magnitude (X+X, Largest_In_Magnitude (<font color=#008B8B>500</font>, <font color=#008B8B>2</font>**<font color=#008B8B>3</font>));
+<font size=-1> 32</font> 
+<font size=-1> 33</font>    Z := Largest_In_Magnitude (X+X, <font color=#008B8B>500</font>, <font color=#008B8B>2</font>**<font color=#008B8B>3</font>);
+<font size=-1> 34</font> 
+<font size=-1> 35</font> <b><font color=#228B22>end</font></b> Largest_Main;
+</pre>
+</body>
+</html>

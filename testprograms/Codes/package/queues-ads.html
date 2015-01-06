@@ -1,0 +1,41 @@
+<html>
+<head>
+<title>The Ada Program: queues.ads</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: queues.ads</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- queues.ads:  queue package using pointers</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>package</font></b> Queues <b><font color=#228B22>is</font></b>
+<font size=-1>  4</font> 
+<font size=-1>  5</font>    <b><i><font color=#BB1212>-- Queue is limited because</font></i></b>
+<font size=-1>  6</font>    <b><i><font color=#BB1212>--    1)  Predefined "=" operator makes little sense.</font></i></b>
+<font size=-1>  7</font>    <b><i><font color=#BB1212>--    2)  Assignment copies pointers, so is dangerous.</font></i></b>
+<font size=-1>  8</font>    <b><i><font color=#BB1212>--    3)  Guarantees all initial values are consistent.</font></i></b>
+<font size=-1>  9</font>    <b><font color=#228B22>type</font></b> Queue_Type <b><font color=#228B22>is</font></b> <b><font color=#228B22>limited</font></b> <b><font color=#228B22>private</font></b>;
+<font size=-1> 10</font> 
+<font size=-1> 11</font>    <b><font color=#228B22>procedure</font></b> Enqueue (Item: <b><font color=#228B22>in</font></b> <font color=#8B008B>Integer</font>; Queue: <b><font color=#228B22>in</font></b> <b><font color=#228B22>out</font></b> Queue_Type);
+<font size=-1> 12</font>    <b><font color=#228B22>procedure</font></b> Dequeue (Item: <b><font color=#228B22>out</font></b> <font color=#8B008B>Integer</font>; Queue: <b><font color=#228B22>in</font></b> <b><font color=#228B22>out</font></b> Queue_Type);
+<font size=-1> 13</font>    <b><font color=#228B22>function</font></b> Length (Queue: Queue_Type) <b><font color=#228B22>return</font></b> <font color=#8B008B>Natural</font>;
+<font size=-1> 14</font>    Empty_Queue_Error: <b><font color=#228B22>exception</font></b>;
+<font size=-1> 15</font> 
+<font size=-1> 16</font> <b><font color=#228B22>private</font></b>
+<font size=-1> 17</font> 
+<font size=-1> 18</font>    <b><font color=#228B22>type</font></b> Queue_Element_Type;  <b><i><font color=#BB1212>-- forward declaration</font></i></b>
+<font size=-1> 19</font>    <b><font color=#228B22>type</font></b> Queue_Element_Pointer <b><font color=#228B22>is</font></b> <b><font color=#228B22>access</font></b> Queue_Element_Type;
+<font size=-1> 20</font>    <b><font color=#228B22>type</font></b> Queue_Element_Type <b><font color=#228B22>is</font></b> <b><font color=#228B22>record</font></b>
+<font size=-1> 21</font>       Data : <font color=#8B008B>Integer</font>;
+<font size=-1> 22</font>       Link : Queue_Element_Pointer;
+<font size=-1> 23</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>record</font></b>;
+<font size=-1> 24</font>    <b><font color=#228B22>type</font></b> Queue_Type <b><font color=#228B22>is</font></b> <b><font color=#228B22>record</font></b>
+<font size=-1> 25</font>       Length : <font color=#8B008B>Natural</font> := <font color=#008B8B>0</font>;
+<font size=-1> 26</font>       Front  : Queue_Element_Pointer := <b><font color=#228B22>null</font></b>;
+<font size=-1> 27</font>       Back   : Queue_Element_Pointer := <b><font color=#228B22>null</font></b>;
+<font size=-1> 28</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>record</font></b>;
+<font size=-1> 29</font> 
+<font size=-1> 30</font> <b><font color=#228B22>end</font></b> Queues;
+</pre>
+</body>
+</html>

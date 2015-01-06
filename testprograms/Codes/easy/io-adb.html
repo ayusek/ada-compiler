@@ -1,0 +1,36 @@
+<html>
+<head>
+<title>The Ada Program: io.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: io.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- io.adb:  get an integer and a float</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-09.html#32">Ada.Float_Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>;
+<font size=-1>  4</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  5</font> 
+<font size=-1>  6</font> <b><font color=#228B22>procedure</font></b> IO <b><font color=#228B22>is</font></b>
+<font size=-1>  7</font> 
+<font size=-1>  8</font>    Int:   <font color=#8B008B>Integer</font>;
+<font size=-1>  9</font>    Real:  <font color=#8B008B>Float</font>;
+<font size=-1> 10</font> 
+<font size=-1> 11</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 12</font> 
+<font size=-1> 13</font>    Text_IO.Put (<font color=#008B8B>"Enter an integer =&#62; "</font>);
+<font size=-1> 14</font>    Integer_Text_IO.Get (Int);
+<font size=-1> 15</font>    Text_IO.Put (<font color=#008B8B>"You entered "</font>);
+<font size=-1> 16</font>    Integer_Text_IO.Put (Int);
+<font size=-1> 17</font>    Text_IO.New_Line;
+<font size=-1> 18</font> 
+<font size=-1> 19</font>    Text_IO.Put (<font color=#008B8B>"Enter a real number =&#62; "</font>);
+<font size=-1> 20</font>    Float_Text_IO.Get (Real);
+<font size=-1> 21</font>    Text_IO.Put (<font color=#008B8B>"You entered "</font>);
+<font size=-1> 22</font>    Float_Text_IO.Put (Real, Aft=&#62;<font color=#008B8B>2</font>, Exp=&#62;<font color=#008B8B>0</font>);
+<font size=-1> 23</font>    Text_IO.New_Line;
+<font size=-1> 24</font> 
+<font size=-1> 25</font> <b><font color=#228B22>end</font></b> IO;
+</pre>
+</body>
+</html>

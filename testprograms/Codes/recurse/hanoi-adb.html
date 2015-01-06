@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>The Ada Program: hanoi.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: hanoi.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- hanoi.adb:  the classic Towers of Hanoi recursive program</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>;
+<font size=-1>  4</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  5</font> 
+<font size=-1>  6</font> <b><font color=#228B22>procedure</font></b> Hanoi <b><font color=#228B22>is</font></b>
+<font size=-1>  7</font> 
+<font size=-1>  8</font>    <b><font color=#228B22>type</font></b> Pegs <b><font color=#228B22>is</font></b> (<font color=#008B8B>'A'</font>, <font color=#008B8B>'B'</font>, <font color=#008B8B>'C'</font>);
+<font size=-1>  9</font>    <b><font color=#228B22>package</font></b> Peg_IO <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> Text_IO.Enumeration_IO (Pegs);
+<font size=-1> 10</font>    <b><font color=#228B22>type</font></b> Disks <b><font color=#228B22>is</font></b> (Very_Small, Small, Medium, Large, Very_Large);
+<font size=-1> 11</font>    <b><font color=#228B22>package</font></b> Disk_IO <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> Text_IO.Enumeration_IO (Disks);
+<font size=-1> 12</font> 
+<font size=-1> 13</font>    <b><i><font color=#BB1212>-- Move disk "D" from tower "From" to tower "To".  We assume</font></i></b>
+<font size=-1> 14</font>    <b><i><font color=#BB1212>-- "D" is the topmost disk on the "From" tower and it is</font></i></b>
+<font size=-1> 15</font>    <b><i><font color=#BB1212>-- smaller than the topmost disk (if any) on the "To" tower.</font></i></b>
+<font size=-1> 16</font>    <b><font color=#228B22>procedure</font></b> MoveDisk (D: Disks; From, To: Pegs) <b><font color=#228B22>is</font></b>
+<font size=-1> 17</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 18</font>       Text_IO.Put (<font color=#008B8B>"Move "</font>);              Disk_IO.Put (D, Width=&#62;<font color=#008B8B>10</font>);
+<font size=-1> 19</font>       Text_IO.Put (<font color=#008B8B>" disk from tower "</font>);  Peg_IO.Put (From);
+<font size=-1> 20</font>       Text_IO.Put (<font color=#008B8B>" to tower "</font>);         Peg_IO.Put (To);
+<font size=-1> 21</font>       Text_IO.New_Line;
+<font size=-1> 22</font>    <b><font color=#228B22>end</font></b> MoveDisk;
+<font size=-1> 23</font> 
+<font size=-1> 24</font>    <b><i><font color=#BB1212>-- Move the top "N" through "Very_Small" disks on the "From" tower</font></i></b>
+<font size=-1> 25</font>    <b><i><font color=#BB1212>-- to the "To" tower, making use of the auxiliary "Aux" tower.</font></i></b>
+<font size=-1> 26</font>    <b><font color=#228B22>procedure</font></b> Tower (From, To, Aux: Pegs; N: Disks) <b><font color=#228B22>is</font></b>
+<font size=-1> 27</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 28</font>       <b><font color=#228B22>if</font></b> N=Disks<font color=#8B008B>'First</font> <b><font color=#228B22>then</font></b>
+<font size=-1> 29</font>          MoveDisk (Disks<font color=#8B008B>'First</font>, From, To);
+<font size=-1> 30</font>       <b><font color=#228B22>else</font></b>
+<font size=-1> 31</font>          Tower (From, Aux, To, Disks<font color=#8B008B>'Pred</font>(N));
+<font size=-1> 32</font>          MoveDisk (N, From, To);
+<font size=-1> 33</font>          Tower (Aux, To, From, Disks<font color=#8B008B>'Pred</font>(N));
+<font size=-1> 34</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 35</font>    <b><font color=#228B22>end</font></b> Tower;
+<font size=-1> 36</font> 
+<font size=-1> 37</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 38</font> 
+<font size=-1> 39</font>    <b><i><font color=#BB1212>-- Print the instructions for moving all the disks</font></i></b>
+<font size=-1> 40</font>    Tower (From=&#62;<font color=#008B8B>'A'</font>, To=&#62;<font color=#008B8B>'B'</font>, Aux=&#62;<font color=#008B8B>'C'</font>, N=&#62;Disks<font color=#8B008B>'Last</font>);
+<font size=-1> 41</font> 
+<font size=-1> 42</font> <b><font color=#228B22>end</font></b> Hanoi;
+</pre>
+</body>
+</html>

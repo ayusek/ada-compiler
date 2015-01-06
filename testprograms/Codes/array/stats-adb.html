@@ -1,0 +1,58 @@
+<html>
+<head>
+<title>The Ada Program: stats.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: stats.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- stats.adb:  compute average, standard deviation of array of values</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-09.html#32">Ada.Float_Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>;
+<font size=-1>  4</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-05-01.html">Ada.Numerics.Elementary_Functions</a>;
+<font size=-1>  5</font> <b><font color=#228B22>use</font></b> Ada, <a href="http://www.adahome.com/rm95/rm9x-A-05-01.html">Ada.Numerics.Elementary_Functions</a>;
+<font size=-1>  6</font> 
+<font size=-1>  7</font> <b><font color=#228B22>procedure</font></b> Stats <b><font color=#228B22>is</font></b>
+<font size=-1>  8</font> 
+<font size=-1>  9</font>    <b><font color=#228B22>type</font></b> Scores_Type <b><font color=#228B22>is</font></b> <b><font color=#228B22>array</font></b> (<font color=#008B8B>1</font>..<font color=#008B8B>10</font>) <b><font color=#228B22>of</font></b> <font color=#8B008B>Integer</font>;
+<font size=-1> 10</font>    Scores : Scores_Type := (<font color=#008B8B>39</font>, <font color=#008B8B>78</font>, <font color=#008B8B>51</font>, <font color=#008B8B>53</font>, <font color=#008B8B>81</font>, <font color=#008B8B>42</font>, <font color=#008B8B>69</font>, <font color=#008B8B>72</font>, <font color=#008B8B>79</font>, <font color=#008B8B>53</font>);
+<font size=-1> 11</font>    Sum: <font color=#8B008B>Integer</font>;
+<font size=-1> 12</font>    Average, Deviation: <font color=#8B008B>Float</font>;
+<font size=-1> 13</font> 
+<font size=-1> 14</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 15</font>    <b><i><font color=#BB1212>-- Sum "Scores"</font></i></b>
+<font size=-1> 16</font>    Sum := <font color=#008B8B>0</font>;
+<font size=-1> 17</font>    <b><font color=#228B22>for</font></b> I <b><font color=#228B22>in</font></b> Scores<font color=#8B008B>'Range</font> <b><font color=#228B22>loop</font></b>
+<font size=-1> 18</font>       Sum := Sum + Scores(I);
+<font size=-1> 19</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 20</font>    Text_IO.Put (<font color=#008B8B>"Sum is "</font>);
+<font size=-1> 21</font>    Integer_Text_IO.Put (Sum, Width=&#62;<font color=#008B8B>0</font>);
+<font size=-1> 22</font>    Text_IO.New_Line;
+<font size=-1> 23</font> 
+<font size=-1> 24</font>    Average := <font color=#8B008B>Float</font>(Sum) / <font color=#8B008B>Float</font>(Scores<font color=#8B008B>'Length</font>);
+<font size=-1> 25</font>    Text_IO.Put (<font color=#008B8B>"Average is "</font>);
+<font size=-1> 26</font>    Float_Text_IO.Put (Average, Aft=&#62;<font color=#008B8B>2</font>, Exp=&#62;<font color=#008B8B>0</font>);
+<font size=-1> 27</font>    Text_IO.New_Line;
+<font size=-1> 28</font> 
+<font size=-1> 29</font>    Deviation := <font color=#008B8B>0.0</font>;
+<font size=-1> 30</font>    <b><font color=#228B22>for</font></b> I <b><font color=#228B22>in</font></b> Scores<font color=#8B008B>'Range</font> <b><font color=#228B22>loop</font></b>
+<font size=-1> 31</font>       Deviation := Deviation + (<font color=#8B008B>Float</font>(Scores(I))-Average)**<font color=#008B8B>2</font>;
+<font size=-1> 32</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 33</font>    Deviation := Sqrt (Deviation / (<font color=#8B008B>Float</font>(Scores<font color=#8B008B>'Length</font>-<font color=#008B8B>1</font>)));
+<font size=-1> 34</font>    Text_IO.Put (<font color=#008B8B>"Standard deviation is "</font>);
+<font size=-1> 35</font>    Float_Text_IO.Put (Deviation, Aft=&#62;<font color=#008B8B>0</font>, Exp=&#62;<font color=#008B8B>0</font>);
+<font size=-1> 36</font>    Text_IO.New_Line;
+<font size=-1> 37</font> 
+<font size=-1> 38</font>    <b><font color=#228B22>for</font></b> I <b><font color=#228B22>in</font></b> Scores<font color=#8B008B>'Range</font> <b><font color=#228B22>loop</font></b>
+<font size=-1> 39</font>       Text_IO.Put (<font color=#008B8B>"Standardized score for "</font>);
+<font size=-1> 40</font>       Integer_Text_IO.Put (Scores(I), Width=&#62;<font color=#008B8B>0</font>);
+<font size=-1> 41</font>       Text_IO.Put (<font color=#008B8B>" is "</font>);
+<font size=-1> 42</font>       Float_Text_IO.Put ((<font color=#8B008B>Float</font>(Scores(I))-Average)/Deviation,
+<font size=-1> 43</font>                          Aft=&#62;<font color=#008B8B>0</font>, Exp=&#62;<font color=#008B8B>0</font>);
+<font size=-1> 44</font>       Text_IO.New_Line;
+<font size=-1> 45</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 46</font> 
+<font size=-1> 47</font> <b><font color=#228B22>end</font></b> Stats;
+</pre>
+</body>
+</html>

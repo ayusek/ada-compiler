@@ -1,0 +1,55 @@
+<html>
+<head>
+<title>The Ada Program: queues.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: queues.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- queues.adb:  queue package using pointers</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-13-11-02.html">Ada.Unchecked_Deallocation</a>;
+<font size=-1>  4</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  5</font> 
+<font size=-1>  6</font> <b><font color=#228B22>package</font></b> <b><font color=#228B22>body</font></b> Queues <b><font color=#228B22>is</font></b>
+<font size=-1>  7</font> 
+<font size=-1>  8</font>    <b><font color=#228B22>procedure</font></b> Free_Queue_Element <b><font color=#228B22>is</font></b>
+<font size=-1>  9</font>      <b><font color=#228B22>new</font></b> Unchecked_Deallocation(Queue_Element_Type,Queue_Element_Pointer);
+<font size=-1> 10</font> 
+<font size=-1> 11</font>    <b><font color=#228B22>procedure</font></b> Enqueue (Item: <b><font color=#228B22>in</font></b> <font color=#8B008B>Integer</font>; Queue: <b><font color=#228B22>in</font></b> <b><font color=#228B22>out</font></b> Queue_Type) <b><font color=#228B22>is</font></b>
+<font size=-1> 12</font>       New_Element : Queue_Element_Pointer;
+<font size=-1> 13</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 14</font>       New_Element := <b><font color=#228B22>new</font></b> Queue_Element_Type' (Item, <b><font color=#228B22>null</font></b>);
+<font size=-1> 15</font>       <b><font color=#228B22>if</font></b> Queue.Length = <font color=#008B8B>0</font> <b><font color=#228B22>then</font></b>
+<font size=-1> 16</font>          Queue.Front := New_Element;
+<font size=-1> 17</font>       <b><font color=#228B22>else</font></b>
+<font size=-1> 18</font>          Queue.Back.Link := New_Element;
+<font size=-1> 19</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 20</font>       Queue.Back := New_Element;
+<font size=-1> 21</font>       Queue.Length := Queue.Length + <font color=#008B8B>1</font>;
+<font size=-1> 22</font>    <b><font color=#228B22>end</font></b> Enqueue;
+<font size=-1> 23</font> 
+<font size=-1> 24</font>    <b><font color=#228B22>procedure</font></b> Dequeue (Item: <b><font color=#228B22>out</font></b> <font color=#8B008B>Integer</font>; Queue: <b><font color=#228B22>in</font></b> <b><font color=#228B22>out</font></b> Queue_Type) <b><font color=#228B22>is</font></b>
+<font size=-1> 25</font>       Old_Front: Queue_Element_Pointer;
+<font size=-1> 26</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 27</font>       <b><font color=#228B22>if</font></b> Queue.Length &#62; <font color=#008B8B>0</font> <b><font color=#228B22>then</font></b>
+<font size=-1> 28</font>          Old_Front := Queue.Front;
+<font size=-1> 29</font>          Queue.Front := Old_Front.Link;
+<font size=-1> 30</font>          Item := Old_Front.Data;
+<font size=-1> 31</font>          Free_Queue_Element (Old_Front);  <b><i><font color=#BB1212>-- deallocate storage!</font></i></b>
+<font size=-1> 32</font>          Queue.Length := Queue.Length - <font color=#008B8B>1</font>;
+<font size=-1> 33</font>       <b><font color=#228B22>else</font></b>
+<font size=-1> 34</font>          <b><font color=#228B22>raise</font></b> Empty_Queue_Error;
+<font size=-1> 35</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 36</font>    <b><font color=#228B22>end</font></b> Dequeue;
+<font size=-1> 37</font> 
+<font size=-1> 38</font>    <b><font color=#228B22>function</font></b> Length (Queue: Queue_Type) <b><font color=#228B22>return</font></b> <font color=#8B008B>Natural</font> <b><font color=#228B22>is</font></b>
+<font size=-1> 39</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 40</font>       <b><font color=#228B22>return</font></b> Queue.Length;
+<font size=-1> 41</font>    <b><font color=#228B22>end</font></b> Length;
+<font size=-1> 42</font> 
+<font size=-1> 43</font> <b><font color=#228B22>end</font></b> Queues;
+<font size=-1> 44</font> 
+</pre>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<html>
+<head>
+<title>The Ada Program: read_rec.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: read_rec.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- read_ints.adb:  read different types from binary file</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-08-01.html">Ada.Sequential_IO</a>, Rec_Package;
+<font size=-1>  4</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  5</font> 
+<font size=-1>  6</font> <b><font color=#228B22>procedure</font></b> Read_Rec <b><font color=#228B22>is</font></b>
+<font size=-1>  7</font> 
+<font size=-1>  8</font>    <b><font color=#228B22>package</font></b> Bin_IO <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> Sequential_IO (Rec_Package.Mixed);
+<font size=-1>  9</font>    File      : Bin_IO.File_Type;
+<font size=-1> 10</font>    File_Name : <b><font color=#228B22>constant</font></b> <font color=#8B008B>String</font> := <font color=#008B8B>"mixed.data"</font>;
+<font size=-1> 11</font> 
+<font size=-1> 12</font>    X : Rec_Package.Mixed;
+<font size=-1> 13</font> 
+<font size=-1> 14</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 15</font> 
+<font size=-1> 16</font>    Bin_IO.Open (File=&#62;File, Mode=&#62;Bin_IO.In_File, Name=&#62;File_Name);
+<font size=-1> 17</font>    <b><font color=#228B22>while</font></b> <b><font color=#228B22>not</font></b> Bin_IO.End_Of_File (File) <b><font color=#228B22>loop</font></b>
+<font size=-1> 18</font>       Bin_IO.Read (File=&#62;File, Item=&#62;X);
+<font size=-1> 19</font>       Rec_Package.Put_Line (X);
+<font size=-1> 20</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 21</font>    Bin_IO.Close (File=&#62;File);
+<font size=-1> 22</font> 
+<font size=-1> 23</font> <b><font color=#228B22>end</font></b> Read_Rec;
+</pre>
+</body>
+</html>

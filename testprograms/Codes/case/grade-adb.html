@@ -1,0 +1,49 @@
+<html>
+<head>
+<title>The Ada Program: grade.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: grade.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- grade.adb:  example use of the case statement</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>;
+<font size=-1>  4</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  5</font> 
+<font size=-1>  6</font> <b><font color=#228B22>procedure</font></b> Grade <b><font color=#228B22>is</font></b>
+<font size=-1>  7</font> 
+<font size=-1>  8</font>    Score : <font color=#8B008B>Integer</font> <b><font color=#228B22>range</font></b> <font color=#008B8B>0</font> .. <font color=#008B8B>100</font>;
+<font size=-1>  9</font>    Letter: <font color=#8B008B>Character</font>;
+<font size=-1> 10</font> 
+<font size=-1> 11</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 12</font> 
+<font size=-1> 13</font>    Input: <b><font color=#228B22>loop</font></b>
+<font size=-1> 14</font> 
+<font size=-1> 15</font>       Text_IO.Put (<font color=#008B8B>"Enter a test score (0 to 100) -- "</font>);
+<font size=-1> 16</font> 
+<font size=-1> 17</font>       <b><i><font color=#BB1212>-- We must test for EOF after prompt, because it</font></i></b>
+<font size=-1> 18</font>       <b><i><font color=#BB1212>-- blocks waiting for input.</font></i></b>
+<font size=-1> 19</font>       <b><font color=#228B22>exit</font></b> <b><font color=#228B22>when</font></b> Text_IO.End_Of_File;
+<font size=-1> 20</font> 
+<font size=-1> 21</font>       Integer_Text_IO.Get (Score);
+<font size=-1> 22</font>       Text_IO.Skip_Line;  <b><i><font color=#BB1212>-- discard rest of the line</font></i></b>
+<font size=-1> 23</font> 
+<font size=-1> 24</font>       <b><font color=#228B22>case</font></b> Score <b><font color=#228B22>is</font></b>
+<font size=-1> 25</font>          <b><font color=#228B22>when</font></b> <font color=#008B8B>91</font> .. <font color=#008B8B>100</font> =&#62; Letter := <font color=#008B8B>'A'</font>;
+<font size=-1> 26</font>          <b><font color=#228B22>when</font></b> <font color=#008B8B>81</font> ..  <font color=#008B8B>90</font> =&#62; Letter := <font color=#008B8B>'B'</font>;
+<font size=-1> 27</font>          <b><font color=#228B22>when</font></b> <font color=#008B8B>71</font> ..  <font color=#008B8B>80</font> =&#62; Letter := <font color=#008B8B>'C'</font>;
+<font size=-1> 28</font>          <b><font color=#228B22>when</font></b> <font color=#008B8B>61</font> ..  <font color=#008B8B>70</font> =&#62; Letter := <font color=#008B8B>'D'</font>;
+<font size=-1> 29</font>          <b><font color=#228B22>when</font></b> <b><font color=#228B22>others</font></b>    =&#62; Letter := <font color=#008B8B>'F'</font>;
+<font size=-1> 30</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>case</font></b>;
+<font size=-1> 31</font> 
+<font size=-1> 32</font>       Text_IO.Put (<font color=#008B8B>"A score of '"</font>);
+<font size=-1> 33</font>       Integer_Text_IO.Put (Score, Width=&#62;<font color=#008B8B>0</font>);
+<font size=-1> 34</font>       Text_IO.Put_Line (<font color=#008B8B>"' is the letter grade '"</font> &#38; Letter &#38; <font color=#008B8B>"'."</font>);
+<font size=-1> 35</font> 
+<font size=-1> 36</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b> Input;
+<font size=-1> 37</font> 
+<font size=-1> 38</font> <b><font color=#228B22>end</font></b> Grade;
+</pre>
+</body>
+</html>

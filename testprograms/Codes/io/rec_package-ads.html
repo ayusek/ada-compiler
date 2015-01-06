@@ -1,0 +1,30 @@
+<html>
+<head>
+<title>The Ada Program: rec_package.ads</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: rec_package.ads</h1>
+<pre>
+<font size=-1>  1</font> <b><font color=#228B22>package</font></b> Rec_Package <b><font color=#228B22>is</font></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font>    <b><font color=#228B22>type</font></b> Kind <b><font color=#228B22>is</font></b> (Int, Real, Char);
+<font size=-1>  4</font> 
+<font size=-1>  5</font>    <b><i><font color=#BB1212>-- Avoid pointers and sequential IO</font></i></b>
+<font size=-1>  6</font>    <b><font color=#228B22>type</font></b> Mixed (Tag: Kind := Int) <b><font color=#228B22>is</font></b> <b><font color=#228B22>record</font></b>
+<font size=-1>  7</font>       <b><font color=#228B22>case</font></b> Tag <b><font color=#228B22>is</font></b>
+<font size=-1>  8</font>          <b><font color=#228B22>when</font></b> Int  =&#62; Int_Part  : <font color=#8B008B>Integer</font>;
+<font size=-1>  9</font>          <b><font color=#228B22>when</font></b> Real =&#62; Real_Part : <font color=#8B008B>Float</font>;
+<font size=-1> 10</font>          <b><font color=#228B22>when</font></b> Char =&#62; Char_Part : <font color=#8B008B>Character</font>;
+<font size=-1> 11</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>case</font></b>;
+<font size=-1> 12</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>record</font></b>;
+<font size=-1> 13</font> 
+<font size=-1> 14</font>    <b><font color=#228B22>function</font></b> To_Mixed (X: <font color=#8B008B>Integer</font>) <b><font color=#228B22>return</font></b> Mixed;
+<font size=-1> 15</font>    <b><font color=#228B22>function</font></b> To_Mixed (X: <font color=#8B008B>Float</font>) <b><font color=#228B22>return</font></b> Mixed;
+<font size=-1> 16</font>    <b><font color=#228B22>function</font></b> To_Mixed (X: <font color=#8B008B>Character</font>) <b><font color=#228B22>return</font></b> Mixed;
+<font size=-1> 17</font>    <b><font color=#228B22>procedure</font></b> Put_Line (Item: Mixed);
+<font size=-1> 18</font> 
+<font size=-1> 19</font> <b><font color=#228B22>end</font></b> Rec_Package;
+</pre>
+</body>
+</html>

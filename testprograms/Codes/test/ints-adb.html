@@ -1,0 +1,30 @@
+<html>
+<head>
+<title>The Ada Program: ints.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: ints.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- ints.adb:  read and write integers</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>;
+<font size=-1>  4</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  5</font> 
+<font size=-1>  6</font> <b><font color=#228B22>procedure</font></b> Ints <b><font color=#228B22>is</font></b>
+<font size=-1>  7</font>    I: <font color=#8B008B>Integer</font>;
+<font size=-1>  8</font> <b><font color=#228B22>begin</font></b>
+<font size=-1>  9</font> 
+<font size=-1> 10</font>    Integer_Text_IO.Put (Item=&#62;<font color=#008B8B>4</font>);            <b><i><font color=#BB1212>-- print int 4</font></i></b>
+<font size=-1> 11</font>    Integer_Text_IO.Put (Item=&#62;<font color=#008B8B>7</font>, Width=&#62;<font color=#008B8B>4</font>);  <b><i><font color=#BB1212>-- print int 7</font></i></b>
+<font size=-1> 12</font>    Integer_Text_IO.Put (Item=&#62;<font color=#008B8B>17</font>);           <b><i><font color=#BB1212>-- print int 17</font></i></b>
+<font size=-1> 13</font>    Text_IO.New_Line;                         <b><i><font color=#BB1212>-- print a new line</font></i></b>
+<font size=-1> 14</font> 
+<font size=-1> 15</font>    Integer_Text_IO.Get (Item=&#62;I);       <b><i><font color=#BB1212>-- get int from keyboard</font></i></b>
+<font size=-1> 16</font>    Integer_Text_IO.Put (Item=&#62;I);       <b><i><font color=#BB1212>-- print the int</font></i></b>
+<font size=-1> 17</font>    Text_IO.New_Line;
+<font size=-1> 18</font> 
+<font size=-1> 19</font> <b><font color=#228B22>end</font></b> Ints;
+</pre>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>The Ada Program: go1.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: go1.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><font color=#228B22>with</font></b>
+<font size=-1>  2</font>    <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>,
+<font size=-1>  3</font>    Ada.Strings, Ada.Strings.Fixed, Ada.Strings.Maps,
+<font size=-1>  4</font>    <a href="http://www.adahome.com/rm95/rm9x-A-03-03.html">Ada.Characters.Latin_1</a>;
+<font size=-1>  5</font> 
+<font size=-1>  6</font> <b><font color=#228B22>use</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, Ada.Strings, Ada.Characters;
+<font size=-1>  7</font> 
+<font size=-1>  8</font> <b><font color=#228B22>function</font></b> German_Ordering (Left, Right: <font color=#8B008B>String</font>) <b><font color=#228B22>return</font></b> <font color=#8B008B>Boolean</font> <b><font color=#228B22>is</font></b>
+<font size=-1>  9</font> 
+<font size=-1> 10</font>    <b><font color=#228B22>type</font></b> CST <b><font color=#228B22>is</font></b> <b><font color=#228B22>array</font></b> (<font color=#8B008B>Character</font>) <b><font color=#228B22>of</font></b> <font color=#8B008B>Integer</font>;
+<font size=-1> 11</font> 
+<font size=-1> 12</font>    Collating_Sequence : <b><font color=#228B22>constant</font></b> CST := CST' (
+<font size=-1> 13</font>       <font color=#008B8B>'-'</font> =&#62;  <font color=#008B8B>1</font>, <font color=#008B8B>' '</font> =&#62;  <font color=#008B8B>2</font>,
+<font size=-1> 14</font>       <font color=#008B8B>'A'</font> =&#62;  <font color=#008B8B>3</font>, <font color=#008B8B>'Ä'</font> =&#62;  <font color=#008B8B>4</font>, <font color=#008B8B>'a'</font> =&#62;  <font color=#008B8B>5</font>, <font color=#008B8B>'ä'</font> =&#62;  <font color=#008B8B>6</font>,
+<font size=-1> 15</font>       <font color=#008B8B>'B'</font> =&#62;  <font color=#008B8B>7</font>, <font color=#008B8B>'b'</font> =&#62;  <font color=#008B8B>8</font>, <font color=#008B8B>'C'</font> =&#62;  <font color=#008B8B>9</font>, <font color=#008B8B>'c'</font> =&#62; <font color=#008B8B>10</font>,
+<font size=-1> 16</font>       <font color=#008B8B>'D'</font> =&#62; <font color=#008B8B>11</font>, <font color=#008B8B>'d'</font> =&#62; <font color=#008B8B>12</font>, <font color=#008B8B>'E'</font> =&#62; <font color=#008B8B>13</font>, <font color=#008B8B>'e'</font> =&#62; <font color=#008B8B>14</font>,
+<font size=-1> 17</font>       <font color=#008B8B>'F'</font> =&#62; <font color=#008B8B>15</font>, <font color=#008B8B>'f'</font> =&#62; <font color=#008B8B>16</font>, <font color=#008B8B>'G'</font> =&#62; <font color=#008B8B>17</font>, <font color=#008B8B>'g'</font> =&#62; <font color=#008B8B>18</font>,
+<font size=-1> 18</font>       <font color=#008B8B>'H'</font> =&#62; <font color=#008B8B>19</font>, <font color=#008B8B>'h'</font> =&#62; <font color=#008B8B>20</font>, <font color=#008B8B>'I'</font> =&#62; <font color=#008B8B>21</font>, <font color=#008B8B>'i'</font> =&#62; <font color=#008B8B>22</font>,
+<font size=-1> 19</font>       <font color=#008B8B>'J'</font> =&#62; <font color=#008B8B>30</font>, <font color=#008B8B>'j'</font> =&#62; <font color=#008B8B>31</font>, <font color=#008B8B>'K'</font> =&#62; <font color=#008B8B>32</font>, <font color=#008B8B>'k'</font> =&#62; <font color=#008B8B>33</font>,
+<font size=-1> 20</font>       <font color=#008B8B>'L'</font> =&#62; <font color=#008B8B>40</font>, <font color=#008B8B>'l'</font> =&#62; <font color=#008B8B>41</font>, <font color=#008B8B>'M'</font> =&#62; <font color=#008B8B>42</font>, <font color=#008B8B>'m'</font> =&#62; <font color=#008B8B>43</font>,
+<font size=-1> 21</font>       <font color=#008B8B>'N'</font> =&#62; <font color=#008B8B>48</font>, <font color=#008B8B>'n'</font> =&#62; <font color=#008B8B>49</font>,
+<font size=-1> 22</font>       <font color=#008B8B>'O'</font> =&#62; <font color=#008B8B>50</font>, <font color=#008B8B>'Ö'</font> =&#62; <font color=#008B8B>51</font>, <font color=#008B8B>'o'</font> =&#62; <font color=#008B8B>52</font>, <font color=#008B8B>'ö'</font> =&#62; <font color=#008B8B>53</font>,
+<font size=-1> 23</font>       <font color=#008B8B>'P'</font> =&#62; <font color=#008B8B>60</font>, <font color=#008B8B>'p'</font> =&#62; <font color=#008B8B>61</font>, <font color=#008B8B>'Q'</font> =&#62; <font color=#008B8B>62</font>, <font color=#008B8B>'q'</font> =&#62; <font color=#008B8B>63</font>,
+<font size=-1> 24</font>       <font color=#008B8B>'R'</font> =&#62; <font color=#008B8B>70</font>, <font color=#008B8B>'r'</font> =&#62; <font color=#008B8B>71</font>, <font color=#008B8B>'S'</font> =&#62; <font color=#008B8B>72</font>, <font color=#008B8B>'s'</font> =&#62; <font color=#008B8B>73</font>,
+<font size=-1> 25</font>       <font color=#008B8B>'T'</font> =&#62; <font color=#008B8B>80</font>, <font color=#008B8B>'t'</font> =&#62; <font color=#008B8B>81</font>,
+<font size=-1> 26</font>       <font color=#008B8B>'U'</font> =&#62; <font color=#008B8B>90</font>, <font color=#008B8B>'Ü'</font> =&#62; <font color=#008B8B>91</font>, <font color=#008B8B>'u'</font> =&#62; <font color=#008B8B>92</font>, <font color=#008B8B>'ü'</font> =&#62; <font color=#008B8B>93</font>,
+<font size=-1> 27</font>       <font color=#008B8B>'V'</font> =&#62;<font color=#008B8B>100</font>, <font color=#008B8B>'v'</font> =&#62;<font color=#008B8B>101</font>, <font color=#008B8B>'W'</font> =&#62;<font color=#008B8B>102</font>, <font color=#008B8B>'w'</font> =&#62;<font color=#008B8B>103</font>,
+<font size=-1> 28</font>       <font color=#008B8B>'X'</font> =&#62;<font color=#008B8B>110</font>, <font color=#008B8B>'x'</font> =&#62;<font color=#008B8B>111</font>, <font color=#008B8B>'Y'</font> =&#62;<font color=#008B8B>112</font>, <font color=#008B8B>'y'</font> =&#62;<font color=#008B8B>113</font>,
+<font size=-1> 29</font>       <font color=#008B8B>'Z'</font> =&#62;<font color=#008B8B>120</font>, <font color=#008B8B>'z'</font> =&#62;<font color=#008B8B>121</font>,
+<font size=-1> 30</font>       <b><font color=#228B22>others</font></b> =&#62; <font color=#008B8B>0</font>);
+<font size=-1> 31</font> 
+<font size=-1> 32</font>    Index : <font color=#8B008B>Positive</font>;
+<font size=-1> 33</font>    Sharp_S: Maps.Character_Set := Maps.To_Set (Latin_1.LC_German_Sharp_S);
+<font size=-1> 34</font>    Left_Count  : <font color=#8B008B>Natural</font> := Fixed.Count (Left, Sharp_S);
+<font size=-1> 35</font>    Left_Buffer : <font color=#8B008B>String</font> (<font color=#008B8B>1</font> .. Left<font color=#8B008B>'Length</font> + Left_Count);
+<font size=-1> 36</font>    Right_Count : <font color=#8B008B>Natural</font> := Fixed.Count (Right, Sharp_S);
+<font size=-1> 37</font>    Right_Buffer: <font color=#8B008B>String</font> (<font color=#008B8B>1</font> .. Right<font color=#8B008B>'Length</font> + Right_Count);
+<font size=-1> 38</font> 
+<font size=-1> 39</font>    <b><font color=#228B22>procedure</font></b> Copy (S: <b><font color=#228B22>in</font></b> <font color=#8B008B>String</font>; B: <b><font color=#228B22>out</font></b> <font color=#8B008B>String</font>) <b><font color=#228B22>is</font></b>
+<font size=-1> 40</font>    <b><i><font color=#BB1212>-- ...</font></i></b>
+<font size=-1> 41</font>    <b><font color=#228B22>end</font></b> Copy;
+<font size=-1> 42</font> 
+<font size=-1> 43</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 44</font>    <b><i><font color=#BB1212>-- ...</font></i></b>
+<font size=-1> 45</font> <b><font color=#228B22>end</font></b> German_Ordering;
+</pre>
+</body>
+</html>

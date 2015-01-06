@@ -1,0 +1,57 @@
+<html>
+<head>
+<title>The Ada Program: compare.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: compare.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- compare.adb:  comparing arrays and array slices</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>;
+<font size=-1>  4</font> <b><font color=#228B22>use</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>;
+<font size=-1>  5</font> 
+<font size=-1>  6</font> <b><font color=#228B22>procedure</font></b> Compare <b><font color=#228B22>is</font></b>
+<font size=-1>  7</font> <b><font color=#228B22>begin</font></b>
+<font size=-1>  8</font>    <b><font color=#228B22>declare</font></b>
+<font size=-1>  9</font>       <b><font color=#228B22>type</font></b> Integer_Array <b><font color=#228B22>is</font></b> <b><font color=#228B22>array</font></b> (<font color=#8B008B>Positive</font> <b><font color=#228B22>range</font></b> &#60;&#62;) <b><font color=#228B22>of</font></b> <font color=#8B008B>Integer</font>;
+<font size=-1> 10</font>       S: Integer_Array := (<font color=#008B8B>31</font>, <font color=#008B8B>32</font>, <font color=#008B8B>33</font>, <font color=#008B8B>34</font>, <font color=#008B8B>35</font>);
+<font size=-1> 11</font>       L: Integer_Array := (<font color=#008B8B>21</font>, <font color=#008B8B>22</font>, <font color=#008B8B>23</font>, <font color=#008B8B>24</font>, <font color=#008B8B>25</font>, <font color=#008B8B>31</font>, <font color=#008B8B>32</font>, <font color=#008B8B>33</font>, <font color=#008B8B>34</font>, <font color=#008B8B>35</font>, <font color=#008B8B>41</font>);
+<font size=-1> 12</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 13</font>       Put_Line (<font color=#8B008B>Boolean</font><font color=#8B008B>'Image</font> (  S       = L         ));   <b><i><font color=#BB1212>-- false</font></i></b>
+<font size=-1> 14</font>       Put_Line (<font color=#8B008B>Boolean</font><font color=#8B008B>'Image</font> (  S       &#60; L         ));   <b><i><font color=#BB1212>-- false</font></i></b>
+<font size=-1> 15</font>       Put_Line (<font color=#8B008B>Boolean</font><font color=#8B008B>'Image</font> (  S       = L(<font color=#008B8B>1</font>..<font color=#008B8B>5</font>)   ));   <b><i><font color=#BB1212>-- false</font></i></b>
+<font size=-1> 16</font>       Put_Line (<font color=#8B008B>Boolean</font><font color=#8B008B>'Image</font> (  S       = L(<font color=#008B8B>6</font>..<font color=#008B8B>10</font>)  ));   <b><i><font color=#BB1212>-- true</font></i></b>
+<font size=-1> 17</font>       Put_Line (<font color=#8B008B>Boolean</font><font color=#8B008B>'Image</font> (  S(<font color=#008B8B>1</font>..<font color=#008B8B>4</font>) &#60; L(<font color=#008B8B>6</font>..<font color=#008B8B>10</font>)  ));   <b><i><font color=#BB1212>-- true</font></i></b>
+<font size=-1> 18</font>       Put_Line (<font color=#8B008B>Boolean</font><font color=#8B008B>'Image</font> (  S(<font color=#008B8B>5</font>..<font color=#008B8B>1</font>) &#60; L         ));   <b><i><font color=#BB1212>-- true</font></i></b>
+<font size=-1> 19</font>    <b><font color=#228B22>end</font></b>;
+<font size=-1> 20</font> 
+<font size=-1> 21</font>    <b><font color=#228B22>declare</font></b>
+<font size=-1> 22</font>       <b><font color=#228B22>type</font></b> Month <b><font color=#228B22>is</font></b> (Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec);
+<font size=-1> 23</font>       <b><font color=#228B22>type</font></b> Month_Array <b><font color=#228B22>is</font></b> <b><font color=#228B22>array</font></b> (<font color=#8B008B>Positive</font> <b><font color=#228B22>range</font></b> &#60;&#62;) <b><font color=#228B22>of</font></b> Month;
+<font size=-1> 24</font>       S: Month_Array := (Jun,Jul,Aug,Sep,Oct);
+<font size=-1> 25</font>       L: Month_Array := (Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Dec);
+<font size=-1> 26</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 27</font>       Put_Line (<font color=#8B008B>Boolean</font><font color=#8B008B>'Image</font> (  S       = L         ));   <b><i><font color=#BB1212>-- false</font></i></b>
+<font size=-1> 28</font>       Put_Line (<font color=#8B008B>Boolean</font><font color=#8B008B>'Image</font> (  S       &#60; L         ));   <b><i><font color=#BB1212>-- false</font></i></b>
+<font size=-1> 29</font>       Put_Line (<font color=#8B008B>Boolean</font><font color=#8B008B>'Image</font> (  S       = L(<font color=#008B8B>1</font>..<font color=#008B8B>5</font>)   ));   <b><i><font color=#BB1212>-- false</font></i></b>
+<font size=-1> 30</font>       Put_Line (<font color=#8B008B>Boolean</font><font color=#8B008B>'Image</font> (  S       = L(<font color=#008B8B>6</font>..<font color=#008B8B>10</font>)  ));   <b><i><font color=#BB1212>-- true</font></i></b>
+<font size=-1> 31</font>       Put_Line (<font color=#8B008B>Boolean</font><font color=#8B008B>'Image</font> (  S(<font color=#008B8B>1</font>..<font color=#008B8B>4</font>) &#60; L(<font color=#008B8B>6</font>..<font color=#008B8B>10</font>)  ));   <b><i><font color=#BB1212>-- true</font></i></b>
+<font size=-1> 32</font>       Put_Line (<font color=#8B008B>Boolean</font><font color=#8B008B>'Image</font> (  S(<font color=#008B8B>5</font>..<font color=#008B8B>1</font>) &#60; L         ));   <b><i><font color=#BB1212>-- true</font></i></b>
+<font size=-1> 33</font>    <b><font color=#228B22>end</font></b>;
+<font size=-1> 34</font> 
+<font size=-1> 35</font>    <b><font color=#228B22>declare</font></b>
+<font size=-1> 36</font>       S: <font color=#8B008B>String</font> := <font color=#008B8B>"PQRST"</font>;
+<font size=-1> 37</font>       L: <font color=#8B008B>String</font> := <font color=#008B8B>"ABCDEPQRSTZ"</font>;
+<font size=-1> 38</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 39</font>       Put_Line (<font color=#8B008B>Boolean</font><font color=#8B008B>'Image</font> (  S       = L         ));   <b><i><font color=#BB1212>-- false</font></i></b>
+<font size=-1> 40</font>       Put_Line (<font color=#8B008B>Boolean</font><font color=#8B008B>'Image</font> (  S       &#60; L         ));   <b><i><font color=#BB1212>-- false</font></i></b>
+<font size=-1> 41</font>       Put_Line (<font color=#8B008B>Boolean</font><font color=#8B008B>'Image</font> (  S       = L(<font color=#008B8B>1</font>..<font color=#008B8B>5</font>)   ));   <b><i><font color=#BB1212>-- false</font></i></b>
+<font size=-1> 42</font>       Put_Line (<font color=#8B008B>Boolean</font><font color=#8B008B>'Image</font> (  S       = L(<font color=#008B8B>6</font>..<font color=#008B8B>10</font>)  ));   <b><i><font color=#BB1212>-- true</font></i></b>
+<font size=-1> 43</font>       Put_Line (<font color=#8B008B>Boolean</font><font color=#8B008B>'Image</font> (  S(<font color=#008B8B>1</font>..<font color=#008B8B>4</font>) &#60; L(<font color=#008B8B>6</font>..<font color=#008B8B>10</font>)  ));   <b><i><font color=#BB1212>-- true</font></i></b>
+<font size=-1> 44</font>       Put_Line (<font color=#8B008B>Boolean</font><font color=#8B008B>'Image</font> (  S(<font color=#008B8B>5</font>..<font color=#008B8B>1</font>) &#60; L         ));   <b><i><font color=#BB1212>-- true</font></i></b>
+<font size=-1> 45</font>    <b><font color=#228B22>end</font></b>;
+<font size=-1> 46</font> <b><font color=#228B22>end</font></b> Compare;
+</pre>
+</body>
+</html>

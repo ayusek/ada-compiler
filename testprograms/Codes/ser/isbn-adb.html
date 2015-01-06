@@ -1,0 +1,66 @@
+<html>
+<head>
+<title>The Ada Program: isbn.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: isbn.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- ACM North-Central Regional Programming Contest 1994</font></i></b>
+<font size=-1>  2</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>; <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  3</font> <b><font color=#228B22>procedure</font></b> ISBN <b><font color=#228B22>is</font></b>
+<font size=-1>  4</font> 
+<font size=-1>  5</font>    AI, Sum1, Sum2: <font color=#8B008B>Integer</font>;
+<font size=-1>  6</font> 
+<font size=-1>  7</font>    <b><font color=#228B22>procedure</font></b> Add (C:<font color=#8B008B>Character</font>) <b><font color=#228B22>is</font></b>
+<font size=-1>  8</font>       D: <b><font color=#228B22>constant</font></b> <font color=#8B008B>Integer</font> := <font color=#8B008B>Character</font><font color=#8B008B>'Pos</font>(C)-<font color=#8B008B>Character</font><font color=#8B008B>'Pos</font>(<font color=#008B8B>'0'</font>);
+<font size=-1>  9</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 10</font>       AI:=AI+<font color=#008B8B>1</font>;     <b><i><font color=#BB1212>-- keep track of length of ISBN</font></i></b>
+<font size=-1> 11</font>       Sum1 := Sum1 + D;
+<font size=-1> 12</font>       Sum2 := Sum2 + Sum1;
+<font size=-1> 13</font>    <b><font color=#228B22>end</font></b> Add;
+<font size=-1> 14</font> 
+<font size=-1> 15</font>    <b><font color=#228B22>procedure</font></b> AddX <b><font color=#228B22>is</font></b>
+<font size=-1> 16</font>    <b><font color=#228B22>begin</font></b>
+<font size=-1> 17</font>       AI:=AI+<font color=#008B8B>1</font>;
+<font size=-1> 18</font>       <b><font color=#228B22>if</font></b> AI = <font color=#008B8B>10</font> <b><font color=#228B22>then</font></b>
+<font size=-1> 19</font>          Sum1 := Sum1 + <font color=#008B8B>10</font>;
+<font size=-1> 20</font>          Sum2 := Sum2 + Sum1;
+<font size=-1> 21</font>       <b><font color=#228B22>else</font></b>
+<font size=-1> 22</font>          AI := <font color=#008B8B>999</font>;   <b><i><font color=#BB1212>-- make ISBN illegal</font></i></b>
+<font size=-1> 23</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 24</font>    <b><font color=#228B22>end</font></b> AddX;
+<font size=-1> 25</font> 
+<font size=-1> 26</font>    Buffer: <font color=#8B008B>String</font> (<font color=#008B8B>1</font>..<font color=#008B8B>80</font>);
+<font size=-1> 27</font>    Length, F, L: <font color=#8B008B>Integer</font>;
+<font size=-1> 28</font> 
+<font size=-1> 29</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 30</font>    Input: <b><font color=#228B22>while</font></b> <b><font color=#228B22>not</font></b> (Text_IO.End_Of_File) <b><font color=#228B22>loop</font></b>
+<font size=-1> 31</font>       Text_IO.Get_Line (Buffer, Length);
+<font size=-1> 32</font>       AI := <font color=#008B8B>0</font>;  Sum1 := <font color=#008B8B>0</font>;  Sum2 := <font color=#008B8B>0</font>;
+<font size=-1> 33</font> 
+<font size=-1> 34</font>       <b><i><font color=#BB1212>-- trim leading and trailing blanks</font></i></b>
+<font size=-1> 35</font>       F := Buffer<font color=#8B008B>'First</font>;
+<font size=-1> 36</font>       <b><font color=#228B22>while</font></b> (F&#60;=Length <b><font color=#228B22>and</font></b> <b><font color=#228B22>then</font></b> Buffer(F)=<font color=#008B8B>' '</font>) <b><font color=#228B22>loop</font></b> F:=F+<font color=#008B8B>1</font>; <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 37</font>       L  := Length;
+<font size=-1> 38</font>       <b><font color=#228B22>while</font></b> (L&#62;=F  <b><font color=#228B22>and</font></b> <b><font color=#228B22>then</font></b> Buffer(L)=<font color=#008B8B>' '</font>)   <b><font color=#228B22>loop</font></b> L:=L-<font color=#008B8B>1</font>; <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 39</font> 
+<font size=-1> 40</font>       <b><font color=#228B22>for</font></b> I <b><font color=#228B22>in</font></b> F .. L <b><font color=#228B22>loop</font></b>
+<font size=-1> 41</font>          <b><font color=#228B22>case</font></b> Buffer (I) <b><font color=#228B22>is</font></b>
+<font size=-1> 42</font>             <b><font color=#228B22>when</font></b> <font color=#008B8B>'-'</font>    =&#62; <b><font color=#228B22>null</font></b>;
+<font size=-1> 43</font>             <b><font color=#228B22>when</font></b> <font color=#008B8B>'0'</font>..<font color=#008B8B>'9'</font> =&#62; Add (Buffer(I));
+<font size=-1> 44</font>             <b><font color=#228B22>when</font></b> <font color=#008B8B>'X'</font>    =&#62; AddX;
+<font size=-1> 45</font>             <b><font color=#228B22>when</font></b> <b><font color=#228B22>others</font></b> =&#62; AI := <font color=#008B8B>999</font>;
+<font size=-1> 46</font>          <b><font color=#228B22>end</font></b> <b><font color=#228B22>case</font></b>;
+<font size=-1> 47</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 48</font> 
+<font size=-1> 49</font>       <b><font color=#228B22>if</font></b> (AI=<font color=#008B8B>10</font> <b><font color=#228B22>and</font></b> Sum2 <b><font color=#228B22>mod</font></b> <font color=#008B8B>11</font>=<font color=#008B8B>0</font>) <b><font color=#228B22>then</font></b>
+<font size=-1> 50</font>          Text_IO.Put_Line (Buffer(F..L)&#38; <font color=#008B8B>" is correct."</font>);
+<font size=-1> 51</font>       <b><font color=#228B22>else</font></b>
+<font size=-1> 52</font>          Text_IO.Put_Line (Buffer(F..L)&#38; <font color=#008B8B>" is incorrect."</font>);
+<font size=-1> 53</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
+<font size=-1> 54</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b> Input;
+<font size=-1> 55</font> <b><font color=#228B22>end</font></b> ISBN;
+</pre>
+</body>
+</html>

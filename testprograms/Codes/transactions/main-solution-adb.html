@@ -1,0 +1,62 @@
+<html>
+<head>
+<title>The Ada Program: main-solution.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: main-solution.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><font color=#228B22>with</font></b> Transactions, Transactions.Deposits, Transactions.Checks, Transactions.Interest;
+<font size=-1>  2</font> <b><font color=#228B22>use</font></b> Transactions, Transactions.Deposits, Transactions.Checks, Transactions.Interest;
+<font size=-1>  3</font> 
+<font size=-1>  4</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-04-05.html">Ada.Strings.Unbounded</a>;
+<font size=-1>  5</font> <b><font color=#228B22>use</font></b> Ada.Strings;
+<font size=-1>  6</font> 
+<font size=-1>  7</font> <b><font color=#228B22>procedure</font></b> Main <b><font color=#228B22>is</font></b>
+<font size=-1>  8</font> 
+<font size=-1>  9</font>    <b><font color=#228B22>type</font></b> Transaction_Array_Type <b><font color=#228B22>is</font></b>
+<font size=-1> 10</font>       <b><font color=#228B22>array</font></b> (<font color=#8B008B>Positive</font> <b><font color=#228B22>range</font></b> &#60;&#62;) <b><font color=#228B22>of</font></b> Transaction_Pointer_Type;
+<font size=-1> 11</font> 
+<font size=-1> 12</font>    <b><font color=#228B22>type</font></b> Transaction_List_Cell_Type;  <b><i><font color=#BB1212>-- forward declaration</font></i></b>
+<font size=-1> 13</font>    <b><font color=#228B22>type</font></b> Transaction_List_Type <b><font color=#228B22>is</font></b> <b><font color=#228B22>access</font></b> Transaction_List_Cell_Type;
+<font size=-1> 14</font>    <b><font color=#228B22>type</font></b> Transaction_List_Cell_Type <b><font color=#228B22>is</font></b>
+<font size=-1> 15</font>       <b><font color=#228B22>record</font></b>
+<font size=-1> 16</font>          Transaction_Part : Transaction_Pointer_Type;
+<font size=-1> 17</font>          Link_Part        : Transaction_List_Type;
+<font size=-1> 18</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>record</font></b>;
+<font size=-1> 19</font> 
+<font size=-1> 20</font>    List        : Transaction_List_Type;
+<font size=-1> 21</font>    Transaction : Transaction_Pointer_Type;
+<font size=-1> 22</font> 
+<font size=-1> 23</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 24</font> 
+<font size=-1> 25</font>    Transaction := <b><font color=#228B22>new</font></b> Transaction_Type'(Account_Part=&#62;<font color=#008B8B>"123-4567-5432-FH"</font>,
+<font size=-1> 26</font>       Amount_Part=&#62;<font color=#008B8B>123.45</font>);
+<font size=-1> 27</font>    List := <b><font color=#228B22>new</font></b> Transaction_List_Cell_Type'(Transaction_Part=&#62;Transaction,
+<font size=-1> 28</font>       Link_Part=&#62;<b><font color=#228B22>null</font></b>);
+<font size=-1> 29</font> 
+<font size=-1> 30</font>    Transaction := <b><font color=#228B22>new</font></b> Deposit_Type'(Account_Part=&#62;<font color=#008B8B>"832-7331-5432-FH"</font>,
+<font size=-1> 31</font>       Amount_Part=&#62;<font color=#008B8B>123_456</font>.<font color=#008B8B>78</font>,
+<font size=-1> 32</font>       Branch_Part=&#62;Unbounded.To_Unbounded_String (<font color=#008B8B>"Brevard County"</font>));
+<font size=-1> 33</font>    List := <b><font color=#228B22>new</font></b> Transaction_List_Cell_Type'(Transaction_Part=&#62;Transaction,
+<font size=-1> 34</font>       Link_Part=&#62;List);
+<font size=-1> 35</font> 
+<font size=-1> 36</font>    Transaction := <b><font color=#228B22>new</font></b> Check_Type'(Account_Part=&#62;<font color=#008B8B>"432-1982-5432-FH"</font>,
+<font size=-1> 37</font>       Amount_Part=&#62;<font color=#008B8B>1_234</font>.<font color=#008B8B>56</font>, Check_Number_Part=&#62;<font color=#008B8B>1_000</font>);
+<font size=-1> 38</font>    List := <b><font color=#228B22>new</font></b> Transaction_List_Cell_Type'(Transaction_Part=&#62;Transaction,
+<font size=-1> 39</font>       Link_Part=&#62;List);
+<font size=-1> 40</font> 
+<font size=-1> 41</font>    Transaction := <b><font color=#228B22>new</font></b> Interest_Type'(Account_Part=&#62;<font color=#008B8B>"669-1879-5432-FH"</font>,
+<font size=-1> 42</font>       Amount_Part=&#62;<font color=#008B8B>12_345</font>.<font color=#008B8B>67</font>, Interest_Part=&#62;<font color=#008B8B>7.625</font>);
+<font size=-1> 43</font>    List := <b><font color=#228B22>new</font></b> Transaction_List_Cell_Type'(Transaction_Part=&#62;Transaction,
+<font size=-1> 44</font>       Link_Part=&#62;List);
+<font size=-1> 45</font> 
+<font size=-1> 46</font>    <b><font color=#228B22>while</font></b> (List /= <b><font color=#228B22>null</font></b>) <b><font color=#228B22>loop</font></b>
+<font size=-1> 47</font>       Put (List.Transaction_Part.<b><font color=#228B22>all</font></b>);
+<font size=-1> 48</font>       List := List.Link_Part;
+<font size=-1> 49</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 50</font> 
+<font size=-1> 51</font> <b><font color=#228B22>end</font></b> Main;
+</pre>
+</body>
+</html>

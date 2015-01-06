@@ -1,0 +1,39 @@
+<html>
+<head>
+<title>The Ada Program: write_rec.adb</title>
+<!-- Automatically created by 'sgml2html'. -->
+</head>
+<body>
+<h1>The Ada Program: write_rec.adb</h1>
+<pre>
+<font size=-1>  1</font> <b><i><font color=#BB1212>-- write_rec.adb:  write different types to binary file</font></i></b>
+<font size=-1>  2</font> 
+<font size=-1>  3</font> <b><font color=#228B22>with</font></b> Ada, <a href="http://www.adahome.com/rm95/rm9x-A-08-01.html">Ada.Sequential_IO</a>;
+<font size=-1>  4</font> <b><font color=#228B22>with</font></b> Rec_Package, Random_Rec;
+<font size=-1>  5</font> <b><font color=#228B22>use</font></b> Ada;
+<font size=-1>  6</font> 
+<font size=-1>  7</font> <b><font color=#228B22>procedure</font></b> Write_Rec <b><font color=#228B22>is</font></b>
+<font size=-1>  8</font> 
+<font size=-1>  9</font>    <b><font color=#228B22>package</font></b> Bin_IO <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> Sequential_IO (Rec_Package.Mixed);
+<font size=-1> 10</font>    File      : Bin_IO.File_Type;
+<font size=-1> 11</font>    File_Name : <b><font color=#228B22>constant</font></b> <font color=#8B008B>String</font> := <font color=#008B8B>"mixed.data"</font>;
+<font size=-1> 12</font> 
+<font size=-1> 13</font>    <b><font color=#228B22>subtype</font></b> Domain <b><font color=#228B22>is</font></b> <font color=#8B008B>Integer</font> <b><font color=#228B22>range</font></b> <font color=#008B8B>1</font>..<font color=#008B8B>30</font>;
+<font size=-1> 14</font>    Data : <b><font color=#228B22>array</font></b> (Domain) <b><font color=#228B22>of</font></b> Rec_Package.Mixed;
+<font size=-1> 15</font> 
+<font size=-1> 16</font> <b><font color=#228B22>begin</font></b>
+<font size=-1> 17</font> 
+<font size=-1> 18</font>    <b><font color=#228B22>for</font></b> I <b><font color=#228B22>in</font></b> Domain <b><font color=#228B22>loop</font></b>
+<font size=-1> 19</font>       Data (I) := Random_Rec.Random_Element;
+<font size=-1> 20</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 21</font> 
+<font size=-1> 22</font>    Bin_IO.Create (File=&#62;File, Name=&#62;File_Name);
+<font size=-1> 23</font>    <b><font color=#228B22>for</font></b> I <b><font color=#228B22>in</font></b> Domain <b><font color=#228B22>loop</font></b>
+<font size=-1> 24</font>       Bin_IO.Write (File=&#62;File, Item=&#62;Data(I));
+<font size=-1> 25</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>loop</font></b>;
+<font size=-1> 26</font>    Bin_IO.Close (File=&#62;File);
+<font size=-1> 27</font> 
+<font size=-1> 28</font> <b><font color=#228B22>end</font></b> Write_Rec;
+</pre>
+</body>
+</html>
