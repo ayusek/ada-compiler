@@ -1,27 +1,28 @@
 V "GNAT Lib v4.6"
 M P W=b
 P SS ZX
-R nnnnnnnnnnnnnnnnnnnnnnnnnvnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+R nnnnnnnnnnnnnnnnnnnnnnnnnvnnnnnnnnnnnnnnnvnnvnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
 
-U lo%b			h.adb			e1f1e1f1 NE OO SU IL
+U show_commandline_1%b	string.adb		432772a0 NE OO SU
 W ada%s			ada.ads			ada.ali
-W ada.integer_text_io%s	a-inteio.ads		a-inteio.ali
+W ada.command_line%s	a-comlin.adb		a-comlin.ali
+W ada.tags%s		a-tags.adb		a-tags.ali
 W ada.text_io%s		a-textio.adb		a-textio.ali
+W system.secondary_stack%s  s-secsta.adb	s-secsta.ali
 
 D ada.ads		20070406091342 3ffc8e18
+D a-comlin.ads		20100623092347 e0accaa5
 D a-except.ads		20090727140100 0c711ac9
 D a-finali.ads		20090409150019 e5e85fa4
 D a-filico.ads		20090409150019 872dc219
-D a-inteio.ads		20070406091342 f64b89a4
 D a-ioexce.ads		20091130110856 8b9de6cd
 D a-stream.ads		20090409150019 2ca4ee37
 D a-tags.ads		20101021101406 c7695348
 D a-textio.ads		20091028140912 386df5d4
-D a-tiinio.ads		20090409150019 aa04e5d6
 D a-unccon.ads		20070406091342 f9eb8f06
 D interfac.ads		20090409150019 f77d8799
 D i-cstrea.ads		20100622165701 1bd72c32
-D h.adb			20150107140135 2fd79d81
+D string.adb		20150107135154 9be64dd1
 D system.ads		20140416172229 23e1f70b
 D s-crtl.ads		20100617122610 ac77b159
 D s-exctab.ads		20090417131547 66e51330
@@ -40,15 +41,17 @@ D s-traent.ads		20090417130712 5221ee41
 D s-unstyp.ads		20090409150019 6ae15c76
 D s-wchcon.ads		20090417130712 bfeb2e3d
 X 1 ada.ads
-16K9*Ada 19e8 14|1r6 2r5 3r6 4r5
-X 5 a-inteio.ads
-18K13*Integer_Text_IO[10|45] 14|3w10 4r9
+16K9*Ada 19e8 13|1r6 2r6 6r25 7r25
+X 2 a-comlin.ads
+38K13*Command_Line 139e21 13|2w10 7r29
+48V13*Argument{string} 13|9s21 15s12
 X 9 a-textio.ads
-49K13*Text_IO 472e16 14|1w10 2r9
-X 10 a-tiinio.ads
-65U14*Put 14|17s1[5|18]
-X 14 h.adb
-11U11*lo 11b11 19l5 19t7
-12i1 i{integer} 14m1
-15i5 i{integer} 17r5
+49K13*Text_IO 472e16 13|1w10 6r29
+243U14*Put 13|12s9 17s9
+264U14*Put_Line 13|13s9 18s9
+X 13 string.adb
+4U11*Show_Commandline_1 4b11 19l5 19t23
+6K12 T_IO=6:29 12r4 13r4 17r4 18r4
+7K12 CL=7:29 9r18 15r9
+9a4 X{string} 13r19 15r4 18r19
 
