@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import sys
 import lex
-from  mathTokens import *
+from  adaTokens import *
 
 #Scanning the file name
 if (len(sys.argv) == 1):
