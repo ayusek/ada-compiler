@@ -19,7 +19,7 @@ try:
             while 1:
                 tok = lex.token()
                 if not tok: break
-                tokens += " " + str(tok)
+                tokens += " " + "\'" + str(tok.type) + "\'"
 
             print(line + "\t --" + tokens)  
     

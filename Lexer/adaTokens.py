@@ -6,7 +6,9 @@ from reserved_Tokens import *
 tokens = [
     'IDENTIFIER',
     'INTEGER',
+    'BASE_INTEGER',
     'FLOAT',
+    'BASE_FLOAT',
     'ARROW',
     'DOTDOT',
     'STARSTAR',
@@ -57,13 +59,30 @@ def t_TICK(t):
     return t
 
 def t_FLOAT(t):
-    r'([0-9](_?[0-9]+)*\.[0-9](_?[0-9]+)*)([eE][\+\-]?[0-9](_?[0-9]+)*)?'
+    r'(([0-9](_?[0-9]+)*(\.[0-9](_?[0-9]+)*)?)[eE]\-[0-9](_?[0-9]+)*)|([0-9](_?[0-9]+)*\.[0-9](_?[0-9]+)*)([eE][\+]?[0-9](_?[0-9]+)*)?'
 #single character literals used as Operators or Delimiters
+    t.value = float(t.value.replace("_",""))
     return t
+
+#Integers in some other base
+#We are not considering floating point numbers in some other base
+
+def t_BASE_FLOAT(t):
+    r'(0*[0-9]|1[0-6])\#((([0-9A-F](_?[0-9A-F]+)*(\.[0-9A-F](_?[0-9A-F]+)*)?)\#[eE]\-[0-9](_?[0-9]+)*)|([0-9A-F](_?[0-9A-F]+)*\.[0-9A-F](_?[0-9A-F]+)*)\#([eE][\+]?[0-9](_?[0-9]+)*)?)'
+    #Giving exponents in the same base
+    t.value = t.value.replace("_", "")
+    return t 
+
+def t_BASE_INTEGER(t):
+    r'(0*[2-9]|1[0-6])\#[0-9A-F](_?[0-9A-F]+)*\#([Ee](\+)?[0-9A-F](_?[0-9A-F]+)*)?'
+    t.value = t.value.replace("_", "")
+    return t 
+
+
 
 def t_INTEGER(t):
     r'[0-9](_?[0-9]+)*([Ee](\+)?[0-9](_?[0-9]+)*)?'
-    t.value = int(t.value.replace("_",""))
+    t.value = int(float(t.value.replace("_","")))
     return t
 
 literals = "&()*+,-./:;<=>" # ' is removed from standard ada literals to allow characters to be interpretted
