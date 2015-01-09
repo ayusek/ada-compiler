@@ -1,6 +1,9 @@
-with Ada.Text_IO; use Ada.Text_IO; --c
-procedure Hello is -- 
+with ada.Text_IO; use ada.Text_IO; --c
+ProceDure Hello is -- 
 begin       --some random comment
- -- Put_Line ("Hello, world!");
-  put("Quote"""&'''&""""&Character'Val(172));
-  end Hello ; --comment
+--  Put_Line ("Hellddo, world!");
+  put("Quote"""&'a'&""""&Character'Val(1_7_2));
+  172 17_2
+  --172_ _172 1__72
+  1_123_123
+  eNd Hello ; --comment

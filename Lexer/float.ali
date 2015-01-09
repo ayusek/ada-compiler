@@ -1,22 +1,24 @@
 V "GNAT Lib v4.6"
 M P W=b
 P SS ZX
-R nnnnnnnnnnnnnnnnnnnnnnnnnvnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+R nnnnnnnnnnnnnnnnnnnnnnnnvnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
 
-U hello%b		hello_world.adb		9f62c91b NE OO SU
+U hello%b		float.adb		096240f0 NE OO SU IL
 W ada%s			ada.ads			ada.ali
-W ada.text_io%s		a-textio.adb		a-textio.ali
+W ada.float_text_io%s	a-flteio.ads		a-flteio.ali
 
 D ada.ads		20070406091342 3ffc8e18
 D a-except.ads		20090727140100 0c711ac9
 D a-finali.ads		20090409150019 e5e85fa4
 D a-filico.ads		20090409150019 872dc219
+D a-flteio.ads		20070406091342 e18a47a0
 D a-ioexce.ads		20091130110856 8b9de6cd
 D a-stream.ads		20090409150019 2ca4ee37
 D a-tags.ads		20101021101406 c7695348
 D a-textio.ads		20091028140912 386df5d4
+D a-tiflio.ads		20090409150019 56fbda09
 D a-unccon.ads		20070406091342 f9eb8f06
-D hello_world.adb	20150109102736 a70f3ccf
+D float.adb		20150109112507 e8e80750
 D interfac.ads		20090409150019 f77d8799
 D i-cstrea.ads		20100622165701 1bd72c32
 D system.ads		20140416172229 23e1f70b
@@ -37,10 +39,12 @@ D s-traent.ads		20090417130712 5221ee41
 D s-unstyp.ads		20090409150019 6ae15c76
 D s-wchcon.ads		20090417130712 bfeb2e3d
 X 1 ada.ads
-16K9*Ada 19e8 10|1r6 1r23
-X 8 a-textio.ads
-49K13*Text_IO 472e16 10|1w10 1r27
-264U14*Put_Line 10|4s3
-X 10 hello_world.adb
-2U11*Hello 2b11 6l7 6t12
+16K9*Ada 19e8 12|1r6 1r29
+X 5 a-flteio.ads
+20K13*Float_Text_IO[10|45] 12|1w10 1r33
+X 10 a-tiflio.ads
+67U14*Put 12|7s1[5|20]
+X 12 float.adb
+2U11*hello 2b11 8l5 8t10
+3f1 X{float} 6m1 7r5
 

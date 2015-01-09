@@ -4,6 +4,9 @@
 #Some of them are for specific Ada verisons, we are designing a compiler for Ada 2012 but are still including all the special words in Ada
 
 reserved = {
+    'ada':'ADA_RESERVED', 
+   """ this is added by us, is not included in the general reserved keywords for Ada. We wanted to make it reserved as all
+    standard libraries are like ada.(*) ... """
 	'abort':'ABORT',
 	'abs':'ABS',
 	'abstract':'ABSTRACT',
@@ -182,4 +185,5 @@ reserved = {
 	'\'Wide_Width':'ATTR_WIDE_WIDTH',
 	'\'Width':'ATTR_WIDTH',
 	'\'Write':'ATTR_WRITE'
+
 }

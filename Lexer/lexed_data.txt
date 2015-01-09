@@ -1,0 +1,28 @@
+LexToken(IDENTIFIER,'with',1,0)
+LexToken(IDENTIFIER,'Ada',1,5)
+LexToken(.,'.',1,8)
+LexToken(IDENTIFIER,'Text_IO',1,9)
+LexToken(;,';',1,16)
+LexToken(IDENTIFIER,'use',1,18)
+LexToken(IDENTIFIER,'Ada',1,22)
+LexToken(.,'.',1,25)
+LexToken(IDENTIFIER,'Text_IO',1,26)
+LexToken(;,';',1,33)
+with Ada.Text_IO; use Ada.Text_IO; --c	 --
+LexToken(IDENTIFIER,'procedure',1,0)
+LexToken(IDENTIFIER,'Hello',1,10)
+LexToken(IDENTIFIER,'is',1,16)
+procedure Hello is --	 --
+LexToken(IDENTIFIER,'begin',1,0)
+begin       --some random comment	 --
+LexToken(IDENTIFIER,'Put_Line',1,2)
+LexToken((,'(',1,11)
+LexToken(STRING,'"Hello, world!"',1,12)
+LexToken(),')',1,27)
+LexToken(;,';',1,28)
+  Put_Line ("Hello, world!");	 --
+--  put("Quote"""&'''&""""&Character'Val(172));	 --
+LexToken(IDENTIFIER,'end',1,2)
+LexToken(IDENTIFIER,'Hello',1,6)
+LexToken(;,';',1,12)
+  end Hello ; --comment	 --
