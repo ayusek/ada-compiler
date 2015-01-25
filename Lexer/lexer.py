@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 import sys
 import lex
+import re
 from  adaTokens import *
+
+#Some Regularexpressions
+contains_text = re.compile("[A-Za-z]+")
 
 #Scanning the file name
 if (len(sys.argv) == 1):
@@ -19,7 +23,10 @@ try:
             while 1:
                 tok = lex.token()
                 if not tok: break
-                tokens += " " + "\'" + str(tok.type) + "\'"
+                current_token = str(tok.type)
+                if current_token in literals:
+                    current_token =  "\'"+ current_token + "\'"
+                tokens += " " +current_token #+str(tok)
 
             print(line + "\t --" + tokens)  
     

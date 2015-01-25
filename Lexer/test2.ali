@@ -3,7 +3,7 @@ M P W=b
 P SS ZX
 R nnnnnnnnnnnnnnnnnnnnnnnnnvnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
 
-U hello%b		hello_world.adb		a06fc259 NE OO SU
+U nonzero%b		test2.adb		9f6c6d0f NE OO SU
 W ada%s			ada.ads			ada.ali
 W ada.integer_text_io%s	a-inteio.ads		a-inteio.ali
 W ada.text_io%s		a-textio.adb		a-textio.ali
@@ -19,9 +19,9 @@ D a-tags.ads		20101021101406 c7695348
 D a-textio.ads		20091028140912 386df5d4
 D a-tiinio.ads		20090409150019 aa04e5d6
 D a-unccon.ads		20070406091342 f9eb8f06
-D hello_world.adb	20150124153935 6e49be29
 D interfac.ads		20090409150019 f77d8799
 D i-cstrea.ads		20100622165701 1bd72c32
+D test2.adb		20150124162559 514a117f
 D system.ads		20140416172229 23e1f70b
 D s-crtl.ads		20100617122610 ac77b159
 D s-exctab.ads		20090417131547 66e51330
@@ -40,15 +40,25 @@ D s-traent.ads		20090417130712 5221ee41
 D s-unstyp.ads		20090409150019 6ae15c76
 D s-wchcon.ads		20090417130712 bfeb2e3d
 X 1 ada.ads
-16K9*Ada 19e8 12|1r6 1r23 2r6 2r41
+16K9*Ada 19e8 14|3r7 3r20 4r6
 X 5 a-inteio.ads
-18K13*Integer_Text_IO[10|45] 12|2w10 2r45
+18K13*Integer_Text_IO[10|45] 14|3w24 15r8 34r8 36r8
 X 9 a-textio.ads
-49K13*Text_IO 472e16 12|1w10 1r27
-243U14*Put 12|8s3
+49K13*Text_IO 472e16 14|3w11 13r16 35r8 37r8
+74I12*Field{integer}
+167U14*New_Line 14|37s16
+185V13*End_Of_File{boolean} 14|13s24
+243U14*Put 14|35s16
 X 10 a-tiinio.ads
-65U14*Put 12|7s2[5|18]
-X 12 hello_world.adb
-3U11*Hello 3b11 9l7 9t12
-4a1 stringa{string} 8r8
+55U14*Get 14|15s24[5|18]
+65U14*Put 14|34s24[5|18] 36s24[5|18]
+67i7 Width{9|74I12} 14|34r32[5|18] 36r32[5|18]
+X 14 test2.adb
+6U12*Nonzero 6b12 41l6 41t13
+8i5 N{natural} 15m29 18r20 34r29
+8i8 Twos{natural} 16m17 22m46 22r54 23m46 23r54 32r20
+9i5 P{positive} 16m8 27m11 27r19 32m30 32r38 36r29
+9i8 J{positive} 21m11 22r17 22m34 22r39 23r17 23m34 23r39 27r17
+18i12 I{integer} 21r16
+32i12 I{integer}
 

@@ -1,0 +1,97 @@
+V "GNAT Lib v4.6"
+M P W=b
+P SS ZX
+R nnnnnnnnnnnnnnnvnnnnnnnnvvnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+
+U compare%b		test3.adb		f0706e1d NE OO SU
+W ada%s			ada.ads			ada.ali
+W ada.float_text_io%s	a-flteio.ads		a-flteio.ali
+W ada.integer_text_io%s	a-inteio.ads		a-inteio.ali
+W ada.tags%s		a-tags.adb		a-tags.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+W system%s		system.ads		system.ali
+W system.compare_array_signed_32%s  s-casi32.adb  s-casi32.ali
+W system.compare_array_unsigned_8%s  s-carun8.adb  s-carun8.ali
+W system.img_bool%s	s-imgboo.adb		s-imgboo.ali
+
+D ada.ads		20070406091342 3ffc8e18
+D a-except.ads		20090727140100 0c711ac9
+D a-finali.ads		20090409150019 e5e85fa4
+D a-filico.ads		20090409150019 872dc219
+D a-flteio.ads		20070406091342 e18a47a0
+D a-inteio.ads		20070406091342 f64b89a4
+D a-ioexce.ads		20091130110856 8b9de6cd
+D a-stream.ads		20090409150019 2ca4ee37
+D a-tags.ads		20101021101406 c7695348
+D a-textio.ads		20091028140912 386df5d4
+D a-tiflio.ads		20090409150019 56fbda09
+D a-tiinio.ads		20090409150019 aa04e5d6
+D a-unccon.ads		20070406091342 f9eb8f06
+D test3.adb		20150124224234 dfdc55cd
+D interfac.ads		20090409150019 f77d8799
+D i-cstrea.ads		20100622165701 1bd72c32
+D system.ads		20140416172229 23e1f70b
+D s-casi32.ads		20090409150019 79e8c87d
+D s-carun8.ads		20090417131547 da3bf6cd
+D s-crtl.ads		20100617122610 ac77b159
+D s-exctab.ads		20090417131547 66e51330
+D s-ficobl.ads		20100909103250 443b9d66
+D s-finimp.ads		20090409150019 46853fe8
+D s-finroo.ads		20090409150019 dbb860c9
+D s-imgboo.ads		20090409150019 f5d971eb
+D s-parame.ads		20091130110856 9c5d83fa
+D s-secsta.ads		20090707124243 eea35a36
+D s-soflin.ads		20090729085153 9414c974
+D s-stache.ads		20090417130712 596fc1b4
+D s-stalib.ads		20101021102512 c4241c00
+D s-stoele.ads		20090417130712 facd7d98
+D s-stoele.adb		20100617152355 afc5dc80
+D s-stratt.ads		20100909123135 aedef97e
+D s-traent.ads		20090417130712 5221ee41
+D s-unstyp.ads		20090409150019 6ae15c76
+D s-wchcon.ads		20090417130712 bfeb2e3d
+X 1 ada.ads
+16K9*Ada 19e8 14|3r6 3r20 3r42 4r5 4r11 4r25
+X 5 a-flteio.ads
+20K13*Float_Text_IO[11|45] 14|3w46 58r5 60r5 62r5
+X 6 a-inteio.ads
+18K13*Integer_Text_IO[12|45] 14|3w24 4r29
+X 10 a-textio.ads
+49K13*Text_IO 472e16 14|3w10 4r15 59r5 61r5 63r5
+167U14*New_Line 14|16s1 59s13 61s13 63s13
+243U14*Put 14|14s1
+264U14*Put_Line 14|17s1 18s1 19s1 20s1 21s1 31s1 32s1 33s1 34s1 35s1 36s1
+X 11 a-tiflio.ads
+67U14*Put 14|58s19[5|20] 60s19[5|20] 62s19[5|20]
+X 12 a-tiinio.ads
+65U14*Put 14|15s1[6|18]
+X 14 test3.adb
+6U11*Compare 6b11 67l5 67t12
+10A6 Integer_Array(integer)<integer> 11r4 12r4
+11a1 S{10A6} 15r5 17r28 18r28 19r28 20r28 21r28
+12a1 L{10A6} 17r38 18r38 19r38 20r38 21r38
+26E6 Month 26e64 27r50
+26n16 Jan{26E6} 29r20
+26n20 Feb{26E6} 29r24
+26n24 Mar{26E6} 29r28
+26n28 Apr{26E6} 29r32
+26n32 May{26E6} 29r36
+26n36 Jun{26E6} 28r20 29r40
+26n40 Jul{26E6} 28r24 29r44
+26n44 Aug{26E6} 28r28 29r48
+26n48 Sep{26E6} 28r32 29r52
+26n52 Oct{26E6} 28r36 29r56
+26n56 Nov{26E6}
+26n60 Dec{26E6} 29r60
+27A6 Month_Array(26E6)<integer> 28r4 29r4
+28a1 S{27A6} 31r28 32r28 33r28 34r28 35r28 36r28
+29a1 L{27A6} 31r38 32r38 33r38 34r38 35r38 36r38
+42I9 S1{integer} 44r25 46r31 54r11 55r11
+43E9 S2{character} 44r28 45r25 53r11 54r18 55r18
+44A6 Array_2D(float)<integer><character> 49r3
+45A6 Array_1D(float)<character> 46r38 48r4
+46A6 Array_Of_Array(45A6)<integer> 50r3
+48a1 A{45A6} 53m5 58r24
+49a1 B{44A6} 54m5 60r24
+50a1 C{46A6} 55m5 62r24
+

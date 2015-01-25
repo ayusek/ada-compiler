@@ -1,0 +1,85 @@
+V "GNAT Lib v4.6"
+M P W=b
+P SS ZX
+R nnnnnnnnnnnnnnnnnnnnnnnnvvnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+
+U stats%b		test4.adb		df105b0d NE OO SU
+W ada%s			ada.ads			ada.ali
+W ada.float_text_io%s	a-flteio.ads		a-flteio.ali
+W ada.integer_text_io%s	a-inteio.ads		a-inteio.ali
+W ada.numerics%s	a-numeri.ads		a-numeri.ali
+W ada.numerics.elementary_functions%s  a-nuelfu.ads  a-nuelfu.ali
+W ada.tags%s		a-tags.adb		a-tags.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+
+D ada.ads		20070406091342 3ffc8e18
+D a-except.ads		20090727140100 0c711ac9
+D a-finali.ads		20090409150019 e5e85fa4
+D a-filico.ads		20090409150019 872dc219
+D a-flteio.ads		20070406091342 e18a47a0
+D a-inteio.ads		20070406091342 f64b89a4
+D a-ioexce.ads		20091130110856 8b9de6cd
+D a-numeri.ads		20080324174807 bb51c45a
+D a-nuelfu.ads		20070406091342 03e83d1c
+D a-ngelfu.ads		20070406091342 47731de9
+D a-stream.ads		20090409150019 2ca4ee37
+D a-tags.ads		20101021101406 c7695348
+D a-textio.ads		20091028140912 386df5d4
+D a-tiflio.ads		20090409150019 56fbda09
+D a-tiinio.ads		20090409150019 aa04e5d6
+D a-unccon.ads		20070406091342 f9eb8f06
+D interfac.ads		20090409150019 f77d8799
+D i-cstrea.ads		20100622165701 1bd72c32
+D test4.adb		20150124224719 f3545dc1
+D system.ads		20140416172229 23e1f70b
+D s-crtl.ads		20100617122610 ac77b159
+D s-exctab.ads		20090417131547 66e51330
+D s-ficobl.ads		20100909103250 443b9d66
+D s-finimp.ads		20090409150019 46853fe8
+D s-finroo.ads		20090409150019 dbb860c9
+D s-parame.ads		20091130110856 9c5d83fa
+D s-secsta.ads		20090707124243 eea35a36
+D s-soflin.ads		20090729085153 9414c974
+D s-stache.ads		20090417130712 596fc1b4
+D s-stalib.ads		20101021102512 c4241c00
+D s-stoele.ads		20090417130712 facd7d98
+D s-stoele.adb		20100617152355 afc5dc80
+D s-stratt.ads		20100909123135 aedef97e
+D s-traent.ads		20090417130712 5221ee41
+D s-unstyp.ads		20090409150019 6ae15c76
+D s-wchcon.ads		20090417130712 bfeb2e3d
+X 1 ada.ads
+16K9*Ada 19e8 19|3r7 3r26 3r47 4r7 5r6 5r11
+X 5 a-flteio.ads
+20K13*Float_Text_IO[14|45] 19|3w11 27r5 36r5 43r8
+X 6 a-inteio.ads
+18K13*Integer_Text_IO[15|45] 19|3w30 21r5 41r8
+X 8 a-numeri.ads
+16K13*Numerics 32e17 19|4r11 5r15
+X 9 a-nuelfu.ads
+18K22*Elementary_Functions[10|19] 19|4w20 5r24
+X 10 a-ngelfu.ads
+22V13*Sqrt{float} 19|34s18[9|18]
+X 13 a-textio.ads
+49K13*Text_IO 472e16 19|3w51 20r5 22r5 26r5 28r5 35r5 37r5 40r8 42r8 45r8
+74I12*Field{integer}
+167U14*New_Line 19|22s13 28s13 37s13 45s16
+243U14*Put 19|20s13 26s13 35s13 40s16 42s16
+X 14 a-tiflio.ads
+67U14*Put 19|27s19[5|20] 36s19[5|20] 43s22[5|20]
+70i7 Aft{13|74I12} 19|27r33[5|20] 36r35[5|20] 44r27[5|20]
+71i7 Exp{13|74I12} 19|27r41[5|20] 36r43[5|20] 44r35[5|20]
+X 15 a-tiinio.ads
+65U14*Put 19|21s21[6|18] 41s24[6|18]
+67i7 Width{13|74I12} 19|21r31[6|18] 41r40[6|18]
+X 19 test4.adb
+7U12*Stats 7b12 48l6 48t11
+9A10 Scores_Type(integer)<integer> 10r14
+10a5 Scores{9A10} 17r14 18r21 25r35 31r14 32r40 34r43 39r14 41r29 43r34
+11i5 Sum{integer} 16m5 18m8 18r15 21r26 25r22
+12f5 Average{float} 25m5 27r24 32r51 43r45
+12f14 Deviation{float} 30m5 32m8 32r21 34m5 34r24 36r24 43r54
+17i9 I{integer} 18r28
+31i9 I{integer} 32r47
+39i9 I{integer} 41r36 43r41
+

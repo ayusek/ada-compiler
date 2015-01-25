@@ -1,33 +1,42 @@
 V "GNAT Lib v4.6"
 M P W=b
 P SS ZX
-R nnnnnnnnnnnnnnnnnnnnnnnnnvnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+R nnnnnnnnnnnnnnnvnnnnnnnnvvnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
 
-U hello%b		hello_world.adb		a06fc259 NE OO SU
+U simple%b		test5.adb		62d2e062 NE OO SU
 W ada%s			ada.ads			ada.ali
+W ada.command_line%s	a-comlin.adb		a-comlin.ali
+W ada.float_text_io%s	a-flteio.ads		a-flteio.ali
 W ada.integer_text_io%s	a-inteio.ads		a-inteio.ali
 W ada.text_io%s		a-textio.adb		a-textio.ali
+W system.img_char%s	s-imgcha.adb		s-imgcha.ali
+W system.img_real%s	s-imgrea.adb		s-imgrea.ali
 
 D ada.ads		20070406091342 3ffc8e18
+D a-comlin.ads		20100623092347 e0accaa5
 D a-except.ads		20090727140100 0c711ac9
 D a-finali.ads		20090409150019 e5e85fa4
 D a-filico.ads		20090409150019 872dc219
+D a-flteio.ads		20070406091342 e18a47a0
 D a-inteio.ads		20070406091342 f64b89a4
 D a-ioexce.ads		20091130110856 8b9de6cd
 D a-stream.ads		20090409150019 2ca4ee37
 D a-tags.ads		20101021101406 c7695348
 D a-textio.ads		20091028140912 386df5d4
+D a-tiflio.ads		20090409150019 56fbda09
 D a-tiinio.ads		20090409150019 aa04e5d6
 D a-unccon.ads		20070406091342 f9eb8f06
-D hello_world.adb	20150124153935 6e49be29
 D interfac.ads		20090409150019 f77d8799
 D i-cstrea.ads		20100622165701 1bd72c32
+D test5.adb		20150125094905 add21117
 D system.ads		20140416172229 23e1f70b
 D s-crtl.ads		20100617122610 ac77b159
 D s-exctab.ads		20090417131547 66e51330
 D s-ficobl.ads		20100909103250 443b9d66
 D s-finimp.ads		20090409150019 46853fe8
 D s-finroo.ads		20090409150019 dbb860c9
+D s-imgcha.ads		20101008123408 9c3458e7
+D s-imgrea.ads		20090409150019 c7a851e2
 D s-parame.ads		20091130110856 9c5d83fa
 D s-secsta.ads		20090707124243 eea35a36
 D s-soflin.ads		20090729085153 9414c974
@@ -40,15 +49,31 @@ D s-traent.ads		20090417130712 5221ee41
 D s-unstyp.ads		20090409150019 6ae15c76
 D s-wchcon.ads		20090417130712 bfeb2e3d
 X 1 ada.ads
-16K9*Ada 19e8 12|1r6 1r23 2r6 2r41
-X 5 a-inteio.ads
-18K13*Integer_Text_IO[10|45] 12|2w10 2r45
-X 9 a-textio.ads
-49K13*Text_IO 472e16 12|1w10 1r27
-243U14*Put 12|8s3
-X 10 a-tiinio.ads
-65U14*Put 12|7s2[5|18]
-X 12 hello_world.adb
-3U11*Hello 3b11 9l7 9t12
-4a1 stringa{string} 8r8
+16K9*Ada 19e8 17|2r7 2r20 2r42 2r61 3r6 3r20 3r39 4r6
+X 2 a-comlin.ads
+38K13*Command_Line 139e21 17|2w65
+X 6 a-flteio.ads
+20K13*Float_Text_IO[12|45] 17|2w46 3r24
+X 7 a-inteio.ads
+18K13*Integer_Text_IO[13|45] 17|2w24 3r43
+X 11 a-textio.ads
+49K13*Text_IO 472e16 17|2w11 3r10
+74I12*Field{integer}
+167U14*New_Line 17|32s5 37s5
+243U14*Put 17|29s5 31s5 34s5 36s5 36s29
+264U14*Put_Line 17|38s5 39s5
+X 12 a-tiflio.ads
+56U14*Get 17|35s5[6|20]
+57f7 Item{float} 17|35r9[6|20]
+X 13 a-tiinio.ads
+55U14*Get 17|30s5[7|18]
+56i7 Item{integer} 17|30r9[7|18]
+65U14*Put 17|31s31[7|18]
+67i7 Width{11|74I12} 17|31r39[7|18]
+X 17 test5.adb
+7U12*Simple 7b12 40l6 40t12
+8i5 A{integer} 15m5 16m5 17m5 18m5 19m5 30m17 31r35
+9f5 B{float} 20m5 21m5 22m5 23m5 24m5 25m5 26m5 35m17 36r45
+10a5 C{string} 38r14
+11e5 D{character} 27m5 39r30
 

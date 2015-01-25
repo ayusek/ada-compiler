@@ -69,7 +69,7 @@ def t_FLOAT(t):
 
 def t_BASE_FLOAT(t):
     r'(0*[0-9]|1[0-6])\#((([0-9A-F](_?[0-9A-F]+)*(\.[0-9A-F](_?[0-9A-F]+)*)?)\#[eE]\-[0-9](_?[0-9]+)*)|([0-9A-F](_?[0-9A-F]+)*\.[0-9A-F](_?[0-9A-F]+)*)\#([eE][\+]?[0-9](_?[0-9]+)*)?)'
-    #Giving exponents in the same base
+    #Exponents are in decimal base only. 
     t.value = t.value.replace("_", "")
     return t 
 

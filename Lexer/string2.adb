@@ -24,7 +24,7 @@ procedure Show_Commandline_3 is
    end Max_Length;
 
    pragma Inline (Max_Length);
-
+   
    package SB
    is new Ada.Strings.Bounded.Generic_Bounded_Length (
        Max => Max_Length (
