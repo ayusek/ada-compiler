@@ -16,20 +16,29 @@ else:
 try:
     lexer = lex.lex()
     with open(file_name) as fp:#opening file
-        for line in fp:
-            line = line.rstrip()
-            lexer.input(line)
-            tokens = '' 
-            while 1:
-                tok = lex.token()
-                if not tok: break
-                current_token = str(tok.type)
-                if current_token in literals:
-                    current_token =  "\'"+ current_token + "\'"
-                tokens += " " +current_token #+str(tok)
+        data = fp.read()
+        lexer.input(data)
+        datalist = data.split('\n')
+        i = 0
+        tokstring = ""
 
-            print(line + "\t --" + tokens)  
-    
+        while 1:
+            old_line = lexer.lineno
+            tok = lex.token()
+            if not tok : break
+            
+            if (lexer.lineno != old_line) :
+                print datalist[i]  + "--" + tokstring
+                i = i + 1
+                tokstring = ""
+                while (datalist[i] == '') :
+                    print('')
+                    i = i + 1
+            if (str(tok.value) in literals): 
+                tokstring = tokstring + " " +  "'" + str(tok.type) + "'"
+            else:
+                tokstring = tokstring + " " + str(tok.type)
+
 except IOError as e:
     print "I/O error({0}): "+ "We are not able to open " + file_name + " . Does it Exists? Check permissionsi!"
 
