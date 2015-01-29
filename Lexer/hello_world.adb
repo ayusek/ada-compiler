@@ -1,12 +1,14 @@
 with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Integer_Text_IO;           use Ada.Integer_Text_IO;
+
+
+--hello
+
+
 procedure Hello is
-string : Integer := 9;
-Integer : String := "9";
+a : String := "go ""o\nd";
 begin
 --  string := 9;
  put(9);
- a := "I am good";
-  Put (string);
-  Put (Integer);
+  Put (a);
   end Hello;

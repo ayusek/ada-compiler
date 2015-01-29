@@ -3,7 +3,7 @@ M P W=b
 P SS ZX
 R nnnnnnnnnnnnnnnnnnnnnnnnnvnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
 
-U hello%b		hello_world.adb		a06fc259 NE OO SU
+U hello%b		hello_world.adb		3a5a8548 NE OO SU
 W ada%s			ada.ads			ada.ali
 W ada.integer_text_io%s	a-inteio.ads		a-inteio.ali
 W ada.text_io%s		a-textio.adb		a-textio.ali
@@ -19,7 +19,7 @@ D a-tags.ads		20101021101406 c7695348
 D a-textio.ads		20091028140912 386df5d4
 D a-tiinio.ads		20090409150019 aa04e5d6
 D a-unccon.ads		20070406091342 f9eb8f06
-D hello_world.adb	20150124153935 6e49be29
+D hello_world.adb	20150129230928 f47cf938
 D interfac.ads		20090409150019 f77d8799
 D i-cstrea.ads		20100622165701 1bd72c32
 D system.ads		20140416172229 23e1f70b
@@ -50,5 +50,5 @@ X 10 a-tiinio.ads
 65U14*Put 12|7s2[5|18]
 X 12 hello_world.adb
 3U11*Hello 3b11 9l7 9t12
-4a1 stringa{string} 8r8
+4a1 a{string} 8r8
 

@@ -2,6 +2,7 @@ with Ada.Text_IO;
 with Ada.Command_Line;
 with Ada.Strings.Bounded;
 
+
 procedure Show_Commandline_3 is
 
    package T_IO renames Ada.Text_IO;
@@ -35,6 +36,7 @@ procedure Show_Commandline_3 is
      := SB.To_Bounded_String (CL.Argument (1));
 
 begin
+    T_IO.put("hello");
    T_IO.Put ("Argument 1 = ");
    T_IO.Put_Line (SB.To_String (X));
 

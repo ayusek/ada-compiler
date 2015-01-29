@@ -2,6 +2,8 @@
 
 from reserved_Tokens import *
 
+error_list = []
+
 # List of token names.   This is always required
 tokens = [
     'IDENTIFIER',
@@ -21,7 +23,8 @@ tokens = [
     'LESSMORE',
     'STRING',
     'CHAR',
-    'TICK' #Special Token 
+    'TICK', #Special Token
+    'ERROR'
 ] + list(reserved.values())
 
 #Regular Expressions for Compound Delimiters
@@ -104,5 +107,6 @@ def t_comment(t):
 
 # Error handling rule
 def t_error(t):
-    print("Line:" + str( t.lineno) + "Illegal character '%s' found"% t.value[0])
+    error_list.append("Line:" + str( t.lineno) + " illegal character '%s' found"% t.value[0])
     t.lexer.skip(1)
+

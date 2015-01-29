@@ -1,8 +1,15 @@
  -- simple.adb:  some simple examples of pointers
 
+-123
+_
 -- Scanning , Printing , operations , pointer maniulations , pointer algebra , etc
  with Ada.Text_IO, Ada.Integer_Text_IO ;
  use Ada.Text_IO , Ada.Integer_Text_IO;
+ 
+ $
+ @
+ $
+ @
  use Ada;
  
  procedure Simple is

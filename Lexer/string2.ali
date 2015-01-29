@@ -3,7 +3,7 @@ M P W=b
 P SS ZX
 R nnnnnnnnnnnnnnnnnnnnnnnnnvnnnvnnnnnnnnnnnvnnvnnnnnnnnnnnnnnnnvnnnnnnnnnnnnnnnnnn
 
-U show_commandline_3%b	string2.adb		a7c8f198 NE OO SU
+U show_commandline_3%b	string2.adb		813ccce8 NE OO SU
 W ada%s			ada.ads			ada.ali
 W ada.command_line%s	a-comlin.adb		a-comlin.ali
 W ada.strings%s		a-string.ads		a-string.ali
@@ -31,7 +31,7 @@ D a-textio.ads		20091028140912 386df5d4
 D a-unccon.ads		20070406091342 f9eb8f06
 D interfac.ads		20090409150019 f77d8799
 D i-cstrea.ads		20100622165701 1bd72c32
-D string2.adb		20150124170202 e70f306d
+D string2.adb		20150129230805 c1fb0d1d
 D system.ads		20140416172229 23e1f70b
 D s-crtl.ads		20100617122610 ac77b159
 D s-exctab.ads		20090417131547 66e51330
@@ -50,10 +50,10 @@ D s-traent.ads		20090417130712 5221ee41
 D s-unstyp.ads		20090409150019 6ae15c76
 D s-wchcon.ads		20090417130712 bfeb2e3d
 X 1 ada.ads
-16K9*Ada 19e8 20|1r6 2r6 3r6 7r25 8r25 30r11
+16K9*Ada 19e8 20|1r6 2r6 3r6 8r25 9r25 30r11
 X 4 a-comlin.ads
-38K13*Command_Line 139e21 20|2w10 8r29
-48V13*Argument{string} 20|32s33 33s33 36s34 42s34
+38K13*Command_Line 139e21 20|2w10 9r29
+48V13*Argument{string} 20|32s33 33s33 36s34 43s34
 X 10 a-string.ads
 16K13*Strings 35e16 20|3r10 30r15
 X 11 a-strbou.ads
@@ -61,21 +61,20 @@ X 11 a-strbou.ads
 43i7 Max{positive} 20|31r8
 46k12*Generic_Bounded_Length 912e30 20|30r31
 50R12 Bounded_String 20|35r12[29]
-63V16 To_Bounded_String{50R12[20|29]} 20|36s12[29] 42s12[29]
-67V16 To_String{string} 20|40s22[29] 45s22[29]
+63V16 To_Bounded_String{50R12[20|29]} 20|36s12[29] 43s12[29]
+67V16 To_String{string} 20|41s22[29] 46s22[29]
 X 16 a-textio.ads
-49K13*Text_IO 472e16 20|1w10 7r29
-243U14*Put 20|39s9 44s9
-264U14*Put_Line 20|40s9 45s9
+49K13*Text_IO 472e16 20|1w10 8r29
+243U14*Put 20|39s10 40s9 45s9
+264U14*Put_Line 20|41s9 46s9
 X 20 string2.adb
-5U11*Show_Commandline_3 5b11 46l5 46t23
-7K12 T_IO=7:29 39r4 40r4 44r4 45r4
-8K12 CL=8:29 32r30 33r30 36r31 42r31
-10V13 Max_Length{integer} 10b13 11>7 12>7 24l8 24t18 26r19 31s15
-11i7 Value_1{integer} 18r10 19r20 33r19
-12i7 Value_2{integer} 18r20 21r20 32r19
-16i7 Retval{integer} 19m10 21m10 23r14
-28a4 var{string}
-29K12 SB[11|46] 35r9 36r9 40r19 42r9 45r19
-35r4 X{11|50R12[29]} 40r33 42m4 45r33
+6U11*Show_Commandline_3 6b11 47l5 47t23
+8K12 T_IO=8:29 39r5 40r4 41r4 45r4 46r4
+9K12 CL=9:29 32r30 33r30 36r31 43r31
+11V13 Max_Length{integer} 11b13 12>7 13>7 25l8 25t18 27r19 31s15
+12i7 Value_1{integer} 19r10 20r20 33r19
+13i7 Value_2{integer} 19r20 22r20 32r19
+17i7 Retval{integer} 20m10 22m10 24r14
+29K12 SB[11|46] 35r9 36r9 41r19 43r9 46r19
+35r4 X{11|50R12[29]} 41r33 43m4 46r33
 
