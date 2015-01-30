@@ -23,8 +23,7 @@ tokens = [
     'LESSMORE',
     'STRING',
     'CHAR',
-    'TICK', #Special Token
-    'ERROR'
+    'TICK' #Special Token
 ] + list(reserved.values())
 
 #Regular Expressions for Compound Delimiters

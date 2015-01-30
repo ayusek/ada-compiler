@@ -184,6 +184,19 @@ reserved = {
 	'\'Wide_Wide_Width':'ATTR_WIDE_WIDE_WIDTH',
 	'\'Wide_Width':'ATTR_WIDE_WIDTH',
 	'\'Width':'ATTR_WIDTH',
-	'\'Write':'ATTR_WRITE'
-
+	'\'Write':'ATTR_WRITE',
+    
+    #Standard Data Types
+    'integer':'INTEGER_TYPE',
+    'float':'FLOAT_TYPE',
+    'duration':'DURATION_TYPE',
+    'character':'CHARACTER_TYPE',
+    'string':'STRING_TYPE',
+    'address':'ADDRESS_TYPE',
+    'storage_offset':'STORAGE_OFFSET_TYPE',
+    'storage_count':'STORAGE_COUNT_TYPE',
+    'storage_element':'STORAGE_ELEMENT_TYPE',
+    'storage_array':'STORAGE_ARRAY_TYPE',
+    'natural':'NATURAL_TYPE',
+    'positive':'POSITIVE_TYPE'
 }
