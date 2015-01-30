@@ -21,6 +21,7 @@ try:
         old_line = lexer.lineno
         #print datalist
         #Prininting it line by line
+        
         for tok in lexer:
             if(tok.lineno != old_line) :
                 print datalist[old_line-1] + "--" + tokstring
@@ -32,9 +33,16 @@ try:
                 tokstring += " " + "'" +  str(tok.type) + "'"
             else:    
                 tokstring += " " + str(tok.type)
-    
-    print  "=====ERRORS====="
-    print '\n'.join(error_list), 
+   
+        print datalist[old_line-1] + "--" + tokstring
+        tokstring = ""
+        for i in xrange(old_line,tok.lineno-1):
+            print datalist[i]
+        old_line=tok.lineno
+   
+    if error_list : 
+        print  "=====ERRORS====="
+        print '\n'.join(error_list), 
 
 except IOError as e:
     print "I/O error({0}): "+ "We are not able to open " + file_name + " . Does it Exists? Check permissionsi!"
