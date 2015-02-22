@@ -20,9 +20,9 @@
     A := new Integer'(0); -- Initial values of pointers
     B := new Integer'(0);
 
-    put("Give A:");
+    put("Give A:" & "abc");
     Integer_Text_IO.Get (Item => A.all);
-    put("Give B:");
+    put("Give ""B:");
     Integer_Text_IO.Get (Item => B.all);
  
     C := A.all*A.all + B.all*B.all;

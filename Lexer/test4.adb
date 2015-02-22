@@ -13,6 +13,8 @@
  
  begin
     -- Sum "Scores"
+    Sum := -1 ; 
+
     Sum := 0;
     for I in Scores'Range loop
        Sum := Sum + Scores(I);

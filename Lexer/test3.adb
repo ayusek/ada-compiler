@@ -8,9 +8,12 @@ begin
 declare
 -- <> are used to give unknown sub-range
 type Integer_Array is array (Positive range <>) of Integer;
+Max_Entries : constant Integer := 400;
 S: Integer_Array := (31, 32, 33, 34, 35);
 L: Integer_Array := (21, 22, 23, 24, 25, 31, 32, 33, 34, 35, 41);
 begin
+put("Prinitng a Constant");
+put(Max_entries);
 put("The First Element of S is:");
 put(S(1));
 new_line(1);
@@ -61,6 +64,8 @@ begin
     Text_IO.New_Line;
     Float_Text_IO.Put (C (3)('Z'));
     Text_IO.New_Line;
+
+    A and  B or C xor d
 
 end;
 

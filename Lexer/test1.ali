@@ -3,7 +3,7 @@ M P AB W=b
 P SS ZX
 R nnnvnnnnnnnnnnnvnnvnnvnnnvnnnnnvnnnnnnnnnnnnvnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
 
-U simple%b		test1.adb		8e377feb NE OO SU
+U simple%b		test1.adb		699b8402 NE OO SU
 W ada%s			ada.ads			ada.ali
 W ada.exceptions%s	a-except.adb		a-except.ali
 W ada.integer_text_io%s	a-inteio.ads		a-inteio.ali
@@ -31,7 +31,7 @@ D a-tiinio.ads		20090409150019 aa04e5d6
 D a-unccon.ads		20070406091342 f9eb8f06
 D interfac.ads		20090409150019 f77d8799
 D i-cstrea.ads		20100622165701 1bd72c32
-D test1.adb		20150124161434 4011039b
+D test1.adb		20150201144538 a7bdf872
 D system.ads		20140416172229 23e1f70b
 D s-crtl.ads		20100617122610 ac77b159
 D s-exctab.ads		20090417131547 66e51330
@@ -52,27 +52,27 @@ D s-unstyp.ads		20090409150019 6ae15c76
 D s-valboo.ads		20090409150019 fa926c1e
 D s-wchcon.ads		20090417130712 bfeb2e3d
 X 1 ada.ads
-16K9*Ada 19e8 17|3r7 3r20 4r6 4r20 5r6 8r30
+16K9*Ada 19e8 17|4r7 4r20 5r6 5r20 7r6 10r30
 X 5 a-inteio.ads
-18K13*Integer_Text_IO[13|45] 17|3w24 4r24 22r5 24r5 29r5
+18K13*Integer_Text_IO[13|45] 17|4w24 5r24 24r5 26r5 31r5
 X 9 a-textio.ads
-49K13*Text_IO 472e16 17|3w11 4r10 8r34
-167U14*New_Line 17|30s5 38s5 42s5 49s5 53s5
-243U14*Put 17|21s5 23s5 28s5 36s5 40s5 47s6 51s5
-264U14*Put_Line 17|32s5 44s5
+49K13*Text_IO 472e16 17|4w11 5r10 10r34
+167U14*New_Line 17|32s5 40s5 44s5 51s5 55s5
+243U14*Put 17|23s5 25s5 30s5 38s5 42s5 49s6 53s5
+264U14*Put_Line 17|34s5 46s5
 X 11 a-tienio.ads
-46k21*Enumeration_IO 75e31 17|8r42
-60U14 Put 17|37s5[8] 41s5[8] 48s5[8] 52s5[8]
+46k21*Enumeration_IO 75e31 17|10r42
+60U14 Put 17|39s5[10] 43s5[10] 50s5[10] 54s5[10]
 X 13 a-tiinio.ads
-55U14*Get 17|22s21[5|18] 24s21[5|18]
-56i7 Item{integer} 17|22r26[5|18] 24r26[5|18]
-65U14*Put 17|29s21[5|18]
+55U14*Get 17|24s21[5|18] 26s21[5|18]
+56i7 Item{integer} 17|24r26[5|18] 26r26[5|18]
+65U14*Put 17|31s21[5|18]
 X 17 test1.adb
-7U12*Simple 7b12 57l6 57t12
-8K13 Enum_IO[11|46] 9r9
-11P10 Integer_Pointer(integer) 12r10
-12p5 A{11P10} 17m5 18m5 22r34 26r10 26r16 33r5 35r14 37r9 41r9 46m5 48r9
-. 52r9
-12p7 B{11P10} 19m5 24r34 26r24 26r30 35r5 37r17 41r13 46r10 48r17 52r13
-13i5 C{integer} 26m5 29r25
+9U12*Simple 9b12 59l6 59t12
+10K13 Enum_IO[11|46] 11r9
+13P10 Integer_Pointer(integer) 14r10
+14p5 A{13P10} 19m5 20m5 24r34 28r10 28r16 35r5 37r14 39r9 43r9 48m5 50r9
+. 54r9
+14p7 B{13P10} 21m5 26r34 28r24 28r30 37r5 39r17 43r13 48r10 50r17 54r13
+15i5 C{integer} 28m5 31r25
 
