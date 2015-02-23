@@ -65,8 +65,6 @@ begin
     Float_Text_IO.Put (C (3)('Z'));
     Text_IO.New_Line;
 
-    A and  B or C xor d
-
 end;
 
 end Compare;
