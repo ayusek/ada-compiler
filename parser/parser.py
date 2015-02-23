@@ -3,20 +3,17 @@ import sys
 import lex
 import yacc
 import re
+import sys
+
 from  adaTokens import *
 from parser_functions import *
+from make_out import *
+
+old_stderr = sys.stderr
+
 
 parser = yacc.yacc(start = 'start_symbol', debug = True)
 
-'''while True:
-    try:
-        s = raw_input('calc > ')
-    except EOFError:
-	    break
-    if not s: continue
-	result = parser.parse(s)
-	print (result)
- '''
 
 #Scanning the file name
 if (len(sys.argv) == 1):
@@ -33,9 +30,11 @@ try:
  
         
         lexer.input(data)
+        sys.stderr = open("intermediate_dot" , 'w')
         result = parser.parse(data , debug = 1)
-        print("output is :",result)
-    
+        sys.stderr = old_stderr
+        make_ParseTree(file_name)
+
 except IOError as e:
     print "I/O error({0}): "+ "We are not able to open " + file_name + " . Does it Exists? Check permissions!"
 

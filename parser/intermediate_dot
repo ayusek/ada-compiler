@@ -74,7 +74,7 @@ Action : Shift and goto state 39
 
 State  : 39
 Stack  : compilation WITH c_name_list , compound_name . IDENTIFIER . LexToken(;,';',3,97)
-Action : Reduce rule [simple_name -> IDENTIFIER] with [<str @ 0x7f3ca87129d0>] and goto state 163
+Action : Reduce rule [simple_name -> IDENTIFIER] with [<str @ 0x7f5ee0ab49d0>] and goto state 163
 Result : <NoneType @ 0x920190> (None)
 
 State  : 204
@@ -248,7 +248,7 @@ Action : Shift and goto state 175
 
 State  : 175
 Stack  : compilation context_spec private_opt subprog_spec_is_push error ; . LexToken(IDENTIFIER,'P',9,162)
-Action : Reduce rule [decl -> error ;] with [<LexToken @ 0x7f3ca87193d0>,';'] and goto state 22
+Action : Reduce rule [decl -> error ;] with [<LexToken @ 0x7f5ee0ab93d0>,';'] and goto state 22
 Result : <NoneType @ 0x920190> (None)
 
 State  : 50
@@ -329,7 +329,7 @@ Action : Shift and goto state 175
 
 State  : 175
 Stack  : compilation context_spec private_opt subprog_spec_is_push decl_item_or_body_s1 error ; . LexToken(BEGIN,'begin',11,182)
-Action : Reduce rule [decl -> error ;] with [<LexToken @ 0x7f3ca8719350>,';'] and goto state 22
+Action : Reduce rule [decl -> error ;] with [<LexToken @ 0x7f5ee0ab9350>,';'] and goto state 22
 Result : <NoneType @ 0x920190> (None)
 
 State  : 50
@@ -499,7 +499,7 @@ Action : Shift and goto state 293
 
 State  : 293
 Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN label_opt iteration LOOP IDENTIFIER . LexToken(.,'.',15,277)
-Action : Reduce rule [simple_name -> IDENTIFIER] with [<str @ 0x7f3ca87129d0>] and goto state 163
+Action : Reduce rule [simple_name -> IDENTIFIER] with [<str @ 0x7f5ee0ab49d0>] and goto state 163
 Result : <NoneType @ 0x920190> (None)
 
 State  : 158
@@ -2501,7 +2501,7 @@ Action : Shift and goto state 293
 
 State  : 293
 Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN label_opt iteration LOOP statement_s IDENTIFIER . LexToken(.,'.',34,861)
-Action : Reduce rule [simple_name -> IDENTIFIER] with [<str @ 0x7f3ca8712960>] and goto state 163
+Action : Reduce rule [simple_name -> IDENTIFIER] with [<str @ 0x7f5ee0ab4960>] and goto state 163
 Result : <NoneType @ 0x920190> (None)
 
 State  : 158
@@ -2893,7 +2893,7 @@ Action : Shift and goto state 293
 
 State  : 293
 Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN label_opt iteration LOOP statement_s IDENTIFIER . LexToken(.,'.',36,931)
-Action : Reduce rule [simple_name -> IDENTIFIER] with [<str @ 0x7f3ca8712960>] and goto state 163
+Action : Reduce rule [simple_name -> IDENTIFIER] with [<str @ 0x7f5ee0ab4960>] and goto state 163
 Result : <NoneType @ 0x920190> (None)
 
 State  : 158

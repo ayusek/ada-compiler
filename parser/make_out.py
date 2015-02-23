@@ -3,7 +3,7 @@ import re
 
 def make_ParseTree(file_name) :
 	outfile = open(file_name.split('.')[0] + ".dot", 'a')	
-	f = open("output1",'r')
+	f = open("intermediate_dot",'r')
 	
 	outfile.write("digraph Parse_tree {\n")
 	a = re.compile("Action : Reduce rule")
@@ -32,8 +32,6 @@ def make_ParseTree(file_name) :
 	                outfile.write("\t\"" + lhstoken + "\"" + "->" + "\"" + rhstoken + "\";\n")
 	outfile.write("}\n")
 	return
-
-make_ParseTree("bla")
 
 
 

@@ -1,14 +1,14 @@
  -- simple.adb:  some simple examples of pointers
 
 -- Scanning , Printing , operations , pointer maniulations , pointer algebra , etc
--- with Ada.Text_IO, Ada.Integer_Text_IO ;
--- use Ada.Text_IO , Ada.Integer_Text_IO;
+ with Ada.Text_IO, Ada.Integer_Text_IO ;
+ use Ada.Text_IO , Ada.Integer_Text_IO;
  
--- use Ada;
+ use Ada;
 
  procedure Simple is
     package Enum_IO is  new  ada.Text_IO.Enumeration_IO(Boolean);
-    use Enum_IO; 
+    use Enum_IO;
 
     type Integer_Pointer is access Integer;
     A,B: Integer_Pointer := null;
