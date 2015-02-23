@@ -8,7 +8,7 @@ from parser_functions import *
 
 parser = yacc.yacc(start = 'start_symbol', debug = True)
 
-while True:
+'''while True:
     try:
         s = raw_input('calc > ')
     except EOFError:
@@ -16,9 +16,8 @@ while True:
     if not s: continue
 	result = parser.parse(s)
 	print (result)
- 
+ '''
 
-'''
 #Scanning the file name
 if (len(sys.argv) == 1):
     file_name =raw_input( "Give an Ada file to parse: ")
@@ -34,10 +33,9 @@ try:
  
         
         lexer.input(data)
-        result = parser.parse(data)
-#        result = yacc.parse(data , start = 'start_symbol')
+        result = parser.parse(data , debug = 1)
         print("output is :",result)
     
 except IOError as e:
     print "I/O error({0}): "+ "We are not able to open " + file_name + " . Does it Exists? Check permissions!"
-'''
+
