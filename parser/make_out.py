@@ -2,7 +2,7 @@
 import re
 
 def make_ParseTree(file_name) :
-	outfile = open(file_name.split('.')[0] + ".dot", 'a')	
+	outfile = open(file_name.split('.')[0] + ".dot", 'w')	
 	f = open("intermediate_dot",'r')
 	
 	outfile.write("digraph Parse_tree {\n")
@@ -14,11 +14,6 @@ def make_ParseTree(file_name) :
 	        line = line.split('[')[1].split(']')[0]
 	        lhs = line.split("->")[0].replace(" ",'')
 	        rhs = line.split("->")[1].split(" ")
-		print lhs, rhs
-		print "**----------------------------"
-		if lhs not in Dict: 
-			print lhs , "Not found in the dictionary"	
-		print "**----------------------------"
 	        lhstoken = lhs + '(' + str(Dict[lhs]["List"][-1]) + ')'
 	        del Dict[lhs]["List"][-1]
 	
