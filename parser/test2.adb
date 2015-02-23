@@ -5,8 +5,8 @@
  
  procedure Nonzero is
  
-    N, Twos : Natural;
-    P, J : Positive;
+    N , Twos : Natural;
+    P , J : Positive;
  
  begin
  

@@ -15,10 +15,10 @@ def make_ParseTree(file_name) :
 	        lhs = line.split("->")[0].replace(" ",'')
 	        rhs = line.split("->")[1].split(" ")
 		print lhs, rhs
-		print "**----------------------------"
+		print "----------------------------"
 		if lhs not in Dict: 
 			print lhs , "Not found in the dictionary"	
-		print "**----------------------------"
+		print "----------------------------"
 	        lhstoken = lhs + '(' + str(Dict[lhs]["List"][-1]) + ')'
 	        del Dict[lhs]["List"][-1]
 	
