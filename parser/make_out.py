@@ -17,6 +17,7 @@ def clean(word) :
 	'<': "less",
 	'=': "equal",
 	'>': "more",
+    "<empty>" : "empty",
 	}.get(word,word)
 
 def make_ParseTree(file_name) :
