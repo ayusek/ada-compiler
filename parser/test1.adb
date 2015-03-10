@@ -1,10 +1,10 @@
  -- simple.adb:  some simple examples of pointers
 
 -- Scanning , Printing , operations , pointer maniulations , pointer algebra , etc
- with Ada.Text_IO, Ada.Integer_Text_IO ;
- use Ada.Text_IO , Ada.Integer_Text_IO;
+with  Ada.Text_IO, Ada.Integer_Text_IO ;
+use    Ada.Text_IO , Ada.Integer_Text_IO;
  
- use Ada;
+ use  Ada;
 
  procedure Simple is
     package Enum_IO is  new  ada.Text_IO.Enumeration_IO(Boolean);
@@ -13,6 +13,7 @@
     type Integer_Pointer is access Integer;
     A,B: Integer_Pointer := null;
     C: Integer;
+
 
  begin
  
@@ -25,11 +26,11 @@
     put("Give ""B:");
     Integer_Text_IO.Get (Item => B.all);
  
-    C := A.all*A.all + B.all*B.all;
+    C := A.all*A.all + + B.all*B.all;
 
     put("The value of A^2 + B^2 = ");
     Integer_Text_IO.put(C); 
-    new_line(1);
+    new_line(1+);
 
     put_line("Testing value level equality in Accesses -");
     A.all := 42;
@@ -56,4 +57,4 @@
 
 
  
- end Simple;
+end Simple;

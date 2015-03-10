@@ -17,8 +17,8 @@ digraph Parse_tree {
 	pragma_s0[ label ="pragma_s"];
 	comp_unit0->pragma_s0;
 	pragma_s0[ label ="pragma_s"];
-	<empty>0[ label ="<empty>"];
-	pragma_s0-><empty>0;
+	empty0[ label ="<empty>"];
+	pragma_s0->empty0;
 	unit0[ label ="unit"];
 	subprog_body0[ label ="subprog_body"];
 	unit0->subprog_body0;
@@ -58,8 +58,8 @@ digraph Parse_tree {
 	except_handler_part_opt0[ label ="except_handler_part_opt"];
 	handled_stmt_s0->except_handler_part_opt0;
 	except_handler_part_opt0[ label ="except_handler_part_opt"];
-	<empty>1[ label ="<empty>"];
-	except_handler_part_opt0-><empty>1;
+	empty1[ label ="<empty>"];
+	except_handler_part_opt0->empty1;
 	statement_s0[ label ="statement_s"];
 	statement_s1[ label ="statement_s"];
 	statement_s0->statement_s1;
@@ -2371,8 +2371,8 @@ digraph Parse_tree {
 	semi_colon29[ label =";"];
 	object_decl0->semi_colon29;
 	init_opt0[ label ="init_opt"];
-	<empty>2[ label ="<empty>"];
-	init_opt0-><empty>2;
+	empty2[ label ="<empty>"];
+	init_opt0->empty2;
 	object_subtype_def0[ label ="object_subtype_def"];
 	subtype_ind0[ label ="subtype_ind"];
 	object_subtype_def0->subtype_ind0;
@@ -2386,8 +2386,8 @@ digraph Parse_tree {
 	IDENTIFIER54[ label ="IDENTIFIER"];
 	simple_name54->IDENTIFIER54;
 	object_qualifier_opt0[ label ="object_qualifier_opt"];
-	<empty>3[ label ="<empty>"];
-	object_qualifier_opt0-><empty>3;
+	empty3[ label ="<empty>"];
+	object_qualifier_opt0->empty3;
 	def_id_s0[ label ="def_id_s"];
 	def_id0[ label ="def_id"];
 	def_id_s0->def_id0;
@@ -2460,8 +2460,8 @@ digraph Parse_tree {
 	IDENTIFIER56[ label ="IDENTIFIER"];
 	simple_name55->IDENTIFIER56;
 	object_qualifier_opt1[ label ="object_qualifier_opt"];
-	<empty>4[ label ="<empty>"];
-	object_qualifier_opt1-><empty>4;
+	empty4[ label ="<empty>"];
+	object_qualifier_opt1->empty4;
 	def_id_s1[ label ="def_id_s"];
 	def_id_s2[ label ="def_id_s"];
 	def_id_s1->def_id_s2;
@@ -2526,8 +2526,8 @@ digraph Parse_tree {
 	IDENTIFIER60[ label ="IDENTIFIER"];
 	simple_name56->IDENTIFIER60;
 	discrim_part_opt0[ label ="discrim_part_opt"];
-	<empty>5[ label ="<empty>"];
-	discrim_part_opt0-><empty>5;
+	empty5[ label ="<empty>"];
+	discrim_part_opt0->empty5;
 	decl_item_or_body_s13[ label ="decl_item_or_body_s1"];
 	decl_item_or_body_s14[ label ="decl_item_or_body_s1"];
 	decl_item_or_body_s13->decl_item_or_body_s14;
@@ -2679,8 +2679,8 @@ digraph Parse_tree {
 	formal_part_opt0[ label ="formal_part_opt"];
 	subprog_spec0->formal_part_opt0;
 	formal_part_opt0[ label ="formal_part_opt"];
-	<empty>6[ label ="<empty>"];
-	formal_part_opt0-><empty>6;
+	empty6[ label ="<empty>"];
+	formal_part_opt0->empty6;
 	compound_name2[ label ="compound_name"];
 	simple_name63[ label ="simple_name"];
 	compound_name2->simple_name63;
@@ -2688,8 +2688,8 @@ digraph Parse_tree {
 	IDENTIFIER67[ label ="IDENTIFIER"];
 	simple_name63->IDENTIFIER67;
 	private_opt0[ label ="private_opt"];
-	<empty>7[ label ="<empty>"];
-	private_opt0-><empty>7;
+	empty7[ label ="<empty>"];
+	private_opt0->empty7;
 	context_spec0[ label ="context_spec"];
 	with_clause0[ label ="with_clause"];
 	context_spec0->with_clause0;
@@ -2777,8 +2777,8 @@ digraph Parse_tree {
 	IDENTIFIER72[ label ="IDENTIFIER"];
 	simple_name68->IDENTIFIER72;
 	use_clause_opt2[ label ="use_clause_opt"];
-	<empty>8[ label ="<empty>"];
-	use_clause_opt2-><empty>8;
+	empty8[ label ="<empty>"];
+	use_clause_opt2->empty8;
 	with_clause0[ label ="with_clause"];
 	WITH0[ label ="WITH"];
 	with_clause0->WITH0;
@@ -2829,6 +2829,6 @@ digraph Parse_tree {
 	IDENTIFIER76[ label ="IDENTIFIER"];
 	simple_name72->IDENTIFIER76;
 	compilation1[ label ="compilation"];
-	<empty>9[ label ="<empty>"];
-	compilation1-><empty>9;
+	empty9[ label ="<empty>"];
+	compilation1->empty9;
 }

@@ -1,7 +1,7 @@
 #This has been automatically generted using http://www.adaic.org/resources/add_content/standards/95lrm/grammar9x.y
 #Semantics have been added manually
 
-Debug1 = False
+Debug1 = True
 
 def p_start_symbol(p):
 	'''start_symbol : compilation
@@ -54,6 +54,7 @@ def p_decl(p):
 	'''
 	if (Debug1) : print "Rule Declared: 6"
 
+    print parser.token()
 
 def p_object_decl(p):
 	'''object_decl : def_id_s ':' object_qualifier_opt object_subtype_def init_opt ';'
@@ -1688,3 +1689,14 @@ def p_code_stmt(p):
 	'''code_stmt : qualified ';'
 	'''
 	if (Debug1) : print "Rule Declared: 234"
+    
+def p_error(p):
+    print "line :",p.lineno,"-Parsing Error Found at Token:",p.type
+    #while True :
+     #   tok = parser.token()
+      #  if not tok or tok.type == ';':break
+    #parser.restart()
+    print "yo"
+    parser.errok()
+    print "hello"
+    return tok 
