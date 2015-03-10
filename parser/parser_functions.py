@@ -54,8 +54,6 @@ def p_decl(p):
 	'''
 	if (Debug1) : print "Rule Declared: 6"
 
-    print parser.token()
-
 def p_object_decl(p):
 	'''object_decl : def_id_s ':' object_qualifier_opt object_subtype_def init_opt ';'
 	'''
