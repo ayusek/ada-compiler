@@ -1,352 +1,583 @@
 PLY: PARSE DEBUG START
 
 State  : 0
-Stack  : . LexToken(WITH,'with',4,132)
+Stack  : . LexToken(WITH,'with',1,0)
 Action : Reduce rule [compilation -> <empty>] with [] and goto state 432
 Result : <NoneType @ 0x920190> (None)
 
 State  : 3
-Stack  : compilation . LexToken(WITH,'with',4,132)
+Stack  : compilation . LexToken(WITH,'with',1,0)
 Action : Shift and goto state 11
 
 State  : 11
-Stack  : compilation WITH . LexToken(IDENTIFIER,'Ada',4,137)
+Stack  : compilation WITH . LexToken(IDENTIFIER,'Ada',1,5)
 Action : Shift and goto state 39
 
 State  : 39
-Stack  : compilation WITH IDENTIFIER . LexToken(;,';',4,141)
+Stack  : compilation WITH IDENTIFIER . LexToken(.,'.',1,8)
 Action : Reduce rule [simple_name -> IDENTIFIER] with ['Ada'] and goto state 163
 Result : <NoneType @ 0x920190> (None)
 
 State  : 41
-Stack  : compilation WITH simple_name . LexToken(;,';',4,141)
+Stack  : compilation WITH simple_name . LexToken(.,'.',1,8)
 Action : Reduce rule [compound_name -> simple_name] with [None] and goto state 164
 Result : <NoneType @ 0x920190> (None)
 
 State  : 40
-Stack  : compilation WITH compound_name . LexToken(;,';',4,141)
+Stack  : compilation WITH compound_name . LexToken(.,'.',1,8)
+Action : Shift and goto state 119
+
+State  : 119
+Stack  : compilation WITH compound_name . . LexToken(IDENTIFIER,'Text_IO',1,9)
+Action : Shift and goto state 39
+
+State  : 39
+Stack  : compilation WITH compound_name . IDENTIFIER . LexToken(;,';',1,16)
+Action : Reduce rule [simple_name -> IDENTIFIER] with ['Text_IO'] and goto state 163
+Result : <NoneType @ 0x920190> (None)
+
+State  : 204
+Stack  : compilation WITH compound_name . simple_name . LexToken(;,';',1,16)
+Action : Reduce rule [compound_name -> compound_name . simple_name] with [None,'.',None] and goto state 165
+Result : <NoneType @ 0x920190> (None)
+
+State  : 40
+Stack  : compilation WITH compound_name . LexToken(;,';',1,16)
 Action : Reduce rule [c_name_list -> compound_name] with [None] and goto state 166
 Result : <NoneType @ 0x920190> (None)
 
 State  : 38
-Stack  : compilation WITH c_name_list . LexToken(;,';',4,141)
+Stack  : compilation WITH c_name_list . LexToken(;,';',1,16)
 Action : Shift and goto state 117
 
 State  : 117
-Stack  : compilation WITH c_name_list ; . LexToken(USE,'use',4,143)
+Stack  : compilation WITH c_name_list ; . LexToken(USE,'use',2,19)
 Action : Reduce rule [with_clause -> WITH c_name_list ;] with ['with',None,';'] and goto state 442
 Result : <NoneType @ 0x920190> (None)
 
 State  : 8
-Stack  : compilation with_clause . LexToken(USE,'use',4,143)
+Stack  : compilation with_clause . LexToken(USE,'use',2,19)
 Action : Reduce rule [use_clause_opt -> <empty>] with [] and goto state 443
 Result : <NoneType @ 0x920190> (None)
 
 State  : 18
-Stack  : compilation with_clause use_clause_opt . LexToken(USE,'use',4,143)
+Stack  : compilation with_clause use_clause_opt . LexToken(USE,'use',2,19)
 Action : Shift and goto state 46
 
 State  : 46
-Stack  : compilation with_clause use_clause_opt USE . LexToken(IDENTIFIER,'Ada',4,148)
+Stack  : compilation with_clause use_clause_opt USE . LexToken(IDENTIFIER,'Ada',2,23)
 Action : Shift and goto state 39
 
 State  : 39
-Stack  : compilation with_clause use_clause_opt USE IDENTIFIER . LexToken(;,';',4,151)
+Stack  : compilation with_clause use_clause_opt USE IDENTIFIER . LexToken(.,'.',2,26)
 Action : Reduce rule [simple_name -> IDENTIFIER] with ['Ada'] and goto state 163
 Result : <NoneType @ 0x920190> (None)
 
 State  : 158
-Stack  : compilation with_clause use_clause_opt USE simple_name . LexToken(;,';',4,151)
+Stack  : compilation with_clause use_clause_opt USE simple_name . LexToken(.,'.',2,26)
 Action : Reduce rule [name -> simple_name] with [None] and goto state 155
 Result : <NoneType @ 0x920190> (None)
 
 State  : 156
-Stack  : compilation with_clause use_clause_opt USE name . LexToken(;,';',4,151)
+Stack  : compilation with_clause use_clause_opt USE name . LexToken(.,'.',2,26)
+Action : Shift and goto state 246
+
+State  : 246
+Stack  : compilation with_clause use_clause_opt USE name . . LexToken(IDENTIFIER,'Text_IO',2,27)
+Action : Shift and goto state 39
+
+State  : 39
+Stack  : compilation with_clause use_clause_opt USE name . IDENTIFIER . LexToken(;,';',2,34)
+Action : Reduce rule [simple_name -> IDENTIFIER] with ['Text_IO'] and goto state 163
+Result : <NoneType @ 0x920190> (None)
+
+State  : 391
+Stack  : compilation with_clause use_clause_opt USE name . simple_name . LexToken(;,';',2,34)
+Action : Reduce rule [selected_comp -> name . simple_name] with [None,'.',None] and goto state 177
+Result : <NoneType @ 0x920190> (None)
+
+State  : 120
+Stack  : compilation with_clause use_clause_opt USE selected_comp . LexToken(;,';',2,34)
+Action : Reduce rule [name -> selected_comp] with [None] and goto state 157
+Result : <NoneType @ 0x920190> (None)
+
+State  : 156
+Stack  : compilation with_clause use_clause_opt USE name . LexToken(;,';',2,34)
 Action : Reduce rule [name_s -> name] with [None] and goto state 354
 Result : <NoneType @ 0x920190> (None)
 
 State  : 155
-Stack  : compilation with_clause use_clause_opt USE name_s . LexToken(;,';',4,151)
+Stack  : compilation with_clause use_clause_opt USE name_s . LexToken(;,';',2,34)
 Action : Shift and goto state 254
 
 State  : 254
-Stack  : compilation with_clause use_clause_opt USE name_s ; . LexToken(PROCEDURE,'procedure',6,155)
+Stack  : compilation with_clause use_clause_opt USE name_s ; . LexToken(PROCEDURE,'procedure',4,39)
 Action : Reduce rule [use_clause -> USE name_s ;] with ['use',None,';'] and goto state 352
 Result : <NoneType @ 0x920190> (None)
 
 State  : 47
-Stack  : compilation with_clause use_clause_opt use_clause . LexToken(PROCEDURE,'procedure',6,155)
+Stack  : compilation with_clause use_clause_opt use_clause . LexToken(PROCEDURE,'procedure',4,39)
 Action : Reduce rule [use_clause_opt -> use_clause_opt use_clause] with [None,None] and goto state 444
 Result : <NoneType @ 0x920190> (None)
 
 State  : 18
-Stack  : compilation with_clause use_clause_opt . LexToken(PROCEDURE,'procedure',6,155)
+Stack  : compilation with_clause use_clause_opt . LexToken(PROCEDURE,'procedure',4,39)
 Action : Reduce rule [context_spec -> with_clause use_clause_opt] with [None,None] and goto state 439
 Result : <NoneType @ 0x920190> (None)
 
 State  : 6
-Stack  : compilation context_spec . LexToken(PROCEDURE,'procedure',6,155)
+Stack  : compilation context_spec . LexToken(PROCEDURE,'procedure',4,39)
 Action : Reduce rule [private_opt -> <empty>] with [] and goto state 437
 Result : <NoneType @ 0x920190> (None)
 
 State  : 17
-Stack  : compilation context_spec private_opt . LexToken(PROCEDURE,'procedure',6,155)
+Stack  : compilation context_spec private_opt . LexToken(PROCEDURE,'procedure',4,39)
 Action : Shift and goto state 31
 
 State  : 31
-Stack  : compilation context_spec private_opt PROCEDURE . LexToken(IDENTIFIER,'Simple',6,165)
+Stack  : compilation context_spec private_opt PROCEDURE . LexToken(IDENTIFIER,'Proced1',4,49)
 Action : Shift and goto state 39
 
 State  : 39
-Stack  : compilation context_spec private_opt PROCEDURE IDENTIFIER . LexToken(IS,'is',6,172)
-Action : Reduce rule [simple_name -> IDENTIFIER] with ['Simple'] and goto state 163
+Stack  : compilation context_spec private_opt PROCEDURE IDENTIFIER . LexToken(IS,'is',4,57)
+Action : Reduce rule [simple_name -> IDENTIFIER] with ['Proced1'] and goto state 163
 Result : <NoneType @ 0x920190> (None)
 
 State  : 41
-Stack  : compilation context_spec private_opt PROCEDURE simple_name . LexToken(IS,'is',6,172)
+Stack  : compilation context_spec private_opt PROCEDURE simple_name . LexToken(IS,'is',4,57)
 Action : Reduce rule [compound_name -> simple_name] with [None] and goto state 164
 Result : <NoneType @ 0x920190> (None)
 
 State  : 101
-Stack  : compilation context_spec private_opt PROCEDURE compound_name . LexToken(IS,'is',6,172)
+Stack  : compilation context_spec private_opt PROCEDURE compound_name . LexToken(IS,'is',4,57)
 Action : Reduce rule [formal_part_opt -> <empty>] with [] and goto state 324
 Result : <NoneType @ 0x920190> (None)
 
 State  : 191
-Stack  : compilation context_spec private_opt PROCEDURE compound_name formal_part_opt . LexToken(IS,'is',6,172)
+Stack  : compilation context_spec private_opt PROCEDURE compound_name formal_part_opt . LexToken(IS,'is',4,57)
 Action : Reduce rule [subprog_spec -> PROCEDURE compound_name formal_part_opt] with ['procedure',None,None] and goto state 319
 Result : <NoneType @ 0x920190> (None)
 
 State  : 26
-Stack  : compilation context_spec private_opt subprog_spec . LexToken(IS,'is',6,172)
+Stack  : compilation context_spec private_opt subprog_spec . LexToken(IS,'is',4,57)
 Action : Shift and goto state 96
 
 State  : 96
-Stack  : compilation context_spec private_opt subprog_spec IS . LexToken(IDENTIFIER,'C',7,179)
+Stack  : compilation context_spec private_opt subprog_spec IS . LexToken(PROCEDURE,'procedure',6,69)
 Action : Reduce rule [subprog_spec_is_push -> subprog_spec IS] with [None,'is'] and goto state 336
 Result : <NoneType @ 0x920190> (None)
 
 State  : 24
-Stack  : compilation context_spec private_opt subprog_spec_is_push . LexToken(IDENTIFIER,'C',7,179)
-Action : Shift and goto state 76
+Stack  : compilation context_spec private_opt subprog_spec_is_push . LexToken(PROCEDURE,'procedure',6,69)
+Action : Shift and goto state 31
 
-State  : 76
-Stack  : compilation context_spec private_opt subprog_spec_is_push IDENTIFIER . LexToken(:,':',7,180)
-Action : Reduce rule [def_id -> IDENTIFIER] with ['C'] and goto state 26
-Result : <NoneType @ 0x920190> (None)
-
-State  : 89
-Stack  : compilation context_spec private_opt subprog_spec_is_push def_id . LexToken(:,':',7,180)
-Action : Reduce rule [def_id_s -> def_id] with [None] and goto state 24
-Result : <NoneType @ 0x920190> (None)
-
-State  : 88
-Stack  : compilation context_spec private_opt subprog_spec_is_push def_id_s . LexToken(:,':',7,180)
-Action : Shift and goto state 181
-
-State  : 181
-Stack  : compilation context_spec private_opt subprog_spec_is_push def_id_s : . LexToken(IDENTIFIER,'Integer',7,182)
-Action : Reduce rule [object_qualifier_opt -> <empty>] with [] and goto state 27
-Result : <NoneType @ 0x920190> (None)
-
-State  : 330
-Stack  : compilation context_spec private_opt subprog_spec_is_push def_id_s : object_qualifier_opt . LexToken(IDENTIFIER,'Integer',7,182)
+State  : 31
+Stack  : compilation context_spec private_opt subprog_spec_is_push PROCEDURE . LexToken(IDENTIFIER,'Write_A_Line',6,79)
 Action : Shift and goto state 39
 
 State  : 39
-Stack  : compilation context_spec private_opt subprog_spec_is_push def_id_s : object_qualifier_opt IDENTIFIER . LexToken(;,';',7,189)
-Action : Reduce rule [simple_name -> IDENTIFIER] with ['Integer'] and goto state 163
+Stack  : compilation context_spec private_opt subprog_spec_is_push PROCEDURE IDENTIFIER . LexToken(IS,'is',6,92)
+Action : Reduce rule [simple_name -> IDENTIFIER] with ['Write_A_Line'] and goto state 163
 Result : <NoneType @ 0x920190> (None)
 
-State  : 158
-Stack  : compilation context_spec private_opt subprog_spec_is_push def_id_s : object_qualifier_opt simple_name . LexToken(;,';',7,189)
-Action : Reduce rule [name -> simple_name] with [None] and goto state 155
+State  : 41
+Stack  : compilation context_spec private_opt subprog_spec_is_push PROCEDURE simple_name . LexToken(IS,'is',6,92)
+Action : Reduce rule [compound_name -> simple_name] with [None] and goto state 164
 Result : <NoneType @ 0x920190> (None)
 
-State  : 485
-Stack  : compilation context_spec private_opt subprog_spec_is_push def_id_s : object_qualifier_opt name . LexToken(;,';',7,189)
-Action : Reduce rule [subtype_ind -> name] with [None] and goto state 52
+State  : 101
+Stack  : compilation context_spec private_opt subprog_spec_is_push PROCEDURE compound_name . LexToken(IS,'is',6,92)
+Action : Reduce rule [formal_part_opt -> <empty>] with [] and goto state 324
 Result : <NoneType @ 0x920190> (None)
 
-State  : 496
-Stack  : compilation context_spec private_opt subprog_spec_is_push def_id_s : object_qualifier_opt subtype_ind . LexToken(;,';',7,189)
-Action : Reduce rule [object_subtype_def -> subtype_ind] with [None] and goto state 31
+State  : 191
+Stack  : compilation context_spec private_opt subprog_spec_is_push PROCEDURE compound_name formal_part_opt . LexToken(IS,'is',6,92)
+Action : Reduce rule [subprog_spec -> PROCEDURE compound_name formal_part_opt] with ['procedure',None,None] and goto state 319
 Result : <NoneType @ 0x920190> (None)
 
-State  : 494
-Stack  : compilation context_spec private_opt subprog_spec_is_push def_id_s : object_qualifier_opt object_subtype_def . LexToken(;,';',7,189)
-Action : Reduce rule [init_opt -> <empty>] with [] and goto state 33
+State  : 87
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec . LexToken(IS,'is',6,92)
+Action : Shift and goto state 179
+
+State  : 179
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec IS . LexToken(BEGIN,'begin',7,102)
+Action : Reduce rule [subprog_spec_is_push -> subprog_spec IS] with [None,'is'] and goto state 336
 Result : <NoneType @ 0x920190> (None)
 
-State  : 636
-Stack  : compilation context_spec private_opt subprog_spec_is_push def_id_s : object_qualifier_opt object_subtype_def init_opt . LexToken(;,';',7,189)
-Action : Shift and goto state 753
-
-State  : 753
-Stack  : compilation context_spec private_opt subprog_spec_is_push def_id_s : object_qualifier_opt object_subtype_def init_opt ; . LexToken(BEGIN,'begin',8,192)
-Action : Reduce rule [object_decl -> def_id_s : object_qualifier_opt object_subtype_def init_opt ;] with [None,':',None,None,None,';'] and goto state 23
-Result : <NoneType @ 0x920190> (None)
-
-State  : 64
-Stack  : compilation context_spec private_opt subprog_spec_is_push object_decl . LexToken(BEGIN,'begin',8,192)
-Action : Reduce rule [decl -> object_decl] with [None] and goto state 10
-Result : <NoneType @ 0x920190> (None)
-
-State  : 50
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl . LexToken(BEGIN,'begin',8,192)
-Action : Reduce rule [decl_item -> decl] with [None] and goto state 143
-Result : <NoneType @ 0x920190> (None)
-
-State  : 53
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_item . LexToken(BEGIN,'begin',8,192)
-Action : Reduce rule [decl_item_or_body -> decl_item] with [None] and goto state 150
-Result : <NoneType @ 0x920190> (None)
-
-State  : 79
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_item_or_body . LexToken(BEGIN,'begin',8,192)
-Action : Reduce rule [decl_item_or_body_s1 -> decl_item_or_body] with [None] and goto state 147
-Result : <NoneType @ 0x920190> (None)
-
-State  : 71
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_item_or_body_s1 . LexToken(BEGIN,'begin',8,192)
-Action : Reduce rule [decl_part -> decl_item_or_body_s1] with [None] and goto state 138
+State  : 86
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push . LexToken(BEGIN,'begin',7,102)
+Action : Reduce rule [decl_part -> <empty>] with [] and goto state 137
 Result : <NoneType @ 0x920190> (None)
 
 State  : 54
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part . LexToken(BEGIN,'begin',8,192)
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part . LexToken(BEGIN,'begin',7,102)
 Action : Shift and goto state 163
 
 State  : 163
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN . LexToken(IDENTIFIER,'C',9,199)
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN . LexToken(IDENTIFIER,'Put',8,118)
 Action : Shift and goto state 293
 
 State  : 293
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN IDENTIFIER . LexToken(ASSIGNMENT,':=',9,201)
-Action : Reduce rule [simple_name -> IDENTIFIER] with ['C'] and goto state 163
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN IDENTIFIER . LexToken((,'(',8,121)
+Action : Reduce rule [simple_name -> IDENTIFIER] with ['Put'] and goto state 163
 Result : <NoneType @ 0x920190> (None)
 
 State  : 158
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN simple_name . LexToken(ASSIGNMENT,':=',9,201)
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN simple_name . LexToken((,'(',8,121)
 Action : Reduce rule [name -> simple_name] with [None] and goto state 155
 Result : <NoneType @ 0x920190> (None)
 
 State  : 272
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN name . LexToken(ASSIGNMENT,':=',9,201)
-Action : Shift and goto state 427
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN name . LexToken((,'(',8,121)
+Action : Shift and goto state 245
 
-State  : 427
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN name ASSIGNMENT . LexToken(INTEGER,1,9,204)
-Action : Shift and goto state 142
+State  : 245
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN name ( . LexToken(STRING,'"This is a line of text."',8,122)
+Action : Shift and goto state 138
 
-State  : 142
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN name ASSIGNMENT INTEGER . LexToken(;,';',9,205)
-Action : Reduce rule [literal -> INTEGER] with [1] and goto state 186
+State  : 138
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN name ( STRING . LexToken(),')',8,147)
+Action : Reduce rule [operator_symbol -> STRING] with [<str @ 0x7fd52be820b0>] and goto state 169
 Result : <NoneType @ 0x920190> (None)
 
-State  : 135
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN name ASSIGNMENT literal . LexToken(;,';',9,205)
-Action : Reduce rule [primary -> literal] with [None] and goto state 238
+State  : 149
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN name ( operator_symbol . LexToken(),')',8,147)
+Action : Reduce rule [name -> operator_symbol] with [None] and goto state 159
+Result : <NoneType @ 0x920190> (None)
+
+State  : 231
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN name ( name . LexToken(),')',8,147)
+Action : Reduce rule [primary -> name] with [None] and goto state 239
 Result : <NoneType @ 0x920190> (None)
 
 State  : 122
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN name ASSIGNMENT primary . LexToken(;,';',9,205)
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN name ( primary . LexToken(),')',8,147)
 Action : Reduce rule [factor -> primary] with [None] and goto state 234
 Result : <NoneType @ 0x920190> (None)
 
 State  : 137
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN name ASSIGNMENT factor . LexToken(;,';',9,205)
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN name ( factor . LexToken(),')',8,147)
 Action : Reduce rule [term -> factor] with [None] and goto state 228
 Result : <NoneType @ 0x920190> (None)
 
 State  : 146
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN name ASSIGNMENT term . LexToken(;,';',9,205)
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN name ( term . LexToken(),')',8,147)
 Action : Reduce rule [simple_expression -> term] with [None] and goto state 221
 Result : <NoneType @ 0x920190> (None)
 
-State  : 128
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN name ASSIGNMENT simple_expression . LexToken(;,';',9,205)
+State  : 384
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN name ( simple_expression . LexToken(),')',8,147)
 Action : Reduce rule [relation -> simple_expression] with [None] and goto state 208
 Result : <NoneType @ 0x920190> (None)
 
 State  : 125
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN name ASSIGNMENT relation . LexToken(;,';',9,205)
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN name ( relation . LexToken(),')',8,147)
 Action : Reduce rule [expression -> relation] with [None] and goto state 200
 Result : <NoneType @ 0x920190> (None)
 
-State  : 558
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN name ASSIGNMENT expression . LexToken(;,';',9,205)
-Action : Shift and goto state 690
-
-State  : 690
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN name ASSIGNMENT expression ; . LexToken(END,'end',10,207)
-Action : Reduce rule [assign_stmt -> name ASSIGNMENT expression ;] with [None,':=',None,';'] and goto state 275
+State  : 387
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN name ( expression . LexToken(),')',8,147)
+Action : Reduce rule [value -> expression] with [None] and goto state 173
 Result : <NoneType @ 0x920190> (None)
 
-State  : 311
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN assign_stmt . LexToken(END,'end',10,207)
-Action : Reduce rule [simple_stmt -> assign_stmt] with [None] and goto state 256
+State  : 386
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN name ( value . LexToken(),')',8,147)
+Action : Reduce rule [value_s -> value] with [None] and goto state 171
+Result : <NoneType @ 0x920190> (None)
+
+State  : 383
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN name ( value_s . LexToken(),')',8,147)
+Action : Shift and goto state 530
+
+State  : 530
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN name ( value_s ) . LexToken(;,';',8,148)
+Action : Reduce rule [indexed_comp -> name ( value_s )] with [None,'(',None,')'] and goto state 170
+Result : <NoneType @ 0x920190> (None)
+
+State  : 129
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN indexed_comp . LexToken(;,';',8,148)
+Action : Reduce rule [name -> indexed_comp] with [None] and goto state 156
+Result : <NoneType @ 0x920190> (None)
+
+State  : 272
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN name . LexToken(;,';',8,148)
+Action : Shift and goto state 428
+
+State  : 428
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN name ; . LexToken(IDENTIFIER,'New_Line',9,160)
+Action : Reduce rule [procedure_call -> name ;] with [None,';'] and goto state 338
+Result : <NoneType @ 0x920190> (None)
+
+State  : 279
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN procedure_call . LexToken(IDENTIFIER,'New_Line',9,160)
+Action : Reduce rule [simple_stmt -> procedure_call] with [None] and goto state 260
 Result : <NoneType @ 0x920190> (None)
 
 State  : 268
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN simple_stmt . LexToken(END,'end',10,207)
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN simple_stmt . LexToken(IDENTIFIER,'New_Line',9,160)
 Action : Reduce rule [unlabeled -> simple_stmt] with [None] and goto state 252
 Result : <NoneType @ 0x920190> (None)
 
 State  : 305
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN unlabeled . LexToken(END,'end',10,207)
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN unlabeled . LexToken(IDENTIFIER,'New_Line',9,160)
 Action : Reduce rule [statement -> unlabeled] with [None] and goto state 250
 Result : <NoneType @ 0x920190> (None)
 
 State  : 292
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN statement . LexToken(END,'end',10,207)
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN statement . LexToken(IDENTIFIER,'New_Line',9,160)
 Action : Reduce rule [statement_s -> statement] with [None] and goto state 248
 Result : <NoneType @ 0x920190> (None)
 
 State  : 303
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN statement_s . LexToken(END,'end',10,207)
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN statement_s . LexToken(IDENTIFIER,'New_Line',9,160)
+Action : Shift and goto state 293
+
+State  : 293
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN statement_s IDENTIFIER . LexToken(;,';',9,168)
+Action : Reduce rule [simple_name -> IDENTIFIER] with ['New_Line'] and goto state 163
+Result : <NoneType @ 0x920190> (None)
+
+State  : 158
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN statement_s simple_name . LexToken(;,';',9,168)
+Action : Reduce rule [name -> simple_name] with [None] and goto state 155
+Result : <NoneType @ 0x920190> (None)
+
+State  : 272
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN statement_s name . LexToken(;,';',9,168)
+Action : Shift and goto state 428
+
+State  : 428
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN statement_s name ; . LexToken(END,'end',10,177)
+Action : Reduce rule [procedure_call -> name ;] with [None,';'] and goto state 338
+Result : <NoneType @ 0x920190> (None)
+
+State  : 279
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN statement_s procedure_call . LexToken(END,'end',10,177)
+Action : Reduce rule [simple_stmt -> procedure_call] with [None] and goto state 260
+Result : <NoneType @ 0x920190> (None)
+
+State  : 268
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN statement_s simple_stmt . LexToken(END,'end',10,177)
+Action : Reduce rule [unlabeled -> simple_stmt] with [None] and goto state 252
+Result : <NoneType @ 0x920190> (None)
+
+State  : 305
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN statement_s unlabeled . LexToken(END,'end',10,177)
+Action : Reduce rule [statement -> unlabeled] with [None] and goto state 250
+Result : <NoneType @ 0x920190> (None)
+
+State  : 459
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN statement_s statement . LexToken(END,'end',10,177)
+Action : Reduce rule [statement_s -> statement_s statement] with [None,None] and goto state 249
+Result : <NoneType @ 0x920190> (None)
+
+State  : 303
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN statement_s . LexToken(END,'end',10,177)
 Action : Reduce rule [except_handler_part_opt -> <empty>] with [] and goto state 306
 Result : <NoneType @ 0x920190> (None)
 
 State  : 458
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN statement_s except_handler_part_opt . LexToken(END,'end',10,207)
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN statement_s except_handler_part_opt . LexToken(END,'end',10,177)
 Action : Reduce rule [handled_stmt_s -> statement_s except_handler_part_opt] with [None,None] and goto state 305
 Result : <NoneType @ 0x920190> (None)
 
 State  : 289
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN handled_stmt_s . LexToken(END,'end',10,207)
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part BEGIN handled_stmt_s . LexToken(END,'end',10,177)
 Action : Reduce rule [block_body -> BEGIN handled_stmt_s] with ['begin',None] and goto state 304
 Result : <NoneType @ 0x920190> (None)
 
 State  : 164
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part block_body . LexToken(END,'end',10,207)
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part block_body . LexToken(END,'end',10,177)
 Action : Shift and goto state 312
 
 State  : 312
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part block_body END . LexToken(IDENTIFIER,'Simple',10,211)
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part block_body END . LexToken(IDENTIFIER,'Write_A_Line',10,181)
 Action : Shift and goto state 39
 
 State  : 39
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part block_body END IDENTIFIER . LexToken(;,';',10,217)
-Action : Reduce rule [simple_name -> IDENTIFIER] with ['Simple'] and goto state 163
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part block_body END IDENTIFIER . LexToken(;,';',10,193)
+Action : Reduce rule [simple_name -> IDENTIFIER] with ['Write_A_Line'] and goto state 163
 Result : <NoneType @ 0x920190> (None)
 
 State  : 41
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part block_body END simple_name . LexToken(;,';',10,217)
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part block_body END simple_name . LexToken(;,';',10,193)
 Action : Reduce rule [compound_name -> simple_name] with [None] and goto state 164
 Result : <NoneType @ 0x920190> (None)
 
 State  : 114
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part block_body END compound_name . LexToken(;,';',10,217)
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part block_body END compound_name . LexToken(;,';',10,193)
 Action : Reduce rule [designator -> compound_name] with [None] and goto state 322
 Result : <NoneType @ 0x920190> (None)
 
 State  : 466
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part block_body END designator . LexToken(;,';',10,217)
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part block_body END designator . LexToken(;,';',10,193)
 Action : Reduce rule [id_opt -> designator] with [None] and goto state 300
 Result : <NoneType @ 0x920190> (None)
 
 State  : 467
-Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part block_body END id_opt . LexToken(;,';',10,217)
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part block_body END id_opt . LexToken(;,';',10,193)
+Action : Shift and goto state 588
+
+State  : 588
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_spec_is_push decl_part block_body END id_opt ; . LexToken(BEGIN,'begin',12,198)
+Action : Reduce rule [subprog_body -> subprog_spec_is_push decl_part block_body END id_opt ;] with [None,None,None,'end',None,';'] and goto state 337
+Result : <NoneType @ 0x920190> (None)
+
+State  : 59
+Stack  : compilation context_spec private_opt subprog_spec_is_push subprog_body . LexToken(BEGIN,'begin',12,198)
+Action : Reduce rule [body -> subprog_body] with [None] and goto state 151
+Result : <NoneType @ 0x920190> (None)
+
+State  : 62
+Stack  : compilation context_spec private_opt subprog_spec_is_push body . LexToken(BEGIN,'begin',12,198)
+Action : Reduce rule [decl_item_or_body -> body] with [None] and goto state 149
+Result : <NoneType @ 0x920190> (None)
+
+State  : 79
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_item_or_body . LexToken(BEGIN,'begin',12,198)
+Action : Reduce rule [decl_item_or_body_s1 -> decl_item_or_body] with [None] and goto state 147
+Result : <NoneType @ 0x920190> (None)
+
+State  : 71
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_item_or_body_s1 . LexToken(BEGIN,'begin',12,198)
+Action : Reduce rule [decl_part -> decl_item_or_body_s1] with [None] and goto state 138
+Result : <NoneType @ 0x920190> (None)
+
+State  : 54
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part . LexToken(BEGIN,'begin',12,198)
+Action : Shift and goto state 163
+
+State  : 163
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN . LexToken(IDENTIFIER,'Write_A_Line',13,208)
+Action : Shift and goto state 293
+
+State  : 293
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN IDENTIFIER . LexToken(;,';',13,220)
+Action : Reduce rule [simple_name -> IDENTIFIER] with ['Write_A_Line'] and goto state 163
+Result : <NoneType @ 0x920190> (None)
+
+State  : 158
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN simple_name . LexToken(;,';',13,220)
+Action : Reduce rule [name -> simple_name] with [None] and goto state 155
+Result : <NoneType @ 0x920190> (None)
+
+State  : 272
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN name . LexToken(;,';',13,220)
+Action : Shift and goto state 428
+
+State  : 428
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN name ; . LexToken(IDENTIFIER,'Write_A_Line',14,226)
+Action : Reduce rule [procedure_call -> name ;] with [None,';'] and goto state 338
+Result : <NoneType @ 0x920190> (None)
+
+State  : 279
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN procedure_call . LexToken(IDENTIFIER,'Write_A_Line',14,226)
+Action : Reduce rule [simple_stmt -> procedure_call] with [None] and goto state 260
+Result : <NoneType @ 0x920190> (None)
+
+State  : 268
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN simple_stmt . LexToken(IDENTIFIER,'Write_A_Line',14,226)
+Action : Reduce rule [unlabeled -> simple_stmt] with [None] and goto state 252
+Result : <NoneType @ 0x920190> (None)
+
+State  : 305
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN unlabeled . LexToken(IDENTIFIER,'Write_A_Line',14,226)
+Action : Reduce rule [statement -> unlabeled] with [None] and goto state 250
+Result : <NoneType @ 0x920190> (None)
+
+State  : 292
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN statement . LexToken(IDENTIFIER,'Write_A_Line',14,226)
+Action : Reduce rule [statement_s -> statement] with [None] and goto state 248
+Result : <NoneType @ 0x920190> (None)
+
+State  : 303
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN statement_s . LexToken(IDENTIFIER,'Write_A_Line',14,226)
+Action : Shift and goto state 293
+
+State  : 293
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN statement_s IDENTIFIER . LexToken(;,';',14,238)
+Action : Reduce rule [simple_name -> IDENTIFIER] with ['Write_A_Line'] and goto state 163
+Result : <NoneType @ 0x920190> (None)
+
+State  : 158
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN statement_s simple_name . LexToken(;,';',14,238)
+Action : Reduce rule [name -> simple_name] with [None] and goto state 155
+Result : <NoneType @ 0x920190> (None)
+
+State  : 272
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN statement_s name . LexToken(;,';',14,238)
+Action : Shift and goto state 428
+
+State  : 428
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN statement_s name ; . LexToken(END,'end',15,241)
+Action : Reduce rule [procedure_call -> name ;] with [None,';'] and goto state 338
+Result : <NoneType @ 0x920190> (None)
+
+State  : 279
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN statement_s procedure_call . LexToken(END,'end',15,241)
+Action : Reduce rule [simple_stmt -> procedure_call] with [None] and goto state 260
+Result : <NoneType @ 0x920190> (None)
+
+State  : 268
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN statement_s simple_stmt . LexToken(END,'end',15,241)
+Action : Reduce rule [unlabeled -> simple_stmt] with [None] and goto state 252
+Result : <NoneType @ 0x920190> (None)
+
+State  : 305
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN statement_s unlabeled . LexToken(END,'end',15,241)
+Action : Reduce rule [statement -> unlabeled] with [None] and goto state 250
+Result : <NoneType @ 0x920190> (None)
+
+State  : 459
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN statement_s statement . LexToken(END,'end',15,241)
+Action : Reduce rule [statement_s -> statement_s statement] with [None,None] and goto state 249
+Result : <NoneType @ 0x920190> (None)
+
+State  : 303
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN statement_s . LexToken(END,'end',15,241)
+Action : Reduce rule [except_handler_part_opt -> <empty>] with [] and goto state 306
+Result : <NoneType @ 0x920190> (None)
+
+State  : 458
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN statement_s except_handler_part_opt . LexToken(END,'end',15,241)
+Action : Reduce rule [handled_stmt_s -> statement_s except_handler_part_opt] with [None,None] and goto state 305
+Result : <NoneType @ 0x920190> (None)
+
+State  : 289
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part BEGIN handled_stmt_s . LexToken(END,'end',15,241)
+Action : Reduce rule [block_body -> BEGIN handled_stmt_s] with ['begin',None] and goto state 304
+Result : <NoneType @ 0x920190> (None)
+
+State  : 164
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part block_body . LexToken(END,'end',15,241)
+Action : Shift and goto state 312
+
+State  : 312
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part block_body END . LexToken(IDENTIFIER,'Proced1',15,245)
+Action : Shift and goto state 39
+
+State  : 39
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part block_body END IDENTIFIER . LexToken(;,';',15,252)
+Action : Reduce rule [simple_name -> IDENTIFIER] with ['Proced1'] and goto state 163
+Result : <NoneType @ 0x920190> (None)
+
+State  : 41
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part block_body END simple_name . LexToken(;,';',15,252)
+Action : Reduce rule [compound_name -> simple_name] with [None] and goto state 164
+Result : <NoneType @ 0x920190> (None)
+
+State  : 114
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part block_body END compound_name . LexToken(;,';',15,252)
+Action : Reduce rule [designator -> compound_name] with [None] and goto state 322
+Result : <NoneType @ 0x920190> (None)
+
+State  : 466
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part block_body END designator . LexToken(;,';',15,252)
+Action : Reduce rule [id_opt -> designator] with [None] and goto state 300
+Result : <NoneType @ 0x920190> (None)
+
+State  : 467
+Stack  : compilation context_spec private_opt subprog_spec_is_push decl_part block_body END id_opt . LexToken(;,';',15,252)
 Action : Shift and goto state 588
 
 State  : 588
