@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 from  parser import * 
-
 #Scanning the file name
 if (len(sys.argv) == 1):
     file_name =raw_input( "Give an Ada file to parse: ")

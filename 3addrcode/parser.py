@@ -10,13 +10,17 @@ import sys
 
 from  adaTokens import *
 
-Debug1 = True
+Debug1 = False
 
 def p_start_symbol(p):
 	'''start_symbol : compilation
     	'''
 	p[0]=p[1]
-	if (Debug1) : print "Rule Partially Done: 1"
+
+	symbol_table.print_Symbol_Table()
+
+	if (Debug1) : print "Rule Done: 1"
+
 	#************* PRINT SYMBOL TABLE *************
 
 
@@ -73,6 +77,7 @@ def p_object_decl(p):
 	'''object_decl : def_id_s ':' object_qualifier_opt object_subtype_def init_opt ';'
 	'''
 	if (Debug1) : print "Rule Declared: 7"
+	
 
 
 #Allows List of Names

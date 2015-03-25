@@ -103,8 +103,7 @@ class Table:
 				print "+++++++++++++++++++++++++++++++++++++++"
 				self.Hash[item]["SymbolTable"].print_Symbol_Table()
 				print "---------------------------------------"
-			else :
-				print item + " ==> " + str(self.Hash[item])
+			print item + " ==> " + str(self.Hash[item])
 
 
 
@@ -209,14 +208,20 @@ class SymbolTable:
 				self.symbol_table.createSym(item , var_List[item])
 	
 
-
+'''
 st = SymbolTable()
 #new_table = Table()
 st.createSym('ayush' , {'age' : 19 , 'sex' : 'M' , 'room' : 'F208' })
 
 dict = {'gender': {'out': True, 't': 'String', 'in': False}, 'name': {'out': True, 't': 'string', 'in': True}}
+
 st.begin_scope()
 st.declare_Procedure("person" , dict)
 st.end_scope()
 
+st.begin_scope()
+st.declare_Procedure("person1" , dict)
+st.end_scope()
+
 st.print_Symbol_Table()
+'''
