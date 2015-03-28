@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from three_addrcode_functions import *
+from copy import deepcopy
 
 import sys
 import lex
@@ -10,7 +11,6 @@ import sys
 
 from  adaTokens import *
 
-Debug1 = False
 
 def p_start_symbol(p):
 	'''start_symbol : compilation
@@ -21,9 +21,8 @@ def p_start_symbol(p):
 
 	if (Debug1) : print "Rule Done: 1"
 
-	#************* PRINT SYMBOL TABLE *************
 
-
+#*****************************
 def p_pragma(p):
 	'''pragma  : PRAGMA IDENTIFIER ';'
 	   | PRAGMA simple_name '(' pragma_arg_s ')' ';'
@@ -51,6 +50,7 @@ def p_pragma_s(p):
 	'''
 	if (Debug1) : print "Rule Declared: 5"
 
+#*****************************
 
 def p_decl(p):
 	'''decl    : object_decl
@@ -70,17 +70,82 @@ def p_decl(p):
 	if (Debug1) : print "Rule Partially Done: 6"
 
 	#***** handle SubPrograms Seperately ***************
-	p[0] = p[1]
+	p[0] = p[1] #Checking Done, emits done, Carrying Attributes
 
 
 def p_object_decl(p):
 	'''object_decl : def_id_s ':' object_qualifier_opt object_subtype_def init_opt ';'
 	'''
+	if (Debug2) : print "Declare Statement"
 	if (Debug1) : print "Rule Declared: 7"
-	
+
+	if len(p[1])  == 0 :
+		print "[Object Declaration] Error : No objects to declare"
+		p_error(p)
+
+	if(p[4] == None):
+		print "[Object Declaration] Error : Type not given"
+		p_error(p)
+
+	elif(p[4]["type"] == None): #May convert it to the symbol table
+		print "[Object Declaration] Error : Type is not defined"
+		p_error(p)
+
+	else:
+		if(p[5] != None) : 
+			p[0] = deepcopy(p[5]) #Carry's Other attributes like nextlist , etc
+			if (p[4]["type"] != p[5]["type"]): #Assuming Both to be in the lower case
+				print "[Object Declaration] Error : Type mismatch in initialization"
 
 
-#Allows List of Names
+
+		#P[1] is a list of identifiers
+		for item in p[1]:
+			item_lexeme = item
+			item = item.lower()
+			flag = True
+
+			#checking Presence in Reserved Set or in the current symbol table
+
+			if item in reserved : 
+				flag = False
+				print "[Object Declaration] Error : Object " + item + " is a reserved keyword"
+				p_error(p)
+
+			if symbol_table.locate_Symbol_in_this(item):
+				flag = False
+				print "[Object Declaration] Error : Object " + item + " has been already defined in this scope"
+				p_error(p) # This function returns back
+
+			if (flag == True) :
+				if (p[4]["isarray"] == True):
+					if (Debug2 ) : print "******* INSERTED " + item
+					symbol_table.createSym(item , p[4]) # I will ensure that p[4] is a dictionary having type information
+					symbol_table.updateSym(item , "lexeme" , item_lexeme)
+					#symbol_table.updateSym(item , "offset" , symbol_table.get_width())
+					#symbol_table.change_width(width[p[4]["Base_Type"]]) #Has been set up while evaluating for p[4]
+					
+
+					if (p[5] != None):
+						print "[Object Declaration] Error : Object" + item + " is an array. Initialization of arrays not yet allowed"
+						p_error(p)
+				else: #isarray is false
+					#Variables Declared
+					if (Debug2):  print item + " Inserted"
+					symbol_table.createSym(item , p[4]) # I will ensure that p[4] is a dictionary having type information
+					symbol_table.updateSym(item , "lexeme" , item_lexeme)
+					symbol_table.updateSym(item , "offset" , symbol_table.get_width())
+					symbol_table.change_width(width[p[4]["type"]]) #Has been set up while evaluating for p[4]
+
+					if(p[5] != None):
+						if (symbol_table.get_Attribute_Value(item , "isconstant")):
+							print "[Object Declaration] Error : Object" + item + " is a constant and can not be assigned"
+
+						else :
+							if(Debug2) : print "Emitting 3addrcode"
+							three_addr_code.emit(item , p[5]["value"] , "=" ,  None)
+
+#List of Names
 def p_def_id_s(p):
 	'''def_id_s : def_id
 	   | def_id_s ',' def_id
@@ -97,40 +162,51 @@ def p_def_id(p):
 	if (Debug1) : print "Rule Done: 9"
 	p[0] = p[1]
 
-def p_object_qualifier_opt(p):
+def p_object_qualifier_opt1(p):
 	'''object_qualifier_opt :
 	   | ALIASED
-	   | CONSTANT
 	   | ALIASED CONSTANT
 	'''
-	if (Debug1) : print "Rule Declared: 10"
+	if (Debug1) : print "Rule Declared: 10a"
+	if (len(p) == 2):
+		p[0] = {"isconstant" : False , "isaliased" : True , "isnull" : False}
+	elif (len(p) == 3):
+		p[0] = {"isconstant" : True , "isaliased" : True , "isnull" : False}
+	else:
+		p[0] = {"isconstant" : False , "isaliased" : False , "isnull"  : True}
 
+def p_object_qualifier_opt2(p):
+	'''object_qualifier_opt : CONSTANT
+	'''
+	p[0] = {"isconstant" : True , "isaliased" : False , "isnull" : False}
+	if (Debug1) : print "Rule Declared: 10b"
 
 def p_object_subtype_def(p):
 	'''object_subtype_def : subtype_ind
 	   | array_type
 	'''
 	if (Debug1) : print "Rule Declared: 11"
-
+	p[0] = p[1] #Carry the type information forward
 
 def p_init_opt(p):
 	'''init_opt :
 	   | ASSIGNMENT expression
 	'''
 	if (Debug1) : print "Rule Declared: 12"
-
+	if (len(p) == 3):
+		p[0] = p[2]
+	else:
+		p[0] = None
 
 def p_number_decl(p):
 	'''number_decl : def_id_s ':' CONSTANT ASSIGNMENT expression ';'
 	'''
 	if (Debug1) : print "Rule Declared: 13"
 
-
 def p_type_decl(p):
 	'''type_decl : TYPE IDENTIFIER discrim_part_opt type_completion ';'
 	'''
 	if (Debug1) : print "Rule Declared: 14"
-
 
 def p_discrim_part_opt(p):
 	'''discrim_part_opt :
@@ -139,13 +215,11 @@ def p_discrim_part_opt(p):
 	'''
 	if (Debug1) : print "Rule Declared: 15"
 
-
 def p_type_completion(p):
 	'''type_completion :
 	   | IS type_def
 	'''
 	if (Debug1) : print "Rule Declared: 16"
-
 
 def p_type_def(p):
 	'''type_def : enumeration_type 
@@ -159,17 +233,29 @@ def p_type_def(p):
 	'''
 	if (Debug1) : print "Rule Declared: 17"
 
-
 def p_subtype_decl(p):
 	'''subtype_decl : SUBTYPE IDENTIFIER IS subtype_ind ';'
 	'''
 	if (Debug1) : print "Rule Declared: 18"
 
-
+#A list needs to be carried forwards
 def p_subtype_ind(p):
 	'''subtype_ind : name constraint
 	   | name
 	'''
+	p[0] = {}
+
+	if ( symbol_table.locate_Symbol(p[1]["lexeme"]) and (symbol_table.get_Attribute_Value(p[1]["lexeme"] , "istype") != None) and (symbol_table.get_Attribute_Value(p[1]["lexeme"] , "istype"))):
+		if(len(p) == 3):
+			p[0].update(p[2]) #p[2] is a dictionary , Tranferring constraints
+
+		p[0]["type"] = p[1]["type"]
+		p[0]["isarray"] = False
+
+	else:
+		print "[Inconsistent Type] Error at line " , " : Type does not exists"
+		p_error(p)
+
 	if (Debug1) : print "Rule Declared: 19"
 
 
@@ -178,13 +264,13 @@ def p_constraint(p):
 	   | decimal_digits_constraint
 	'''
 	if (Debug1) : print "Rule Declared: 20"
+	p[0] = p[1]
 
-
+#*********************** REMOVE IT LATER ON *******************
 def p_decimal_digits_constraint(p):
 	'''decimal_digits_constraint : DIGITS expression range_constr_opt
 	'''
 	if (Debug1) : print "Rule Declared: 21"
-
 
 def p_derived_type(p):
 	'''derived_type : NEW subtype_ind
@@ -200,21 +286,25 @@ def p_range_constraint(p):
 	'''range_constraint : RANGE range
 	'''
 	if (Debug1) : print "Rule Declared: 23"
+	p[0] = p[2]
 
 
 def p_range(p):
 	'''range : simple_expression DOTDOT simple_expression
-	   | name TICK RANGE
-	   | name TICK RANGE '(' expression ')'
 	'''
+	if (p[1]["type"] != p[3]["type"]) :
+		print "[Range Declaration] Error at " , ": Range start and End type do not match"
+		p_error(p)
+	else:
+		p[0] = {"lower_limit" : p[1]["value"], "upper_limit" : p[3]["value"] , "index_bound_type" : p[1]["type"] }
 	if (Debug1) : print "Rule Declared: 24"
 
 
 def p_enumeration_type(p):
 	'''enumeration_type : '(' enum_id_s ')'
 	'''
+	p[0] = p[2]
 	if (Debug1) : print "Rule Declared: 25"
-
 
 def p_enum_id_s(p):
 	'''enum_id_s : enum_id
@@ -237,24 +327,21 @@ def p_integer_type(p):
 	if (Debug1) : print "Rule Declared: 28"
 
 
-def p_(p):
-	'''    
-	'''
-	if (Debug1) : print "Rule Declared: 29"
-
-
 def p_range_spec(p):
 	'''range_spec : range_constraint
 	'''
+	p[0] = p[1]
 	if (Debug1) : print "Rule Declared: 30"
-
 
 def p_range_spec_opt(p):
 	'''range_spec_opt :
 	   | range_spec
 	'''
+	if(len(p) == 1):
+		p[0] = None
+	else:
+		p[0] = p[1]
 	if (Debug1) : print "Rule Declared: 31"
-
 
 def p_real_type(p):
 	'''real_type : float_type
@@ -280,18 +367,24 @@ def p_array_type(p):
 	'''array_type : unconstr_array_type
 	   | constr_array_type
 	'''
+	p[0] = p[1]
 	if (Debug1) : print "Rule Declared: 35"
 
+
+#************* REMOVE LATER ***********************************************************************
 
 def p_unconstr_array_type(p):
 	'''unconstr_array_type : ARRAY '(' index_s ')' OF component_subtype_def
 	'''
 	if (Debug1) : print "Rule Declared: 36"
 
+#************* REMOVE LATER ***********************************************************************
+
 
 def p_constr_array_type(p):
 	'''constr_array_type : ARRAY iter_index_constraint OF component_subtype_def
 	'''
+
 	if (Debug1) : print "Rule Declared: 37"
 
 
@@ -543,6 +636,8 @@ def p_name(p):
 	   | attribute
 	   | operator_symbol
 	'''
+	p[0] = p[1]
+
 	if (Debug1) : print "Rule Declared: 72"
 
 
@@ -554,11 +649,19 @@ def p_mark(p):
 	if (Debug1) : print "Rule Declared: 73"
 
 
+#This identifier has to be declared before
 def p_simple_name(p):
 	'''simple_name : IDENTIFIER
 	'''
-	if (Debug1) : print "Rule Declared: 74"
+	if( symbol_table.locate_Symbol(p[1].lower()) ):
+		p[0] = symbol_table.get_Hash_Table()[p[1].lower()] #I get a dictionary here
 
+	else:
+		print "[Unidentified Variable] Error at line : " + p[1] + " not found"
+		p_error(p)
+
+	if (Debug1) : print "Rule Declared: 74"
+	
 
 def p_compound_name(p):
 	'''compound_name : simple_name
@@ -577,7 +680,9 @@ def p_c_name_list(p):
 def p_used_char(p):
 	'''used_char : CHAR
 	'''
+	p[0] = {"value" : p[1], "type" : "CHAR" , "lexeme" : p[1] , "isbase" : False}
 	if (Debug1) : print "Rule Declared: 77"
+
 
 
 def p_operator_symbol(p):
@@ -632,26 +737,51 @@ def p_attribute_id(p):
 	if (Debug1) : print "Rule Declared: 84"
 
 
-def p_literal(p):
+def p_literal1(p):
 	'''literal : INTEGER
-       | BASE_INTEGER
-       | FLOAT
-       | BASE_FLOAT
-	   | used_char
-	   | NuLL
 	'''
 	if (Debug1) : print "Rule Declared: 85"
+	p[0] = {"value" : p[1] , "type" : "INT" , "isbase" : False}
 
-
-def p_aggregate(p):
-	'''aggregate : '(' comp_assoc ')'
-	   | '(' value_s_2 ')'
-	   | '(' expression WITH value_s ')'
-	   | '(' expression WITH NuLL RECORD ')'
-	   | '(' NuLL RECORD ')'
+def p_literal2(p):
+	'''literal : BASE_INTEGER
 	'''
-	if (Debug1) : print "Rule Declared: 86"
+	if (Debug1) : print "Rule Declared: 85"
+	p[0] = {"value" : p[1] , "type" : "INT" , "isbase" : True}
 
+def p_literal3(p):
+	'''literal : FLOAT
+	'''
+	if (Debug1) : print "Rule Declared: 85"
+	p[0] = {"value" : p[1] , "type" : "FLOAT" , "isbase" : False}
+
+def p_literal4(p):
+	'''literal : BASE_FLOAT
+	'''
+	if (Debug1) : print "Rule Declared: 85"
+	p[0] = {"value" : p[1] , "type" : "FLOAT" , "isbase" : True}
+
+def p_literal5(p):
+	'''literal : used_char
+	'''
+	if (Debug1) : print "Rule Declared: 85"
+	p[0] = p[1]
+
+def p_literal6(p):
+	'''literal : NuLL
+	'''
+	if (Debug1) : print "Rule Declared: 85"
+	p[0] = p[1]
+
+def p_aggregate (p) : 
+	''' aggregate :   '(' comp_assoc ')'
+		| '(' value_s_2 ')'
+		| '(' expression WITH value_s ')'
+		| '(' expression WITH NuLL RECORD ')'
+		| '(' NuLL RECORD ')'
+	'''
+	
+	if (Debug1): print "Rule Declared: 87"
 
 def p_value_s_(p):
 	'''value_s_2 : value ',' value
@@ -666,19 +796,49 @@ def p_comp_assoc(p):
 	if (Debug1) : print "Rule Declared: 88"
 
 
-def p_expression(p):
-	'''expression : relation
-	   | expression logical relation
-	   | expression short_circuit relation
+def p_m(p):
+	'''m :
 	'''
+	p[0] = {"quad" : three_addr_code.get_next_instr_no()}
+
+
+
+def p_expression1(p):
+	'''expression : relation
+	   | expression logical  m relation
+	'''
+	if(len(p) == 2):
+		p[0] = p[1]
+
+	else: #Non-Short-Circuited Expressions
+		if (p[1]["type"] != "BOOL") or (p[4]["type"] != "BOOL") :
+			print "[Type Mismatch] Error : Non-Boolean expressions used as Booleans"
+			p_error(p)
+
+		else:
+			p[0] = deepcopy(p[1]) #Carrying other attributes, like type , etc
+
+			if (p[2] == "and") :
+				backpatch()
+
+			else: #"or" case
+
+
+
+
+
 	if (Debug1) : print "Rule Declared: 89"
 
+def p_expression2(p):
+	'''expression : expression short_circuit relation
+	'''
+	if (Debug1) : print "Rule Declared: 89"
 
 def p_logical(p):
 	'''logical : AND
 	   | OR
-	   | XOR
 	'''
+	p[0] = p[1] #I will ignore XOR later on
 	if (Debug1) : print "Rule Declared: 90"
 
 
@@ -689,13 +849,34 @@ def p_short_circuit(p):
 	if (Debug1) : print "Rule Declared: 91"
 
 
-def p_relation(p):
+def p_relation1(p):
 	'''relation : simple_expression
 	   | simple_expression relational simple_expression
-	   | simple_expression membership range
+	'''
+	if(len(p) == 2):
+		p[0] = p[1]
+		if (Debug2) : "expression Received : " + str(p[1])
+	else :
+		if (p[1]["type"] != p[3]["type"]):
+			print "[Type Inconsistent] Error : relation on different Types"
+			p_error(p)
+
+		else:
+			print "not_handled yet"
+
+
+
+	if (Debug1) : print "Rule Declared: 92"
+
+
+#*********************HANDLE LATER **********************
+def p_relation2(p):
+	'''relation : simple_expression membership range
 	   | simple_expression membership name
 	'''
+
 	if (Debug1) : print "Rule Declared: 92"
+
 
 
 def p_relational(p):
@@ -706,6 +887,7 @@ def p_relational(p):
 	   | '>'
 	   | GREATEREQ
 	'''
+	p[0] = p[1]
 	if (Debug1) : print "Rule Declared: 93"
 
 
@@ -721,48 +903,136 @@ def p_simple_expression(p):
 	   | term
 	   | simple_expression adding term
 	'''
-	if (Debug1) : print "Rule Declared: 95"
+	if(len(p) == 2):
+		p[0] = p[1]
 
+	elif(len(p) == 3): 
+		#Checking Type compatiablity
+		if not (p[2]["type"] == "INT" or p[2]["type"] == "FLOAT"):
+			print "[Expression Computations] Error at line " , " : unary operator used on a wrong subtype"
+			p_error(p)
+
+		temp = get_temp(p[2]["type"])
+
+		p[0] = deepcopy(p[2])
+
+		#SDD's are constraints not computations
+		if(p[1] == '-'):
+			three_addr_code.emit(temp, None , "un-" , p[2]["value"])
+		else:
+			three_addr_code.emit(temp , None , "un+" , p[2]["value"])
+
+		p[0]["value"] = temp #Values of both the variables are same
+
+
+
+	else:
+		if not ((p[1]["type"] == "INT" or p[1]["type"] == "FLOAT") and (p[3]["type"] == "INT" or p[3]["type"] == "FLOAT")):
+			print "[Expression Computations] Error at line " , " : Binary operator used on a wrong subtype"
+			p_error(p)
+
+		elif (p[1]["type"] != p[3]["type"]):
+			print "[Expression Computations] Error at line " , " : operand types do not match"
+			p_error(p)
+
+		else:
+			temp = get_temp(p[1]["type"])
+			p[0] = deepcopy(p[1]) #Copying Other Attributes
+			three_addr_code.emit(temp , p[1]["value"] , p[2] , p[3]["value"])
+			p[0]["value"] = temp #Values of both the variables are same
+
+	if (Debug1) : print "Rule Declared: 95"
 
 def p_unary(p):
 	'''unary   : '+'
 	   | '-'
 	'''
+	p[0] = p[1]
 	if (Debug1) : print "Rule Declared: 96"
-
 
 def p_adding(p):
 	'''adding  : '+'
 	   | '-'
 	   | '&'
 	'''
+	p[0] = p[1]
 	if (Debug1) : print "Rule Declared: 97"
-
 
 def p_term(p):
 	'''term    : factor
 	   | term multiplying factor
 	'''
+	if (len(p) == 2):
+		p[0] = p[1]
+
+	else:
+		if not ((p[1]["type"] == "INT" or p[1]["type"] == "FLOAT") and (p[3]["type"] == "INT" or p[3]["type"] == "FLOAT")):
+			print "[Expression Computations] Error at line " , " : Binary operator used on a wrong subtype"
+			p_error(p)
+
+		elif (p[1]["type"] != p[3]["type"]):
+			print "[Expression Computations] Error at line " , " : operand types do not match"
+			p_error(p)
+
+		else:
+			temp = get_temp(p[1]["type"])
+			p[0] = deepcopy(p[1]) #Copying Other Attributes
+			three_addr_code.emit(temp , p[1]["value"] , p[2] , p[3]["value"])
+			p[0]["value"] = temp #Values of both the variables are same
+
+
 	if (Debug1) : print "Rule Declared: 98"
 
-
+#Numerical Operators only
 def p_multiplying(p):
 	'''multiplying : '*'
 	   | '/'
 	   | MOD
 	   | REM
 	'''
+	p[0]= p[1]
 	if (Debug1) : print "Rule Declared: 99"
-
 
 def p_factor(p):
 	'''factor : primary
 	   | NOT primary
-	   | ABS primary
 	   | primary STARSTAR primary
 	'''
-	if (Debug1) : print "Rule Declared: 100"
+	if (len(p) == 2):
+		p[0] = p[1]
 
+	elif (len(p) == 3): #For booleans Only
+
+		if(p[2]["type"] != "BOOL"):
+			print "[Expression Computations] Error at line " , " : opeand should be of BOOL type"
+			p_error(p)
+		else:
+			p[0] = p[2]
+
+			if(p[2]["value"] == True):
+				p[0]["value"] = False
+			else:
+				p[0]["value"] = False
+
+			p[0]['truelist']=p[2]['falselist']
+			p[0]['falselist']=p[0]['truelist']
+
+	else:
+		if not ((p[1]["type"] == "INT" or p[1]["type"] == "FLOAT") and (p[3]["type"] == "INT" or p[3]["type"] == "FLOAT")):
+			print "[Expression Computations] Error at line " , " : Binary operator used on a wrong subtype"
+			p_error(p)
+
+		elif (p[1]["type"] != p[3]["type"]):
+			print "[Expression Computations] Error at line " , " : operand types do not match"
+			p_error(p)
+
+		p[0]=deepcopy(p[1])
+		temp=get_temp(p[1]["type"])
+		three_addr_code.emit(temp ,p[1]["value"],"dotdot" , p[3]["value"])
+		p[0]['value']=temp
+
+
+	if (Debug1) : print "Rule Declared: 100"
 
 def p_primary(p):
 	'''primary : literal
@@ -771,20 +1041,22 @@ def p_primary(p):
 	   | qualified
 	   | parenthesized_primary
 	'''
+	p[0]  = p[1]
 	if (Debug1) : print "Rule Declared: 101"
 
 
-def p_parenthesized_primary(p):
-	'''parenthesized_primary : aggregate
-	   | '(' expression ')'
+def p_parenthesized_primary (p) : 
+	'''parenthesized_primary :   aggregate
+		| '(' expression ')'
 	'''
-	if (Debug1) : print "Rule Declared: 102"
+	
+	if(len(p) >2):
+		p[0] = p[2]
 
-
-def p_qualified(p):
-	'''qualified : name TICK parenthesized_primary
+#****************TO BE REMOVED**************************
+def p_qualified (p) : 
+ 	'''qualified :   name TICK parenthesized_primary
 	'''
-	if (Debug1) : print "Rule Declared: 103"
 
 
 def p_allocator(p):
@@ -792,7 +1064,7 @@ def p_allocator(p):
 	   | NEW qualified
 	'''
 	if (Debug1) : print "Rule Declared: 104"
-
+#*********************************************************
 
 def p_statement_s(p):
 	'''statement_s : statement
@@ -1706,14 +1978,14 @@ def p_address_spec(p):
 	'''
 	if (Debug1) : print "Rule Declared: 233"
 
-
+##TO BE CHANGED
 def p_code_stmt(p):
 	'''code_stmt : qualified ';'
 	'''
 	if (Debug1) : print "Rule Declared: 234"
     
 def p_error(p):
-    print "line :",p.lineno,"-Parsing Error Found at Token:",p.type
+    #print "line :","-Parsing Error Found at Token:"#,p.type
     parser.errok()
 
 

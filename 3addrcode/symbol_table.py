@@ -49,9 +49,9 @@ class Table:
 
 		#Dictionary's give errors if stuff not found
 		try :
-			return self.Hash[name][Attribute_value]
+			return self.Hash[name][Attribute_Name]
 		except :
-			return none
+			return None
 
 	def get_Attribute_Value(self , name , Attribute_Name):
 		name = name.lower()
@@ -141,10 +141,10 @@ class SymbolTable:
 		return self.symbol_table.get_Attribute_Value(name , Attribute_Name)
 
 	def locate_Symbol_in_this(self , name):
-		return self.symbol_table.locate_Symbol_in_this()
+		return self.symbol_table.locate_Symbol_in_this(name)
 
 	def locate_Symbol(self , name) :
-		return self.symbol_table.locate_Symbol()
+		return self.symbol_table.locate_Symbol(name)
 
 	def get_Hash_Table(self):
 		return self.symbol_table.get_Hash_Table()

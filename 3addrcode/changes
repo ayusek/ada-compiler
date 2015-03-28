@@ -1,0 +1,30 @@
+expression 
+place -> expr_value
+
+variables
+place -> value
+
+
+Did not understand the use of class and base
+range 
+range_low = lower_limit
+range_high = upper_limit
+index_type -> index_bound_type
+
+standard error format:
+print "[Expression Computations] Error at line " + p.lineno + " : unary operator used on a wrong subtype"
+p_error(p)
+
+get_temp : 
+I have only used two arguments there
+Why Stack??
+
+simple_name :
+why when its not in the symbol_table ?
+ 
+emit
+unary+ -> un+
+unary- -> un-
+
+factor1 :
+value logic

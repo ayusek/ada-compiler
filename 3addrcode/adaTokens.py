@@ -106,6 +106,6 @@ def t_comment(t):
 
 # Error handling rule
 def t_error(t):
-    print ("Line:" + str( t.lineno) + " illegal character '%s' found"% t.value[0])
+    #print ("Line:" + str( t.lineno) + " illegal character '%s' found"% t.value[0])
     t.lexer.skip(1)
 
