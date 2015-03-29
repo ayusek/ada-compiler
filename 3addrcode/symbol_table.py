@@ -44,6 +44,7 @@ class Table:
 
 		return False
 
+
 	def get_Attribute_Value_in_Block(self, name , Attribute_Name): 
 		name = name.lower()
 
@@ -90,6 +91,21 @@ class Table:
 
 	def get_Hash_Table(self):
 		return self.Hash
+
+
+	def get_row(self , name) :
+		name = name.lower()
+		current_table = self 
+
+		while(current_table != None):
+		 	if(current_table.locate_Symbol_in_this(name) == True):
+		 		return current_table.Hash[name]
+			
+			current_table = current_table.prev_table
+
+		return None
+		
+		
 
 	# Currently only prints this table
 	# CAN IMPROVE IT
@@ -149,6 +165,10 @@ class SymbolTable:
 	def get_Hash_Table(self):
 		return self.symbol_table.get_Hash_Table()
 
+	def get_row(self , name) :
+		return self.symbol_table.get_row(name)
+
+
 	def print_Symbol_Table(self):
 		self.symbol_table.print_Symbol_Table()
 
@@ -191,9 +211,9 @@ class SymbolTable:
 		#Only Called after creating a new scope 
 		# Current Symbol table = Procedure symbol Table
 
-		#In_List and out_List are dictionaries of dictionaries for each variable
 		#I have a dictionary corresponding to each variable which stores information about it like its type, etc.
 
+		#varlist is a list of dictionaries for each variable of dictionaries
 	def declare_Procedure(self , name , var_List):
 		old_name = name
 		name = procedure_name(name , var_List)
@@ -203,9 +223,9 @@ class SymbolTable:
 			print "Function not Defined within a global scope - Some Problem with the declaration of " + "old_name"
 		else :
 			#Make an entry for the procedure and store the pointer
-			self.symbol_table.prev_table.createSym(name , {"isprocedure" : True , "SymbolTable" : self.symbol_table,  "var_List" : var_List}) # in_List and out_List are not required as such
-			for item in var_List:
-				self.symbol_table.createSym(item , var_List[item])
+			self.symbol_table.prev_table.createSym(name , {"isprocedure" : True , "SymbolTable" : self.symbol_table,  "var_List" : var_List , "lexeme" : old_name}) # in_List and out_List are not required as such
+			for item in var_List :
+				self.symbol_table.createSym(item["name"] , item["dictionary"])
 	
 
 '''

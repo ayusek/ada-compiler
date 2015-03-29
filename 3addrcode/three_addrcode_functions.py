@@ -12,13 +12,13 @@ symbol_table = SymbolTable()
 #Width for standard data types
 width= {'INT':4, 'FLOAT':8, 'CHAR':1, 'BOOL':4} #8- bit characters 
 
-symbol_table.createSym('integer',{'type': 'INT', 'lexeme':'integer', 'istype':True})
-symbol_table.createSym('float',{'type': 'FLOAT', 'lexeme':'float', 'istype':True})
-symbol_table.createSym('character',{'type': 'CHAR', 'lexeme':'character', 'istype':True})
-symbol_table.createSym('string',{'type': 'STRING', 'lexeme':'string', 'istype':True})
-symbol_table.createSym('boolean',{'type': 'BOOL', 'lexeme':'boolean', 'istype':True})
+symbol_table.createSym('integer',{'type': 'INT', 'lexeme':'integer', 'istype':True , 'width' : 4})
+symbol_table.createSym('float',{'type': 'FLOAT', 'lexeme':'float', 'istype':True , 'width' : 8})
+symbol_table.createSym('character',{'type': 'CHAR', 'lexeme':'character', 'istype':True , 'width' : 1})
+symbol_table.createSym('string',{'type': 'STRING', 'lexeme':'string', 'istype':True , 'width' : None})
+symbol_table.createSym('boolean',{'type': 'BOOL', 'lexeme':'boolean', 'istype':True , 'width' : 4})
 
-temp_counter = 0 
+temp_counter = 0  
 
 def get_tempno():
 	global temp_counter

@@ -1,9 +1,9 @@
 V "GNAT Lib v4.6"
 M P W=b
 P SS ZX
-R nnnnnnnnnnnnnnnnnnnnnnnnvvnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+R nnnnnnnnnnnnnnnnnnnnnnnnnvnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
 
-U proced1%b		test7.adb		b77b1ba4 NE OO SU
+U proced1%b		test7.adb		bd9527f2 NE OO SU
 W ada%s			ada.ads			ada.ali
 W ada.text_io%s		a-textio.adb		a-textio.ali
 
@@ -18,7 +18,7 @@ D a-textio.ads		20091028140912 386df5d4
 D a-unccon.ads		20070406091342 f9eb8f06
 D interfac.ads		20090409150019 f77d8799
 D i-cstrea.ads		20100622165701 1bd72c32
-D test7.adb		20150329044925 8f16ee70
+D test7.adb		20150329124017 85f8d226
 D system.ads		20140416172229 23e1f70b
 D s-crtl.ads		20100617122610 ac77b159
 D s-exctab.ads		20090417131547 66e51330
@@ -41,12 +41,12 @@ X 1 ada.ads
 X 8 a-textio.ads
 49K13*Text_IO 472e16 12|1w10 2r9
 X 12 test7.adb
-4U11*Proced1 4b11 40l5 40t12
-5f1 a{float} 29r10 32m7 35m7
-5f3 b{float} 23m7 39m1
-6i1 c{integer} 9m1 15m7 31r12
-12l1 For_Loop 17l13 17e21
-13i8 i{integer}
-20l1 While_Loop1 25l13 25e24
-28l1 While_Loop 37l13 37e23
+4U11*Proced1 4b11 18l5 18t12
+5i1 d{integer}
+5i3 E{integer} 15m9
+5i5 F{integer}
+6N1 G
+8A6 my_array(integer)<integer>
+9I9 hello{integer}
+11a1 H(integer)
 

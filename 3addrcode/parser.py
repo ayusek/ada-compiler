@@ -70,7 +70,7 @@ def p_decl(p):
 	if (Debug1) : print "Rule Partially Done: 6"
 
 	#***** handle SubPrograms Seperately ***************
-	p[0] = p[1] #Checking Done, emits done, Carrying Attributes
+	p[0] = deepcopy(p[1]) #Checking Done, emits done, Carrying Attributes
 
 
 def p_object_decl(p):
@@ -201,12 +201,53 @@ def p_init_opt(p):
 def p_number_decl(p):
 	'''number_decl : def_id_s ':' CONSTANT ASSIGNMENT expression ';'
 	'''
+	if (len(p[1])  == 0) :
+		print "[Number Declaration] Error : No objects to declare"
+		p_error(p)
+	
+	else:
+
+		for item in p[1]:
+			item_lexeme = item
+	      	item = item.lower()
+	      	flag = True
+
+	      	if item in reserved :
+	      		flag = False
+	      		print "[Number Declaration] Error : Object " + item + " is a reserved keyword"
+	      		p_error(p)
+
+	      	if symbol_table.locate_Symbol_in_this(item):
+	      		flag = False
+	      		print "[Number Declaration] Error : Object " + item + " has been already defined in this scope"
+	      		p_error(p)
+		      
+	      	if flag :
+	      		symbol_table.createSym(item , {'isarray': False, 'lexeme': item_lexeme, 'type': p[5]["type"], 'value': None, 'offset':  symbol_table.get_width() , "isconstant" : True}) # I will ensure that p[4] is a dictionary having type information
+	      		symbol_table.change_width(width[p[5]["type"]]) #Has been set up while evaluating for p[4]
+	      		three_addr_code.emit(item_lexeme , p[5]["value"] , ":=" , None)
+
 	if (Debug1) : print "Rule Declared: 13"
 
 def p_type_decl(p):
 	'''type_decl : TYPE IDENTIFIER discrim_part_opt type_completion ';'
 	'''
 	if (Debug1) : print "Rule Declared: 14"
+
+	if (symbol_table.locate_Symbol_in_this(p[2])):
+		print "[Type Declaration] Error : Type " + p[2] + " has been already defined in this scope"
+		p_error(p)
+
+	elif p[2] in reserved : 
+		print "[Type Declaration] Error : Name " + item + " is a reserved keyword" 
+		p_error(p)
+	else:
+		temp = deepcopy(p[4])
+		temp.update({"istype" : True , "lexeme" : p[2] , "type" : p[2].lower() })
+		symbol_table.createSym(p[2]  , temp)
+		p[0] = symbol_table.get_row(p[2])
+
+		##################################################################################################
 
 def p_discrim_part_opt(p):
 	'''discrim_part_opt :
@@ -219,6 +260,11 @@ def p_type_completion(p):
 	'''type_completion :
 	   | IS type_def
 	'''
+	if(len(p) == 1):
+		p[0] = {"type" : None}
+	else:
+		p[0] = deepcopy(p[2])
+
 	if (Debug1) : print "Rule Declared: 16"
 
 def p_type_def(p):
@@ -231,11 +277,29 @@ def p_type_def(p):
 	   | derived_type
 	   | private_type
 	'''
+	p[0] = deepcopy(p[1])
 	if (Debug1) : print "Rule Declared: 17"
+
 
 def p_subtype_decl(p):
 	'''subtype_decl : SUBTYPE IDENTIFIER IS subtype_ind ';'
 	'''
+	if (symbol_table.locate_Symbol_in_this(p[2])):
+		print "[Type Declaration] Error : Type " + p[2] + " has been already defined in this scope"
+		p_error(p)
+
+	elif p[2] in reserved : 
+		print "[Type Declaration] Error : Name " + item + " is a reserved keyword" 
+		p_error(p)
+
+	else:
+		print "got a sub-type"
+
+		attributes = deepcopy(p[4])
+		attributes.update({"istype" : True , "lexeme" : p[2] , "type" : p[2].lower()})
+		symbol_table.createSym(p[2] , attributes)
+		p[0] = symbol_table.get_row(p[2])
+
 	if (Debug1) : print "Rule Declared: 18"
 
 #A list needs to be carried forwards
@@ -322,8 +386,10 @@ def p_enum_id(p):
 
 def p_integer_type(p):
 	'''integer_type : range_spec
-	   | MOD expression
 	'''
+	if(len(p) == 2):
+		p[0] = deepcopy(p[1])
+
 	if (Debug1) : print "Rule Declared: 28"
 
 
@@ -343,10 +409,13 @@ def p_range_spec_opt(p):
 		p[0] = p[1]
 	if (Debug1) : print "Rule Declared: 31"
 
+
+#++++++++++++++Later On+++++++++++++++++++++
 def p_real_type(p):
 	'''real_type : float_type
 	   | fixed_type
 	'''
+	p[0] = deepcopy(p[1])
 	if (Debug1) : print "Rule Declared: 32"
 
 
@@ -355,6 +424,7 @@ def p_float_type(p):
 	'''
 	if (Debug1) : print "Rule Declared: 33"
 
+#++++++++++++++++++++ Later On ++++++++++++++++++++
 
 def p_fixed_type(p):
 	'''fixed_type : DELTA expression range_spec
@@ -381,9 +451,25 @@ def p_unconstr_array_type(p):
 #************* REMOVE LATER ***********************************************************************
 
 
+#Handled multi dimentional arrays as well
 def p_constr_array_type(p):
-	'''constr_array_type : ARRAY iter_index_constraint OF component_subtype_def
+	'''constr_array_type : ARRAY iter_index_constraint OF subtype_ind
 	'''
+	numvalues = 1
+	p[0] = deepcopy(p[4])
+	p[0] = {"lower_limit" : [] , "upper_limit" : [] , "indextype" : []  , "isarray" : True}
+
+	#Useful for multi-dimentional arrays
+	for item in p[2]:
+		p[0]["lower_limit"].append(item["lower_limit"])
+		p[0]["upper_limit"].append(item["upper_limit"])
+		p[0]["indextype"].append(item["index_bound_type"])
+		numvalues = numvalues*(item["upper_limit"] - item["lower_limit"] + 1)
+
+	type_size = numvalues * width[p[4]["type"]]
+	p[0].update({"numvalues" : numvalues , "base_type" : p[4]["type"]  , "type" : p[4]["type"] , "offset" : symbol_table.get_width() , "width":type_size})
+
+	symbol_table.change_width(type_size)
 
 	if (Debug1) : print "Rule Declared: 37"
 
@@ -417,6 +503,7 @@ def p_index(p):
 def p_iter_index_constraint(p):
 	'''iter_index_constraint : '(' iter_discrete_range_s ')'
 	'''
+	p[0] = deepcopy(p[2])
 	if (Debug1) : print "Rule Declared: 42"
 
 
@@ -424,6 +511,10 @@ def p_iter_discrete_range_s(p):
 	'''iter_discrete_range_s : discrete_range
 	   | iter_discrete_range_s ',' discrete_range
 	'''
+	if(len(p) == 2):
+		p[0] = [p[1]]
+	else:
+		p[0] = p[1] + [p[3]]
 	if (Debug1) : print "Rule Declared: 43"
 
 
@@ -586,6 +677,11 @@ def p_decl_part(p):
 	'''decl_part :
 	   | decl_item_or_body_s1
 	'''
+	if (len(p) == 1):
+		p[0] = None
+	else:
+		p[0] = deepcopy(p[1])
+
 	if (Debug1) : print "Rule Declared: 65"
 
 
@@ -609,6 +705,7 @@ def p_decl_item(p):
 	   | rep_spec
 	   | pragma
 	'''
+	p[0] =deepcopy(p[1])
 	if (Debug1) : print "Rule Declared: 68"
 
 
@@ -616,6 +713,11 @@ def p_decl_item_or_body_s(p):
 	'''decl_item_or_body_s1 : decl_item_or_body
 	   | decl_item_or_body_s1 decl_item_or_body
 	'''
+	if (len(p) == 2):
+		p[0] = [p[1]]
+	else:
+		p[0] = p[1] + [p[2]]
+
 	if (Debug1) : print "Rule Declared: 69"
 
 
@@ -623,6 +725,8 @@ def p_decl_item_or_body(p):
 	'''decl_item_or_body : body
 	   | decl_item
 	'''
+	p[0] = deepcopy(p[1])
+
 	if (Debug1) : print "Rule Declared: 70"
 
 
@@ -632,6 +736,7 @@ def p_body(p):
 	   | task_body
 	   | prot_body
 	'''
+	p[0] = deepcopy(p[1])
 	if (Debug1) : print "Rule Declared: 71"
 
 
@@ -652,6 +757,11 @@ def p_mark(p):
 	   | mark TICK attribute_id
 	   | mark '.' simple_name
 	'''
+	if(len(p) == 2): p[0] = deepcopy(p[1])
+	else:
+		p[0] = None 
+		print " Not Handled yet"
+
 	if (Debug1) : print "Rule Declared: 73"
 
 
@@ -662,11 +772,12 @@ def p_simple_name(p):
 	symbol_table.updateSym(p[1] , "value" , None)
 
 	if( symbol_table.locate_Symbol(p[1].lower()) ):
-		p[0] = symbol_table.get_Hash_Table()[p[1].lower()] #I get a dictionary here
+		#print p[1].lower()
+		#print symbol_table.get_row(p[1].lower())
+		p[0] = symbol_table.get_row(p[1].lower()) #I get a dictionary here
 
 	else:
-		print "[Unidentified Variable] Error at line : " + p[1] + " not found"
-		p_error(p)
+		p[0] = {"lexeme" : p[1] , "value" : None} #For variables used in labels, procedure calls , etc
 
 	if (Debug1) : print "Rule Declared: 74"
 	
@@ -675,6 +786,13 @@ def p_compound_name(p):
 	'''compound_name : simple_name
 	   | compound_name '.' simple_name
 	'''
+	if(len(p) == 2):
+		p[0] = deepcopy(p[1])
+
+	else:
+		p[0] = None
+		print "not handled yet"
+
 	if (Debug1) : print "Rule Declared: 75"
 
 
@@ -699,9 +817,68 @@ def p_operator_symbol(p):
 	if (Debug1) : print "Rule Declared: 78"
 
 
+#Matches a lot of things , Need to handle them here
 def p_indexed_comp(p):
 	'''indexed_comp : name '(' value_s ')'
 	'''
+	# I am getting a list of values here
+
+	p[0] = deepcopy(p[1])
+
+	if(symbol_table.locate_Symbol(p[1]["lexeme"])):
+
+		#Procedure Call
+		if(symbol_table.get_Attribute_Value(p[1]["lexeme"] , "isprocedure") != None and symbol_table.get_Attribute_Value(p[1]["lexeme"] , "isprocedure")):
+		#Preassigned values don't make much sense for procedures
+			if(len(p[3]) != len(symbol_table.get_Attribute_Value(p[1]["lexeme"] , "var_List"))) :
+				print "[Procedure Call] Error : Number of Arguments passed do not agree with procedures"
+				p_error(p)
+			else:
+				parameter_list = symbol_table.get_Attribute_Value(p[1]["lexeme"] , "var_List")
+				flag = True
+				count = 0 
+
+				for item in p[3]:
+					if(item["type"] != parameter_list[count]["dictionary"]["type"]):
+						flag = False
+					count += 1
+
+				if not flag :
+					print "[Procedure Call] Error : Argument Types do not match"
+					p_error(p)
+
+				else:
+					i = len(p[3]) - 1
+					out_count = 0 
+
+					for item in parameter_list:
+						if(item["dictionary"]["paramtype"] == "out"):
+							out_count += 1 
+
+					while i>=0:
+						if out_count > 0:
+							three_addr_code.emit('param',(p[3][i])['lexeme'],'out',None);
+							out_count = out_count -1
+						else:
+							three_addr_code.emit('param',(p[3][i])['lexeme'],None,None);
+						i=i-1
+
+					print str(out_count)
+
+
+					three_addr_code.emit("procedure_call" , p[1]["lexeme"] , len(p[3]) , None)
+
+		elif (symbol_table.get_Attribute_Value(p[1]["lexeme"] , "isarray") != None and symbol_table.get_Attribute_Value(p[1]["lexeme"] , "isarray")):
+		#Allow out of bounds access
+			if(len(p[3]) != len(symbol_table.get_Attribute_Value(p[1]["lexeme"] , "upper_limit"))):
+				print "[Array Access] Error : Lesser number of dimensions requested"
+			else:
+				p[0]["value"] = 0
+				#correct it here
+
+	else :
+		print "[Calling] Error : " + p[1]["lexeme"] + "has not been declared yet"
+
 	if (Debug1) : print "Rule Declared: 79"
 
 
@@ -709,6 +886,9 @@ def p_value_s(p):
 	'''value_s : value
 	   | value_s ',' value
 	'''
+	if (len(p) == 2): p[0] = [p[1]]
+	else : p[0] = p[1] + [p[3]]
+
 	if (Debug1) : print "Rule Declared: 80"
 
 
@@ -718,6 +898,7 @@ def p_value(p):
 	   | discrete_with_range
 	   | error
 	'''
+	p[0] = deepcopy(p[1])
 	if (Debug1) : print "Rule Declared: 81"
 
 
@@ -932,7 +1113,7 @@ def p_relation2(p):
 	if (Debug1) : print "Rule Declared: 92"
 
 
-#*******************************************************
+#********************* ALl DOne after**********************************
 
 def p_relational(p):
 	'''relational : '='
@@ -1267,7 +1448,6 @@ def p_cond_clause_s(p):
 
 	if (Debug1) : print "Rule Declared: 114"
 
-
 def p_n(p):
 	''' n :
 	'''
@@ -1283,7 +1463,6 @@ def p_cond_clause(p):
 
 
 	if (Debug1) : print "Rule Declared: 115"
-
 
 def p_cond_part(p):
 	'''cond_part : condition THEN
@@ -1345,7 +1524,7 @@ def p_alternative(p):
 	if (Debug1) : print "Rule Declared: 122"
 
 
-#================================================================
+#===========================ALL DONE AFTER THIS=====================================
 def p_loop_stmt(p):
 	'''loop_stmt : label_opt iteration m basic_loop id_opt ';'
 	'''
@@ -1483,25 +1662,47 @@ def p_id_opt(p):
 def p_block(p):
 	'''block : label_opt block_decl block_body END id_opt ';'
 	'''
+	if (p[1] != None and p[5] != None ):
+		if (p[1]["lexeme"] != p[5]["lexeme"]):
+			if (debug2) : print "label matched"
+			print "[Loop Structure] Error : the loop label and end statement label do not match"
+			p_error(p)
+	else:
+		p[0] = p[3]
+
 	if (Debug1) : print "Rule Declared: 130"
 
-
+##***************** ADD DECLARATION CAPABILITIES HERE *********************************************
 def p_block_decl(p):
 	'''block_decl :
 	   | DECLARE decl_part
 	'''
+	if(len(p) == 1):
+		p[0] = None
+	else:
+		if(Debug2) : print "TO BE DONE"
+
+	if (Debug2) : print "Block Created"
 	if (Debug1) : print "Rule Declared: 131"
 
 
 def p_block_body(p):
 	'''block_body : BEGIN handled_stmt_s
 	'''
+	p[0] = deepcopy(p[2])
 	if (Debug1) : print "Rule Declared: 132"
 
 
 def p_handled_stmt_s(p):
 	'''handled_stmt_s : statement_s except_handler_part_opt 
 	'''
+	if(p[2] == None):
+		p[0] = deepcopy(p[1])
+
+	else:
+		print "[Exception Block] Error : Exceptions are not handled"
+		p_error(p)
+
 	if (Debug1) : print "Rule Declared: 133"
 
 
@@ -1509,6 +1710,12 @@ def p_except_handler_part_opt(p):
 	'''except_handler_part_opt :
 	   | except_handler_part
 	'''
+	if(len(p) == 1):
+		p[0] = None 
+	else :
+		print "[Exception Block] Error : Exceptions are not handled"
+		p_error(p)
+
 	if (Debug1) : print "Rule Declared: 134"
 
 
@@ -1522,6 +1729,10 @@ def p_name_opt(p):
 	'''name_opt :
 	   | name
 	'''
+	if (len(p) == 1):
+		p[0] = None
+	else:
+		p[0] = p[1]
 	if (Debug1) : print "Rule Declared: 136"
 
 
@@ -1550,6 +1761,7 @@ def p_subprog_decl(p):
 	   | generic_subp_inst ';'
 	   | subprog_spec_is_push ABSTRACT ';'
 	'''
+	p[0] = deepcopy(p[1])
 	if (Debug1) : print "Rule Declared: 140"
 
 
@@ -1558,6 +1770,23 @@ def p_subprog_spec(p):
 	   | FUNCTION designator formal_part_opt RETURN name
 	   | FUNCTION designator
 	'''
+	if(len(p) == 4):
+		if (Debug2) : print "procedure defined " + str(p[2])
+
+		if (p[2]["lexeme"] in reserved):
+			print "[Procedure Declaration] Error : " + p[2]["lexeme"] + " is a reserved keyword in Ada"
+			p_error(p)
+
+		elif (symbol_table.locate_Symbol_in_this(p[2]["lexeme"])):
+			print "[Procedure Declaration] Error : " + p[2]["lexeme"] + " is declared before. Can not be used again"
+			p_error(p)
+
+		p[0] = deepcopy(p[2])
+		p[0]["var_List"] = []
+		if (p[3] != None):
+			p[0]["var_List"] = p[3]["var_List"]
+
+
 	if (Debug1) : print "Rule Declared: 141"
 
 
@@ -1565,6 +1794,7 @@ def p_designator(p):
 	'''designator : compound_name
 	   | STRING
 	'''
+	p[0] = deepcopy(p[1])
 	if (Debug1) : print "Rule Declared: 142"
 
 
@@ -1572,19 +1802,32 @@ def p_formal_part_opt(p):
 	'''formal_part_opt : 
 	   | formal_part
 	'''
+	if (len(p) == 1):
+		p[0] = None 
+	else:
+		p[0] = deepcopy(p[1])
+
 	if (Debug1) : print "Rule Declared: 143"
 
 
 def p_formal_part(p):
 	'''formal_part : '(' param_s ')'
 	'''
+	var_List = deepcopy(p[2])
+	p[0] = {"var_List" : var_List}
 	if (Debug1) : print "Rule Declared: 144"
 
 
+#Only dictionaries flow here
 def p_param_s(p):
 	'''param_s : param
 	   | param_s ';' param
 	'''
+	if(len(p) == 2):
+		p[0] = deepcopy(p[1])
+	else:
+		p[0] = p[1] + p[3]
+
 	if (Debug1) : print "Rule Declared: 145"
 
 
@@ -1592,6 +1835,27 @@ def p_param(p):
 	'''param : def_id_s ':' mode mark init_opt
 	   | error
 	'''
+	p[0] = []
+
+	if(len(p) == 6):
+		#def_id_s is a list of variables/ lexemes 
+		if(p[4] != None ):
+			if p[4]["istype"]:
+
+				for item in p[1]:
+					dictionary = {"paramtype" : p[3] , "lexeme":item , "type":symbol_table.get_Attribute_Value(p[4]["lexeme"] , "type")}
+					if (p[5] != None):
+						dictionary["value"] = p[5]["value"]  #Initial value
+					p[0].append({"name" : item , "dictionary" : dictionary})
+
+			else:
+				print "[Procedure Declaration] Error : " + p[4]["lexeme"] +" is not a valid type "
+		else:
+			print "[Procedure Declaration] Error : Parameter Types not given"
+			p_error(p)
+
+	else: 
+		print "not handled yet"
 	if (Debug1) : print "Rule Declared: 146"
 
 
@@ -1602,26 +1866,70 @@ def p_mode(p):
 	   | IN OUT
 	   | ACCESS
 	'''
+	if(len(p) == 2):
+		p[0] = p[1]
+	elif (len(p) == 1) : p[0] = None
+	else:
+		p[0] = p[1] + p[2]
+
 	if (Debug1) : print "Rule Declared: 147"
 
 
 def p_subprog_spec_is_push(p):
 	'''subprog_spec_is_push : subprog_spec IS
 	'''
+	p[0] = deepcopy(p[1])
+
+	p[0]["nextlist"] = []
+
+	if(symbol_table.get_current_table().prev_table != None):  #going out/back/ used while calling
+		p[0]["nextlist"] = [three_addr_code.get_next_instr_no()]
+		three_addr_code.emit("goto" , None , None , None )
+
+	symbol_table.begin_scope()
+	symbol_table.declare_Procedure(p[1]["lexeme"] , p[1]["var_List"])
+	three_addr_code.emit("proc_label" , p[1]["lexeme"] ,None , None )
+
 	if (Debug1) : print "Rule Declared: 148"
 
 
 def p_subprog_body(p):
 	'''subprog_body : subprog_spec_is_push decl_part block_body END id_opt ';'
 	'''
+	if(p[5] != None):
+		if(p[1]["lexeme"] != p[5]["lexeme"]):
+			print "[Procedure Declaration] Error : labels at the end of procedure block do not match"
+			p_error(p)
+
+	p[0] = deepcopy(p[3])
+
+	outvars = ""
+	for item in symbol_table.get_Hash_Table():
+		if(symbol_table.get_Attribute_Value(item , "paramtype") == "out"):
+			outvars += " " + symbol_table.get_Attribute_Value(item ,"lexeme")
+	#In the symbol table of the procedure
+
+	if (outvars != ""):
+		three_addr_code.emit("return" , outvars , None , None )
+	else:
+		three_addr_code.emit("return" , None , None , None)
+
+	symbol_table.end_scope()
+
+	if(p[0] != None):
+		backpatch(p[0]["nextlist"] , three_addr_code.get_next_instr_no())
+	else:
+		print "None statement propagating"
 	if (Debug1) : print "Rule Declared: 149"
 
 
 def p_procedure_call(p):
 	'''procedure_call : name ';'
 	'''
-	if (Debug1) : print "Rule Declared: 150"
+	p[0] = deepcopy(p[1])
+	p[0]["nextlist"] = []
 
+	if (Debug1) : print "Rule Declared: 150"
 
 def p_pkg_decl(p):
 	'''pkg_decl : pkg_spec ';'
@@ -1687,7 +1995,11 @@ def p_name_s(p):
 	'''name_s : name
 	   | name_s ',' name
 	'''
-	if (Debug1) : print "Rule Declared: 160"
+	if(len(p) == 2):
+		p[0] = [p[1]]
+	else:
+		p[0] = p[1] + [p[3]]
+ 	if (Debug1) : print "Rule Declared: 160"
 
 
 def p_rename_decl(p):
@@ -1971,6 +2283,10 @@ def p_compilation(p):
 	   | compilation comp_unit
 	   | pragma pragma_s
 	'''
+	if(len(p) == 1):
+		p[0] = []
+	else:
+		p[0] = p[1] + [p[2]]
 	if (Debug1) : print "Rule Declared: 201"
 
 
@@ -1978,7 +2294,11 @@ def p_comp_unit(p):
 	'''comp_unit : context_spec private_opt unit pragma_s
 	   | private_opt unit pragma_s
 	'''
-	if (Debug1) : print "Rule Declared: 202"
+	if(len(p) == 4):
+		p[0] = p[2]
+	else:
+		p[0] = p[3]
+ 	if (Debug1) : print "Rule Declared: 202"
 
 
 def p_private_opt(p):
@@ -2018,6 +2338,7 @@ def p_unit(p):
 	   | generic_decl
 	   | rename_unit
 	'''
+	p[0] = deepcopy(p[1])
 	if (Debug1) : print "Rule Declared: 207"
 
 
@@ -2033,6 +2354,7 @@ def p_subunit_body(p):
 	   | task_body
 	   | prot_body
 	'''
+	p[0] = deepcopys(p[1])
 	if (Debug1) : print "Rule Declared: 209"
 
 
