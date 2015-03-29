@@ -143,7 +143,7 @@ def p_object_decl(p):
 
 						else :
 							if(Debug2) : print "Emitting 3addrcode"
-							three_addr_code.emit(item , p[5]["value"] , "=" ,  None)
+							three_addr_code.emit(item , p[5]["value"] , ":=" ,  None)
 
 #List of Names
 def p_def_id_s(p):
@@ -427,10 +427,16 @@ def p_iter_discrete_range_s(p):
 	if (Debug1) : print "Rule Declared: 43"
 
 
+
+#*************** To be corrected ****************
 def p_discrete_range(p):
 	'''discrete_range : name range_constr_opt
 	   | range
 	'''
+	if(len(p) == 2):
+		p[0] = p[1]
+	else:
+		return None
 	if (Debug1) : print "Rule Declared: 44"
 
 
@@ -653,6 +659,8 @@ def p_mark(p):
 def p_simple_name(p):
 	'''simple_name : IDENTIFIER
 	'''
+	symbol_table.updateSym(p[1] , "value" , None)
+
 	if( symbol_table.locate_Symbol(p[1].lower()) ):
 		p[0] = symbol_table.get_Hash_Table()[p[1].lower()] #I get a dictionary here
 
@@ -795,19 +803,17 @@ def p_comp_assoc(p):
 	'''
 	if (Debug1) : print "Rule Declared: 88"
 
-
 def p_m(p):
 	'''m :
 	'''
 	p[0] = {"quad" : three_addr_code.get_next_instr_no()}
-
-
 
 def p_expression1(p):
 	'''expression : relation
 	   | expression logical  m relation
 	'''
 	if(len(p) == 2):
+		if (Debug2) : print "relation"
 		p[0] = p[1]
 
 	else: #Non-Short-Circuited Expressions
@@ -819,19 +825,50 @@ def p_expression1(p):
 			p[0] = deepcopy(p[1]) #Carrying other attributes, like type , etc
 
 			if (p[2] == "and") :
-				backpatch()
+				backpatch(p[1]["truelist"] , p[3]["quad"])
+				p[0]["falselist"] = merge(p[1]["falselist"] , p[4]["falselist"])
+				p[0]["truelist"] = p[4]["truelist"]
+				temp = get_temp(p[1]["type"])
+				three_addr_code.emit(temp , p[1]["value"] , 'and' , p[4]["value"])
 
-			else: #"or" case
+			else : #"or" case
+				backpatch(p[1]["falselist"] , p[3]["quad"])
+				p[0]["truelist"] = merge(p[1]["truelist"] , p[4]["truelist"])
+				p[0]["falselist"] = p[4]["falselist"]
+				temp = get_temp(p[1]["type"])
+				three_addr_code.emit(temp , p[1]["value"] , 'or' , p[4]["value"])
 
-
-
-
+			p[0]["value"] = temp    #***************************************** SHOULD IT BE DONE  ?
 
 	if (Debug1) : print "Rule Declared: 89"
 
-def p_expression2(p):
-	'''expression : expression short_circuit relation
+def p_n(p):
+	'''n :
 	'''
+	p[0] = {"quad" : three_addr_code.get_next_instr_no()}
+
+#*********** THERE SHOULD BE SOME EMIT HERE *************************
+def p_expression2(p):
+	'''expression : expression short_circuit n relation
+	'''
+	if (p[1]["type"] != "BOOL") or (p[4]["type"] != "BOOL") :
+			print "[Type Mismatch] Error : Non-Boolean expressions used as Booleans"
+			p_error(p)
+
+
+	p[0] = deepcopy(p[1]) #the value of p[1] has been copied
+
+	if (p[1] == "and"):
+		backpatch(p[1]['truelist'],p[3]['quad'])
+		p[0]['falselist']=merge(p[1]['falselist'],p[4]['falselist'])
+		p[0]['truelist']=p[4]['truelist']
+
+	else:
+		backpatch(p[1]['falselist'],p[3]['quad'])
+		p[0]['truelist']=merge(p[1]['truelist'],p[4]['truelist'])
+		p[0]['falselist']=p[4]['falselist']
+
+		#Value need not be saved here
 	if (Debug1) : print "Rule Declared: 89"
 
 def p_logical(p):
@@ -841,11 +878,13 @@ def p_logical(p):
 	p[0] = p[1] #I will ignore XOR later on
 	if (Debug1) : print "Rule Declared: 90"
 
-
 def p_short_circuit(p):
 	'''short_circuit : AND THEN
 	   | OR ELSE
 	'''
+
+	p[0] = p[1] #Returns whether it is 'or' or 'and' 
+
 	if (Debug1) : print "Rule Declared: 91"
 
 
@@ -854,15 +893,30 @@ def p_relation1(p):
 	   | simple_expression relational simple_expression
 	'''
 	if(len(p) == 2):
-		p[0] = p[1]
+		p[0] = deepcopy(p[1])
 		if (Debug2) : "expression Received : " + str(p[1])
+
 	else :
+		if(Debug2) : print "Some Computation Done"
 		if (p[1]["type"] != p[3]["type"]):
 			print "[Type Inconsistent] Error : relation on different Types"
 			p_error(p)
 
 		else:
-			print "not_handled yet"
+			p[0] = deepcopy(p[1])
+			p[0]["type"] = "BOOL"
+
+			temp = get_temp(p[0]["type"])
+
+			three_addr_code.emit(temp , p[1]["value"] , p[2] , p[3]["value"] )
+			p[0]["value"] = temp
+
+			#May not be always used
+			p[0]['truelist'] = makeList(three_addr_code.get_next_instr_no())
+			p[0]['falselist'] = makeList(three_addr_code.get_next_instr_no()+1)
+		
+			three_addr_code.emit("goto", p[1]["value"] , p[2] ,   p[3]["value"])
+			three_addr_code.emit('goto', None , None , None)
 
 
 
@@ -878,6 +932,7 @@ def p_relation2(p):
 	if (Debug1) : print "Rule Declared: 92"
 
 
+#*******************************************************
 
 def p_relational(p):
 	'''relational : '='
@@ -890,13 +945,13 @@ def p_relational(p):
 	p[0] = p[1]
 	if (Debug1) : print "Rule Declared: 93"
 
-
 def p_membership(p):
 	'''membership : IN
 	   | NOT IN
 	'''
+	if(len(p) == 1) : p[0] = "in"
+	else : p[0] = "notin"
 	if (Debug1) : print "Rule Declared: 94"
-
 
 def p_simple_expression(p):
 	'''simple_expression : unary term
@@ -1044,7 +1099,6 @@ def p_primary(p):
 	p[0]  = p[1]
 	if (Debug1) : print "Rule Declared: 101"
 
-
 def p_parenthesized_primary (p) : 
 	'''parenthesized_primary :   aggregate
 		| '(' expression ')'
@@ -1068,16 +1122,37 @@ def p_allocator(p):
 
 def p_statement_s(p):
 	'''statement_s : statement
-	   | statement_s statement
-	'''
+	   | statement_s m statement
+	''' #m has been defined before
+
+	if(Debug2) : "Defining statement"
+
+	p[0] = deepcopy(p[1])
+
+	if(len(p) == 4) :
+		if (p[3] != None):
+			print str(p[3])
+			p[0] = deepcopy(p[3])
+			backpatch(p[1]["nextlist"],p[2]["quad"])
+			p[0]["nextlist"] = p[3]["nextlist"]
+			if(Debug2) : print "adding " + str(p[3]) + " to Statement List"
+		else:
+			print "[Statement Type] Error : Statement format not found/defined in the language grammar"  
+
 	if (Debug1) : print "Rule Declared: 105"
 
+
+#*************************** LAbelling Still left , Allow labelled Statements 
 
 def p_statement(p):
 	'''statement : unlabeled
 	   | label statement
 	'''
-	if (Debug1) : print "Rule Declared: 106"
+	if(len(p) == 2):
+		p[0] = p[1]
+	else:
+		p[0] = p[2]
+ 	if (Debug1) : print "Rule Declared: 106"
 
 
 def p_unlabeled(p):
@@ -1085,9 +1160,11 @@ def p_unlabeled(p):
 	   | compound_stmt
 	   | pragma
 	'''
+	p[0] = p[1]
 	if (Debug1) : print "Rule Declared: 107"
 
 
+#Handle Errors Seperately
 def p_simple_stmt(p):
 	'''simple_stmt : null_stmt
 	   | assign_stmt
@@ -1102,8 +1179,8 @@ def p_simple_stmt(p):
 	   | requeue_stmt
 	   | error ';'
 	'''
+	p[0] = p[1]
 	if (Debug1) : print "Rule Declared: 108"
-
 
 def p_compound_stmt(p):
 	'''compound_stmt : if_stmt
@@ -1113,9 +1190,10 @@ def p_compound_stmt(p):
 	   | accept_stmt
 	   | select_stmt
 	'''
+	p[0] = p[1]
 	if (Debug1) : print "Rule Declared: 109"
 
-
+#******************************************************
 def p_label(p):
 	'''label : LESSLESS IDENTIFIER MOREMORE
 	'''
@@ -1125,53 +1203,123 @@ def p_label(p):
 def p_null_stmt(p):
 	'''null_stmt : NuLL ';'
 	'''
+	p[0] = {"nextlist" : []}
 	if (Debug1) : print "Rule Declared: 111"
 
-
+#I am not allowing a casting from BOOL to int types
 def p_assign_stmt(p):
 	'''assign_stmt : name ASSIGNMENT expression ';'
 	'''
-	if (Debug1) : print "Rule Declared: 112"
+	#All variables are pre-defined
+	name = p[1]["lexeme"]
 
+	if not symbol_table.locate_Symbol(name) :
+		print "[Illegal Assignment] Error : Variable " +  name + " not declared"
+		p_error(p)
+
+	else:
+
+		istype = symbol_table.get_Attribute_Value(name , "istype")
+		isconstant = symbol_table.get_Attribute_Value(name , "isconstant")
+		
+		if isconstant != None and isconstant :
+			print "[Illegal Assignment] Error : Variable " +  name + " is a constant varaible and can not be reassigned"
+			p_error(p)
+
+		if  istype != None and istype:
+			print "[Illegal Assignment] Error : Variable " +  name + " is a type"
+			p_error(p)	
+
+		if (p[1]["type"] == p[3]["type"]) : #Legal Assignment
+
+			p[0]  = deepcopy(p[3])
+			p[0]["nextlist"] = [] #empty_list
+
+			three_addr_code.emit(p[1]["lexeme"] , p[3]["value"] , ":=" , None) #Emitting this assignment
+
+		else:
+			print "[Illegal Assignment] Error : Variable " +  name + " does not have the same type as RHS"
+			p_error(p)
+			
+
+	if (Debug1) : print "Rule Declared: 112"
 
 def p_if_stmt(p):
 	'''if_stmt : IF cond_clause_s else_opt END IF ';'
 	'''
-	if (Debug1) : print "Rule Declared: 113"
+	p[0] = deepcopy(p[2])
+	p[0]["nextlist"] = merge(p[2]["nextlist"] , p[3]["nextlist"])
+	backpatch(p[2]["falselist"] , p[3]["quad"])
 
+	if (Debug1) : print "Rule Declared: 113"
 
 def p_cond_clause_s(p):
 	'''cond_clause_s : cond_clause
-	   | cond_clause_s ELSIF cond_clause
+	   | cond_clause ELSIF m cond_clause_s
 	'''
+
+	p[0] = deepcopy(p[1])	
+
+	if(len(p) > 2):	
+		p[0]["nextlist"] = merge(p[1]["nextlist"] , p[4]["nextlist"])
+		backpatch(p[1]["falselist"] , p[3]["quad"])
+		p[0]["falselist"] = p[4]["falselist"]
+
 	if (Debug1) : print "Rule Declared: 114"
 
 
-def p_cond_clause(p):
-	'''cond_clause : cond_part statement_s
+def p_n(p):
+	''' n :
 	'''
+	p[0] = {"nextlist" : [three_addr_code.get_next_instr_no()]}
+	three_addr_code.emit("goto" , None , None , None)
+
+def p_cond_clause(p):
+	'''cond_clause : cond_part m  statement_s n 
+	'''
+	backpatch(p[1]["truelist"] , p[2]["quad"])
+	p[0] = deepcopy(p[1])
+	p[0]["nextlist"] =  merge(p[3]["nextlist"] , p[4]["nextlist"])
+
+
 	if (Debug1) : print "Rule Declared: 115"
 
 
 def p_cond_part(p):
 	'''cond_part : condition THEN
 	'''
-	if (Debug1) : print "Rule Declared: 116"
+	p[0] = deepcopy(p[1]) #Lists copied
 
+	if (Debug1) : print "Rule Declared: 116"
 
 def p_condition(p):
 	'''condition : expression
 	'''
-	if (Debug1) : print "Rule Declared: 117"
 
+	if (p[1]["type"] == "BOOL"):
+		p[0] = p[1]
+	else:
+		print "[Condition Type] Error : Condition is not of Boolean type"
+		p_error(p)
+
+	if (Debug1) : print "Rule Declared: 117"
 
 def p_else_opt(p):
 	'''else_opt :
-	   | ELSE statement_s
+	   | ELSE m statement_s
 	'''
-	if (Debug1) : print "Rule Declared: 118"
+	p[0] = {"nextlist" : [] }
+
+	if(len(p) == 1):
+		p[0]["quad"]  = three_addr_code.get_next_instr_no()
+	else:
+		p[0] = deepcopy(p[3])
+		p[0]["quad"] = p[2]["quad"]
+
+ 	if (Debug1) : print "Rule Declared: 118"
 
 
+#============ SWITCH CASE ============ , SAME AS iF-ELSEIF-IF
 def p_case_stmt(p):
 	'''case_stmt : case_hdr pragma_s alternative_s END CASE ';'
 	'''
@@ -1197,52 +1345,140 @@ def p_alternative(p):
 	if (Debug1) : print "Rule Declared: 122"
 
 
+#================================================================
 def p_loop_stmt(p):
-	'''loop_stmt : label_opt iteration basic_loop id_opt ';'
+	'''loop_stmt : label_opt iteration m basic_loop id_opt ';'
 	'''
-	if (Debug1) : print "Rule Declared: 123"
+	#Add constraint
+	if (p[1] != None and p[5] != None ):
+		if (p[1]["lexeme"] != p[5]["lexeme"]):
+			if (debug2) : print "label matched"
+			print "[Loop Structure] Error : the loop label and end statement label do not match"
+			p_error(p)
 
+
+	p[0] = deepcopy(p[4])
+	backpatch(p[4]["nextlist"] , p[2]["quad"])
+	three_addr_code.emit("goto" , p[2]["quad"] , None , None)
+
+	if not p[2]["isinfinite"] :
+		backpatch(p[2]["truelist"] , p[3]["quad"])
+		p[0]["nextlist"] = p[2]["falselist"]
+
+	if (Debug1) : print "Rule Declared: 123"
 
 def p_label_opt(p):
 	'''label_opt :
 	   | IDENTIFIER ':'
 	'''
+	if(len(p) == 3):
+		if (p[1] in reserved):
+			print "[Loop Labelling] Error : " + p[1] + " is a reserved keyword in Ada"
+			p_error(p)
+
+		elif (symbol_table.locate_Symbol_in_this(p[1])):
+			print "[Loop Labelling] Error : " + p[1] + " is declared before. Can not be used again"
+			p_error(p)
+
+		else:
+			p[0] = {"lexeme" : p[1]}
+			symbol_table.createSym(p[1] , {"isloop" : True})
+
+	else:
+		p[0] = None
+
 	if (Debug1) : print "Rule Declared: 124"
 
-
-def p_iteration(p):
+def p_iteration1(p):
 	'''iteration :
-	   | WHILE condition
-	   | iter_part reverse_opt discrete_range
+	   | WHILE m condition
 	'''
+	if (len(p) == 1) : #For Loop
+		if (Debug2) : print "In Infinite loop"
+		p[0] = {"quad" : three_addr_code.get_next_instr_no() , "isinfinite" : True}
+
+	else : #While Loop 
+		p[0] = deepcopy(p[3]) #backpactching lists are copied here
+		p[0]["quad"] = p[2]["quad"] #Saving the address of this while loop 
+		p[0]["isinfinite"] = False
+	
 	if (Debug1) : print "Rule Declared: 125"
 
+def p_iteration2(p):
+	'''iteration :  iter_part reverse_opt discrete_range
+	'''
+	#p[2] may be None or not
+	if(Debug2) : print "In for loop"
+
+	if (p[3] == None):
+		print "[Range Format] Error : Range not defined properly for loop"
+		p_error(p)
+
+	else : 
+		p[0] = {"isinfinite" : False}
+		if(p[2] == None): #reverse not used
+
+			three_addr_code.emit(p[1]["lexeme"] , p[3]["lower_limit"] , ":=" , None)
+			three_addr_code.emit("goto" , three_addr_code.get_next_instr_no() + 2, None , None )
+			p[0]["quad"] = three_addr_code.get_next_instr_no()
+			three_addr_code.emit(p[1]["lexeme"] , p[1]["lexeme"] , "+" , 1)
+			p[0]["truelist"] = makeList(three_addr_code.get_next_instr_no())
+			p[0]["falselist"] = makeList(three_addr_code.get_next_instr_no() + 1)
+ 			three_addr_code.emit("blteq" , p[1]["lexeme"] , p[3]["upper_limit"] , None)
+			three_addr_code.emit("goto" , None , None , None) 
+
+		else:
+			three_addr_code.emit(p[1]["lexeme"] , p[3]["lower_limit"] , ":=" , None)
+			three_addr_code.emit("goto" , three_addr_code.get_next_instr_no() + 2, None , None )
+			p[0]["quad"] = three_addr_code.get_next_instr_no()
+			three_addr_code.emit(p[1]["lexeme"] , p[1]["lexeme"] , "-" , 1)
+			p[0]["truelist"] = makeList(three_addr_code.get_next_instr_no())
+			p[0]["falselist"] = makeList(three_addr_code.get_next_instr_no() + 1)
+ 			three_addr_code.emit("bgteq" , p[1]["lexeme"] , p[3]["upper_limit"] , None)
+			three_addr_code.emit("goto" , None , None , None) 
+
+			if (Debug2) : print "Reverse Loop"
+
+	if (Debug1) : print "Rule Declared: 125"
 
 def p_iter_part(p):
 	'''iter_part : FOR IDENTIFIER IN
 	'''
 	if (Debug1) : print "Rule Declared: 126"
-
+	if (symbol_table.locate_Symbol(p[2])):
+		print "[Loop Variable] Error : " + p[2] + " has already been declared"
+		p_error(p)
+	else:
+		p[0]  = {"lexeme" : p[2] , "value" : None}
+		symbol_table.createSym(p[2] , {"value" : None})
 
 def p_reverse_opt(p):
 	'''reverse_opt :
 	   | REVERSE
 	'''
+	if(len(p) == 1):
+		p[0] = None
+	else:
+		p[0] = p[1]
 	if (Debug1) : print "Rule Declared: 127"
-
 
 def p_basic_loop(p):
 	'''basic_loop : LOOP statement_s END LOOP
 	'''
+	p[0] = deepcopy(p[2])
 	if (Debug1) : print "Rule Declared: 128"
-
 
 def p_id_opt(p):
 	'''id_opt :
 	   | designator
 	'''
+	if(len(p) == 1):
+		p[0] = None
+	else:
+		p[0] = p[1]
 	if (Debug1) : print "Rule Declared: 129"
 
+#===============================================================================================
 
 def p_block(p):
 	'''block : label_opt block_decl block_body END id_opt ';'

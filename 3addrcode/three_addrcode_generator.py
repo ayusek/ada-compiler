@@ -15,8 +15,9 @@ try:
         data = fp.read()
         parser = yacc.yacc(start = 'start_symbol', debug = True)
         lexer.input(data)
-        result = parser.parse(data)# , debug = 1)
-	print three_addr_code.List
+        if (Debug3) : result = parser.parse(data , debug = 1)
+        else : result = parser.parse(data)
+	three_addr_code.print_structures()
 
 except IOError as e:
     print "I/O error({0}): "+ "We are not able to open " + file_name + " . Does it Exists? Check permissions!"

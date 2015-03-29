@@ -5,6 +5,7 @@ from symbol_table import *
 
 Debug1 = False
 Debug2 = True
+Debug3 = False
 
 symbol_table = SymbolTable()
 
@@ -28,7 +29,7 @@ def get_tempno():
 def get_temp(type): #Makes a new temperory variable and then returns its name
 	name = 't' + str(get_tempno())
 	symbol_table.createSym(name , {"type" : type , "offset" : symbol_table.get_width() , "lexeme" : name , "value" : None})
-	symbol_table.change_width(width(type))
+	symbol_table.change_width(width[type])
 	return name
 
 # 3 Address code list structure
@@ -38,13 +39,30 @@ class Structure:
         self.List = []
 
     def emit(self, result , operand1 , operator , operand2):
-    	self.List.append(str(self.next_instr_no) + " : " + result + str(operand1) + str(operator) + str(operand2))
+    	self.List.append(str(self.next_instr_no) + " : " + str(result) + " " + str(operand1) + " "+ str(operator) + " "+ str(operand2))
     	self.next_instr_no += 1
 
     def get_next_instr_no(self):
     	return  self.next_instr_no
 
+    def print_structures(self):
+    	print "========== Three Address Code ==============="
+    	for i in self.List:
+    		print i
+
 three_addr_code = Structure()
+
+def makeList(i):
+	return [i]
+
+def merge(L1 , L2):
+	return L1 + L2
+
+def backpatch(L1 , instr_number):
+	for item in L1:
+		three_addr_code.List[item] += "back_patched with" + str(instr_number)
+
+
 
 
 
