@@ -207,7 +207,7 @@ Rule 196   comp_assoc -> choice_s ARROW expression
 Rule 197   m -> <empty>
 Rule 198   expression -> relation
 Rule 199   expression -> expression logical m relation
-Rule 200   expression -> expression short_circuit n relation
+Rule 200   expression -> expression short_circuit m relation
 Rule 201   logical -> AND
 Rule 202   logical -> OR
 Rule 203   short_circuit -> AND THEN
@@ -753,12 +753,12 @@ limited_opt          : 94 346
 literal              : 234
 logical              : 199
 loop_stmt            : 265
-m                    : 199 245 274 276 280 286 290
+m                    : 199 200 245 274 276 280 286 290
 mark                 : 112 131 158 159 326 506 507 511 512
 membership           : 207 208
 mode                 : 326
 multiplying          : 226
-n                    : 200 276
+n                    : 276
 name                 : 51 52 86 90 125 167 174 175 176 177 178 208 235 241 242 271 307 312 317 335 351 352 360 465 468 469 477 478 479 485 502
 name_opt             : 305 467
 name_s               : 349 350 352 428
@@ -1801,7 +1801,7 @@ state 43
     (7) pragma_arg -> . simple_name ARROW expression
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (160) simple_name -> . IDENTIFIER
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
@@ -1873,9 +1873,9 @@ state 43
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 128
-    allocator                      shift and go to state 129
-    simple_name                    shift and go to state 130
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
+    simple_name                    shift and go to state 131
     literal                        shift and go to state 135
     factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
@@ -1954,7 +1954,7 @@ state 46
     selected_comp                  shift and go to state 120
     attribute                      shift and go to state 121
     operator_symbol                shift and go to state 138
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
 
 state 47
@@ -3057,7 +3057,7 @@ state 95
     selected_comp                  shift and go to state 120
     attribute                      shift and go to state 121
     operator_symbol                shift and go to state 138
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
 
 state 96
@@ -3600,8 +3600,8 @@ state 124
     attribute                      shift and go to state 121
     primary                        shift and go to state 122
     used_char                      shift and go to state 145
-    indexed_comp                   shift and go to state 131
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
     literal                        shift and go to state 135
     factor                         shift and go to state 137
@@ -3698,7 +3698,7 @@ state 127
     attribute                      shift and go to state 121
     operator_symbol                shift and go to state 138
     qualified                      shift and go to state 207
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
 
 state 128
@@ -3753,75 +3753,6 @@ state 128
 
 state 129
 
-    (236) primary -> allocator .
-
-    STARSTAR        reduce using rule 236 (primary -> allocator .)
-    *               reduce using rule 236 (primary -> allocator .)
-    /               reduce using rule 236 (primary -> allocator .)
-    MOD             reduce using rule 236 (primary -> allocator .)
-    REM             reduce using rule 236 (primary -> allocator .)
-    =               reduce using rule 236 (primary -> allocator .)
-    NOTEQUAL        reduce using rule 236 (primary -> allocator .)
-    <               reduce using rule 236 (primary -> allocator .)
-    LESSEQ          reduce using rule 236 (primary -> allocator .)
-    >               reduce using rule 236 (primary -> allocator .)
-    GREATEREQ       reduce using rule 236 (primary -> allocator .)
-    IN              reduce using rule 236 (primary -> allocator .)
-    NOT             reduce using rule 236 (primary -> allocator .)
-    +               reduce using rule 236 (primary -> allocator .)
-    -               reduce using rule 236 (primary -> allocator .)
-    &               reduce using rule 236 (primary -> allocator .)
-    AND             reduce using rule 236 (primary -> allocator .)
-    OR              reduce using rule 236 (primary -> allocator .)
-    RANGE           reduce using rule 236 (primary -> allocator .)
-    ;               reduce using rule 236 (primary -> allocator .)
-    DOTDOT          reduce using rule 236 (primary -> allocator .)
-    )               reduce using rule 236 (primary -> allocator .)
-    ,               reduce using rule 236 (primary -> allocator .)
-    ARROW           reduce using rule 236 (primary -> allocator .)
-    |               reduce using rule 236 (primary -> allocator .)
-    THEN            reduce using rule 236 (primary -> allocator .)
-    WITH            reduce using rule 236 (primary -> allocator .)
-    IS              reduce using rule 236 (primary -> allocator .)
-    LOOP            reduce using rule 236 (primary -> allocator .)
-    DIGITS          reduce using rule 236 (primary -> allocator .)
-    RENAMES         reduce using rule 236 (primary -> allocator .)
-    ASSIGNMENT      reduce using rule 236 (primary -> allocator .)
-
-
-state 130
-
-    (7) pragma_arg -> simple_name . ARROW expression
-    (152) name -> simple_name .
-
-    ARROW           shift and go to state 222
-    TICK            reduce using rule 152 (name -> simple_name .)
-    (               reduce using rule 152 (name -> simple_name .)
-    .               reduce using rule 152 (name -> simple_name .)
-    STARSTAR        reduce using rule 152 (name -> simple_name .)
-    *               reduce using rule 152 (name -> simple_name .)
-    /               reduce using rule 152 (name -> simple_name .)
-    MOD             reduce using rule 152 (name -> simple_name .)
-    REM             reduce using rule 152 (name -> simple_name .)
-    =               reduce using rule 152 (name -> simple_name .)
-    NOTEQUAL        reduce using rule 152 (name -> simple_name .)
-    <               reduce using rule 152 (name -> simple_name .)
-    LESSEQ          reduce using rule 152 (name -> simple_name .)
-    >               reduce using rule 152 (name -> simple_name .)
-    GREATEREQ       reduce using rule 152 (name -> simple_name .)
-    IN              reduce using rule 152 (name -> simple_name .)
-    NOT             reduce using rule 152 (name -> simple_name .)
-    +               reduce using rule 152 (name -> simple_name .)
-    -               reduce using rule 152 (name -> simple_name .)
-    &               reduce using rule 152 (name -> simple_name .)
-    AND             reduce using rule 152 (name -> simple_name .)
-    OR              reduce using rule 152 (name -> simple_name .)
-    )               reduce using rule 152 (name -> simple_name .)
-    ,               reduce using rule 152 (name -> simple_name .)
-
-
-state 131
-
     (153) name -> indexed_comp .
 
     TICK            reduce using rule 153 (name -> indexed_comp .)
@@ -3862,6 +3793,75 @@ state 131
     WHEN            reduce using rule 153 (name -> indexed_comp .)
 
 
+state 130
+
+    (236) primary -> allocator .
+
+    STARSTAR        reduce using rule 236 (primary -> allocator .)
+    *               reduce using rule 236 (primary -> allocator .)
+    /               reduce using rule 236 (primary -> allocator .)
+    MOD             reduce using rule 236 (primary -> allocator .)
+    REM             reduce using rule 236 (primary -> allocator .)
+    =               reduce using rule 236 (primary -> allocator .)
+    NOTEQUAL        reduce using rule 236 (primary -> allocator .)
+    <               reduce using rule 236 (primary -> allocator .)
+    LESSEQ          reduce using rule 236 (primary -> allocator .)
+    >               reduce using rule 236 (primary -> allocator .)
+    GREATEREQ       reduce using rule 236 (primary -> allocator .)
+    IN              reduce using rule 236 (primary -> allocator .)
+    NOT             reduce using rule 236 (primary -> allocator .)
+    +               reduce using rule 236 (primary -> allocator .)
+    -               reduce using rule 236 (primary -> allocator .)
+    &               reduce using rule 236 (primary -> allocator .)
+    AND             reduce using rule 236 (primary -> allocator .)
+    OR              reduce using rule 236 (primary -> allocator .)
+    RANGE           reduce using rule 236 (primary -> allocator .)
+    ;               reduce using rule 236 (primary -> allocator .)
+    DOTDOT          reduce using rule 236 (primary -> allocator .)
+    )               reduce using rule 236 (primary -> allocator .)
+    ,               reduce using rule 236 (primary -> allocator .)
+    ARROW           reduce using rule 236 (primary -> allocator .)
+    |               reduce using rule 236 (primary -> allocator .)
+    THEN            reduce using rule 236 (primary -> allocator .)
+    WITH            reduce using rule 236 (primary -> allocator .)
+    IS              reduce using rule 236 (primary -> allocator .)
+    LOOP            reduce using rule 236 (primary -> allocator .)
+    DIGITS          reduce using rule 236 (primary -> allocator .)
+    RENAMES         reduce using rule 236 (primary -> allocator .)
+    ASSIGNMENT      reduce using rule 236 (primary -> allocator .)
+
+
+state 131
+
+    (7) pragma_arg -> simple_name . ARROW expression
+    (152) name -> simple_name .
+
+    ARROW           shift and go to state 222
+    TICK            reduce using rule 152 (name -> simple_name .)
+    (               reduce using rule 152 (name -> simple_name .)
+    .               reduce using rule 152 (name -> simple_name .)
+    STARSTAR        reduce using rule 152 (name -> simple_name .)
+    *               reduce using rule 152 (name -> simple_name .)
+    /               reduce using rule 152 (name -> simple_name .)
+    MOD             reduce using rule 152 (name -> simple_name .)
+    REM             reduce using rule 152 (name -> simple_name .)
+    =               reduce using rule 152 (name -> simple_name .)
+    NOTEQUAL        reduce using rule 152 (name -> simple_name .)
+    <               reduce using rule 152 (name -> simple_name .)
+    LESSEQ          reduce using rule 152 (name -> simple_name .)
+    >               reduce using rule 152 (name -> simple_name .)
+    GREATEREQ       reduce using rule 152 (name -> simple_name .)
+    IN              reduce using rule 152 (name -> simple_name .)
+    NOT             reduce using rule 152 (name -> simple_name .)
+    +               reduce using rule 152 (name -> simple_name .)
+    -               reduce using rule 152 (name -> simple_name .)
+    &               reduce using rule 152 (name -> simple_name .)
+    AND             reduce using rule 152 (name -> simple_name .)
+    OR              reduce using rule 152 (name -> simple_name .)
+    )               reduce using rule 152 (name -> simple_name .)
+    ,               reduce using rule 152 (name -> simple_name .)
+
+
 state 132
 
     (240) parenthesized_primary -> ( . expression )
@@ -3872,7 +3872,7 @@ state 132
     (193) aggregate -> ( . NuLL RECORD )
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (196) comp_assoc -> . choice_s ARROW expression
     (194) value_s_2 -> . value , value
     (195) value_s_2 -> . value_s_2 , value
@@ -3961,14 +3961,14 @@ state 132
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 224
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
-    indexed_comp                   shift and go to state 131
     literal                        shift and go to state 135
-    choice_s                       shift and go to state 225
+    factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
     comp_assoc                     shift and go to state 226
-    factor                         shift and go to state 137
+    choice_s                       shift and go to state 225
     choice                         shift and go to state 227
     qualified                      shift and go to state 141
     parenthesized_primary          shift and go to state 142
@@ -4642,8 +4642,8 @@ state 150
     qualified                      shift and go to state 141
     parenthesized_primary          shift and go to state 142
     aggregate                      shift and go to state 144
-    indexed_comp                   shift and go to state 131
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
 
 state 151
@@ -4688,7 +4688,7 @@ state 152
 
     (6) pragma_arg -> expression .
     (199) expression -> expression . logical m relation
-    (200) expression -> expression . short_circuit n relation
+    (200) expression -> expression . short_circuit m relation
     (201) logical -> . AND
     (202) logical -> . OR
     (203) short_circuit -> . AND THEN
@@ -4774,7 +4774,7 @@ state 156
     selected_comp                  shift and go to state 120
     attribute                      shift and go to state 121
     operator_symbol                shift and go to state 138
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
 
 state 157
@@ -4958,7 +4958,7 @@ state 162
     SELECT          shift and go to state 277
     STRING          shift and go to state 139
 
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     accept_stmt                    shift and go to state 273
     label_opt                      shift and go to state 263
     select_wait                    shift and go to state 304
@@ -5344,7 +5344,7 @@ state 183
     selected_comp                  shift and go to state 120
     attribute                      shift and go to state 121
     operator_symbol                shift and go to state 138
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
 
 state 184
@@ -5780,8 +5780,8 @@ state 204
     qualified                      shift and go to state 141
     parenthesized_primary          shift and go to state 142
     aggregate                      shift and go to state 144
-    indexed_comp                   shift and go to state 131
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
 
 state 205
@@ -5973,8 +5973,8 @@ state 208
     attribute                      shift and go to state 121
     primary                        shift and go to state 122
     used_char                      shift and go to state 145
-    indexed_comp                   shift and go to state 131
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
     literal                        shift and go to state 135
     factor                         shift and go to state 137
@@ -6126,8 +6126,8 @@ state 213
     used_char                      shift and go to state 145
     unary                          shift and go to state 124
     simple_expression              shift and go to state 358
-    indexed_comp                   shift and go to state 131
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
     literal                        shift and go to state 135
     factor                         shift and go to state 137
@@ -6272,8 +6272,8 @@ state 218
     used_char                      shift and go to state 145
     unary                          shift and go to state 124
     simple_expression              shift and go to state 362
-    indexed_comp                   shift and go to state 131
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
     literal                        shift and go to state 135
     factor                         shift and go to state 137
@@ -6346,7 +6346,7 @@ state 222
     (7) pragma_arg -> simple_name ARROW . expression
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
     (207) relation -> . simple_expression membership range
@@ -6418,9 +6418,9 @@ state 222
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 128
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
-    indexed_comp                   shift and go to state 131
     literal                        shift and go to state 135
     factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
@@ -6636,7 +6636,7 @@ state 235
     (191) aggregate -> ( expression . WITH value_s )
     (192) aggregate -> ( expression . WITH NuLL RECORD )
     (199) expression -> expression . logical m relation
-    (200) expression -> expression . short_circuit n relation
+    (200) expression -> expression . short_circuit m relation
     (170) value -> expression .
     (122) choice -> expression .
     (201) logical -> . AND
@@ -6669,7 +6669,7 @@ state 237
     (7) pragma_arg -> . simple_name ARROW expression
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (160) simple_name -> . IDENTIFIER
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
@@ -6741,9 +6741,9 @@ state 237
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 128
-    allocator                      shift and go to state 129
-    simple_name                    shift and go to state 130
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
+    simple_name                    shift and go to state 131
     literal                        shift and go to state 135
     factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
@@ -6837,8 +6837,8 @@ state 239
     parenthesized_primary          shift and go to state 142
     factor                         shift and go to state 379
     aggregate                      shift and go to state 144
-    indexed_comp                   shift and go to state 131
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
 
 state 240
@@ -6903,7 +6903,7 @@ state 243
     (173) value -> . error
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (196) comp_assoc -> . choice_s ARROW expression
     (125) discrete_with_range -> . name range_constraint
     (126) discrete_with_range -> . range
@@ -6987,8 +6987,8 @@ state 243
     relation                       shift and go to state 125
     value_s                        shift and go to state 380
     simple_expression              shift and go to state 381
-    indexed_comp                   shift and go to state 131
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
     literal                        shift and go to state 135
     choice_s                       shift and go to state 225
@@ -7132,24 +7132,24 @@ state 248
 
 state 249
 
-    (200) expression -> expression short_circuit . n relation
-    (275) n -> .
+    (200) expression -> expression short_circuit . m relation
+    (197) m -> .
 
-    +               reduce using rule 275 (n -> .)
-    -               reduce using rule 275 (n -> .)
-    NOT             reduce using rule 275 (n -> .)
-    INTEGER         reduce using rule 275 (n -> .)
-    BASE_INTEGER    reduce using rule 275 (n -> .)
-    FLOAT           reduce using rule 275 (n -> .)
-    BASE_FLOAT      reduce using rule 275 (n -> .)
-    NuLL            reduce using rule 275 (n -> .)
-    NEW             reduce using rule 275 (n -> .)
-    (               reduce using rule 275 (n -> .)
-    CHAR            reduce using rule 275 (n -> .)
-    IDENTIFIER      reduce using rule 275 (n -> .)
-    STRING          reduce using rule 275 (n -> .)
+    +               reduce using rule 197 (m -> .)
+    -               reduce using rule 197 (m -> .)
+    NOT             reduce using rule 197 (m -> .)
+    INTEGER         reduce using rule 197 (m -> .)
+    BASE_INTEGER    reduce using rule 197 (m -> .)
+    FLOAT           reduce using rule 197 (m -> .)
+    BASE_FLOAT      reduce using rule 197 (m -> .)
+    NuLL            reduce using rule 197 (m -> .)
+    NEW             reduce using rule 197 (m -> .)
+    (               reduce using rule 197 (m -> .)
+    CHAR            reduce using rule 197 (m -> .)
+    IDENTIFIER      reduce using rule 197 (m -> .)
+    STRING          reduce using rule 197 (m -> .)
 
-    n                              shift and go to state 397
+    m                              shift and go to state 397
 
 state 250
 
@@ -7220,7 +7220,7 @@ state 252
     selected_comp                  shift and go to state 120
     attribute                      shift and go to state 121
     operator_symbol                shift and go to state 138
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
 
 state 253
@@ -7328,7 +7328,7 @@ state 260
     (408) delay_stmt -> DELAY . UNTIL expression ;
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
     (207) relation -> . simple_expression membership range
@@ -7401,9 +7401,9 @@ state 260
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 128
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
-    indexed_comp                   shift and go to state 131
     literal                        shift and go to state 135
     factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
@@ -7529,7 +7529,7 @@ state 264
     selected_comp                  shift and go to state 120
     attribute                      shift and go to state 121
     operator_symbol                shift and go to state 138
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
 
 state 265
@@ -7690,7 +7690,7 @@ state 270
     selected_comp                  shift and go to state 120
     attribute                      shift and go to state 121
     operator_symbol                shift and go to state 138
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
 
 state 271
@@ -7748,7 +7748,7 @@ state 274
     (311) return_stmt -> RETURN . expression ;
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
     (207) relation -> . simple_expression membership range
@@ -7821,9 +7821,9 @@ state 274
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 128
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
-    indexed_comp                   shift and go to state 131
     literal                        shift and go to state 135
     factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
@@ -7927,7 +7927,7 @@ state 277
     attribute                      shift and go to state 121
     entry_call                     shift and go to state 434
     delay_or_entry_alt             shift and go to state 436
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
     guarded_select_alt             shift and go to state 438
     select_alt                     shift and go to state 439
@@ -8071,7 +8071,7 @@ state 279
     SELECT          shift and go to state 277
     STRING          shift and go to state 139
 
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     accept_stmt                    shift and go to state 273
     label_opt                      shift and go to state 263
     select_wait                    shift and go to state 304
@@ -8254,7 +8254,7 @@ state 284
     attribute                      shift and go to state 121
     operator_symbol                shift and go to state 138
     name_opt                       shift and go to state 446
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
 
 state 285
@@ -8304,7 +8304,7 @@ state 287
     (282) case_hdr -> CASE . expression IS
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
     (207) relation -> . simple_expression membership range
@@ -8376,9 +8376,9 @@ state 287
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 128
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
-    indexed_comp                   shift and go to state 131
     literal                        shift and go to state 135
     factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
@@ -8414,7 +8414,7 @@ state 288
     selected_comp                  shift and go to state 120
     attribute                      shift and go to state 121
     operator_symbol                shift and go to state 138
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
 
 state 289
@@ -8678,7 +8678,7 @@ state 297
     attribute                      shift and go to state 121
     operator_symbol                shift and go to state 138
     name_opt                       shift and go to state 452
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
 
 state 298
@@ -8912,7 +8912,7 @@ state 305
     (278) condition -> . expression
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
     (207) relation -> . simple_expression membership range
@@ -8986,11 +8986,11 @@ state 305
     relation                       shift and go to state 125
     simple_expression              shift and go to state 128
     simple_name                    shift and go to state 157
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     cond_clause                    shift and go to state 459
     cond_part                      shift and go to state 460
     literal                        shift and go to state 135
-    allocator                      shift and go to state 129
+    allocator                      shift and go to state 130
     factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
     qualified                      shift and go to state 141
@@ -9133,7 +9133,7 @@ state 310
     (512) address_spec -> FOR mark USE . AT expression ;
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
     (207) relation -> . simple_expression membership range
@@ -9207,9 +9207,9 @@ state 310
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 128
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
-    indexed_comp                   shift and go to state 131
     literal                        shift and go to state 135
     factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
@@ -9368,7 +9368,7 @@ state 321
     attribute                      shift and go to state 121
     operator_symbol                shift and go to state 138
     subtype_ind                    shift and go to state 483
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
 
 state 322
@@ -9451,7 +9451,7 @@ state 327
 
     selected_comp                  shift and go to state 120
     attribute                      shift and go to state 121
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
     array_type                     shift and go to state 489
     name                           shift and go to state 482
@@ -10170,7 +10170,7 @@ state 355
     name                           shift and go to state 513
     selected_comp                  shift and go to state 120
     attribute                      shift and go to state 121
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     operator_symbol                shift and go to state 138
     simple_name                    shift and go to state 157
 
@@ -10383,7 +10383,7 @@ state 363
 
     (7) pragma_arg -> simple_name ARROW expression .
     (199) expression -> expression . logical m relation
-    (200) expression -> expression . short_circuit n relation
+    (200) expression -> expression . short_circuit m relation
     (201) logical -> . AND
     (202) logical -> . OR
     (203) short_circuit -> . AND THEN
@@ -10466,8 +10466,8 @@ state 364
     used_char                      shift and go to state 145
     unary                          shift and go to state 124
     simple_expression              shift and go to state 514
-    indexed_comp                   shift and go to state 131
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
     literal                        shift and go to state 135
     factor                         shift and go to state 137
@@ -10486,7 +10486,7 @@ state 365
     (124) choice -> . OTHERS
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (125) discrete_with_range -> . name range_constraint
     (126) discrete_with_range -> . range
     (205) relation -> . simple_expression
@@ -10562,8 +10562,8 @@ state 365
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 381
-    indexed_comp                   shift and go to state 131
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
     literal                        shift and go to state 135
     operator_symbol                shift and go to state 138
@@ -10583,7 +10583,7 @@ state 366
     (196) comp_assoc -> choice_s ARROW . expression
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
     (207) relation -> . simple_expression membership range
@@ -10655,9 +10655,9 @@ state 366
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 128
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
-    indexed_comp                   shift and go to state 131
     literal                        shift and go to state 135
     factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
@@ -10753,7 +10753,7 @@ state 369
     (173) value -> . error
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (196) comp_assoc -> . choice_s ARROW expression
     (125) discrete_with_range -> . name range_constraint
     (126) discrete_with_range -> . range
@@ -10836,8 +10836,8 @@ state 369
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 381
-    indexed_comp                   shift and go to state 131
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
     literal                        shift and go to state 135
     choice_s                       shift and go to state 225
@@ -10951,8 +10951,8 @@ state 371
     used_char                      shift and go to state 145
     unary                          shift and go to state 124
     simple_expression              shift and go to state 358
-    indexed_comp                   shift and go to state 131
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
     literal                        shift and go to state 135
     factor                         shift and go to state 137
@@ -10983,7 +10983,7 @@ state 373
     (173) value -> . error
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (196) comp_assoc -> . choice_s ARROW expression
     (125) discrete_with_range -> . name range_constraint
     (126) discrete_with_range -> . range
@@ -11066,8 +11066,8 @@ state 373
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 381
-    indexed_comp                   shift and go to state 131
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
     literal                        shift and go to state 135
     choice_s                       shift and go to state 225
@@ -11142,7 +11142,7 @@ state 376
     (173) value -> . error
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (196) comp_assoc -> . choice_s ARROW expression
     (125) discrete_with_range -> . name range_constraint
     (126) discrete_with_range -> . range
@@ -11226,8 +11226,8 @@ state 376
     relation                       shift and go to state 125
     value_s                        shift and go to state 523
     simple_expression              shift and go to state 381
-    indexed_comp                   shift and go to state 131
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
     literal                        shift and go to state 135
     choice_s                       shift and go to state 225
@@ -11411,7 +11411,7 @@ state 384
 
     (170) value -> expression .
     (199) expression -> expression . logical m relation
-    (200) expression -> expression . short_circuit n relation
+    (200) expression -> expression . short_circuit m relation
     (122) choice -> expression .
     (201) logical -> . AND
     (202) logical -> . OR
@@ -11945,8 +11945,8 @@ state 396
     unary                          shift and go to state 124
     relation                       shift and go to state 527
     simple_expression              shift and go to state 128
-    indexed_comp                   shift and go to state 131
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
     literal                        shift and go to state 135
     factor                         shift and go to state 137
@@ -11959,7 +11959,7 @@ state 396
 
 state 397
 
-    (200) expression -> expression short_circuit n . relation
+    (200) expression -> expression short_circuit m . relation
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
     (207) relation -> . simple_expression membership range
@@ -12031,17 +12031,17 @@ state 397
     unary                          shift and go to state 124
     relation                       shift and go to state 528
     simple_expression              shift and go to state 128
-    indexed_comp                   shift and go to state 131
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
     literal                        shift and go to state 135
     factor                         shift and go to state 137
+    operator_symbol                shift and go to state 138
     qualified                      shift and go to state 141
     parenthesized_primary          shift and go to state 142
     aggregate                      shift and go to state 144
     term                           shift and go to state 147
     name                           shift and go to state 148
-    operator_symbol                shift and go to state 138
 
 state 398
 
@@ -12422,7 +12422,7 @@ state 414
     (408) delay_stmt -> DELAY UNTIL . expression ;
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
     (207) relation -> . simple_expression membership range
@@ -12494,9 +12494,9 @@ state 414
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 128
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
-    indexed_comp                   shift and go to state 131
     literal                        shift and go to state 135
     factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
@@ -12511,7 +12511,7 @@ state 415
 
     (407) delay_stmt -> DELAY expression . ;
     (199) expression -> expression . logical m relation
-    (200) expression -> expression . short_circuit n relation
+    (200) expression -> expression . short_circuit m relation
     (201) logical -> . AND
     (202) logical -> . OR
     (203) short_circuit -> . AND THEN
@@ -12790,7 +12790,7 @@ state 424
     (271) assign_stmt -> name ASSIGNMENT . expression ;
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
     (207) relation -> . simple_expression membership range
@@ -12862,9 +12862,9 @@ state 424
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 128
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
-    indexed_comp                   shift and go to state 131
     literal                        shift and go to state 135
     factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
@@ -13000,7 +13000,7 @@ state 430
 
     (311) return_stmt -> RETURN expression . ;
     (199) expression -> expression . logical m relation
-    (200) expression -> expression . short_circuit n relation
+    (200) expression -> expression . short_circuit m relation
     (201) logical -> . AND
     (202) logical -> . OR
     (203) short_circuit -> . AND THEN
@@ -13143,7 +13143,7 @@ state 433
     SELECT          shift and go to state 277
     STRING          shift and go to state 139
 
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     accept_stmt                    shift and go to state 273
     label_opt                      shift and go to state 263
     select_wait                    shift and go to state 304
@@ -13291,7 +13291,7 @@ state 434
     SELECT          shift and go to state 277
     STRING          shift and go to state 139
 
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     accept_stmt                    shift and go to state 273
     label_opt                      shift and go to state 263
     select_wait                    shift and go to state 304
@@ -13375,7 +13375,7 @@ state 437
     (278) condition -> . expression
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
     (207) relation -> . simple_expression membership range
@@ -13447,9 +13447,9 @@ state 437
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 128
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
-    indexed_comp                   shift and go to state 131
     literal                        shift and go to state 135
     factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
@@ -13590,7 +13590,7 @@ state 440
     SELECT          shift and go to state 277
     STRING          shift and go to state 139
 
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     accept_stmt                    shift and go to state 273
     label_opt                      shift and go to state 263
     select_wait                    shift and go to state 304
@@ -13732,7 +13732,7 @@ state 447
 
     (282) case_hdr -> CASE expression . IS
     (199) expression -> expression . logical m relation
-    (200) expression -> expression . short_circuit n relation
+    (200) expression -> expression . short_circuit m relation
     (201) logical -> . AND
     (202) logical -> . OR
     (203) short_circuit -> . AND THEN
@@ -13876,7 +13876,7 @@ state 450
     SELECT          shift and go to state 277
     STRING          shift and go to state 139
 
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     accept_stmt                    shift and go to state 273
     select_wait                    shift and go to state 304
     abort_stmt                     shift and go to state 299
@@ -14106,7 +14106,7 @@ state 455
     SELECT          shift and go to state 277
     STRING          shift and go to state 139
 
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     accept_stmt                    shift and go to state 273
     label_opt                      shift and go to state 263
     select_wait                    shift and go to state 304
@@ -14225,7 +14225,7 @@ state 462
 
     (278) condition -> expression .
     (199) expression -> expression . logical m relation
-    (200) expression -> expression . short_circuit n relation
+    (200) expression -> expression . short_circuit m relation
     (201) logical -> . AND
     (202) logical -> . OR
     (203) short_circuit -> . AND THEN
@@ -14273,7 +14273,7 @@ state 466
     (512) address_spec -> FOR mark USE AT . expression ;
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
     (207) relation -> . simple_expression membership range
@@ -14345,9 +14345,9 @@ state 466
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 128
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
-    indexed_comp                   shift and go to state 131
     literal                        shift and go to state 135
     factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
@@ -14362,7 +14362,7 @@ state 467
 
     (506) attrib_def -> FOR mark USE expression . ;
     (199) expression -> expression . logical m relation
-    (200) expression -> expression . short_circuit n relation
+    (200) expression -> expression . short_circuit m relation
     (201) logical -> . AND
     (202) logical -> . OR
     (203) short_circuit -> . AND THEN
@@ -14942,7 +14942,7 @@ state 487
     (35) number_decl -> def_id_s : CONSTANT ASSIGNMENT . expression ;
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
     (207) relation -> . simple_expression membership range
@@ -15014,9 +15014,9 @@ state 487
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 128
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
-    indexed_comp                   shift and go to state 131
     literal                        shift and go to state 135
     factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
@@ -15531,7 +15531,7 @@ state 517
 
     (122) choice -> expression .
     (199) expression -> expression . logical m relation
-    (200) expression -> expression . short_circuit n relation
+    (200) expression -> expression . short_circuit m relation
     (201) logical -> . AND
     (202) logical -> . OR
     (203) short_circuit -> . AND THEN
@@ -15549,7 +15549,7 @@ state 518
 
     (196) comp_assoc -> choice_s ARROW expression .
     (199) expression -> expression . logical m relation
-    (200) expression -> expression . short_circuit n relation
+    (200) expression -> expression . short_circuit m relation
     (201) logical -> . AND
     (202) logical -> . OR
     (203) short_circuit -> . AND THEN
@@ -15723,7 +15723,7 @@ state 526
     (173) value -> . error
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (196) comp_assoc -> . choice_s ARROW expression
     (125) discrete_with_range -> . name range_constraint
     (126) discrete_with_range -> . range
@@ -15806,8 +15806,8 @@ state 526
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 381
-    indexed_comp                   shift and go to state 131
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
     literal                        shift and go to state 135
     choice_s                       shift and go to state 225
@@ -15848,23 +15848,23 @@ state 527
 
 state 528
 
-    (200) expression -> expression short_circuit n relation .
+    (200) expression -> expression short_circuit m relation .
 
-    AND             reduce using rule 200 (expression -> expression short_circuit n relation .)
-    OR              reduce using rule 200 (expression -> expression short_circuit n relation .)
-    )               reduce using rule 200 (expression -> expression short_circuit n relation .)
-    ,               reduce using rule 200 (expression -> expression short_circuit n relation .)
-    ARROW           reduce using rule 200 (expression -> expression short_circuit n relation .)
-    |               reduce using rule 200 (expression -> expression short_circuit n relation .)
-    ;               reduce using rule 200 (expression -> expression short_circuit n relation .)
-    IS              reduce using rule 200 (expression -> expression short_circuit n relation .)
-    RANGE           reduce using rule 200 (expression -> expression short_circuit n relation .)
-    THEN            reduce using rule 200 (expression -> expression short_circuit n relation .)
-    RENAMES         reduce using rule 200 (expression -> expression short_circuit n relation .)
-    ASSIGNMENT      reduce using rule 200 (expression -> expression short_circuit n relation .)
-    WITH            reduce using rule 200 (expression -> expression short_circuit n relation .)
-    DIGITS          reduce using rule 200 (expression -> expression short_circuit n relation .)
-    LOOP            reduce using rule 200 (expression -> expression short_circuit n relation .)
+    AND             reduce using rule 200 (expression -> expression short_circuit m relation .)
+    OR              reduce using rule 200 (expression -> expression short_circuit m relation .)
+    )               reduce using rule 200 (expression -> expression short_circuit m relation .)
+    ,               reduce using rule 200 (expression -> expression short_circuit m relation .)
+    ARROW           reduce using rule 200 (expression -> expression short_circuit m relation .)
+    |               reduce using rule 200 (expression -> expression short_circuit m relation .)
+    ;               reduce using rule 200 (expression -> expression short_circuit m relation .)
+    IS              reduce using rule 200 (expression -> expression short_circuit m relation .)
+    RANGE           reduce using rule 200 (expression -> expression short_circuit m relation .)
+    THEN            reduce using rule 200 (expression -> expression short_circuit m relation .)
+    RENAMES         reduce using rule 200 (expression -> expression short_circuit m relation .)
+    ASSIGNMENT      reduce using rule 200 (expression -> expression short_circuit m relation .)
+    WITH            reduce using rule 200 (expression -> expression short_circuit m relation .)
+    DIGITS          reduce using rule 200 (expression -> expression short_circuit m relation .)
+    LOOP            reduce using rule 200 (expression -> expression short_circuit m relation .)
 
 
 state 529
@@ -16061,7 +16061,7 @@ state 544
 
     (408) delay_stmt -> DELAY UNTIL expression . ;
     (199) expression -> expression . logical m relation
-    (200) expression -> expression . short_circuit n relation
+    (200) expression -> expression . short_circuit m relation
     (201) logical -> . AND
     (202) logical -> . OR
     (203) short_circuit -> . AND THEN
@@ -16181,8 +16181,8 @@ state 546
     used_char                      shift and go to state 145
     unary                          shift and go to state 124
     simple_expression              shift and go to state 358
-    indexed_comp                   shift and go to state 131
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
     literal                        shift and go to state 135
     factor                         shift and go to state 137
@@ -16243,7 +16243,7 @@ state 551
     (278) condition -> . expression
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
     (207) relation -> . simple_expression membership range
@@ -16315,9 +16315,9 @@ state 551
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 128
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
-    indexed_comp                   shift and go to state 131
     literal                        shift and go to state 135
     factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
@@ -16375,7 +16375,7 @@ state 554
 
     (271) assign_stmt -> name ASSIGNMENT expression . ;
     (199) expression -> expression . logical m relation
-    (200) expression -> expression . short_circuit n relation
+    (200) expression -> expression . short_circuit m relation
     (201) logical -> . AND
     (202) logical -> . OR
     (203) short_circuit -> . AND THEN
@@ -16492,7 +16492,7 @@ state 558
     (323) formal_part -> ( . param_s )
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (324) param_s -> . param
     (325) param_s -> . param_s ; param
     (205) relation -> . simple_expression
@@ -16570,12 +16570,12 @@ state 558
     primary                        shift and go to state 122
     used_char                      shift and go to state 145
     unary                          shift and go to state 124
-    param_s                        shift and go to state 341
-    simple_expression              shift and go to state 128
-    allocator                      shift and go to state 129
-    simple_name                    shift and go to state 157
-    indexed_comp                   shift and go to state 131
     param                          shift and go to state 340
+    simple_expression              shift and go to state 128
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
+    simple_name                    shift and go to state 157
+    param_s                        shift and go to state 341
     literal                        shift and go to state 135
     def_id_s                       shift and go to state 105
     factor                         shift and go to state 137
@@ -16816,7 +16816,7 @@ state 575
     (278) condition -> . expression
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
     (207) relation -> . simple_expression membership range
@@ -16888,9 +16888,9 @@ state 575
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 128
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
-    indexed_comp                   shift and go to state 131
     literal                        shift and go to state 135
     factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
@@ -16942,7 +16942,7 @@ state 577
     operator_symbol                shift and go to state 138
     except_choice_s                shift and go to state 702
     except_choice                  shift and go to state 704
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
 
 state 578
@@ -17147,7 +17147,7 @@ state 583
     SELECT          shift and go to state 277
     STRING          shift and go to state 139
 
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     accept_stmt                    shift and go to state 273
     label_opt                      shift and go to state 263
     select_wait                    shift and go to state 304
@@ -17262,7 +17262,7 @@ state 588
 
     (512) address_spec -> FOR mark USE AT expression . ;
     (199) expression -> expression . logical m relation
-    (200) expression -> expression . short_circuit n relation
+    (200) expression -> expression . short_circuit m relation
     (201) logical -> . AND
     (202) logical -> . OR
     (203) short_circuit -> . AND THEN
@@ -17475,7 +17475,7 @@ state 605
     attribute                      shift and go to state 121
     operator_symbol                shift and go to state 138
     subtype_ind                    shift and go to state 726
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
 
 state 606
@@ -17518,7 +17518,7 @@ state 610
     (74) float_type -> DIGITS . expression range_spec_opt
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
     (207) relation -> . simple_expression membership range
@@ -17590,9 +17590,9 @@ state 610
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 128
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
-    indexed_comp                   shift and go to state 131
     literal                        shift and go to state 135
     factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
@@ -17619,7 +17619,7 @@ state 612
     (76) fixed_type -> DELTA . expression DIGITS expression range_spec_opt
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
     (207) relation -> . simple_expression membership range
@@ -17691,9 +17691,9 @@ state 612
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 128
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
-    indexed_comp                   shift and go to state 131
     literal                        shift and go to state 135
     factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
@@ -17771,7 +17771,7 @@ state 617
     operator_symbol                shift and go to state 138
     prot_opt                       shift and go to state 734
     subtype_ind                    shift and go to state 737
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
 
 state 618
@@ -17829,7 +17829,7 @@ state 622
     (55) decimal_digits_constraint -> DIGITS . expression range_constr_opt
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
     (207) relation -> . simple_expression membership range
@@ -17901,9 +17901,9 @@ state 622
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 128
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
-    indexed_comp                   shift and go to state 131
     literal                        shift and go to state 135
     factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
@@ -17992,7 +17992,7 @@ state 628
 
     (35) number_decl -> def_id_s : CONSTANT ASSIGNMENT expression . ;
     (199) expression -> expression . logical m relation
-    (200) expression -> expression . short_circuit n relation
+    (200) expression -> expression . short_circuit m relation
     (201) logical -> . AND
     (202) logical -> . OR
     (203) short_circuit -> . AND THEN
@@ -18083,8 +18083,8 @@ state 629
     used_char                      shift and go to state 145
     unary                          shift and go to state 124
     simple_expression              shift and go to state 358
-    indexed_comp                   shift and go to state 131
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
     index                          shift and go to state 743
     index_s                        shift and go to state 744
@@ -18112,7 +18112,7 @@ state 631
     (34) init_opt -> ASSIGNMENT . expression
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
     (207) relation -> . simple_expression membership range
@@ -18184,9 +18184,9 @@ state 631
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 128
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
-    indexed_comp                   shift and go to state 131
     literal                        shift and go to state 135
     factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
@@ -18302,7 +18302,7 @@ state 642
     name                           shift and go to state 757
     selected_comp                  shift and go to state 120
     attribute                      shift and go to state 121
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     operator_symbol                shift and go to state 138
     simple_name                    shift and go to state 157
 
@@ -18331,7 +18331,7 @@ state 643
     selected_comp                  shift and go to state 120
     attribute                      shift and go to state 121
     operator_symbol                shift and go to state 138
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
 
 state 644
@@ -18360,7 +18360,7 @@ state 644
     selected_comp                  shift and go to state 120
     attribute                      shift and go to state 121
     operator_symbol                shift and go to state 138
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
 
 state 645
@@ -18422,7 +18422,7 @@ state 649
     attribute                      shift and go to state 121
     operator_symbol                shift and go to state 138
     subtype_ind                    shift and go to state 764
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
 
 state 650
@@ -18996,7 +18996,7 @@ state 683
     SELECT          shift and go to state 277
     STRING          shift and go to state 139
 
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     accept_stmt                    shift and go to state 273
     label_opt                      shift and go to state 263
     select_wait                    shift and go to state 304
@@ -19132,7 +19132,7 @@ state 688
 
     (406) entry_name -> entry_name ( expression . )
     (199) expression -> expression . logical m relation
-    (200) expression -> expression . short_circuit n relation
+    (200) expression -> expression . short_circuit m relation
     (201) logical -> . AND
     (202) logical -> . OR
     (203) short_circuit -> . AND THEN
@@ -19246,7 +19246,7 @@ state 689
     SELECT          shift and go to state 277
     STRING          shift and go to state 139
 
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     accept_stmt                    shift and go to state 273
     label_opt                      shift and go to state 263
     select_wait                    shift and go to state 304
@@ -19396,7 +19396,7 @@ state 691
     SELECT          shift and go to state 277
     STRING          shift and go to state 139
 
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     accept_stmt                    shift and go to state 273
     label_opt                      shift and go to state 263
     select_wait                    shift and go to state 304
@@ -19513,7 +19513,7 @@ state 697
     (124) choice -> . OTHERS
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (125) discrete_with_range -> . name range_constraint
     (126) discrete_with_range -> . range
     (205) relation -> . simple_expression
@@ -19589,10 +19589,10 @@ state 697
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 381
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
     literal                        shift and go to state 135
-    allocator                      shift and go to state 129
+    allocator                      shift and go to state 130
     choice_s                       shift and go to state 800
     operator_symbol                shift and go to state 138
     factor                         shift and go to state 137
@@ -19831,7 +19831,7 @@ state 707
     SELECT          shift and go to state 277
     STRING          shift and go to state 139
 
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     accept_stmt                    shift and go to state 273
     label_opt                      shift and go to state 263
     select_wait                    shift and go to state 304
@@ -19887,7 +19887,7 @@ state 709
     (278) condition -> . expression
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
     (207) relation -> . simple_expression membership range
@@ -19961,11 +19961,11 @@ state 709
     relation                       shift and go to state 125
     simple_expression              shift and go to state 128
     simple_name                    shift and go to state 157
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     cond_clause                    shift and go to state 459
     cond_part                      shift and go to state 460
     literal                        shift and go to state 135
-    allocator                      shift and go to state 129
+    allocator                      shift and go to state 130
     factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
     qualified                      shift and go to state 141
@@ -20032,7 +20032,7 @@ state 712
     (509) align_opt -> AT MOD . expression ;
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
     (207) relation -> . simple_expression membership range
@@ -20104,9 +20104,9 @@ state 712
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 128
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
-    indexed_comp                   shift and go to state 131
     literal                        shift and go to state 135
     factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
@@ -20308,7 +20308,7 @@ state 725
     attribute                      shift and go to state 121
     operator_symbol                shift and go to state 138
     subtype_ind                    shift and go to state 818
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
 
 state 726
@@ -20358,7 +20358,7 @@ state 731
 
     (74) float_type -> DIGITS expression . range_spec_opt
     (199) expression -> expression . logical m relation
-    (200) expression -> expression . short_circuit n relation
+    (200) expression -> expression . short_circuit m relation
     (70) range_spec_opt -> .
     (71) range_spec_opt -> . range_spec
     (201) logical -> . AND
@@ -20384,7 +20384,7 @@ state 732
     (75) fixed_type -> DELTA expression . range_spec
     (76) fixed_type -> DELTA expression . DIGITS expression range_spec_opt
     (199) expression -> expression . logical m relation
-    (200) expression -> expression . short_circuit n relation
+    (200) expression -> expression . short_circuit m relation
     (69) range_spec -> . range_constraint
     (201) logical -> . AND
     (202) logical -> . OR
@@ -20429,7 +20429,7 @@ state 733
     attribute                      shift and go to state 121
     operator_symbol                shift and go to state 138
     subtype_ind                    shift and go to state 826
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
 
 state 734
@@ -20476,7 +20476,7 @@ state 736
     attribute                      shift and go to state 121
     operator_symbol                shift and go to state 138
     subtype_ind                    shift and go to state 829
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
 
 state 737
@@ -20512,7 +20512,7 @@ state 740
 
     (55) decimal_digits_constraint -> DIGITS expression . range_constr_opt
     (199) expression -> expression . logical m relation
-    (200) expression -> expression . short_circuit n relation
+    (200) expression -> expression . short_circuit m relation
     (92) range_constr_opt -> .
     (93) range_constr_opt -> . range_constraint
     (201) logical -> . AND
@@ -20652,14 +20652,14 @@ state 747
     attribute                      shift and go to state 121
     operator_symbol                shift and go to state 138
     subtype_ind                    shift and go to state 840
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
 
 state 748
 
     (34) init_opt -> ASSIGNMENT expression .
     (199) expression -> expression . logical m relation
-    (200) expression -> expression . short_circuit n relation
+    (200) expression -> expression . short_circuit m relation
     (201) logical -> . AND
     (202) logical -> . OR
     (203) short_circuit -> . AND THEN
@@ -20872,7 +20872,7 @@ state 762
     attribute                      shift and go to state 121
     operator_symbol                shift and go to state 138
     subtype_ind                    shift and go to state 845
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
 
 state 763
@@ -21332,8 +21332,8 @@ state 784
     unary                          shift and go to state 124
     param                          shift and go to state 340
     simple_expression              shift and go to state 358
-    indexed_comp                   shift and go to state 131
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
     param_s                        shift and go to state 341
     literal                        shift and go to state 135
@@ -21569,7 +21569,7 @@ state 793
     SELECT          shift and go to state 277
     STRING          shift and go to state 139
 
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     accept_stmt                    shift and go to state 273
     label_opt                      shift and go to state 263
     select_wait                    shift and go to state 304
@@ -21747,7 +21747,7 @@ state 795
     SELECT          shift and go to state 277
     STRING          shift and go to state 139
 
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     accept_stmt                    shift and go to state 273
     label_opt                      shift and go to state 263
     select_wait                    shift and go to state 304
@@ -21971,7 +21971,7 @@ state 803
     SELECT          shift and go to state 277
     STRING          shift and go to state 139
 
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     accept_stmt                    shift and go to state 273
     label_opt                      shift and go to state 263
     select_wait                    shift and go to state 304
@@ -22037,7 +22037,7 @@ state 804
     selected_comp                  shift and go to state 120
     attribute                      shift and go to state 121
     operator_symbol                shift and go to state 138
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     except_choice                  shift and go to state 869
     simple_name                    shift and go to state 157
 
@@ -22072,7 +22072,7 @@ state 805
     operator_symbol                shift and go to state 138
     except_choice_s                shift and go to state 870
     except_choice                  shift and go to state 704
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
 
 state 806
@@ -22153,7 +22153,7 @@ state 812
 
     (509) align_opt -> AT MOD expression . ;
     (199) expression -> expression . logical m relation
-    (200) expression -> expression . short_circuit n relation
+    (200) expression -> expression . short_circuit m relation
     (201) logical -> . AND
     (202) logical -> . OR
     (203) short_circuit -> . AND THEN
@@ -22310,7 +22310,7 @@ state 824
     (76) fixed_type -> DELTA expression DIGITS . expression range_spec_opt
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
     (207) relation -> . simple_expression membership range
@@ -22382,9 +22382,9 @@ state 824
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 128
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
-    indexed_comp                   shift and go to state 131
     literal                        shift and go to state 135
     factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
@@ -22566,8 +22566,8 @@ state 836
     used_char                      shift and go to state 145
     unary                          shift and go to state 124
     simple_expression              shift and go to state 358
-    indexed_comp                   shift and go to state 131
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
     literal                        shift and go to state 135
     factor                         shift and go to state 137
@@ -22613,7 +22613,7 @@ state 838
     selected_comp                  shift and go to state 120
     attribute                      shift and go to state 121
     operator_symbol                shift and go to state 138
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
 
 state 839
@@ -22688,8 +22688,8 @@ state 839
     used_char                      shift and go to state 145
     unary                          shift and go to state 124
     simple_expression              shift and go to state 358
-    indexed_comp                   shift and go to state 131
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
     literal                        shift and go to state 135
     factor                         shift and go to state 137
@@ -22735,7 +22735,7 @@ state 843
     (173) value -> . error
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (196) comp_assoc -> . choice_s ARROW expression
     (125) discrete_with_range -> . name range_constraint
     (126) discrete_with_range -> . range
@@ -22820,8 +22820,8 @@ state 843
     relation                       shift and go to state 125
     value_s                        shift and go to state 380
     simple_expression              shift and go to state 381
-    indexed_comp                   shift and go to state 131
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
     literal                        shift and go to state 135
     choice_s                       shift and go to state 225
@@ -23261,7 +23261,7 @@ state 866
     SELECT          shift and go to state 277
     STRING          shift and go to state 139
 
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     accept_stmt                    shift and go to state 273
     label_opt                      shift and go to state 263
     select_wait                    shift and go to state 304
@@ -23432,7 +23432,7 @@ state 873
     (511) comp_loc_s -> comp_loc_s mark AT . expression RANGE range ;
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
     (207) relation -> . simple_expression membership range
@@ -23504,9 +23504,9 @@ state 873
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 128
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
-    indexed_comp                   shift and go to state 131
     literal                        shift and go to state 135
     factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
@@ -23605,7 +23605,7 @@ state 883
 
     (76) fixed_type -> DELTA expression DIGITS expression . range_spec_opt
     (199) expression -> expression . logical m relation
-    (200) expression -> expression . short_circuit n relation
+    (200) expression -> expression . short_circuit m relation
     (70) range_spec_opt -> .
     (71) range_spec_opt -> . range_spec
     (201) logical -> . AND
@@ -23872,10 +23872,10 @@ state 899
     used_char                      shift and go to state 145
     unary                          shift and go to state 124
     simple_expression              shift and go to state 358
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
     literal                        shift and go to state 135
-    allocator                      shift and go to state 129
+    allocator                      shift and go to state 130
     factor                         shift and go to state 137
     parenthesized_primary          shift and go to state 142
     discrete_range                 shift and go to state 929
@@ -23892,7 +23892,7 @@ state 900
     (278) condition -> . expression
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
     (207) relation -> . simple_expression membership range
@@ -23964,10 +23964,10 @@ state 900
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 128
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
-    indexed_comp                   shift and go to state 131
     literal                        shift and go to state 135
-    allocator                      shift and go to state 129
+    allocator                      shift and go to state 130
     factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
     qualified                      shift and go to state 141
@@ -24013,7 +24013,7 @@ state 902
     attribute                      shift and go to state 121
     operator_symbol                shift and go to state 138
     subtype_ind                    shift and go to state 931
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
 
 state 903
@@ -24239,7 +24239,7 @@ state 911
     SELECT          shift and go to state 277
     STRING          shift and go to state 139
 
-    indexed_comp                   shift and go to state 131
+    indexed_comp                   shift and go to state 129
     accept_stmt                    shift and go to state 273
     label_opt                      shift and go to state 263
     select_wait                    shift and go to state 304
@@ -24305,7 +24305,7 @@ state 913
 
     (511) comp_loc_s -> comp_loc_s mark AT expression . RANGE range ;
     (199) expression -> expression . logical m relation
-    (200) expression -> expression . short_circuit n relation
+    (200) expression -> expression . short_circuit m relation
     (201) logical -> . AND
     (202) logical -> . OR
     (203) short_circuit -> . AND THEN
@@ -24692,8 +24692,8 @@ state 938
     used_char                      shift and go to state 145
     unary                          shift and go to state 124
     simple_expression              shift and go to state 358
-    indexed_comp                   shift and go to state 131
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
     literal                        shift and go to state 135
     factor                         shift and go to state 137
@@ -25169,7 +25169,7 @@ state 965
     (278) condition -> . expression
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (205) relation -> . simple_expression
     (206) relation -> . simple_expression relational simple_expression
     (207) relation -> . simple_expression membership range
@@ -25241,10 +25241,10 @@ state 965
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 128
+    indexed_comp                   shift and go to state 129
     simple_name                    shift and go to state 157
-    indexed_comp                   shift and go to state 131
     literal                        shift and go to state 135
-    allocator                      shift and go to state 129
+    allocator                      shift and go to state 130
     factor                         shift and go to state 137
     operator_symbol                shift and go to state 138
     parenthesized_primary          shift and go to state 142
@@ -25283,7 +25283,7 @@ state 968
     (124) choice -> . OTHERS
     (198) expression -> . relation
     (199) expression -> . expression logical m relation
-    (200) expression -> . expression short_circuit n relation
+    (200) expression -> . expression short_circuit m relation
     (125) discrete_with_range -> . name range_constraint
     (126) discrete_with_range -> . range
     (205) relation -> . simple_expression
@@ -25359,8 +25359,8 @@ state 968
     unary                          shift and go to state 124
     relation                       shift and go to state 125
     simple_expression              shift and go to state 381
-    indexed_comp                   shift and go to state 131
-    allocator                      shift and go to state 129
+    indexed_comp                   shift and go to state 129
+    allocator                      shift and go to state 130
     simple_name                    shift and go to state 157
     literal                        shift and go to state 135
     choice_s                       shift and go to state 974

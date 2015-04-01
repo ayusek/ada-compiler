@@ -1,8 +1,17 @@
+Expressions :
+All algebric expressions are handled. 
+While having nested booleans, some temperory variables are emitted but are not used.
+Only short circuit operators are allowed "and then" and "or else"
+
+Types:
+I have a statement type which is used for type checking in the expressions
+
 Symbol Table:
 We have not yet added the function overloading feature to out language. 
 
 Ranges : 
 Ranges are specifies as expression .. expression
+Only numerical ranges are allowed
 
 operators:
 The two types must be same on the two sides of the operators
@@ -23,6 +32,7 @@ Their lexemes are of the format of t. where . is a number
 Arrays: 
 
 I am assuming an integral range
+
 Logical Operators:
 XOR is a logical operator in ada , I have removed it
 

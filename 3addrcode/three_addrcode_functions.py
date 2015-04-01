@@ -4,7 +4,7 @@ from symbol_table import *
 
 
 Debug1 = False
-Debug2 = True
+Debug2 = False
 Debug3 = False
 
 symbol_table = SymbolTable()

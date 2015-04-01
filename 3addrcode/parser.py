@@ -748,7 +748,6 @@ def p_name(p):
 	   | operator_symbol
 	'''
 	p[0] = p[1]
-
 	if (Debug1) : print "Rule Declared: 72"
 
 
@@ -769,7 +768,7 @@ def p_mark(p):
 def p_simple_name(p):
 	'''simple_name : IDENTIFIER
 	'''
-	symbol_table.updateSym(p[1] , "value" , None)
+	symbol_table.updateSym(p[1] , "value" , p[1])
 
 	if( symbol_table.locate_Symbol(p[1].lower()) ):
 		#print p[1].lower()
@@ -777,7 +776,7 @@ def p_simple_name(p):
 		p[0] = symbol_table.get_row(p[1].lower()) #I get a dictionary here
 
 	else:
-		p[0] = {"lexeme" : p[1] , "value" : None} #For variables used in labels, procedure calls , etc
+		p[0] = {"lexeme" : p[1] , "value" : p[1] , "type": p[1]} #For variables used in labels, procedure calls , etc
 
 	if (Debug1) : print "Rule Declared: 74"
 	
@@ -1003,34 +1002,31 @@ def p_expression1(p):
 			p_error(p)
 
 		else:
-			p[0] = deepcopy(p[1]) #Carrying other attributes, like type , etc
-
+			p[0] = deepcopy(p[4]) #Carrying other attributes, like type , etc
+	
 			if (p[2] == "and") :
 				backpatch(p[1]["truelist"] , p[3]["quad"])
-				p[0]["falselist"] = merge(p[1]["falselist"] , p[4]["falselist"])
+				p[0]["falselist"]  = merge(p[1]["falselist"] , p[4]["falselist"])
 				p[0]["truelist"] = p[4]["truelist"]
 				temp = get_temp(p[1]["type"])
 				three_addr_code.emit(temp , p[1]["value"] , 'and' , p[4]["value"])
 
 			else : #"or" case
 				backpatch(p[1]["falselist"] , p[3]["quad"])
-				p[0]["truelist"] = merge(p[1]["truelist"] , p[4]["truelist"])
+				p[0]["truelist"]  = merge(p[1]["truelist"] , p[4]["truelist"])
 				p[0]["falselist"] = p[4]["falselist"]
 				temp = get_temp(p[1]["type"])
 				three_addr_code.emit(temp , p[1]["value"] , 'or' , p[4]["value"])
 
+		
 			p[0]["value"] = temp    #***************************************** SHOULD IT BE DONE  ?
 
 	if (Debug1) : print "Rule Declared: 89"
 
-def p_n(p):
-	'''n :
-	'''
-	p[0] = {"quad" : three_addr_code.get_next_instr_no()}
 
 #*********** THERE SHOULD BE SOME EMIT HERE *************************
 def p_expression2(p):
-	'''expression : expression short_circuit n relation
+	'''expression : expression short_circuit m relation
 	'''
 	if (p[1]["type"] != "BOOL") or (p[4]["type"] != "BOOL") :
 			print "[Type Mismatch] Error : Non-Boolean expressions used as Booleans"
@@ -1039,7 +1035,8 @@ def p_expression2(p):
 
 	p[0] = deepcopy(p[1]) #the value of p[1] has been copied
 
-	if (p[1] == "and"):
+
+	if (p[2] == "and"):
 		backpatch(p[1]['truelist'],p[3]['quad'])
 		p[0]['falselist']=merge(p[1]['falselist'],p[4]['falselist'])
 		p[0]['truelist']=p[4]['truelist']
@@ -1080,7 +1077,7 @@ def p_relation1(p):
 	else :
 		if(Debug2) : print "Some Computation Done"
 		if (p[1]["type"] != p[3]["type"]):
-			print "[Type Inconsistent] Error : relation on different Types"
+			print "[Type Inconsistent] Error at line " + p.lineno(1) + " : relation on different Types"
 			p_error(p)
 
 		else:
@@ -1088,7 +1085,6 @@ def p_relation1(p):
 			p[0]["type"] = "BOOL"
 
 			temp = get_temp(p[0]["type"])
-
 			three_addr_code.emit(temp , p[1]["value"] , p[2] , p[3]["value"] )
 			p[0]["value"] = temp
 
@@ -1096,7 +1092,7 @@ def p_relation1(p):
 			p[0]['truelist'] = makeList(three_addr_code.get_next_instr_no())
 			p[0]['falselist'] = makeList(three_addr_code.get_next_instr_no()+1)
 		
-			three_addr_code.emit("goto", p[1]["value"] , p[2] ,   p[3]["value"])
+			three_addr_code.emit("goto", temp , None ,  None)
 			three_addr_code.emit('goto', None , None , None)
 
 
@@ -1139,6 +1135,7 @@ def p_simple_expression(p):
 	   | term
 	   | simple_expression adding term
 	'''
+
 	if(len(p) == 2):
 		p[0] = p[1]
 
@@ -1152,13 +1149,17 @@ def p_simple_expression(p):
 
 		p[0] = deepcopy(p[2])
 
+		rhs = p[2]["value"]
 		#SDD's are constraints not computations
+		if("lexeme" in p[2] and p[2]["lexeme"] != None):
+			rhs = p[2]["lexeme"]
 		if(p[1] == '-'):
-			three_addr_code.emit(temp, None , "un-" , p[2]["value"])
+			three_addr_code.emit(temp, None , "un-" , rhs)
 		else:
-			three_addr_code.emit(temp , None , "un+" , p[2]["value"])
+			three_addr_code.emit(temp , None , "un+" , rhs)
 
 		p[0]["value"] = temp #Values of both the variables are same
+		#p[0]["lexeme"] = temp
 
 
 
@@ -1174,8 +1175,18 @@ def p_simple_expression(p):
 		else:
 			temp = get_temp(p[1]["type"])
 			p[0] = deepcopy(p[1]) #Copying Other Attributes
-			three_addr_code.emit(temp , p[1]["value"] , p[2] , p[3]["value"])
+			operand1 = p[1]["value"]
+			operand2 = p[3]["value"]
+			if("lexeme" in p[1] and symbol_table.locate_Symbol(p[1]["lexeme"])):
+				operand1  = p[1]["lexeme"]
+
+			if("lexeme" in p[3] and symbol_table.locate_Symbol(p[3]["lexeme"])):
+				operand2  = p[3]["lexeme"]
+
+			three_addr_code.emit(temp , operand1 , p[2] , operand2)
+
 			p[0]["value"] = temp #Values of both the variables are same
+			p[0]["lexeme"] = temp
 
 	if (Debug1) : print "Rule Declared: 95"
 
@@ -1307,12 +1318,10 @@ def p_statement_s(p):
 	''' #m has been defined before
 
 	if(Debug2) : "Defining statement"
-
 	p[0] = deepcopy(p[1])
 
 	if(len(p) == 4) :
 		if (p[3] != None):
-			print str(p[3])
 			p[0] = deepcopy(p[3])
 			backpatch(p[1]["nextlist"],p[2]["quad"])
 			p[0]["nextlist"] = p[3]["nextlist"]
@@ -1360,7 +1369,13 @@ def p_simple_stmt(p):
 	   | requeue_stmt
 	   | error ';'
 	'''
-	p[0] = p[1]
+	if(len(p) == 3):
+		print "[Statement] Error at line " + str(p.lineno(1)) + " : Not a valid statement"
+		p_error(p)
+	else:
+		p[0] = p[1]
+	if not (not p[0] == None and "nextlist" in p[0]):
+		p[0] ={"nextlist" : []}
 	if (Debug1) : print "Rule Declared: 108"
 
 def p_compound_stmt(p):
@@ -1371,7 +1386,8 @@ def p_compound_stmt(p):
 	   | accept_stmt
 	   | select_stmt
 	'''
-	p[0] = p[1]
+	p[0] ={"nextlist" : []}
+	p[0] = deepcopy(p[1])
 	if (Debug1) : print "Rule Declared: 109"
 
 #******************************************************
@@ -1395,7 +1411,7 @@ def p_assign_stmt(p):
 	name = p[1]["lexeme"]
 
 	if not symbol_table.locate_Symbol(name) :
-		print "[Illegal Assignment] Error : Variable " +  name + " not declared"
+		print "[Illegal Assignment] Error at line " + str(p.lineno(2)) + " : Variable " +  name + " not declared"
 		p_error(p)
 
 	else:
@@ -1404,11 +1420,11 @@ def p_assign_stmt(p):
 		isconstant = symbol_table.get_Attribute_Value(name , "isconstant")
 		
 		if isconstant != None and isconstant :
-			print "[Illegal Assignment] Error : Variable " +  name + " is a constant varaible and can not be reassigned"
+			print "[Illegal Assignment] Error at line " + str(p.lineno(2)) + " : Variable " +  name + " is a constant varaible and can not be reassigned"
 			p_error(p)
 
 		if  istype != None and istype:
-			print "[Illegal Assignment] Error : Variable " +  name + " is a type"
+			print "[Illegal Assignment] Error at line " + str(p.lineno(2)) + " : Variable " +  name + " is a type"
 			p_error(p)	
 
 		if (p[1]["type"] == p[3]["type"]) : #Legal Assignment
@@ -1417,12 +1433,12 @@ def p_assign_stmt(p):
 			p[0]["nextlist"] = [] #empty_list
 
 			three_addr_code.emit(p[1]["lexeme"] , p[3]["value"] , ":=" , None) #Emitting this assignment
+			p[0]["type"] = "Statement"
 
 		else:
-			print "[Illegal Assignment] Error : Variable " +  name + " does not have the same type as RHS"
+			print "[Illegal Assignment] Error at line " + str(p.lineno(2)) + " : Variable " +  name + " does not have the same type as RHS"
 			p_error(p)
 			
-
 	if (Debug1) : print "Rule Declared: 112"
 
 def p_if_stmt(p):
@@ -1917,7 +1933,7 @@ def p_subprog_body(p):
 	symbol_table.end_scope()
 
 	if(p[0] != None):
-		backpatch(p[0]["nextlist"] , three_addr_code.get_next_instr_no())
+		backpatch(p[0]["nextlist"] , three_addr_code.get_next_instr_no() - 1)
 	else:
 		print "None statement propagating"
 	if (Debug1) : print "Rule Declared: 149"
@@ -2543,7 +2559,7 @@ def p_code_stmt(p):
 	if (Debug1) : print "Rule Declared: 234"
     
 def p_error(p):
-    #print "line :","-Parsing Error Found at Token:"#,p.type
+    #print "line :",p.lineno,"-Parsing Error Found at Token:",p.type
     parser.errok()
 
 

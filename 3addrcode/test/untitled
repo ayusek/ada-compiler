@@ -1,0 +1,69 @@
+
+For_Loop :
+   for i in reverse 10 .. 1 loop
+
+   			if c = 1 then
+      a := 1.9 ;
+    else
+      a := 2.0 ; 
+      end if ; 
+      
+      c := 1;
+
+   end loop For_Loop;
+
+
+While_Loop1 :
+   loop
+
+   			if c = 1 then
+      a := 1.9 ;
+    else
+      a := 2.0 ; 
+      end if ; 
+
+      b := 1.6 ; 
+
+   end loop While_Loop1;
+
+
+While_Loop :
+   while a <= 5.0 loop
+
+   	if c = 1 then
+      a := 1.9 ;
+    else
+      a := 2.0 ; 
+      end if ; 
+
+      a := 1.0 ;
+
+   end loop While_Loop;
+
+b := 0.0 ; 
+
+type my_array is array ( 1 .. 10) of integer ;
+subtype hello is integer ; 
+subtype Integer_2 is Integer    range 7 .. 11;  -- bad
+ 
+Funny        : array(1..5) of INTEGER;
+
+H : array (1 .. 10 ) of integer ; 
+
+
+0 : proc_label Proced1 None None
+1 : a 1 := None
+2 : b 1 := None
+3 : c 1 := None
+4 : t1 c = 1
+5 : goto t1 None Noneback_patched with10
+6 : goto None None Noneback_patched with7
+7 : t2 b = 2
+8 : goto t2 None Noneback_patched with10
+9 : goto None None Noneback_patched with12
+10 : a 1 := None
+11 : goto None None Noneback_patched with13
+12 : a 2 := None
+13 : return None None None
+
+
