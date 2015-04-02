@@ -12,12 +12,14 @@ import sys
 from  adaTokens import *
 
 
+success = True
+
 def p_start_symbol(p):
 	'''start_symbol : compilation
     	'''
 	p[0]=p[1]
-
-	symbol_table.print_Symbol_Table()
+	global success
+	if success : symbol_table.print_Symbol_Table()
 
 	if (Debug1) : print "Rule Done: 1"
 
@@ -69,9 +71,8 @@ def p_decl(p):
 	'''
 	if (Debug1) : print "Rule Partially Done: 6"
 
-	#***** handle SubPrograms Seperately ***************
-	p[0] = deepcopy(p[1]) #Checking Done, emits done, Carrying Attributes
-
+	#***** handle SubPrograms Seperately **************
+	p[0] = p[1] #Checking Done, emits done, Carrying Attributes
 
 def p_object_decl(p):
 	'''object_decl : def_id_s ':' object_qualifier_opt object_subtype_def init_opt ';'
@@ -80,23 +81,23 @@ def p_object_decl(p):
 	if (Debug1) : print "Rule Declared: 7"
 
 	if len(p[1])  == 0 :
-		print "[Object Declaration] Error : No objects to declare"
+		print "[Object Declaration] Error at line " + str(p.lineno(1)) + " : No objects to declare"
 		p_error(p)
 
 	if(p[4] == None):
-		print "[Object Declaration] Error : Type not given"
+		print "[Object Declaration] Error at line " + str(p.lineno(1)) + " : Type not given"
 		p_error(p)
 
 	elif(p[4]["type"] == None): #May convert it to the symbol table
-		print "[Object Declaration] Error : Type is not defined"
+		print "[Object Declaration] Error at line " + str(p.lineno(1)) + " : Type is not defined"
 		p_error(p)
 
 	else:
 		if(p[5] != None) : 
 			p[0] = deepcopy(p[5]) #Carry's Other attributes like nextlist , etc
 			if (p[4]["type"] != p[5]["type"]): #Assuming Both to be in the lower case
-				print "[Object Declaration] Error : Type mismatch in initialization"
-
+				print "[Object Declaration] Error at line " + str(p.lineno(3)) + " : Type mismatch in initialization"
+				p_error(p)
 
 
 		#P[1] is a list of identifiers
@@ -109,12 +110,12 @@ def p_object_decl(p):
 
 			if item in reserved : 
 				flag = False
-				print "[Object Declaration] Error : Object " + item + " is a reserved keyword"
+				print "[Object Declaration] Error at line " + str(p.lineno(1)) + " : Object " + item + " is a reserved keyword"
 				p_error(p)
 
 			if symbol_table.locate_Symbol_in_this(item):
 				flag = False
-				print "[Object Declaration] Error : Object " + item + " has been already defined in this scope"
+				print "[Object Declaration] Error at line " + str(p.lineno(1)) + " : Object " + item + " has been already defined in this scope"
 				p_error(p) # This function returns back
 
 			if (flag == True) :
@@ -123,11 +124,11 @@ def p_object_decl(p):
 					symbol_table.createSym(item , p[4]) # I will ensure that p[4] is a dictionary having type information
 					symbol_table.updateSym(item , "lexeme" , item_lexeme)
 					#symbol_table.updateSym(item , "offset" , symbol_table.get_width())
-					#symbol_table.change_width(width[p[4]["Base_Type"]]) #Has been set up while evaluating for p[4]
+					#symbol_table.change_width(get_type_width(p[4]["Base_Type"])) #Has been set up while evaluating for p[4]
 					
 
 					if (p[5] != None):
-						print "[Object Declaration] Error : Object" + item + " is an array. Initialization of arrays not yet allowed"
+						print "[Object Declaration] Error at line " + str(p.lineno(1)) + " : Object" + item + " is an array. Initialization of arrays not yet allowed"
 						p_error(p)
 				else: #isarray is false
 					#Variables Declared
@@ -135,11 +136,11 @@ def p_object_decl(p):
 					symbol_table.createSym(item , p[4]) # I will ensure that p[4] is a dictionary having type information
 					symbol_table.updateSym(item , "lexeme" , item_lexeme)
 					symbol_table.updateSym(item , "offset" , symbol_table.get_width())
-					symbol_table.change_width(width[p[4]["type"]]) #Has been set up while evaluating for p[4]
+					symbol_table.change_width(get_type_width(p[4])) #Has been set up while evaluating for p[4]
 
 					if(p[5] != None):
 						if (symbol_table.get_Attribute_Value(item , "isconstant")):
-							print "[Object Declaration] Error : Object" + item + " is a constant and can not be assigned"
+							print "[Object Declaration] Error at line " + str(p.lineno(1)) + " : Object" + item + " is a constant and can not be assigned"
 
 						else :
 							if(Debug2) : print "Emitting 3addrcode"
@@ -224,7 +225,7 @@ def p_number_decl(p):
 		      
 	      	if flag :
 	      		symbol_table.createSym(item , {'isarray': False, 'lexeme': item_lexeme, 'type': p[5]["type"], 'value': None, 'offset':  symbol_table.get_width() , "isconstant" : True}) # I will ensure that p[4] is a dictionary having type information
-	      		symbol_table.change_width(width[p[5]["type"]]) #Has been set up while evaluating for p[4]
+	      		symbol_table.change_width(get_type_width(p[5])) #Has been set up while evaluating for p[4]
 	      		three_addr_code.emit(item_lexeme , p[5]["value"] , ":=" , None)
 
 	if (Debug1) : print "Rule Declared: 13"
@@ -355,12 +356,27 @@ def p_range_constraint(p):
 
 def p_range(p):
 	'''range : simple_expression DOTDOT simple_expression
+		| name
 	'''
-	if (p[1]["type"] != p[3]["type"]) :
-		print "[Range Declaration] Error at " , ": Range start and End type do not match"
-		p_error(p)
+	if(len(p) == 4):
+		if (p[1]["type"] != p[3]["type"]) :
+			print "[Range Declaration] Error at " , ": Range start and End type do not match"
+			p_error(p)
+		else:
+			p[0] = {"lower_limit" : p[1]["value"], "upper_limit" : p[3]["value"] , "index_bound_type" : p[1]["type"] }
+	
 	else:
-		p[0] = {"lower_limit" : p[1]["value"], "upper_limit" : p[3]["value"] , "index_bound_type" : p[1]["type"] }
+
+		p[0] = None
+
+		if (symbol_table.locate_Symbol(p[1]["lexeme"])):
+			if("upper_limit" in p[1] and "lower_limit" in p[1] and p[1]["upper_limit"] != None and p[1]["lower_limit"]!= None):
+				#Range Type
+				p[0] = deepcopy(p[1])
+		else:
+			print "[Range] Error at line",p.lineno(1),": Range not declared before"
+			p_error(p)
+			
 	if (Debug1) : print "Rule Declared: 24"
 
 
@@ -466,7 +482,7 @@ def p_constr_array_type(p):
 		p[0]["indextype"].append(item["index_bound_type"])
 		numvalues = numvalues*(item["upper_limit"] - item["lower_limit"] + 1)
 
-	type_size = numvalues * width[p[4]["type"]]
+	type_size = numvalues * get_type_width(p[4])
 	p[0].update({"numvalues" : numvalues , "base_type" : p[4]["type"]  , "type" : p[4]["type"] , "offset" : symbol_table.get_width() , "width":type_size})
 
 	symbol_table.change_width(type_size)
@@ -516,7 +532,6 @@ def p_iter_discrete_range_s(p):
 	else:
 		p[0] = p[1] + [p[3]]
 	if (Debug1) : print "Rule Declared: 43"
-
 
 
 #*************** To be corrected ****************
@@ -680,7 +695,7 @@ def p_decl_part(p):
 	if (len(p) == 1):
 		p[0] = None
 	else:
-		p[0] = deepcopy(p[1])
+		p[0] = p[1]
 
 	if (Debug1) : print "Rule Declared: 65"
 
@@ -705,7 +720,7 @@ def p_decl_item(p):
 	   | rep_spec
 	   | pragma
 	'''
-	p[0] =deepcopy(p[1])
+	p[0] =p[1]
 	if (Debug1) : print "Rule Declared: 68"
 
 
@@ -725,7 +740,7 @@ def p_decl_item_or_body(p):
 	'''decl_item_or_body : body
 	   | decl_item
 	'''
-	p[0] = deepcopy(p[1])
+	p[0] = p[1]
 
 	if (Debug1) : print "Rule Declared: 70"
 
@@ -777,7 +792,10 @@ def p_simple_name(p):
 
 	else:
 		p[0] = {"lexeme" : p[1] , "value" : p[1] , "type": p[1]} #For variables used in labels, procedure calls , etc
-
+		if(p[1] == "true"):
+			p[0].update({"type":"BOOL" , "value":1})
+		if(p[1] == "false"):
+			p[0].update({"type":"BOOL" , "value":0})
 	if (Debug1) : print "Rule Declared: 74"
 	
 
@@ -826,9 +844,9 @@ def p_indexed_comp(p):
 
 	if(symbol_table.locate_Symbol(p[1]["lexeme"])):
 
+		#Not handled pre-assigned values yet
 		#Procedure Call
 		if(symbol_table.get_Attribute_Value(p[1]["lexeme"] , "isprocedure") != None and symbol_table.get_Attribute_Value(p[1]["lexeme"] , "isprocedure")):
-		#Preassigned values don't make much sense for procedures
 			if(len(p[3]) != len(symbol_table.get_Attribute_Value(p[1]["lexeme"] , "var_List"))) :
 				print "[Procedure Call] Error : Number of Arguments passed do not agree with procedures"
 				p_error(p)
@@ -847,36 +865,82 @@ def p_indexed_comp(p):
 					p_error(p)
 
 				else:
-					i = len(p[3]) - 1
-					out_count = 0 
+					i = 0
+					in_count = 0 
 
 					for item in parameter_list:
-						if(item["dictionary"]["paramtype"] == "out"):
-							out_count += 1 
+						if(item["dictionary"]["paramtype"] == "in"):
+							in_count += 1 
 
-					while i>=0:
-						if out_count > 0:
-							three_addr_code.emit('param',(p[3][i])['lexeme'],'out',None);
-							out_count = out_count -1
+					while i <= len(p[3])  - 1:
+						if in_count > 0 :
+							three_addr_code.emit('parameter',(p[3][i])['lexeme'],None,None);
+							in_count = in_count  - 1
 						else:
-							three_addr_code.emit('param',(p[3][i])['lexeme'],None,None);
-						i=i-1
-
-					print str(out_count)
-
+							three_addr_code.emit('parameter',(p[3][i])['lexeme'],'out',None);
+						i=i+1
 
 					three_addr_code.emit("procedure_call" , p[1]["lexeme"] , len(p[3]) , None)
 
 		elif (symbol_table.get_Attribute_Value(p[1]["lexeme"] , "isarray") != None and symbol_table.get_Attribute_Value(p[1]["lexeme"] , "isarray")):
+		
 		#Allow out of bounds access
 			if(len(p[3]) != len(symbol_table.get_Attribute_Value(p[1]["lexeme"] , "upper_limit"))):
-				print "[Array Access] Error : Lesser number of dimensions requested"
+				print "[Array Access] Error : Wrong number of dimensions requested"
+				p_error(p)
+
 			else:
-				p[0]["value"] = 0
+				i  = 0 ; 
+				flag = True; 
+
+				for item in p[3]:
+					if not (item["type"] == p[1]["indextype"][i]):
+						flag = False
+						
+					i = i + 1; 
+
+				if(flag):
+					loop_temp = None
+
+					for i in range(0, len(p[3]) - 1):
+						new_temp1 = get_temp("INT")
+						new_temp2 = get_temp("INT")
+	
+						three_addr_code.emit(new_temp1 , p[3][i]["value"] , '-' , 1 )
+						three_addr_code.emit(new_temp2 , p[1]["upper_limit"][i] - p[1]["lower_limit"][i] + 1 , '*' , new_temp1)
+					
+						if(loop_temp != None):
+								new_temp3 = get_temp("INT")
+								three_addr_code.emit(new_temp3 , new_temp2 , '+' , loop_temp)
+								loop_temp = new_temp3
+						else:
+								loop_temp =new_temp2 
+
+					offset_temp = None
+					new_temp5 = get_temp("INT")
+					three_addr_code.emit(new_temp5 , p[3][len(p[3]) - 1]["value"] , '-' , 1 ) 
+					if(loop_temp == None):
+						offset_temp = new_temp5
+					else:
+						offset_temp = get_temp("INT")
+						three_addr_code.emit(offset_temp , loop_temp ,  '+'  , new_temp5)
+
+
+					offset_value = get_temp("INT")
+					three_addr_code.emit(offset_value , get_type_width(p[1]["base_type"]), '*' , offset_temp)
+					
+						#compute some values here.. 
+					p[0]["value"] = p[1]["lexeme"] + '(' + offset_value + ')'
+					p[0]["lexeme"] = p[1]["lexeme"] + '(' + offset_value + ')'
+
+				else:
+					print "[Type Mismatch] Error at line",p.lineno(2),": arguments types do not match to the index types of the array",p[1]["lexeme"]
+					p_error(p)
 				#correct it here
 
 	else :
-		print "[Calling] Error : " + p[1]["lexeme"] + "has not been declared yet"
+		print "[Calling] Error : " + p[1]["lexeme"] + " has not been declared yet. Unable to Handle this"
+		p_error(p)
 
 	if (Debug1) : print "Rule Declared: 79"
 
@@ -895,11 +959,16 @@ def p_value(p):
 	'''value : expression
 	   | comp_assoc
 	   | discrete_with_range
-	   | error
 	'''
 	p[0] = deepcopy(p[1])
 	if (Debug1) : print "Rule Declared: 81"
 
+def p_value1(p):
+	'''value : error
+	'''
+	p[0] = []
+	print "[Argument] Error at line :",p.lineno(1),"Argument passing error"
+	p_error(p)
 
 def p_selected_comp(p):
 	'''selected_comp : name '.' simple_name
@@ -1018,7 +1087,7 @@ def p_expression1(p):
 				temp = get_temp(p[1]["type"])
 				three_addr_code.emit(temp , p[1]["value"] , 'or' , p[4]["value"])
 
-		
+			#Temp variables are created in case, it is an expression when goto statements are removed
 			p[0]["value"] = temp    #***************************************** SHOULD IT BE DONE  ?
 
 	if (Debug1) : print "Rule Declared: 89"
@@ -1077,9 +1146,9 @@ def p_relation1(p):
 	else :
 		if(Debug2) : print "Some Computation Done"
 		if (p[1]["type"] != p[3]["type"]):
-			print "[Type Inconsistent] Error at line " + p.lineno(1) + " : relation on different Types"
+			print "[Type Inconsistent] Error : relation on different Types"
 			p_error(p)
-
+			p[0] = {"type" : None , "value" : None , "lexeme" : None}
 		else:
 			p[0] = deepcopy(p[1])
 			p[0]["type"] = "BOOL"
@@ -1136,6 +1205,7 @@ def p_simple_expression(p):
 	   | simple_expression adding term
 	'''
 
+	p[0] = {"value" : None , "type" : "Statement"}
 	if(len(p) == 2):
 		p[0] = p[1]
 
@@ -1372,6 +1442,7 @@ def p_simple_stmt(p):
 	if(len(p) == 3):
 		print "[Statement] Error at line " + str(p.lineno(1)) + " : Not a valid statement"
 		p_error(p)
+
 	else:
 		p[0] = p[1]
 	if not (not p[0] == None and "nextlist" in p[0]):
@@ -1410,7 +1481,7 @@ def p_assign_stmt(p):
 	#All variables are pre-defined
 	name = p[1]["lexeme"]
 
-	if not symbol_table.locate_Symbol(name) :
+	if not (p[1]["isarray"]) and not symbol_table.locate_Symbol(name) :
 		print "[Illegal Assignment] Error at line " + str(p.lineno(2)) + " : Variable " +  name + " not declared"
 		p_error(p)
 
@@ -1496,6 +1567,9 @@ def p_condition(p):
 	else:
 		print "[Condition Type] Error : Condition is not of Boolean type"
 		p_error(p)
+		p[0] = {'isarray': False, 'falselist': [], 'truelist': [], 'value': None, 'lexeme': None, 'type': None}
+
+
 
 	if (Debug1) : print "Rule Declared: 117"
 
@@ -1545,22 +1619,23 @@ def p_loop_stmt(p):
 	'''loop_stmt : label_opt iteration m basic_loop id_opt ';'
 	'''
 	#Add constraint
-	if (p[1] != None and p[5] != None ):
-		if (p[1]["lexeme"] != p[5]["lexeme"]):
-			if (debug2) : print "label matched"
-			print "[Loop Structure] Error : the loop label and end statement label do not match"
-			p_error(p)
+	if(p[2] != None):
+		if (p[1] != None and p[5] != None ):
+			if (p[1]["lexeme"] != p[5]["lexeme"]):
+				if (debug2) : print "label matched"
+				print "[Loop Structure] Error : the loop label and end statement label do not match"
+				p_error(p)
 
 
-	p[0] = deepcopy(p[4])
-	backpatch(p[4]["nextlist"] , p[2]["quad"])
-	three_addr_code.emit("goto" , p[2]["quad"] , None , None)
+		p[0] = deepcopy(p[4])
+		backpatch(p[4]["nextlist"] , p[2]["quad"])
+		three_addr_code.emit("goto" , p[2]["quad"] , None , None)
 
-	if not p[2]["isinfinite"] :
-		backpatch(p[2]["truelist"] , p[3]["quad"])
-		p[0]["nextlist"] = p[2]["falselist"]
+		if not p[2]["isinfinite"] :
+			backpatch(p[2]["truelist"] , p[3]["quad"])
+			p[0]["nextlist"] = p[2]["falselist"]
 
-	if (Debug1) : print "Rule Declared: 123"
+		if (Debug1) : print "Rule Declared: 123"
 
 def p_label_opt(p):
 	'''label_opt :
@@ -1577,7 +1652,7 @@ def p_label_opt(p):
 
 		else:
 			p[0] = {"lexeme" : p[1]}
-			symbol_table.createSym(p[1] , {"isloop" : True})
+			symbol_table.createSym(p[1] , {"isloop" : True , "lexeme" : p[1]})
 
 	else:
 		p[0] = None
@@ -1900,7 +1975,7 @@ def p_subprog_spec_is_push(p):
 
 	if(symbol_table.get_current_table().prev_table != None):  #going out/back/ used while calling
 		p[0]["nextlist"] = [three_addr_code.get_next_instr_no()]
-		three_addr_code.emit("goto" , None , None , None )
+		#three_addr_code.emit("goto" , None , None , None )
 
 	symbol_table.begin_scope()
 	symbol_table.declare_Procedure(p[1]["lexeme"] , p[1]["var_List"])
@@ -2559,8 +2634,11 @@ def p_code_stmt(p):
 	if (Debug1) : print "Rule Declared: 234"
     
 def p_error(p):
-    #print "line :",p.lineno,"-Parsing Error Found at Token:",p.type
-    parser.errok()
+	if (hasattr(p,'type')):
+		print "[Parsing] Error at line ",p.lineno,": Token:",p.type,"incorrectly parsed" 
+	global success
+	success = False
+	parser.errok()
 
 
 parser = yacc.yacc(start = 'start_symbol', debug = True)

@@ -3,7 +3,7 @@ M P W=b
 P SS ZX
 R nnnnnnnnnnnnnnnnnnnnnnnnnvnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
 
-U proced1%b		test7.adb		94fa8b4a NE OO SU
+U arrays%b		test7.adb		f0682b2d NE OO SU IL
 W ada%s			ada.ads			ada.ali
 W ada.text_io%s		a-textio.adb		a-textio.ali
 
@@ -16,9 +16,9 @@ D a-stream.ads		20090409150019 2ca4ee37
 D a-tags.ads		20101021101406 c7695348
 D a-textio.ads		20091028140912 386df5d4
 D a-unccon.ads		20070406091342 f9eb8f06
+D test7.adb		20150402173126 c805def9
 D interfac.ads		20090409150019 f77d8799
 D i-cstrea.ads		20100622165701 1bd72c32
-D test7.adb		20150325002004 ac977e9e
 D system.ads		20140416172229 23e1f70b
 D s-crtl.ads		20100617122610 ac77b159
 D s-exctab.ads		20090417131547 66e51330
@@ -37,11 +37,18 @@ D s-traent.ads		20090417130712 5221ee41
 D s-unstyp.ads		20090409150019 6ae15c76
 D s-wchcon.ads		20090417130712 bfeb2e3d
 X 1 ada.ads
-16K9*Ada 19e8 12|1r6 2r5
+16K9*Ada 19e8 10|1r6 2r5
 X 8 a-textio.ads
-49K13*Text_IO 472e16 12|1w10 2r9
-209U14*Put 12|7s1
-X 12 test7.adb
-4U11*Proced1 4b11 8l5 8t12
-5e1 a{character} 7r5
+49K13*Text_IO 472e16 10|1w10 2r9
+X 10 test7.adb
+4U11*arrays 4b11 30l5 30t11
+5i1 a{integer} 11m4 14m5 21m9 23m9
+5i3 b{integer} 26m9
+5i5 c{integer} 20r14
+6I6 I<short_short_integer> 13r16
+7a1 Dummy1(integer)
+8i1 d{integer}
+9A6 AC(integer)<integer>
+13i8 iter{6I6}
+17l5 While_Loop1 28l15 28e26
 

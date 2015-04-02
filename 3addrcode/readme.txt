@@ -3,8 +3,24 @@ All algebric expressions are handled.
 While having nested booleans, some temperory variables are emitted but are not used.
 Only short circuit operators are allowed "and then" and "or else"
 
+
+Procedures and Functions : 
+I have only defined procedures, support to functions is not yet handled. 
+expressions are only allowed for in parameters
+Write now, I have handled only in and out variables, so procedure variables are used only to transfer values only. 
+I have not yet put any constraints on their assignments
+Right now, I have also not handles the default value assignment to procedures. This is to be done in p_comp_assoc 
+
+Arrays: 
+I am assuming an integral range only. No need to specify the type of range.
+For arrays, the type variable is the type of entry in it. 
+The size of arrays is to be fixed at compile_time. 
+
+
 Types:
 I have a statement type which is used for type checking in the expressions
+I am handling Int, Float and Bool Data types
+
 
 Symbol Table:
 We have not yet added the function overloading feature to out language. 
@@ -12,26 +28,26 @@ We have not yet added the function overloading feature to out language.
 Ranges : 
 Ranges are specifies as expression .. expression
 Only numerical ranges are allowed
+Reverse keyword can be used to invert the range specification
 
 operators:
-The two types must be same on the two sides of the operators
+The two types must be same on the two sides of the operators. ada also does not do any type casting in general. 
 
+Not Handled: 
+Pragma's - They are compiler derivatives, I was not able to understand them
 
 Stuff Handled:
 Variable Declaration
-Expression Declaration
-Type Declaration 
+Expression Declaration 
 Procedure Declaration
 Statement Declaration
 Procedure Calling
 type checking
+Type/Subtype Declaration
 
 Temperory variables:
-Their lexemes are of the format of t. where . is a number 
+Their lexemes are of the format of _t. where . is a number 
 
-Arrays: 
-
-I am assuming an integral range
 
 Logical Operators:
 XOR is a logical operator in ada , I have removed it

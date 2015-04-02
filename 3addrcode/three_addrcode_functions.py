@@ -7,6 +7,7 @@ Debug1 = False
 Debug2 = False
 Debug3 = False
 
+
 symbol_table = SymbolTable()
 
 #Width for standard data types
@@ -20,6 +21,21 @@ symbol_table.createSym('boolean',{'type': 'BOOL', 'lexeme':'boolean', 'istype':T
 
 temp_counter = 0  
 
+def get_type_width(name):
+	global width 
+	if (isinstance(name , str)):
+		return width[name]
+	else:
+		if(name["type"] in width):
+			return width[name["type"]]
+		else:
+			if "width" in name:
+				return name["width"]
+			else:
+				print "[Data Type] Error : Width of the object is not know while assigning"
+				return 0
+
+
 def get_tempno():
 	global temp_counter
 	temp_counter += 1
@@ -27,9 +43,9 @@ def get_tempno():
 
 
 def get_temp(type): #Makes a new temperory variable and then returns its name
-	name = 't' + str(get_tempno())
+	name = '_t' + str(get_tempno())
 	symbol_table.createSym(name , {"type" : type , "offset" : symbol_table.get_width() , "lexeme" : name , "value" : None})
-	symbol_table.change_width(width[type])
+	symbol_table.change_width(get_type_width(type))
 	return name
 
 # 3 Address code list structure
