@@ -1,3 +1,5 @@
+The following is a description of stuff I was able to handle in my implementation. 
+
 Operators: 
 Distinction has been made between the Int and Float type operators, Unless specified , the operators are Int based
 
@@ -8,6 +10,11 @@ Not all operations are handled on the char types
 Loops :
 We have handled loops on ranges, range objects as well as range types
 Break and continue do not exists for Ada loops
+Loop identifiers can not be used again
+Did not deal with until loops and loops with conditions in the middle
+Array Loops are not defined for now
+Assume loop variables to be global identifiers
+
 
 Expressions :
 All algebric expressions are handled. 
@@ -22,6 +29,8 @@ Write now, I have handled only in and out variables, so procedure variables are 
 I have not yet put any constraints on their assignments
 Right now, I have also not handled the default value assignment to procedures. This is to be done in p_comp_assoc 
 Also, the offset in each procedure is a local offset in its activation record. 
+New defines data-types may be passed to procedures. 
+
 
 Arrays: 
 I am assuming an integral range only. No need to specify the type of range.
@@ -45,9 +54,6 @@ Reverse keyword can be used to invert the range specification
 operators:
 The two types must be same on the two sides of the operators. ada also does not do any type casting in general. 
 
-Not Handled: 
-Pragma's - They are compiler derivatives, I was not able to understand them
-
 Stuff Handled:
 Variable Declaration
 Expression Declaration 
@@ -64,26 +70,19 @@ Their lexemes are of the format of _t. where . is a number
 Logical Operators:
 XOR is a logical operator in ada , I have removed it
 
-Symbol table not yet introduced
-
 
 Statement Types :
 Empty statements are not allowed
 
-Loops :
-Loop identifiers can not be used again
-Did not deal with until loops and loops with conditions in the middle
-Array Loops are not defined for now
-Assume loop variables to be global identifiers
 
 Blocks:
 Exceptions not handled yet
 
-Emit_codes Types : 
-emit(temp, None , "un-" , operand)
-emit(temp , p[1]["value"] , p[2] , p[3]["value"])  #p[2] = + , - , & 
-emit(temp ,p[1]["value"],"dotdot" , p[3]["value"])
-three_addr_code.emit("goto", p[1]["value"] , p[2] ,   p[3]["value"])
-three_addr_code.emit("goto" , None , None , None)
-three_addr_code.emit("blteq" , p[2]["value"] , p[3]["upper_limit"] , None)
-three_addr_code.emit("proc_label" , p[1]["lexeme"] ,None , None )
+Relevant Test Files :
+test1 -> Expressions
+test2 -> If-else, For Loop, While Loop 
+test3 -> Nested Procedures
+test4 -> Multiple Procedures
+test5 -> Arrays , Subtypes, TypeDefs
+test6 -> Passing Arrays to Functions, Matrix Type Defined
+

@@ -17,7 +17,7 @@
           for Col in 1 .. 10 loop
              begin
                 for I in 1 .. 10  loop
-                   Sum := Sum + A(Row,I)*B(I,Col);
+                   Sum := Sum + A(Row,I);--*B(I,Col);
                 end loop;
                 C(Row,Col) := Sum;
              end;
@@ -26,7 +26,7 @@
     end Multiply;
  
  begin
-    A(1,1) := 1;
+    A(1,1) := A(2,2) + 1;
     --Multiply (A,B,C);
     --Multiply (A,B,A);  -- does not work as expected.
  

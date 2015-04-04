@@ -3,22 +3,19 @@ M P W=b
 P ZX
 R nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
 
-U mult%b		test6.adb		d85296df NE OO SU
+U mult%b		test6.adb		d57841ff NE OO SU
 
-D test6.adb		20150404172230 d85296df
+D test6.adb		20150404174525 d57841ff
 D system.ads		20140416172229 23e1f70b
 X 1 test6.adb
-3U12*Mult 3b12 33l6 33t10
+3U12*Mult 3b12 24l6 24t10
 5A10 Matrix(integer)<integer><integer> 7r10 8r8 11r33 11r48
-7a5 A{5A10} 29m5
+7a5 A{5A10} 20m5 20r15
 7a7 B{5A10}
 8a5 C{5A10}
-11U15 Multiply 11b15 11>25 11>27 11<41 26l9 26t17
-11a25 A{5A10} 20r33
-11a27 B{5A10} 20r42
-11a41 C{5A10} 22m17
-12i5 Sum{integer} 20m20 20r27 22r31
-16i12 Row{integer} 20r35 22r19
-17i15 Col{integer} 20r46 22r23
-19i21 I{integer} 20r39 20r44
+11U15 Multiply 11b15 11>25 11>27 11<41 17l9 17t17
+11a25 A{5A10}
+11a27 B{5A10}
+11a41 C{5A10}
+12i5 Sum{integer} 16m5 16r12
 

@@ -832,11 +832,9 @@ def p_indexed_comp(p):
     '''indexed_comp : name '(' value_s ')'
     '''
     # I am getting a list of values here
-
     p[0] = deepcopy(p[1])
 
     if(symbol_table.locate_Symbol(p[1]["lexeme"])):
-
         #Not handled pre-assigned values yet
         #Procedure Call
         if(symbol_table.get_Attribute_Value(p[1]["lexeme"] , "isprocedure") != None and symbol_table.get_Attribute_Value(p[1]["lexeme"] , "isprocedure")):
@@ -878,8 +876,8 @@ def p_indexed_comp(p):
                     three_addr_code.emit("PopParam" , symbol_table.get_Attribute_Value(p[1]["lexeme"] , "width") , None , None)
 
         elif (symbol_table.get_Attribute_Value(p[1]["lexeme"] , "isarray") != None and symbol_table.get_Attribute_Value(p[1]["lexeme"] , "isarray")):
-        
-        #Allow out of bounds access
+
+            #Allow out of bounds access
             if(len(p[3]) != len(symbol_table.get_Attribute_Value(p[1]["lexeme"] , "upper_limit"))):
                 print "[Array Access] Error : Wrong number of dimensions requested"
                 p_error(p)
@@ -928,15 +926,16 @@ def p_indexed_comp(p):
                     p[0]["value"] = p[1]["lexeme"] + '(' + offset_value + ')'
                     p[0]["lexeme"] = p[1]["lexeme"] + '(' + offset_value + ')'
                     p[0]["type"] = p[1]["base_type"]
+
                 else:
                     print "[Type Mismatch] Error at line",p.lineno(2),": arguments types do not match to the index types of the array",p[1]["lexeme"]
                     p_error(p)
                 #correct it here
+
     else :
         print "[Calling] Error : " + p[1]["lexeme"] + " has not been declared yet. Unable to Handle this"
         p_error(p)
 
-    
 
 
 def p_value_s(p):
@@ -1726,8 +1725,9 @@ def p_iter_part(p):
         print "[Loop Variable] Error : " + p[2] + " has already been declared"
         p_error(p)
     else:
-        p[0]  = {"lexeme" : p[2] , "value" : None}
-        symbol_table.createSym(p[2] , {"value" : None})
+        p[0]  = {"isarray":False , "lexeme" : p[2] , "value" : None , "type" : "INT" , "width" : 4 , "offset" : symbol_table.get_width()}
+        symbol_table.change_width(4)
+        symbol_table.createSym(p[2] , p[0])
 
 def p_reverse_opt(p):
     '''reverse_opt :
@@ -1905,7 +1905,6 @@ def p_formal_part(p):
     '''
     var_List = deepcopy(p[2])
     p[0] = {"var_List" : var_List}
-    
 
 
 #Only dictionaries flow here
@@ -1933,7 +1932,11 @@ def p_param(p):
             if p[4]["istype"]:
 
                 for item in p[1]:
-                    dictionary = {"paramtype" : p[3] , "lexeme":item , "isarray":False, "type":symbol_table.get_Attribute_Value(p[4]["lexeme"] , "type")}
+                    dictionary = p[4]
+                    dictionary.update({"paramtype" : p[3] , "istype" : False,  "lexeme":item , "type":symbol_table.get_Attribute_Value(p[4]["lexeme"] , "type")})
+                    if ("isarray" not in dictionary):
+                        dictionary["isarray"] = False
+                        
                     if (p[5] != None):
                         dictionary["value"] = p[5]["value"]  #Initial value
                     p[0].append({"name" : item , "dictionary" : dictionary})
