@@ -4,7 +4,6 @@ from symbol_table import *
 
 
 Debug1 = False
-Debug2 = False
 Debug3 = False
 
 

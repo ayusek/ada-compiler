@@ -20,6 +20,7 @@ def get_type_width(name):
 			if "width" in name:
 				return name["width"]
 			else:
+				print name
 				print "[Data Type] Error : Width of the object is not know while assigning"
 				return 0
 
@@ -241,12 +242,12 @@ class SymbolTable:
 			print "Function not Defined within a global scope - Some Problem with the declaration of " + "old_name"
 		else :
 			#Make an entry for the procedure and store the pointer
-			self.symbol_table.prev_table.createSym(name , {"isprocedure" : True , "SymbolTable" : self.symbol_table,  "var_List" : var_List , "lexeme" : old_name}) # in_List and out_List are not required as such
+			self.symbol_table.prev_table.createSym(name , {"isprocedure" : True , "SymbolTable" : self.symbol_table,  "var_List" : var_List , "lexeme" : old_name , "offset" : self.symbol_table.prev_table.get_width() }) # in_List and out_List are not required as such
 			
 			for item in var_List :
 				self.symbol_table.createSym(item["name"] , item["dictionary"])
 				self.symbol_table.updateSym(item["name"] , "offset" , self.symbol_table.get_width())
-				self.symbol_table.change_width(get_type_width(item["dictionary"]["type"]))
+				self.symbol_table.change_width(get_type_width(item["dictionary"]))
 
 	
 

@@ -17,10 +17,11 @@ Only short circuit operators are allowed "and then" and "or else"
 
 Procedures and Functions : 
 I have only defined procedures, support to functions is not yet handled. 
-expressions are only allowed for in parameters
+Expressions are only allowed for in parameters
 Write now, I have handled only in and out variables, so procedure variables are used only to transfer values only. 
 I have not yet put any constraints on their assignments
-Right now, I have also not handles the default value assignment to procedures. This is to be done in p_comp_assoc 
+Right now, I have also not handled the default value assignment to procedures. This is to be done in p_comp_assoc 
+Also, the offset in each procedure is a local offset in its activation record. 
 
 Arrays: 
 I am assuming an integral range only. No need to specify the type of range.
