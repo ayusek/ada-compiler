@@ -314,8 +314,10 @@ def p_subtype_ind(p):
 		if(len(p) == 3):
 			p[0].update(p[2]) #p[2] is a dictionary , Tranferring constraints
 
-		p[0]["type"] = p[1]["type"]
-		p[0]["isarray"] = False
+		p[0] = deepcopy(p[1])
+		if("isarray" not in p[1]):
+			p[0].update({"isarray" : False})	
+		p[0].update({"istype":False, "lexeme" : None})		
 
 	else:
 		print "[Inconsistent Type] Error at line " , " : Type does not exists"
@@ -539,6 +541,7 @@ def p_discrete_range(p):
 	'''discrete_range : name range_constr_opt
 	   | range
 	'''
+
 	if(len(p) == 2):
 		p[0] = p[1]
 	else:
@@ -762,7 +765,7 @@ def p_name(p):
 	   | attribute
 	   | operator_symbol
 	'''
-	p[0] = p[1]
+	p[0] = deepcopy(p[1])
 	if (Debug1) : print "Rule Declared: 72"
 
 
@@ -906,7 +909,7 @@ def p_indexed_comp(p):
 						new_temp1 = get_temp("INT")
 						new_temp2 = get_temp("INT")
 	
-						three_addr_code.emit(new_temp1 , p[3][i]["value"] , '-' , 1 )
+						three_addr_code.emit(new_temp1 , p[3][i]["value"] , '-' , p[1]["lower_limit"][i] )
 						three_addr_code.emit(new_temp2 , p[1]["upper_limit"][i] - p[1]["lower_limit"][i] + 1 , '*' , new_temp1)
 					
 						if(loop_temp != None):
@@ -918,7 +921,7 @@ def p_indexed_comp(p):
 
 					offset_temp = None
 					new_temp5 = get_temp("INT")
-					three_addr_code.emit(new_temp5 , p[3][len(p[3]) - 1]["value"] , '-' , 1 ) 
+					three_addr_code.emit(new_temp5 , p[3][len(p[3]) - 1]["value"] , '-' , p[1]["lower_limit"][len(p[3]) - 1] ) 
 					if(loop_temp == None):
 						offset_temp = new_temp5
 					else:
@@ -932,7 +935,7 @@ def p_indexed_comp(p):
 						#compute some values here.. 
 					p[0]["value"] = p[1]["lexeme"] + '(' + offset_value + ')'
 					p[0]["lexeme"] = p[1]["lexeme"] + '(' + offset_value + ')'
-
+					p[0]["type"] = p[1]["base_type"]
 				else:
 					print "[Type Mismatch] Error at line",p.lineno(2),": arguments types do not match to the index types of the array",p[1]["lexeme"]
 					p_error(p)
@@ -950,15 +953,21 @@ def p_value_s(p):
 	   | value_s ',' value
 	'''
 	if (len(p) == 2): p[0] = [p[1]]
-	else : p[0] = p[1] + [p[3]]
+	else : 
+		p[0] = p[1] + [p[3]]
 
 	if (Debug1) : print "Rule Declared: 80"
 
 
 def p_value(p):
 	'''value : expression
-	   | comp_assoc
-	   | discrete_with_range
+	'''
+	p[0] = deepcopy(p[1])
+	if (Debug1) : print "Rule Declared: 81"
+
+
+def p_value3(p):
+	'''value : comp_assoc
 	'''
 	p[0] = deepcopy(p[1])
 	if (Debug1) : print "Rule Declared: 81"
@@ -1050,6 +1059,7 @@ def p_value_s_(p):
 def p_comp_assoc(p):
 	'''comp_assoc : choice_s ARROW expression
 	'''
+
 	if (Debug1) : print "Rule Declared: 88"
 
 def p_m(p):
@@ -1153,8 +1163,15 @@ def p_relation1(p):
 			p[0] = deepcopy(p[1])
 			p[0]["type"] = "BOOL"
 
+			if(p[1]["type"] == "INT"):
+				operator = 'int_' + p[2]
+			elif (p[1]["type"] == "FLOAT"):
+				operator = 'float_' + p[2]
+			else:
+				operator = p[2]
+
 			temp = get_temp(p[0]["type"])
-			three_addr_code.emit(temp , p[1]["value"] , p[2] , p[3]["value"] )
+			three_addr_code.emit(temp , p[1]["value"] , operator , p[3]["value"] )
 			p[0]["value"] = temp
 
 			#May not be always used
@@ -1206,8 +1223,9 @@ def p_simple_expression(p):
 	'''
 
 	p[0] = {"value" : None , "type" : "Statement"}
+
 	if(len(p) == 2):
-		p[0] = p[1]
+		p[0] = deepcopy(p[1])
 
 	elif(len(p) == 3): 
 		#Checking Type compatiablity
@@ -1223,10 +1241,18 @@ def p_simple_expression(p):
 		#SDD's are constraints not computations
 		if("lexeme" in p[2] and p[2]["lexeme"] != None):
 			rhs = p[2]["lexeme"]
-		if(p[1] == '-'):
-			three_addr_code.emit(temp, None , "un-" , rhs)
+
+		if(p[2]["type"] == "INT"):
+			if(p[1] == '-'):
+				three_addr_code.emit(temp, None , "int_un-" , rhs)
+			else:
+				three_addr_code.emit(temp , None , "int_un+" , rhs)
 		else:
-			three_addr_code.emit(temp , None , "un+" , rhs)
+			if(p[1] == '-'):
+				three_addr_code.emit(temp, None , "float_un-" , rhs)
+			else:
+				three_addr_code.emit(temp , None , "float_un+" , rhs)			
+
 
 		p[0]["value"] = temp #Values of both the variables are same
 		#p[0]["lexeme"] = temp
@@ -1243,6 +1269,13 @@ def p_simple_expression(p):
 			p_error(p)
 
 		else:
+			if(p[1]["type"] == "INT"):
+				operator = 'int_' + p[2] 
+			elif(p[1]["type"] == "FLOAT"):
+				operator = 'float_' + p[2]
+			else:
+				operator = p[2]
+
 			temp = get_temp(p[1]["type"])
 			p[0] = deepcopy(p[1]) #Copying Other Attributes
 			operand1 = p[1]["value"]
@@ -1253,7 +1286,7 @@ def p_simple_expression(p):
 			if("lexeme" in p[3] and symbol_table.locate_Symbol(p[3]["lexeme"])):
 				operand2  = p[3]["lexeme"]
 
-			three_addr_code.emit(temp , operand1 , p[2] , operand2)
+			three_addr_code.emit(temp , operand1 , operator , operand2)
 
 			p[0]["value"] = temp #Values of both the variables are same
 			p[0]["lexeme"] = temp
@@ -1365,7 +1398,6 @@ def p_parenthesized_primary (p) :
 	'''parenthesized_primary :   aggregate
 		| '(' expression ')'
 	'''
-	
 	if(len(p) >2):
 		p[0] = p[2]
 
@@ -1510,6 +1542,7 @@ def p_assign_stmt(p):
 			print "[Illegal Assignment] Error at line " + str(p.lineno(2)) + " : Variable " +  name + " does not have the same type as RHS"
 			p_error(p)
 			
+	print "assignment done"
 	if (Debug1) : print "Rule Declared: 112"
 
 def p_if_stmt(p):
@@ -1686,27 +1719,30 @@ def p_iteration2(p):
 
 	else : 
 		p[0] = {"isinfinite" : False}
-		if(p[2] == None): #reverse not used
+		if(p[1] != None):
+			if(p[2] == None): #reverse not used
 
-			three_addr_code.emit(p[1]["lexeme"] , p[3]["lower_limit"] , ":=" , None)
-			three_addr_code.emit("goto" , three_addr_code.get_next_instr_no() + 2, None , None )
-			p[0]["quad"] = three_addr_code.get_next_instr_no()
-			three_addr_code.emit(p[1]["lexeme"] , p[1]["lexeme"] , "+" , 1)
-			p[0]["truelist"] = makeList(three_addr_code.get_next_instr_no())
-			p[0]["falselist"] = makeList(three_addr_code.get_next_instr_no() + 1)
- 			three_addr_code.emit("blteq" , p[1]["lexeme"] , p[3]["upper_limit"] , None)
-			three_addr_code.emit("goto" , None , None , None) 
+				three_addr_code.emit(p[1]["lexeme"] , p[3]["lower_limit"] , ":=" , None)
+				three_addr_code.emit("goto" , three_addr_code.get_next_instr_no() + 2, None , None )
+				p[0]["quad"] = three_addr_code.get_next_instr_no()
+				three_addr_code.emit(p[1]["lexeme"] , p[1]["lexeme"] , "+" , 1)
+				p[0]["truelist"] = makeList(three_addr_code.get_next_instr_no())
+				p[0]["falselist"] = makeList(three_addr_code.get_next_instr_no() + 1)
+	 			three_addr_code.emit("blteq" , p[1]["lexeme"] , p[3]["upper_limit"] , None)
+				three_addr_code.emit("goto" , None , None , None) 
+
+			else:
+				three_addr_code.emit(p[1]["lexeme"] , p[3]["lower_limit"] , ":=" , None)
+				three_addr_code.emit("goto" , three_addr_code.get_next_instr_no() + 2, None , None )
+				p[0]["quad"] = three_addr_code.get_next_instr_no()
+				three_addr_code.emit(p[1]["lexeme"] , p[1]["lexeme"] , "-" , 1)
+				p[0]["truelist"] = makeList(three_addr_code.get_next_instr_no())
+				p[0]["falselist"] = makeList(three_addr_code.get_next_instr_no() + 1)
+	 			three_addr_code.emit("bgteq" , p[1]["lexeme"] , p[3]["upper_limit"] , None)
+				three_addr_code.emit("goto" , None , None , None) 
 
 		else:
-			three_addr_code.emit(p[1]["lexeme"] , p[3]["lower_limit"] , ":=" , None)
-			three_addr_code.emit("goto" , three_addr_code.get_next_instr_no() + 2, None , None )
-			p[0]["quad"] = three_addr_code.get_next_instr_no()
-			three_addr_code.emit(p[1]["lexeme"] , p[1]["lexeme"] , "-" , 1)
-			p[0]["truelist"] = makeList(three_addr_code.get_next_instr_no())
-			p[0]["falselist"] = makeList(three_addr_code.get_next_instr_no() + 1)
- 			three_addr_code.emit("bgteq" , p[1]["lexeme"] , p[3]["upper_limit"] , None)
-			three_addr_code.emit("goto" , None , None , None) 
-
+			p[0] = {"quad" : three_addr_code.get_next_instr_no() , "truelist" : [] , "falselist" : []  , "type" : None , "isinfinite" : False}
 			if (Debug2) : print "Reverse Loop"
 
 	if (Debug1) : print "Rule Declared: 125"
@@ -1934,7 +1970,7 @@ def p_param(p):
 			if p[4]["istype"]:
 
 				for item in p[1]:
-					dictionary = {"paramtype" : p[3] , "lexeme":item , "type":symbol_table.get_Attribute_Value(p[4]["lexeme"] , "type")}
+					dictionary = {"paramtype" : p[3] , "lexeme":item , "isarray":False, "type":symbol_table.get_Attribute_Value(p[4]["lexeme"] , "type")}
 					if (p[5] != None):
 						dictionary["value"] = p[5]["value"]  #Initial value
 					p[0].append({"name" : item , "dictionary" : dictionary})

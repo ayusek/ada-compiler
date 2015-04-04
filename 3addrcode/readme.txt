@@ -1,3 +1,14 @@
+Operators: 
+Distinction has been made between the Int and Float type operators, Unless specified , the operators are Int based
+
+Types  Handles:
+I have handled only Int, Float and char types.
+Not all operations are handled on the char types
+
+Loops :
+We have handled loops on ranges, range objects as well as range types
+Break and continue do not exists for Ada loops
+
 Expressions :
 All algebric expressions are handled. 
 While having nested booleans, some temperory variables are emitted but are not used.
@@ -13,8 +24,8 @@ Right now, I have also not handles the default value assignment to procedures. T
 
 Arrays: 
 I am assuming an integral range only. No need to specify the type of range.
-For arrays, the type variable is the type of entry in it. 
 The size of arrays is to be fixed at compile_time. 
+Arrays are static only. 
 
 
 Types:

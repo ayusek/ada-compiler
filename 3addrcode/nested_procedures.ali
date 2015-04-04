@@ -3,7 +3,7 @@ M P W=b
 P SS ZX
 R nnnnnnnnnnnnnnnnnnnnnnnnnvnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
 
-U proced1%b		test7.adb		31bfe25a NE OO SU
+U nesting%b		nested_procedures.adb	3edae402 NE OO SU
 W ada%s			ada.ads			ada.ali
 W ada.text_io%s		a-textio.adb		a-textio.ali
 
@@ -18,7 +18,7 @@ D a-textio.ads		20091028140912 386df5d4
 D a-unccon.ads		20070406091342 f9eb8f06
 D interfac.ads		20090409150019 f77d8799
 D i-cstrea.ads		20100622165701 1bd72c32
-D test7.adb		20150404150419 09d2178e
+D nested_procedures.adb	20150404111739 06b711d6
 D system.ads		20140416172229 23e1f70b
 D s-crtl.ads		20100617122610 ac77b159
 D s-exctab.ads		20090417131547 66e51330
@@ -40,11 +40,13 @@ X 1 ada.ads
 16K9*Ada 19e8 12|1r6 2r5
 X 8 a-textio.ads
 49K13*Text_IO 472e16 12|1w10 2r9
-X 12 test7.adb
-4U11*Proced1 4b11 13l5 13t12
-5i1 i{integer} 10m1
-5i3 j{integer}
-5i5 k{integer}
-5i7 l{integer}
-7e2 Another{character}
+X 12 nested_procedures.adb
+4U11*Nesting 4b11 28l5 28t12
+5i4 a{integer} 26m11
+7U14 Triple 7b14 7<21 22l8 22t14 26s4
+7i21 a{integer} 20m7 21m20
+8U20 Second_Layer 8b20 8<33 16l14 16t26 21s7
+8i33 a{integer} 14m13 15m26
+9U26 Bottom_Layer 9b26 9<39 12l20 12t32 15s13
+9i39 a{integer} 11m19
 

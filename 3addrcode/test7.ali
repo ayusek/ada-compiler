@@ -3,7 +3,7 @@ M P W=b
 P SS ZX
 R nnnnnnnnnnnnnnnnnnnnnnnnnvnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
 
-U proced1%b		test7.adb		bd9527f2 NE OO SU
+U proced1%b		test7.adb		446d09c4 NE OO SU
 W ada%s			ada.ads			ada.ali
 W ada.text_io%s		a-textio.adb		a-textio.ali
 
@@ -18,7 +18,7 @@ D a-textio.ads		20091028140912 386df5d4
 D a-unccon.ads		20070406091342 f9eb8f06
 D interfac.ads		20090409150019 f77d8799
 D i-cstrea.ads		20100622165701 1bd72c32
-D test7.adb		20150329124017 85f8d226
+D test7.adb		20150404113219 7c00fc10
 D system.ads		20140416172229 23e1f70b
 D s-crtl.ads		20100617122610 ac77b159
 D s-exctab.ads		20090417131547 66e51330
@@ -41,12 +41,13 @@ X 1 ada.ads
 X 8 a-textio.ads
 49K13*Text_IO 472e16 12|1w10 2r9
 X 12 test7.adb
-4U11*Proced1 4b11 18l5 18t12
-5i1 d{integer}
-5i3 E{integer} 15m9
-5i5 F{integer}
-6N1 G
-8A6 my_array(integer)<integer>
-9I9 hello{integer}
-11a1 H(integer)
+4U11*Proced1 4b11 21l5 21t12
+5i1 a{integer} 15m2 18r6
+5i3 b{integer} 16m2 18r12
+5i5 c{integer} 18m14
+7U11 eq1 7b11 7>15 7>19 7<40 11l13 11t16 18s2
+7i15 a{integer} 10r18
+7i19 b{integer}
+7i40 d{integer} 10m13
+8i13 i{integer}
 

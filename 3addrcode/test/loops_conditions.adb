@@ -72,8 +72,8 @@ begin
 
 
 -- For each reverse loop 
-   For_Loop :
-     for i in reverse 10 .. 1 loop
+   For_Loop1 :
+     for j in reverse 10 .. 1 loop
 
           if c = 1 then
         a := 1;
@@ -83,7 +83,7 @@ begin
         
         c := 1;
 
-     end loop For_Loop;
+     end loop For_Loop1;
 
 
 end Proced1;

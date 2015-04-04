@@ -6,6 +6,24 @@
 # It is a dictionary of dictionaries.. 
 #
 
+#Width for standard data types
+width= {'INT':4, 'FLOAT':8, 'CHAR':1, 'BOOL':4} #8- bit characters 
+
+def get_type_width(name):
+	global width 
+	if (isinstance(name , str)):
+		return width[name]
+	else:
+		if(name["type"] in width):
+			return width[name["type"]]
+		else:
+			if "width" in name:
+				return name["width"]
+			else:
+				print "[Data Type] Error : Width of the object is not know while assigning"
+				return 0
+
+
 def procedure_name(name , var_List = None):
 	str = ""
 	str = str + name.lower()
@@ -224,8 +242,12 @@ class SymbolTable:
 		else :
 			#Make an entry for the procedure and store the pointer
 			self.symbol_table.prev_table.createSym(name , {"isprocedure" : True , "SymbolTable" : self.symbol_table,  "var_List" : var_List , "lexeme" : old_name}) # in_List and out_List are not required as such
+			
 			for item in var_List :
 				self.symbol_table.createSym(item["name"] , item["dictionary"])
+				self.symbol_table.updateSym(item["name"] , "offset" , self.symbol_table.get_width())
+				self.symbol_table.change_width(get_type_width(item["dictionary"]["type"]))
+
 	
 
 '''
