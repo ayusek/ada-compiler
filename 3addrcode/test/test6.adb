@@ -27,7 +27,7 @@
  
  begin
     A(1,1) := A(2,2) + 1;
-    --Multiply (A,B,C);
-    --Multiply (A,B,A);  -- does not work as expected.
+
+    Multiply (A,B,C);
  
  end Mult;
