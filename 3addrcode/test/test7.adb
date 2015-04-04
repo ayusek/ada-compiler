@@ -7,7 +7,7 @@ i,j,k,l : integer := 1;
  Another : CHARACTER := 'D'; 
 begin
 
-i := 1;
+i = 1;
 
 
 end Proced1;
