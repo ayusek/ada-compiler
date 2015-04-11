@@ -1,15 +1,33 @@
-with Ada.Text_IO;
-use Ada.Text_IO;
+ -- mult.adb: program with matrix multiplication subprocedure
+ 
+ procedure Mult is
+ 
+    type Matrix is array (1 .. 10 , 1 .. 10) of Integer;
+ 
+    A,B: Matrix ;
+    C: Matrix;
 
-procedure Proced1 is
+    -- Matrix multiplication
+    procedure Multiply (A,B: in Matrix; C: out Matrix) is
+    Sum : Integer := 1; 
+    begin
+ 
+ 
+       for Row in 1 .. 10  loop
+          for Col in 1 .. 10 loop
+             begin
+                for I in 1 .. 10  loop
+                   Sum := Sum + A(Row,I);--*B(I,Col);
+                end loop;
+                C(Row,Col) := Sum;
+             end;
+          end loop;
+       end loop;
+    end Multiply;
+ 
+ begin
+    A(1,1) := A(2,2) + 1;
 
-      procedure Write_A_Line is
-      begin
-         Put("This is a line of text.");
-         New_Line;
-      end Write_A_Line;
-
-begin
-   Write_A_Line;
-   Write_A_Line;
-end Proced1;
+    Multiply (A,B,C);
+ 
+ end Mult;

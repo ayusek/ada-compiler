@@ -1176,12 +1176,14 @@ def p_relation1(p):
             p[0] = deepcopy(p[1])
             p[0]["type"] = "BOOL"
 
+            '''
             if(p[1]["type"] == "INT"):
                 operator = 'int_' + p[2]
             elif (p[1]["type"] == "FLOAT"):
                 operator = 'float_' + p[2]
             else:
-                operator = p[2]
+            '''
+            operator = p[2]
 
             temp = get_temp(p[0]["type"])
             three_addr_code.emit(temp , p[1]["value"] , operator , p[3]["value"] )
@@ -1191,7 +1193,7 @@ def p_relation1(p):
             p[0]['truelist'] = makeList(three_addr_code.get_next_instr_no())
             p[0]['falselist'] = makeList(three_addr_code.get_next_instr_no()+1)
         
-            three_addr_code.emit( temp , None ,"goto",  None)
+            three_addr_code.emit( None , temp ,"goto",  None)
             three_addr_code.emit(None , None ,'goto',  None)
 
 
@@ -1393,7 +1395,7 @@ def p_factor(p):
 
         p[0]=deepcopy(p[1])
         temp=get_temp(p[1]["type"])
-        three_addr_code.emit(temp ,p[1]["value"],"dotdot" , p[3]["value"])
+        three_addr_code.emit(temp ,p[1]["value"], "starstar" , p[3]["value"])
         p[0]['value']=temp
 
 
@@ -1733,17 +1735,17 @@ def p_iteration2(p):
                 three_addr_code.emit(p[1]["lexeme"] , p[1]["lexeme"] , "+" , 1)
                 p[0]["truelist"] = makeList(three_addr_code.get_next_instr_no())
                 p[0]["falselist"] = makeList(three_addr_code.get_next_instr_no() + 1)
-                three_addr_code.emit("blteq" , p[1]["lexeme"] , p[3]["upper_limit"] , None)
+                three_addr_code.emit(None , p[1]["lexeme"] , "blteq" , p[3]["upper_limit"])
                 three_addr_code.emit( None , None , "goto" , None) 
 
             else:
-                three_addr_code.emit(p[1]["lexeme"] , p[3]["lower_limit"] , ":=" , None)
+                three_addr_code.emit(p[1]["lexeme"] , p[3]["upper_limit"] , ":=" , None)
                 three_addr_code.emit(three_addr_code.get_next_instr_no() + 2, None ,"goto" , None )
                 p[0]["quad"] = three_addr_code.get_next_instr_no()
                 three_addr_code.emit(p[1]["lexeme"] , p[1]["lexeme"] , "-" , 1)
                 p[0]["truelist"] = makeList(three_addr_code.get_next_instr_no())
                 p[0]["falselist"] = makeList(three_addr_code.get_next_instr_no() + 1)
-                three_addr_code.emit("bgteq" , p[1]["lexeme"] , p[3]["upper_limit"] , None)
+                three_addr_code.emit(None , p[1]["lexeme"] , "bgteq", p[3]["lower_limit"])
                 three_addr_code.emit(None , None ,"goto" , None) 
 
         else:

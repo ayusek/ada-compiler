@@ -7,21 +7,28 @@ procedure arrays is
       a,b,c : integer := 1;  
       type I is range 1 .. 10; -- range type declaration and usage
       type AC is array (1 .. 10) of integer ; 
+      type AC2 is array (1 .. 10) of character;
+
+
+      --type g is integer; 
+      --type h is integer;
       type ACC is array (1 .. 10 , 2 .. 8 ) of integer ; 
 
       hello : AC ;
       hello1 : ACC;
       hello2 : array(1 .. 7 , 2..8) of integer ; 
 
-      d : I ; -- d is a range
+      --d : I ; -- d is a range
 
 begin
 
-   a := 1; 
+   a := 1;
+
+   AC(1) := AC2(1);
 
    --Testing a range
    For_Loop1 :
-     for j in reverse d loop
+     for j in reverse  1 .. 10  loop
 
           if c = 1 then
         a := 1;

@@ -7,7 +7,7 @@
 #
 
 #Width for standard data types
-width= {'INT':4, 'FLOAT':4, 'CHAR':1, 'BOOL':4} #8- bit characters 
+width= {'INT':4, 'FLOAT':4, 'CHAR':4, 'BOOL':4} #8- bit characters 
 
 def get_type_width(name):
 	global width 

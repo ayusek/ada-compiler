@@ -68,7 +68,7 @@ def backpatch(L1 , instr_number):
         mylist = three_addr_code.List[item]
         for i in range(0,5):
             if(mylist[i] == None):
-                mylist[i] = str(instr_number)
+                mylist[i] = instr_number
                 break
 
 

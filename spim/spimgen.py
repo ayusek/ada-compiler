@@ -73,6 +73,8 @@ def TAC2spim( three_addr_code , main_procedure_name):
 
 	global symbol_table
 	global code
+
+	target_count = 0 
 	parameter_count = 0 
 	out_parameter_count = 0 
 
@@ -213,7 +215,7 @@ def TAC2spim( three_addr_code , main_procedure_name):
  		
  		if operator == "procedure_call":
  			parameter_count = len(operand2)
- 			out_parameter_count = len(operand2) - parameter_count
+ 			out_count_variables = len(operand2) - parameter_count
  			width = symbol_table.get_Attribute_Value(operand1 , "width") + 32
  			#sp is going to go down by this measure
  			count = 0 
@@ -227,15 +229,126 @@ def TAC2spim( three_addr_code , main_procedure_name):
  		if operator == "makelabel":
  			code.append(result + ":")
 
+ 		if operator == "=" :
+ 			reg_result = loadintoreg(result , 2)
+ 			reg_operand1 = loadintoreg(operand1 , 0)
+ 			reg_operand2 = loadintoreg(operand2 , 1)
 
+ 			code.append('\tseq $' + reg_result + ', $' + reg_operand1 + ', $' + reg_operand2)
+ 			regtoMem(reg_result , result)
+
+ 		if operator == "/=" :
+ 			reg_result = loadintoreg(result , 2)
+ 			reg_operand1 = loadintoreg(operand1 , 0)
+ 			reg_operand2 = loadintoreg(operand2 , 1)
+
+ 			code.append('\tsne $' + reg_result + ', $' + reg_operand1 + ', $' + reg_operand2)
+ 			regtoMem(reg_result , result)
+
+ 		if operator == "<" :
+ 			reg_result = loadintoreg(result , 2)
+ 			reg_operand1 = loadintoreg(operand1 , 0)
+ 			reg_operand2 = loadintoreg(operand2 , 1)
+
+ 			code.append('\tslt $' + reg_result + ', $' + reg_operand1 + ', $' + reg_operand2)
+ 			regtoMem(reg_result , result)
+
+ 		if operator == "<=" :
+ 			reg_result = loadintoreg(result , 2)
+ 			reg_operand1 = loadintoreg(operand1 , 0)
+ 			reg_operand2 = loadintoreg(operand2 , 1)
+
+ 			code.append('\tsle $' + reg_result + ', $' + reg_operand1 + ', $' + reg_operand2)
+ 			regtoMem(reg_result , result)
  
+ 		if operator == ">" :
+ 			reg_result = loadintoreg(result , 2)
+ 			reg_operand1 = loadintoreg(operand1 , 0)
+ 			reg_operand2 = loadintoreg(operand2 , 1)
+
+ 			code.append('\tsgt $' + reg_result + ', $' + reg_operand1 + ', $' + reg_operand2)
+ 			regtoMem(reg_result , result)
+
+ 		if operator == ">=" :
+ 			reg_result = loadintoreg(result , 2)
+ 			reg_operand1 = loadintoreg(operand1 , 0)
+ 			reg_operand2 = loadintoreg(operand2 , 1)
+
+ 			code.append('\tsge $' + reg_result + ', $' + reg_operand1 + ', $' + reg_operand2)
+ 			regtoMem(reg_result , result)
+
  		if operator == "goto":
- 			if isinstance(result , int):
- 				code.append('\tj ' + 'L' + str(result))
+ 			if operand1 == None:
+	 			if isinstance(result , int):
+	 				code.append('\tj ' + 'L' + str(result))
 
- 			else:
- 				code.append('\tj ' + result)
- 
+	 			else:
+	 				code.append('\tj ' + result)
+	 		else:
+	 			reg_operand1 = loadintoreg(operand1 , 1)
+
+	 			if isinstance(result , int):
+	 				code.append('\tbeq $' + reg_operand1 + ', 1, L' + str(result))
+
+	 			else:
+	 				code.append('\tbeq $' + reg_operand1 + ', 1, ' + result)
+
+
+
+ 		if operator == "blteq":
+ 			reg_operand1 = loadintoreg(operand1 , 0)
+ 			reg_operand2 = loadintoreg(operand2 , 1)
+
+	 		if isinstance(result , int):
+ 				code.append('\tble $' + reg_operand1 + ', $' + reg_operand2+ ', L' + str(result))
+	 		else:
+	 			code.append('\tble $' + reg_operand1 + ', $' + reg_operand2+ ', ' + result)
+
+
+
+ 		if operator == "bgteq":
+ 			reg_operand1 = loadintoreg(operand1 , 0)
+ 			reg_operand2 = loadintoreg(operand2 , 1)
+
+	 		if isinstance(result , int):
+ 				code.append('\tbge $' + reg_operand1 + ', $' + reg_operand2+ ', L' + str(result))
+	 		else:
+	 			code.append('\tbge $' + reg_operand1 + ', $' + reg_operand2+ ', ' + result)
+
+	 	if operator == "and" :
+	 		reg_result = loadintoreg(result , 2)
+ 			reg_operand1 = loadintoreg(operand1 , 0)
+ 			reg_operand2 = loadintoreg(operand2 , 1)
+
+ 			code.append('\tand $' + reg_result + ', $' + reg_operand1 + ', $' + reg_operand2)
+ 			regtoMem(reg_result , result)
+
+	 	if operator == "or" :
+ 			reg_result = loadintoreg(result , 2)
+ 			reg_operand1 = loadintoreg(operand1 , 0)
+ 			reg_operand2 = loadintoreg(operand2 , 1)
+
+ 			code.append('\tor $' + reg_result + ', $' + reg_operand1 + ', $' + reg_operand2)
+ 			regtoMem(reg_result , result)
+
+ 		if operator == "starstar" :
+			reg_result = loadintoreg(result , 2)
+ 			reg_operand1 = loadintoreg(operand1 , 0)
+ 			reg_operand2 = loadintoreg(operand2 , 1) 	
+
+ 			code.append('\tli $' + reg_result + ', 1')
+ 			code.append('start' + str(target_count) + ":")
+ 			code.append('\tble $' + reg_operand2 + ', 0, ' + "target" + str(target_count))
+ 			code.append('\tmul $' + reg_result + ', $' + reg_result + ', $' + reg_operand1)
+ 			code.append('\tsub $' + reg_operand2 + ', $' + reg_operand2 + ', 1')
+ 			code.append('\tj start' + str(target_count))
+ 			code.append("target" + str(target_count) + ":")
+ 			target_count += 1
+
+ 			regtoMem(reg_result , result)
+
+
+
 
  	for instr in three_addr_code.get_list():
  		print instr

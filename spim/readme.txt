@@ -3,6 +3,7 @@ The following is a description of stuff I was able to handle in my implementatio
 
 Operators: 
 Distinction has been made between the Int and Float type operators, Unless specified , the operators are Int based
+I have also supported a power operator (**)
 
 Types  Handles:
 I have handled only Int, Float and char types.

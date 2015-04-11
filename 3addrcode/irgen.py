@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-#!/usr/bin/env python
 
 from three_addrcode_functions import * #Has symbol Table in it
 
@@ -690,7 +689,7 @@ def p_decl_part(p):
     if (len(p) == 1):
         p[0] = None
     else:
-        p[0] = p[1]
+        p[0] = p[1] 
 
     
 
@@ -857,23 +856,42 @@ def p_indexed_comp(p):
 
                 else:
                     i = len(p[3])  - 1
+
                     out_count = 0 
+                    in_count = 0 
 
                     for item in parameter_list:
                         if(item["dictionary"]["paramtype"] == "out"):
                             out_count += 1 
 
+                    for item in parameter_list:
+                        if(item["dictionary"]["paramtype"] == "in"):
+                            in_count += 1 
+
+                    old_out_count = out_count
                     #Parameters are pushed in a reverse order http://web.stanford.edu/class/archive/cs/cs143/cs143.1128/handouts/240%20TAC%20Examples.pdf
+                    in_list = []
+                    index = 0 
+
+                    while in_count > 0 :
+                        in_count -= 1
+                        if('lexeme' in p[3][index]):    
+                            in_list.append(p[3][index]['lexeme'])
+                        else:
+                            in_list.append(p[3][index]['value'])
+                        index += 1
+
+                    three_addr_code.emit(None , p[1]["lexeme"] ,"procedure_call" , in_list)
+                    #three_addr_code.emit("PopParam" , symbol_table.get_Attribute_Value(p[1]["lexeme"] , "width") , None , None)
+
+                    i = len(p[3]) - 1
+                    out_count = old_out_count
                     while i >= 0 :
                         if out_count > 0 :
-                            three_addr_code.emit('PushParam',(p[3][i])['lexeme'],'out',None);
+                            three_addr_code.emit((p[3][i])['lexeme'],'out','PullParam',None)
                             out_count = out_count  - 1
-                        else:
-                            three_addr_code.emit('PushParam',(p[3][i])['lexeme'],None,None);
                         i=i-1
 
-                    three_addr_code.emit("procedure_call" , p[1]["lexeme"] , len(p[3]) , None)
-                    three_addr_code.emit("PopParam" , symbol_table.get_Attribute_Value(p[1]["lexeme"] , "width") , None , None)
 
         elif (symbol_table.get_Attribute_Value(p[1]["lexeme"] , "isarray") != None and symbol_table.get_Attribute_Value(p[1]["lexeme"] , "isarray")):
 
@@ -933,8 +951,18 @@ def p_indexed_comp(p):
                 #correct it here
 
     else :
-        print "[Calling] Error : " + p[1]["lexeme"] + " has not been declared yet. Unable to Handle this"
-        p_error(p)
+
+        #Library functions added
+        if (p[1]['lexeme'] in ['Print_int' , 'Print_float' , 'Print_char']):
+            for item in p[3]:
+                three_addr_code.emit(p[1]["lexeme"],item["lexeme"],"syscall", None)
+
+        elif (p[1]["lexeme"] == "Print_newline"):
+            three_addr_code.emit(p[1]["lexeme"], None,"syscall", None)
+
+        else: 
+            print "[Calling] Error : " + p[1]["lexeme"] + " has not been declared yet. Unable to Handle this"
+            p_error(p)
 
 
 
@@ -1161,8 +1189,8 @@ def p_relation1(p):
             p[0]['truelist'] = makeList(three_addr_code.get_next_instr_no())
             p[0]['falselist'] = makeList(three_addr_code.get_next_instr_no()+1)
         
-            three_addr_code.emit("goto", temp , None ,  None)
-            three_addr_code.emit('goto', None , None , None)
+            three_addr_code.emit( temp , None ,"goto",  None)
+            three_addr_code.emit(None , None ,'goto',  None)
 
 
 
@@ -1244,6 +1272,7 @@ def p_simple_expression(p):
 
     else:
         if not ((p[1]["type"] == "INT" or p[1]["type"] == "FLOAT") and (p[3]["type"] == "INT" or p[3]["type"] == "FLOAT")):
+            #print str(p[1]) + '\n' + str(p[3])
             print "[Expression Computations] Error at line " , " : Binary operator used on a wrong subtype"
             p_error(p)
 
@@ -1312,6 +1341,7 @@ def p_term(p):
             p[0] = deepcopy(p[1]) #Copying Other Attributes
             three_addr_code.emit(temp , p[1]["value"] , p[2] , p[3]["value"])
             p[0]["value"] = temp #Values of both the variables are same
+            p[0]["lexeme"] = temp
 
 
     
@@ -1519,6 +1549,7 @@ def p_assign_stmt(p):
             p[0]["type"] = "Statement"
 
         else:
+            #print str(p[1]) + '\n' + str(p[2])
             print "[Illegal Assignment] Error at line " + str(p.lineno(2)) + " : Variable " +  name + " does not have the same type as RHS"
             p_error(p)
             
@@ -1549,7 +1580,7 @@ def p_n(p):
     ''' n :
     '''
     p[0] = {"nextlist" : [three_addr_code.get_next_instr_no()]}
-    three_addr_code.emit("goto" , None , None , None)
+    three_addr_code.emit( None , None ,"goto" , None)
 
 def p_cond_clause(p):
     '''cond_clause : cond_part m  statement_s n 
@@ -1638,7 +1669,7 @@ def p_loop_stmt(p):
 
         p[0] = deepcopy(p[4])
         backpatch(p[4]["nextlist"] , p[2]["quad"])
-        three_addr_code.emit("goto" , p[2]["quad"] , None , None)
+        three_addr_code.emit( p[2]["quad"] , None , "goto" , None)
 
         if not p[2]["isinfinite"] :
             backpatch(p[2]["truelist"] , p[3]["quad"])
@@ -1695,23 +1726,23 @@ def p_iteration2(p):
             if(p[2] == None): #reverse not used
 
                 three_addr_code.emit(p[1]["lexeme"] , p[3]["lower_limit"] , ":=" , None)
-                three_addr_code.emit("goto" , three_addr_code.get_next_instr_no() + 2, None , None )
+                three_addr_code.emit( three_addr_code.get_next_instr_no() + 2, None ,"goto" , None )
                 p[0]["quad"] = three_addr_code.get_next_instr_no()
                 three_addr_code.emit(p[1]["lexeme"] , p[1]["lexeme"] , "+" , 1)
                 p[0]["truelist"] = makeList(three_addr_code.get_next_instr_no())
                 p[0]["falselist"] = makeList(three_addr_code.get_next_instr_no() + 1)
                 three_addr_code.emit("blteq" , p[1]["lexeme"] , p[3]["upper_limit"] , None)
-                three_addr_code.emit("goto" , None , None , None) 
+                three_addr_code.emit( None , None , "goto" , None) 
 
             else:
                 three_addr_code.emit(p[1]["lexeme"] , p[3]["lower_limit"] , ":=" , None)
-                three_addr_code.emit("goto" , three_addr_code.get_next_instr_no() + 2, None , None )
+                three_addr_code.emit(three_addr_code.get_next_instr_no() + 2, None ,"goto" , None )
                 p[0]["quad"] = three_addr_code.get_next_instr_no()
                 three_addr_code.emit(p[1]["lexeme"] , p[1]["lexeme"] , "-" , 1)
                 p[0]["truelist"] = makeList(three_addr_code.get_next_instr_no())
                 p[0]["falselist"] = makeList(three_addr_code.get_next_instr_no() + 1)
                 three_addr_code.emit("bgteq" , p[1]["lexeme"] , p[3]["upper_limit"] , None)
-                three_addr_code.emit("goto" , None , None , None) 
+                three_addr_code.emit(None , None ,"goto" , None) 
 
         else:
             p[0] = {"quad" : three_addr_code.get_next_instr_no() , "truelist" : [] , "falselist" : []  , "type" : None , "isinfinite" : False}
@@ -1926,21 +1957,23 @@ def p_param(p):
     '''
     p[0] = []
 
+    #print "*****************def_id_s " + str(p[1])
     if(len(p) == 6):
         #def_id_s is a list of variables/ lexemes 
         if(p[4] != None ):
             if p[4]["istype"]:
 
                 for item in p[1]:
-                    dictionary = p[4]
-                    dictionary.update({"paramtype" : p[3] , "istype" : False,  "lexeme":item , "type":symbol_table.get_Attribute_Value(p[4]["lexeme"] , "type")})
+                    dictionary = deepcopy(p[4])
+                    #print "****" + str(p[4])
+                    dictionary.update({"paramtype" : p[3] , "istype" : False,  "lexeme": item , "type":symbol_table.get_Attribute_Value(p[4]["lexeme"] , "type")})
                     if ("isarray" not in dictionary):
                         dictionary["isarray"] = False
                         
                     if (p[5] != None):
-                        dictionary["value"] = p[5]["value"]  #Initial value
-                    p[0].append({"name" : item , "dictionary" : dictionary})
-
+                        dictionary["value"] = p[5]["value"]  #Initial values
+                    p[0].append({"name" : item , "dictionary" : deepcopy(dictionary)})
+                    #print str(p[0])
             else:
                 print "[Procedure Declaration] Error : " + p[4]["lexeme"] +" is not a valid type "
         else:
@@ -1981,8 +2014,9 @@ def p_subprog_spec_is_push(p):
 
     symbol_table.begin_scope()
     symbol_table.declare_Procedure(p[1]["lexeme"] , p[1]["var_List"])
-    p[0]["width_label"] = makeList(three_addr_code.get_next_instr_no())
-    three_addr_code.emit("proc_label" , p[1]["lexeme"] , None , None )
+    p[0]["width_label"] = makeList(three_addr_code.get_next_instr_no() + 1)
+    three_addr_code.emit("Proc_endLabel_" + p[1]["lexeme"] , None , "goto" , None)
+    three_addr_code.emit(p[1]["lexeme"] , None , "proc_label", None )
 
     
 
@@ -1996,27 +2030,31 @@ def p_subprog_body(p):
             p_error(p)
 
     p[0] = deepcopy(p[3])
-
-    outvars = ""
-    for item in symbol_table.get_Hash_Table():
-        if(symbol_table.get_Attribute_Value(item , "paramtype") == "out"):
-            outvars += " " + symbol_table.get_Attribute_Value(item ,"lexeme")
-    #In the symbol table of the procedure
-
-    three_addr_code.emit("end_proc_label" , p[1]["lexeme"] ,None , None )
-
-    if (outvars != ""):
-        three_addr_code.emit("return" , outvars , None , None )
-    else:
-        three_addr_code.emit("return" , None , None , None)
-
+    
     backpatch(p[1]["width_label"] , symbol_table.get_width())
     width = symbol_table.get_width()
 
     symbol_table.end_scope()
 
+    #In the parents symbol table now
+    outvars = ""
+    for item in symbol_table.get_Attribute_Value(p[1]["lexeme"] , "var_List"):
+        if(item["dictionary"]["paramtype"] == "out"):
+            outvars += " " + item["name"] 
+       #In the symbol table of the procedure
+
+    #three_addr_code.emit("end_proc_label" , p[1]["lexeme"] ,None , None )
+
+    if (outvars != ""):
+        three_addr_code.emit( None , outvars , "return" ,  None )
+    else:
+        three_addr_code.emit(None , None , "return" ,  None)
+
+
     symbol_table.change_width(width)
     symbol_table.updateSym(p[1]["lexeme"] , "width" , width)
+
+    three_addr_code.emit("Proc_endLabel_" + p[1]["lexeme"] , None , "makelabel" , None)
 
     if(p[0] != None):
         backpatch(p[0]["nextlist"] , three_addr_code.get_next_instr_no() - 1)
@@ -2656,7 +2694,9 @@ parser = yacc.yacc(start = 'start_symbol', debug = True)
 
 
 
+Debug = False
 
+parser = yacc.yacc(start = 'start_symbol', debug = True)
 #Scanning the file name
 if (len(sys.argv) == 1):
     file_name =raw_input( "Give an Ada file to parse: ")

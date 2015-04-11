@@ -2,16 +2,30 @@ with Ada.Text_IO;
 use Ada.Text_IO;
 
 procedure Proced1 is
-d,E,F :integer := 1; 
-G : constant := 1;
+a,b,c : integer := 1; 
 
-type my_array is array ( 1 .. 10) of integer ;
+procedure eq1(a , b: in integer := 1 ; d: out integer ) is
+            i: integer := 1;
+        begin
+            d := a + a +  1; 
+        end eq1;
 
-H : array (1 .. 10 ) of integer ; 
+procedure eq2(a , b: in integer := 1 ; d: out integer ) is
+            i: integer := 1;
+        begin
+            d := a + a +  1; 
+        end eq2;
+
+
+e,f : integer := 2;
 
 begin
 
-	E := 2;
---A_Test(E , F , d);
+ a := 1; 
+ b := 1; 
+
+ 
+ eq1(a + 1,b,c);
+ eq1(a,b + 1,c);
 
 end Proced1;
