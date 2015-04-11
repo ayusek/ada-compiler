@@ -24,6 +24,7 @@ Only short circuit operators are allowed "and then" and "or else"
 
 
 Procedures and Functions : 
+Only two return values are allowed in procedures
 I have only defined procedures, support to functions is not yet handled. 
 Expressions are only allowed for in parameters
 Write now, I have handled only in and out variables, so procedure variables are used only to transfer values only. 
@@ -88,3 +89,27 @@ test5 -> Arrays , Subtypes, TypeDefs
 test6 -> Passing Arrays to Functions, Matrix Type Defined
 
 Conversion of emitted statements to MIPS code would be handeled later on. 
+
+
+ SPIM code generation :
+ The filename must match the main function name or else it would give an error. This is a warning in normal ada but I am treating it as an error. 
+
+ scoping is not handeled yet
+
+ Memory Allocation : 
+ Instead of alocating a complete memory and making offsets in it, Right now, I am just making a new space for each variable. 
+ If values are not pre-assigned, then it would take garbage values
+
+ Library Support :
+ Right now, I have added the following function:
+
+ #Takes a variable
+
+ Print_int
+ Print_float
+ Print_char 
+
+ #Takes Nothing
+ Print_newline 
+
+

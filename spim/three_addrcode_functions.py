@@ -29,7 +29,7 @@ def get_tempno():
 
 def get_temp(type): #Makes a new temperory variable and then returns its name
 	name = '_t' + str(get_tempno())
-	symbol_table.createSym(name , {"type" : type , "offset" : symbol_table.get_width() , "lexeme" : name , "value" : None})
+	symbol_table.createSym(name , {"type" : type , "offset" : symbol_table.get_width() , "lexeme" : name , "value" : None , "width" : get_type_width(type)})
 	symbol_table.change_width(get_type_width(type))
 	return name
 
@@ -40,7 +40,7 @@ class Structure:
         self.List = []
 
     def emit(self, result , operand1 , operator , operand2):
-    	self.List.append([str(self.next_instr_no) , str(result) , str(operand1) , str(operator) , str(operand2)])
+    	self.List.append([self.next_instr_no , result , operand1 , operator , operand2])
     	self.next_instr_no += 1
 
     def get_next_instr_no(self):
@@ -50,6 +50,10 @@ class Structure:
     	print "========== Three Address Code ==============="
     	for i in self.List:
     		print i
+
+    def get_list(self):
+        return self.List
+
 
 three_addr_code = Structure()
 
@@ -63,7 +67,7 @@ def backpatch(L1 , instr_number):
     for item in L1:
         mylist = three_addr_code.List[item]
         for i in range(0,5):
-            if(mylist[i] == 'None'):
+            if(mylist[i] == None):
                 mylist[i] = str(instr_number)
                 break
 
