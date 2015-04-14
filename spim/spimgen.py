@@ -6,23 +6,29 @@ from three_addrcode_functions import * #Has symbol Table in it
 code = []
 
 #we have the current register context with us
-def getreg(variable , selector): #0 for operand 1 , 1 for operand 2, 2 for result
-	regname = 't' + str(selector)
+def getreg(variable , selector , type): #0 for operand 1 , 1 for operand 2, 2 for result
+	if (type == "float"):
+		regname = 'f' + str(selector)
+	else:
+		regname = 't' + str(selector)
 	return regname
 
-def loadintoreg(variable , selector = 0):
+def loadintoreg(variable , selector  , type):
 	if isinstance(selector , str):
 		reg = selector
 
 	else:
 		if(selector == 2):
-			return getreg(variable , selector)
+			return getreg(variable , selector , type)
 
 		if(selector == -1):
-			reg = "a0"
+			if (type == "float"):
+				reg = "f12"
+			else:
+				reg = "a0"
 
 		else:		
-			reg = getreg(variable , selector)
+			reg = getreg(variable , selector , type)
 
 	if isinstance(variable,int):
 		code.append('\tli $' + reg + ', ' + str(variable))
@@ -35,17 +41,28 @@ def loadintoreg(variable , selector = 0):
 		code.append('\tli $' + reg + ', ' + variable)
 
 	elif '(' in variable:
-		variable = variable.split('(')[0]
 		offset_variable  = (variable.split('(')[1]).split(')')[0]
-		temp_reg = getreg(offset_variable , 3)
-		code.append('\tli $'+ reg + ', ' + str(symbol_table.get_Attribute_Value(variable,'offset')))
-		code.append('\tadd $' + reg + ', $sp, $' + reg)
-		code.append('\tlw $' + temp_reg +  ", " + str(symbol_table.get_Attribute_Value(offset_variable , 'offset')) + "($sp)")
-		code.append('\tadd $' + temp_reg + ', $'+ temp_reg +', $' + reg)
-		code.append('\tlw $' + reg + ', ($' + temp_reg +')')
+		variable = variable.split('(')[0]
+
+		temp_reg = getreg(offset_variable , 4 , "int")
+		temp_reg2 = getreg(variable , 5 , "int")
+
+
+		code.append('\tli $'+ temp_reg + ', ' + str(symbol_table.get_Attribute_Value(variable,'offset')))
+		code.append('\tadd $' + temp_reg + ', $sp, $' + temp_reg)
+		code.append('\tlw $' + temp_reg2 +  ", " + str(symbol_table.get_Attribute_Value(offset_variable , 'offset')) + "($sp)")
+		code.append('\tadd $' + temp_reg + ', $'+ temp_reg +', $' + temp_reg2)
+
+		if (type == "float"):
+			code.append('\tl.s $' + reg + ', ($' + temp_reg +')')
+		else:
+			code.append('\tlw $' + reg + ', ($' + temp_reg +')')
 
 	elif isinstance(variable , str) :	
-		code.append('\tlw $'+ reg + ', ' + str(symbol_table.get_Attribute_Value(variable,'offset')) + '($sp)')
+		if (type == "float"):
+			code.append('\tl.s $'+ reg + ', ' + str(symbol_table.get_Attribute_Value(variable,'offset')) + '($sp)')
+		else:
+			code.append('\tlw $'+ reg + ', ' + str(symbol_table.get_Attribute_Value(variable,'offset')) + '($sp)')
 
 	else :
 		print "Unknow type of argument passed " + variable
@@ -53,20 +70,26 @@ def loadintoreg(variable , selector = 0):
 
 	return reg #reg not contains its value
 
-def regtoMem(reg , variable):
+def regtoMem(reg , variable , type):
 	if '(' in variable: #array support
-		variable = variable.split('(')[0]
 		offset_variable  = (variable.split('(')[1]).split(')')[0]
-		temp_reg = getreg(offset_variable , 3)
-		temp_reg1 = getreg(offset_variable , 4)
+		variable = variable.split('(')[0]
+		temp_reg = getreg(offset_variable , 3 , "int")
+		temp_reg1 = getreg(offset_variable , 4 , "int")
 		code.append('\tli $'+ temp_reg1 + ', ' + str(symbol_table.get_Attribute_Value(variable,'offset')))
 		code.append('\tadd $' + temp_reg1+ ', $sp, $' + temp_reg1)
 		code.append('\tlw $' + temp_reg +  ", " + str(symbol_table.get_Attribute_Value(offset_variable , 'offset')) + "($sp)")
 		code.append('\tadd $' + temp_reg + ', $'+ temp_reg +', $' + temp_reg1)
-		code.append('\tsw $' + reg + ', ($' + temp_reg + ')')
+		if (type == "float"):
+			code.append('\ts.s $' + reg + ', ($' + temp_reg + ')')
+		else:
+			code.append('\tsw $' + reg + ', ($' + temp_reg + ')')
 
 	else:
-		code.append('\tsw $' + reg + ', ' + str(symbol_table.get_Attribute_Value(variable,'offset')) + '($sp)')
+		if(type == "float"):
+			code.append('\ts.s $' + reg + ', ' + str(symbol_table.get_Attribute_Value(variable,'offset')) + '($sp)')
+		else:
+			code.append('\tsw $' + reg + ', ' + str(symbol_table.get_Attribute_Value(variable,'offset')) + '($sp)')
 
 #Returns a string of instructions
 def TAC2spim( three_addr_code , main_procedure_name):
@@ -76,7 +99,9 @@ def TAC2spim( three_addr_code , main_procedure_name):
 
 	target_count = 0 
 	parameter_count = 0 
-	out_parameter_count = 0 
+	out_parameter_count = 0
+	float_count = 0
+	newline_count = 0   
 
 	if not symbol_table.locate_Symbol_in_this(main_procedure_name):
 		print "[Error] : File name must match the global function name"
@@ -119,10 +144,11 @@ def TAC2spim( three_addr_code , main_procedure_name):
  		operand1 = instr[2]
  		operand2 = instr[4]
 
+#ALgebra Expression
  		if operator in ['int_+','int_-' , 'int_*' , 'int_/' , '+' , '-' , '*' , '/']:
- 			reg_result = loadintoreg(result , 2) #Does not loads anything
- 			reg_operand1 = loadintoreg(operand1 , 0)
- 			reg_operand2 = loadintoreg(operand2 , 1)	
+ 			reg_result = loadintoreg(result , 2 , "int")  #Does not loads anything
+ 			reg_operand1 = loadintoreg(operand1 , 0 , "int")
+ 			reg_operand2 = loadintoreg(operand2 , 1 , "int")	
  			if operator in ['int_+', '+']:
  				code.append('\tadd $' + reg_result +', $' + reg_operand1 + ', $' + reg_operand2)
  			if operator in ['int_-', '-']:
@@ -132,46 +158,111 @@ def TAC2spim( three_addr_code , main_procedure_name):
  			if operator in ['int_/', '/']:
  				code.append('\tdiv $' + reg_result +', $' + reg_operand1 + ', $' + reg_operand2)
  		
- 			regtoMem( reg_result , result)
+ 			regtoMem( reg_result , result , "int")
 
- 		if operator == ":=":
- 			reg = loadintoreg(operand1)
- 			regtoMem(reg , result)
+ 		if operator in ['float_+','float_-' , 'float_*' , 'float_/']:
+ 			reg_result = loadintoreg(result , 2 , "float")  #Does not loads anything
+ 			reg_operand1 = loadintoreg(operand1 , 0 , "float")
+ 			reg_operand2 = loadintoreg(operand2 , 1 , "float")	
+
+ 			if operator in ['float_+']:
+ 				code.append('\tadd.s $' + reg_result +', $' + reg_operand1 + ', $' + reg_operand2)
+ 			if operator in ['float_-']:
+ 				code.append('\tsub.s $' + reg_result +', $' + reg_operand1 + ', $' + reg_operand2)
+ 			if operator in ['float_*']:
+ 				code.append('\tmul.s $' + reg_result +', $' + reg_operand1 + ', $' + reg_operand2)
+ 			if operator in ['float_/']:
+ 				code.append('\tdiv.s $' + reg_result +', $' + reg_operand1 + ', $' + reg_operand2)
+ 		
+ 			regtoMem( reg_result , result , "float")
+
+#Assignemnts
+ 		if operator == "int_:=":
+ 			reg = loadintoreg(operand1 , 0 , "int")
+ 			regtoMem(reg , result , "int")
+
+ 		if operator == "float_:=":
+ 			reg = loadintoreg(operand1 , 0 , "float")
+ 			regtoMem(reg , result , "float")
  			#Received three registers
 
- 		if operator == "int_un+" or operator == "float_un+":
- 			reg_operand2 = loadintoreg(operand2)
-  			regtoMem(reg_operand2 , result)
+#Unary Operators
+ 		if operator == "int_un+":
+ 			reg_operand2 = loadintoreg(operand2 , "int")
+  			regtoMem(reg_operand2 , result ,"int")
 
- 		if operator == "int_un-" or operator == "float_un-":
- 			reg_result = loadintoreg(result , 2)
- 			reg_operand2 = loadintoreg(operand2)
- 			code.append('\tneg $' + reg_operand2 +', $' + reg_result)
- 			regtoMem(reg_result , result)
+ 		if operator == "int_un-":
+ 			reg_result = loadintoreg(result , 2 , "int")
+ 			reg_operand2 = loadintoreg(operand2 , 0 , "int")
+ 			code.append('\tneg.s $' + reg_result +', $' + reg_operand2)
+ 			regtoMem(reg_result , result , "int")
 
+ 		if operator == "float_un+":
+ 			reg_operand2 = loadintoreg(operand2 , "float")
+  			regtoMem(reg_operand2 , result ,"float")
+
+ 		if operator == "float_un-":
+ 			reg_result = loadintoreg(result , 2 , "float")
+ 			reg_operand2 = loadintoreg(operand2 , 0 , "float")
+ 			code.append('\tneg.s $' + reg_result +', $' + reg_operand2)
+ 			regtoMem(reg_result , result , "float")
+
+#System calls
  		if operator == "syscall":
- 			if result == "Print_int":
- 				code.append('\tli $v0'  + ', ' + '1')
- 				reg = loadintoreg(operand1  , -1)
- 				code.append('\tsyscall')
 
+ 			if result == "Scan_int":
+ 				code.append('\tli $v0'  + ', ' + '5')
+ 				code.append('\tsyscall')
+ 				regtoMem('v0' , operand1 , "int")
+
+ 			elif result == "Scan_float":
+ 				code.append('\tli $v0'  + ', ' + '6')
+ 				code.append('\tsyscall')
+ 				regtoMem('f0' , operand1 , "float")
+
+ 			elif result == "Scan_char":
+ 				code.append('\tli $v0'  + ', ' + '12')
+ 				code.append('\tsyscall')
+ 				regtoMem('v0' , operand1 , "int")
+
+ 			elif result == "Print_int":
+ 				code.append('\tli $v0'  + ', ' + '1')
+ 				reg = loadintoreg(operand1  , -1 , "int")
+ 				code.append('\tsyscall')
 
  			elif result == "Print_float":
  				code.append('\tli $v0'  + ', ' + '2')
- 				reg = loadintoreg(operand1 , -1)
+ 				reg = loadintoreg(operand1 , -1 , "float")
   				code.append('\tsyscall')
 
 
  			elif result == "Print_char":
  				code.append('\tli $v0'  + ', ' + '11')
- 				reg = loadintoreg(operand1 , -1)
+ 				reg = loadintoreg(operand1 , -1 , "int")
   				code.append('\tsyscall')
 
 
  			elif result == "Print_newline":
+ 				reg_operand1 = loadintoreg( operand1 , 0 , "int")
+ 				code.append('newline' + str(newline_count) + ':')
+ 				code.append('\tble $' + reg_operand1 + ', $0, newline' + str(newline_count + 1)) 				
  				code.append('\tli $v0'  + ', ' + '4')
  				code.append('\tla $a0'  + ', ' + 'newline')
    				code.append('\tsyscall')
+   				code.append('\tsub $' + reg_operand1 + ', $' + reg_operand1 + ', 1' )
+   				code.append('\tj newline' + str(newline_count))
+   				code.append('newline' + str(newline_count + 1) + ':')
+   				newline_count += 2
+
+   			elif result == "int_to_float":
+   				reg_operand1 = loadintoreg(operand1, 'f8',  "float")
+   				code.append('\tcvt.s.w $f8, $f8')
+   				regtoMem('f8' , operand1 , "float")
+
+   			elif result == "float_to_int":
+   				reg_operand1 = loadintoreg(operand1 , 'f8'  ,  "float")
+   				code.append('\tcvt.w.s $f8, $f8')
+   				regtoMem('f8' , operand1 , "float")
 
  			else:
  				print "Syscall " + result + " not found" 
@@ -193,25 +284,41 @@ def TAC2spim( three_addr_code , main_procedure_name):
  			#Copying the values to the space of these variable
 
 
+
  		if operator == "return" :
  			#operand1 stores the variable list
  			if (operand1 != None):
  				returnvars = operand1.split(' ')[1:]
  				#the computed values are returned in $vi
 
- 				for i in range(0,len(returnvars)):
- 					loadintoreg(returnvars[i] , "v" + str(i) )  #Returned in the order or the return
+ 				if operand2 == "FLOAT":
+	 				for i in range(0,len(returnvars)):
+	 					loadintoreg(returnvars[i] , "f" + str(i)  , "float")  #Returned in the order or the return
  				
+ 				else:
+	 				for i in range(0,len(returnvars)):
+	 					loadintoreg(returnvars[i] , "v" + str(i)  , "int")  #Returned in the order or the return
+ 				
+
  				out_count_variables = len(returnvars) - 1
 
 
  			symbol_table.set_current_table(symbol_table.get_current_table().prev_table)
  			code += ['\tla $sp, 0($fp)', '\tlw $ra, -8($fp)', '\tlw $fp, -4($sp)' , '\tjr $ra']
 
- 		if operator == "PullParam" :
+ 		if operator == "int_PullParam" :
  			#Restoring the symbol table
- 			regtoMem("v" + str(out_count_variables) , result) #storing the information in the return parameters to their corresponding addresses
+
+ 			regtoMem("v" + str(out_count_variables) , result , "int") #storing the information in the return parameters to their corresponding addresses
  			out_count_variables -= 1
+
+
+ 		if operator == "float_PullParam" :
+ 			#Restoring the symbol table
+ 			regtoMem("f" + str(out_count_variables) , result , "float") #storing the information in the return parameters to their corresponding addresses
+ 			out_count_variables -= 1
+
+
  		
  		if operator == "procedure_call":
  			parameter_count = len(operand2)
@@ -220,7 +327,7 @@ def TAC2spim( three_addr_code , main_procedure_name):
  			#sp is going to go down by this measure
  			count = 0 
  			for item in operand2:
- 				reg =  loadintoreg(item , 0)
+ 				reg =  loadintoreg(item , 0 ,"int")
  				code.append('\tsw $' + reg + ', ' + str(count*4 - width) + '($sp)')
  				count += 1
 
@@ -228,54 +335,6 @@ def TAC2spim( three_addr_code , main_procedure_name):
  		
  		if operator == "makelabel":
  			code.append(result + ":")
-
- 		if operator == "=" :
- 			reg_result = loadintoreg(result , 2)
- 			reg_operand1 = loadintoreg(operand1 , 0)
- 			reg_operand2 = loadintoreg(operand2 , 1)
-
- 			code.append('\tseq $' + reg_result + ', $' + reg_operand1 + ', $' + reg_operand2)
- 			regtoMem(reg_result , result)
-
- 		if operator == "/=" :
- 			reg_result = loadintoreg(result , 2)
- 			reg_operand1 = loadintoreg(operand1 , 0)
- 			reg_operand2 = loadintoreg(operand2 , 1)
-
- 			code.append('\tsne $' + reg_result + ', $' + reg_operand1 + ', $' + reg_operand2)
- 			regtoMem(reg_result , result)
-
- 		if operator == "<" :
- 			reg_result = loadintoreg(result , 2)
- 			reg_operand1 = loadintoreg(operand1 , 0)
- 			reg_operand2 = loadintoreg(operand2 , 1)
-
- 			code.append('\tslt $' + reg_result + ', $' + reg_operand1 + ', $' + reg_operand2)
- 			regtoMem(reg_result , result)
-
- 		if operator == "<=" :
- 			reg_result = loadintoreg(result , 2)
- 			reg_operand1 = loadintoreg(operand1 , 0)
- 			reg_operand2 = loadintoreg(operand2 , 1)
-
- 			code.append('\tsle $' + reg_result + ', $' + reg_operand1 + ', $' + reg_operand2)
- 			regtoMem(reg_result , result)
- 
- 		if operator == ">" :
- 			reg_result = loadintoreg(result , 2)
- 			reg_operand1 = loadintoreg(operand1 , 0)
- 			reg_operand2 = loadintoreg(operand2 , 1)
-
- 			code.append('\tsgt $' + reg_result + ', $' + reg_operand1 + ', $' + reg_operand2)
- 			regtoMem(reg_result , result)
-
- 		if operator == ">=" :
- 			reg_result = loadintoreg(result , 2)
- 			reg_operand1 = loadintoreg(operand1 , 0)
- 			reg_operand2 = loadintoreg(operand2 , 1)
-
- 			code.append('\tsge $' + reg_result + ', $' + reg_operand1 + ', $' + reg_operand2)
- 			regtoMem(reg_result , result)
 
  		if operator == "goto":
  			if operand1 == None:
@@ -285,7 +344,7 @@ def TAC2spim( three_addr_code , main_procedure_name):
 	 			else:
 	 				code.append('\tj ' + result)
 	 		else:
-	 			reg_operand1 = loadintoreg(operand1 , 1)
+	 			reg_operand1 = loadintoreg(operand1 , 1 , "int")
 
 	 			if isinstance(result , int):
 	 				code.append('\tbeq $' + reg_operand1 + ', 1, L' + str(result))
@@ -296,45 +355,45 @@ def TAC2spim( three_addr_code , main_procedure_name):
 
 
  		if operator == "blteq":
- 			reg_operand1 = loadintoreg(operand1 , 0)
- 			reg_operand2 = loadintoreg(operand2 , 1)
+ 			reg_operand1 = loadintoreg(operand1 , 0 , "int")
+ 			reg_operand2 = loadintoreg(operand2 , 1 , "int")
 
 	 		if isinstance(result , int):
  				code.append('\tble $' + reg_operand1 + ', $' + reg_operand2+ ', L' + str(result))
 	 		else:
 	 			code.append('\tble $' + reg_operand1 + ', $' + reg_operand2+ ', ' + result)
 
-
-
  		if operator == "bgteq":
- 			reg_operand1 = loadintoreg(operand1 , 0)
- 			reg_operand2 = loadintoreg(operand2 , 1)
+ 			reg_operand1 = loadintoreg(operand1 , 0 , "int")
+ 			reg_operand2 = loadintoreg(operand2 , 1 , "int")
 
 	 		if isinstance(result , int):
  				code.append('\tbge $' + reg_operand1 + ', $' + reg_operand2+ ', L' + str(result))
 	 		else:
 	 			code.append('\tbge $' + reg_operand1 + ', $' + reg_operand2+ ', ' + result)
 
+#and and or
 	 	if operator == "and" :
-	 		reg_result = loadintoreg(result , 2)
- 			reg_operand1 = loadintoreg(operand1 , 0)
- 			reg_operand2 = loadintoreg(operand2 , 1)
+	 		reg_result = loadintoreg(result , 2 , "int")
+ 			reg_operand1 = loadintoreg(operand1 , 0 , "int")
+ 			reg_operand2 = loadintoreg(operand2 , 1 , "int")
 
  			code.append('\tand $' + reg_result + ', $' + reg_operand1 + ', $' + reg_operand2)
- 			regtoMem(reg_result , result)
+ 			regtoMem(reg_result , result , "int")
 
 	 	if operator == "or" :
- 			reg_result = loadintoreg(result , 2)
- 			reg_operand1 = loadintoreg(operand1 , 0)
- 			reg_operand2 = loadintoreg(operand2 , 1)
+ 			reg_result = loadintoreg(result , 2 , "int")
+ 			reg_operand1 = loadintoreg(operand1 , 0 , "int")
+ 			reg_operand2 = loadintoreg(operand2 , 1 , "int")
 
  			code.append('\tor $' + reg_result + ', $' + reg_operand1 + ', $' + reg_operand2)
- 			regtoMem(reg_result , result)
+ 			regtoMem(reg_result , result , "int")
 
+#starstar
  		if operator == "starstar" :
-			reg_result = loadintoreg(result , 2)
- 			reg_operand1 = loadintoreg(operand1 , 0)
- 			reg_operand2 = loadintoreg(operand2 , 1) 	
+			reg_result = loadintoreg(result , 2 , "int")
+ 			reg_operand1 = loadintoreg(operand1 , 0 , "int")
+ 			reg_operand2 = loadintoreg(operand2 , 1 ,"int") 	
 
  			code.append('\tli $' + reg_result + ', 1')
  			code.append('start' + str(target_count) + ":")
@@ -345,10 +404,85 @@ def TAC2spim( three_addr_code , main_procedure_name):
  			code.append("target" + str(target_count) + ":")
  			target_count += 1
 
- 			regtoMem(reg_result , result)
+ 			regtoMem(reg_result , result , "int")
+
+#Comparison Operators
+
+		
+		if len(operator.split("_")) >= 2 and operator.split("_")[1] in  ["=" , "/=" , ">" , "<" , ">=" , "<="]:
+			my_type = operator.split("_")[0]
+			symbol = operator.split("_")[1]
+
+			if (my_type == "float"):
+				reg_result = loadintoreg(result , 2 , "int")
+ 				reg_operand1 = loadintoreg(operand1 , 0 , "float")
+ 				reg_operand2 = loadintoreg(operand2 , 1 , "float")
+
+ 			else:
+				reg_result = loadintoreg(result , 2 , "int")
+ 				reg_operand1 = loadintoreg(operand1 , 0 , "int")
+ 				reg_operand2 = loadintoreg(operand2 , 1 , "int")
 
 
+ 			if (my_type == "int"):
+ 				if symbol == "=": fn = 'seq'
+ 				elif symbol == "/=": fn = 'sne'
+ 				elif symbol == "<": fn = 'slt'
+ 				elif symbol == ">": fn = 'sgt'
+ 				elif symbol == "<=": fn = 'sle'
+ 				elif symbol == ">=": fn = 'sge'
 
+				code.append('\t' + fn + ' $' + reg_result + ', $' + reg_operand1 + ', $' + reg_operand2)
+
+ 			else:
+ 				if symbol == "=": code.append('\tc.eq.s $' + reg_operand1 + ', $' + reg_operand2)
+ 				
+ 				elif symbol == "/=": 
+ 					code.append('\tc.eq.s $' + reg_operand1 + ', $' + reg_operand2)
+		 			code.append('\tbc1t ' + "float" + str(count))
+		 			code.append('\tnop')
+
+		 			code.append('\tbc1f ' + "float" + str(count + 1))
+		 			code.append('\tnop')
+
+		   			code.append("float" + str(count) + ':')
+		  			code.append('\tli $' + reg_result + ', 0')
+		   			code.append('\tj float' + str(count + 2))
+
+					code.append("float" + str(count + 1) + ':')
+		   			code.append('\tli $' + reg_result + ', 1')
+		   			code.append('\tj float' + str(count + 2))
+
+		   			code.append("float" + str(count + 2) + ':')
+		   			float_count += 3
+		   			regtoMem(reg_result , result ,"int")
+		   			continue
+
+ 				elif symbol == "<" : code.append('\tc.lt.s $' + reg_operand1 + ', $' + reg_operand2)
+ 				elif symbol == ">" : code.append('\tc.le.s $' + reg_operand2 + ', $' + reg_operand1)
+ 				elif symbol == "<=": code.append('\tc.le.s $' + reg_operand1 + ', $' + reg_operand2)
+ 				elif symbol == ">=": code.append('\tc.lt.s $' + reg_operand2 + ', $' + reg_operand1)
+
+
+ 			if (my_type == "float"):
+	 			code.append('\tbc1t ' + "float" + str(count))
+	 			code.append('\tnop')
+
+	 			code.append('\tbc1f ' + "float" + str(count + 1))
+	 			code.append('\tnop')
+
+	   			code.append("float" + str(count) + ':')
+	  			code.append('\tli $' + reg_result + ', 1')
+	   			code.append('\tj float' + str(count + 2))
+
+				code.append("float" + str(count + 1) + ':')
+	   			code.append('\tli $' + reg_result + ', 0')
+	   			code.append('\tj float' + str(count + 2))
+
+	   			code.append("float" + str(count + 2) + ':')
+	   			float_count += 3
+
+ 			regtoMem(reg_result , result ,"int")
 
  	for instr in three_addr_code.get_list():
  		print instr

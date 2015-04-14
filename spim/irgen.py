@@ -6,6 +6,8 @@ from spimgen import *
 
 from copy import deepcopy
 
+counter = 0
+
 import sys
 import lex
 import yacc
@@ -141,7 +143,11 @@ def p_object_decl(p):
                             print "[Object Declaration] Error at line " + str(p.lineno(1)) + " : Object" + item + " is a constant and can not be assigned"
 
                         else :
-                            three_addr_code.emit(item , p[5]["value"] , ":=" ,  None)
+                            operator = "int_:="
+                            if (p[5]["type"] == "FLOAT"):
+                                operator = "float_:="
+
+                            three_addr_code.emit(item , p[5]["value"] , operator ,  None)
 
 #List of Names
 def p_def_id_s(p):
@@ -223,7 +229,12 @@ def p_number_decl(p):
             if flag :
                 symbol_table.createSym(item , {'isarray': False, 'lexeme': item_lexeme, 'type': p[5]["type"], 'value': None, 'offset':  symbol_table.get_width() , "isconstant" : True}) # I will ensure that p[4] is a dictionary having type information
                 symbol_table.change_width(get_type_width(p[5])) #Has been set up while evaluating for p[4]
-                three_addr_code.emit(item_lexeme , p[5]["value"] , ":=" , None)
+                
+                operator = "int_:="
+                if p[5]["type"] == "FLOAT":
+                    operator = "float_:="
+
+                three_addr_code.emit(item_lexeme , p[5]["value"] , operator , None)
 
     
 
@@ -802,7 +813,7 @@ def p_compound_name(p):
 
     else:
         p[0] = None
-        print "not handled yet"
+        
 
     
 
@@ -890,7 +901,12 @@ def p_indexed_comp(p):
                     out_count = old_out_count
                     while i >= 0 :
                         if out_count > 0 :
-                            three_addr_code.emit((p[3][i])['lexeme'],'out','PullParam',None)
+
+                            if((p[3][i])["type"] == "FLOAT"):
+                                three_addr_code.emit((p[3][i])['lexeme'],'out','float_PullParam',None)
+                            else:     
+                                three_addr_code.emit((p[3][i])['lexeme'],'out','int_PullParam',None)
+
                             out_count = out_count  - 1
                         i=i-1
 
@@ -959,8 +975,37 @@ def p_indexed_comp(p):
             for item in p[3]:
                 three_addr_code.emit(p[1]["lexeme"],item["lexeme"],"syscall", None)
 
+        elif (p[1]['lexeme'] in ['Scan_int' , 'Scan_float' , 'Scan_char']):
+
+            if (len(p[3]) == 1):
+                for item in p[3]:
+                    three_addr_code.emit(p[1]["lexeme"],item["lexeme"],"syscall", None)
+
+            else:
+                print "[Scanning] Error : Scan function just takes one argument"
+                p_error(p)
+
+        elif p[1]['lexeme'] == 'int_to_float':
+            for item in p[3]:
+                three_addr_code.emit(p[1]["lexeme"],item["lexeme"],"syscall", None)
+                symbol_table.updateSym(item['lexeme'] , "type" ,"FLOAT")
+
+        elif p[1]['lexeme'] == 'float_to_int':
+            for item in p[3]:
+                three_addr_code.emit(p[1]["lexeme"],item["lexeme"],"syscall", None)
+                symbol_table.updateSym(item['lexeme'] , "type" ,"INT")
+
         elif (p[1]["lexeme"] == "Print_newline"):
-            three_addr_code.emit(p[1]["lexeme"], None,"syscall", None)
+            if (len(p[3]) == 1):
+                for item in p[3]:
+                    if "lexeme" in item:
+                        three_addr_code.emit(p[1]["lexeme"], item["lexeme"],"syscall", None)
+                    else:
+                        three_addr_code.emit(p[1]["lexeme"], item["value"] ,"syscall", None)
+            else:
+                "[Function Call] Error: newline function takes only one argument"
+                p_error(p)
+
 
         else: 
             print "[Calling] Error : " + p[1]["lexeme"] + " has not been declared yet. Unable to Handle this"
@@ -1176,15 +1221,12 @@ def p_relation1(p):
             p[0] = deepcopy(p[1])
             p[0]["type"] = "BOOL"
 
-            '''
-            if(p[1]["type"] == "INT"):
-                operator = 'int_' + p[2]
-            elif (p[1]["type"] == "FLOAT"):
+            
+            if (p[1]["type"] == "FLOAT"):
                 operator = 'float_' + p[2]
             else:
-            '''
-            operator = p[2]
-
+                operator = 'int_' + p[2]
+            
             temp = get_temp(p[0]["type"])
             three_addr_code.emit(temp , p[1]["value"] , operator , p[3]["value"] )
             p[0]["value"] = temp
@@ -1341,9 +1383,13 @@ def p_term(p):
             p_error(p)
 
         else:
+            operator = "int_" + p[2]
+            if (p[1]["type"] == "FLOAT"):
+                operator = "float_" + p[2]
+
             temp = get_temp(p[1]["type"])
             p[0] = deepcopy(p[1]) #Copying Other Attributes
-            three_addr_code.emit(temp , p[1]["value"] , p[2] , p[3]["value"])
+            three_addr_code.emit(temp , p[1]["value"] , operator , p[3]["value"])
             p[0]["value"] = temp #Values of both the variables are same
             p[0]["lexeme"] = temp
 
@@ -1549,7 +1595,10 @@ def p_assign_stmt(p):
             p[0]  = deepcopy(p[3])
             p[0]["nextlist"] = [] #empty_list
 
-            three_addr_code.emit(p[1]["lexeme"] , p[3]["value"] , ":=" , None) #Emitting this assignment
+            if p[3]["type"] =="FLOAT":
+                three_addr_code.emit(p[1]["lexeme"] , p[3]["value"] , "float_:=" , None) #Emitting this assignment
+            else:
+                three_addr_code.emit(p[1]["lexeme"] , p[3]["value"] , "int_:=" , None)
             p[0]["type"] = "Statement"
 
         else:
@@ -1729,7 +1778,7 @@ def p_iteration2(p):
         if(p[1] != None):
             if(p[2] == None): #reverse not used
 
-                three_addr_code.emit(p[1]["lexeme"] , p[3]["lower_limit"] , ":=" , None)
+                three_addr_code.emit(p[1]["lexeme"] , p[3]["lower_limit"] , "int_:=" , None)
                 three_addr_code.emit( three_addr_code.get_next_instr_no() + 2, None ,"goto" , None )
                 p[0]["quad"] = three_addr_code.get_next_instr_no()
                 three_addr_code.emit(p[1]["lexeme"] , p[1]["lexeme"] , "+" , 1)
@@ -1739,7 +1788,7 @@ def p_iteration2(p):
                 three_addr_code.emit( None , None , "goto" , None) 
 
             else:
-                three_addr_code.emit(p[1]["lexeme"] , p[3]["upper_limit"] , ":=" , None)
+                three_addr_code.emit(p[1]["lexeme"] , p[3]["upper_limit"] , "int_:=" , None)
                 three_addr_code.emit(three_addr_code.get_next_instr_no() + 2, None ,"goto" , None )
                 p[0]["quad"] = three_addr_code.get_next_instr_no()
                 three_addr_code.emit(p[1]["lexeme"] , p[1]["lexeme"] , "-" , 1)
@@ -2042,17 +2091,20 @@ def p_subprog_body(p):
 
     #In the parents symbol table now
     outvars = ""
+    outvar_type = ""
     for item in symbol_table.get_Attribute_Value(p[1]["lexeme"] , "var_List"):
         if(item["dictionary"]["paramtype"] == "out"):
             outvars += " " + item["name"] 
-       #In the symbol table of the procedure
+            outvar_type = symbol_table.get_Attribute_Value(item["name"] , "type")
+
+     #In the symbol table of the procedure
 
     #three_addr_code.emit("end_proc_label" , p[1]["lexeme"] ,None , None )
 
     if (outvars != ""):
-        three_addr_code.emit( None , outvars , "return" ,  None )
+        three_addr_code.emit( None , outvars , "return" ,  outvar_type )
     else:
-        three_addr_code.emit(None , None , "return" ,  None)
+        three_addr_code.emit(None , None , "return" ,  outvar_type)
 
 
     symbol_table.change_width(width)
@@ -2061,7 +2113,7 @@ def p_subprog_body(p):
     three_addr_code.emit("Proc_endLabel_" + p[1]["lexeme"] , None , "makelabel" , None)
 
     if(p[0] != None):
-        backpatch(p[0]["nextlist"] , three_addr_code.get_next_instr_no() - 1)
+        backpatch(p[0]["nextlist"] , three_addr_code.get_next_instr_no() - 2)
     else:
         print "None statement propagating"
 
@@ -2688,10 +2740,16 @@ def p_code_stmt(p):
     
 def p_error(p):
     if (hasattr(p,'type')):
-        print "[Parsing] Error at line ",p.lineno,": Token:",p.type,"incorrectly parsed" 
+        print "[Parsing] Error at line ",p.lineno,": Token:",p.type,"incorrectly parsed"
+
+    global counter
+    counter += 1
+    if (counter > 10):
+        sys.exit()
+
+    parser.errok() 
     global success
     success = False
-    parser.errok()
 
 
 parser = yacc.yacc(start = 'start_symbol', debug = True)

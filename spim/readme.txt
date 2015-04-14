@@ -3,7 +3,8 @@ The following is a description of stuff I was able to handle in my implementatio
 
 Operators: 
 Distinction has been made between the Int and Float type operators, Unless specified , the operators are Int based
-I have also supported a power operator (**)
+I have also supported a power operator (**). It works only on itegers.
+I have also defined unary operators
 
 Types  Handles:
 I have handled only Int, Float and char types.
@@ -15,7 +16,7 @@ Break and continue do not exists for Ada loops
 Loop identifiers can not be used again
 Did not deal with until loops and loops with conditions in the middle
 Array Loops are not defined for now
-Assume loop variables to be global identifiers
+Assume loop variables to be global identifiers -> This implies that a loop variable (for eg. in for loop) can not be used again
 
 
 Expressions :
@@ -25,7 +26,9 @@ Only short circuit operators are allowed "and then" and "or else"
 
 
 Procedures and Functions : 
-Only two return values are allowed in procedures
+Only two integral/character return value is allowed in procedures
+only five floating point return values are allowed in procedures
+
 I have only defined procedures, support to functions is not yet handled. 
 Expressions are only allowed for in parameters
 Write now, I have handled only in and out variables, so procedure variables are used only to transfer values only. 
@@ -33,7 +36,6 @@ I have not yet put any constraints on their assignments
 Right now, I have also not handled the default value assignment to procedures. This is to be done in p_comp_assoc 
 Also, the offset in each procedure is a local offset in its activation record. 
 New defines data-types may be passed to procedures. 
-
 
 Arrays: 
 I am assuming an integral range only. No need to specify the type of range.
@@ -95,7 +97,11 @@ Conversion of emitted statements to MIPS code would be handeled later on.
  SPIM code generation :
  The filename must match the main function name or else it would give an error. This is a warning in normal ada but I am treating it as an error. 
 
+ SCOPING:
  scoping is not handeled yet
+
+ Register Allocation :
+ Trivial register allocation is done considering each three adress code statement as a basic block. 
 
  Memory Allocation : 
  Instead of alocating a complete memory and making offsets in it, Right now, I am just making a new space for each variable. 
@@ -104,13 +110,21 @@ Conversion of emitted statements to MIPS code would be handeled later on.
  Library Support :
  Right now, I have added the following function:
 
- #Takes a variable
+ Type Conversions :
+ I have allowed basic type conversions of variables from int to float and back. Use the library functions for that support. 
+
+ #Takes a list of variable
 
  Print_int
  Print_float
  Print_char 
+ int_to_float
+ float_to_int
+ Scan_int
+ Scan_float
+ Scan_char
+ 
 
- #Takes Nothing
- Print_newline 
+ Print_newline #takes number of newlines to be printed. 
 
 

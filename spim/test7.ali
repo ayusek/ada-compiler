@@ -3,7 +3,7 @@ M P W=b
 P SS ZX
 R nnnnnnnnnnnnnnnnnnnnnnnnnvnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
 
-U test7%b		test7.adb		f87178b8 NE OO SU IL
+U test7%b		test7.adb		856634cd NE OO SU IL
 W ada%s			ada.ads			ada.ali
 W ada.text_io%s		a-textio.adb		a-textio.ali
 
@@ -35,14 +35,15 @@ D s-stratt.ads		20100909123135 aedef97e
 D s-traent.ads		20090417130712 5221ee41
 D s-unstyp.ads		20090409150019 6ae15c76
 D s-wchcon.ads		20090417130712 bfeb2e3d
-D test7.adb		20150411153104 c01c8d6c
+D test7.adb		20150414163641 bd0bc119
 X 1 ada.ads
 16K9*Ada 19e8 29|1r6 2r5
 X 8 a-textio.ads
 49K13*Text_IO 472e16 29|1w10 2r9
 X 29 test7.adb
 4U11*test7 4b11 19l5 19t10
-5i1 d{integer}
-5i3 E{integer}
-5i5 F{integer} 15m9
+5i4 a{integer} 17m11
+7a4 x{string}
+9U14 Triple 9b14 9<21 13l8 13t14 17s4
+9i21 a{integer} 11m7
 
