@@ -2782,7 +2782,7 @@ try:
     else :
         spim_list =  TAC2spim(three_addr_code , file_name.split('/')[-1].replace('.adb',''))
         file_name = file_name.split(".adb")[0] +'.asm'
-        with open ("sample.asm",'w') as myfile:
+        with open (file_name,'w') as myfile:
             for item in spim_list:
                 myfile.write(item + '\n')
             

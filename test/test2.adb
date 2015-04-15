@@ -1,7 +1,7 @@
 with Ada.Text_IO;
 use Ada.Text_IO;
 
-procedure test2 is
+procedure Proced1 is
 a,b,c : integer := 1; 
 
 begin
@@ -86,4 +86,4 @@ begin
      end loop For_Loop1;
 
 
-end test2;
+end Proced1;

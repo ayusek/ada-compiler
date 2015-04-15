@@ -2,14 +2,14 @@ with Ada.Text_IO;
 use Ada.Text_IO;
 
 procedure nesting is
-   a,b : integer := 1; 
+   a : integer ; 
 
-   procedure Triple(a:in  integer) is
-         procedure Second_Layer(a:in integer) is
-               procedure Bottom_Layer(a: in integer) is
+   procedure Triple(a:out integer) is
+         procedure Second_Layer(a:out integer) is
+               procedure Bottom_Layer(a: out integer) is
                begin
                   Print_char('b');
-                  a := 5;  
+                  a := 1;  
                   Print_char('b');
                end Bottom_Layer;
          begin
@@ -23,11 +23,7 @@ procedure nesting is
    begin
       Print_char('t');
       a := 3;
-      b := 1; 
-      Second_Layer(b);
-      --Bottom_Layer(a);
-      Print_int(b);
-      Print_int(a);
+      Second_Layer(a);
       Print_char('t');
    end Triple;
 

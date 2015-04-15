@@ -130,9 +130,10 @@ Conversion of emitted statements to MIPS code would be handeled later on.
 
  After submission changes:
  make float_count to count or add that line there
+ Destination to the assembly code changed
 
  Interesting Test Cases :
  test5.adb - arrays, types and range types
- 
+
 
 
