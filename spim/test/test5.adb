@@ -1,44 +1,39 @@
--- arrays and Types
+-- arrays and Types and range types
 
 with Ada.Text_IO;
 use Ada.Text_IO;
 
-procedure arrays is
+procedure test5 is
       a,b,c : integer := 1;  
-      type I is range 1 .. 10; -- range type declaration and usage
-      type AC is array (1 .. 10) of integer ; 
-      type AC2 is array (1 .. 10) of integer ; 
-      type ACC is array (1 .. 10 , 2 .. 8 ) of integer ; 
+      type I is range 1 .. 7; -- range type declaration and usage
+      type AC is array (1 .. 7) of integer ; 
+      type AC2 is array (1 .. 7) of integer ; 
+      type ACC is array (1 .. 7 , 1 .. 7 ) of integer ; 
 
       hello : AC ;
       hello1 : ACC;
-      hello2 : array(1 .. 7 , 2..8) of integer ; 
+      hello2 : array(1 .. 7 , 1 .. 7) of integer ; 
 
-      --d : I ; -- d is a range
+      d : I ; -- d is a range
 
 begin
 
    a := 1; 
 
+   for m in I  loop
+   hello1(m,m) := m;
+   hello2(m,m) := m;
+   end loop;
+
    --Testing a range
    For_Loop1 :
-     for j in reverse 1 .. 10    loop
+     for j in reverse I  loop
 
-          if c = 1 then
-        a := 1;
-      else
-        a := 2 ; 
-        end if ; 
-        
-        c := 1;
+      Print_int(hello1(j,j));
+      Print_int(hello2(j, j));
+
+      Print_newline(1);
 
      end loop For_Loop1;
 
-
-   hello(1) := 1; 
-   hello1(1,2) := 1;
-   hello2(1,3) := 3; 
-   hello2(a + 1 , a) := hello2(a,a) + 1 ; 
-   --hello(1);
-
-end arrays;
+end test5;

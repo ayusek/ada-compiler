@@ -9,6 +9,7 @@ I have also defined unary operators
 Types  Handles:
 I have handled only Int, Float and char types.
 Not all operations are handled on the char types
+strings have not been handled
 
 Loops :
 We have handled loops on ranges, range objects as well as range types
@@ -123,8 +124,15 @@ Conversion of emitted statements to MIPS code would be handeled later on.
  Scan_int
  Scan_float
  Scan_char
- 
+
 
  Print_newline #takes number of newlines to be printed. 
+
+ After submission changes:
+ make float_count to count or add that line there
+
+ Interesting Test Cases :
+ test5.adb - arrays, types and range types
+ 
 
 

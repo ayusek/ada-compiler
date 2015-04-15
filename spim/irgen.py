@@ -1096,6 +1096,7 @@ def p_literal5(p):
     
     p[0] = p[1]
 
+
 def p_literal6(p):
     '''literal : NuLL
     '''

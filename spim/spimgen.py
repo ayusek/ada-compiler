@@ -455,6 +455,7 @@ def TAC2spim( three_addr_code , main_procedure_name):
 
 		   			code.append("float" + str(count + 2) + ':')
 		   			float_count += 3
+		   			count += 3
 		   			regtoMem(reg_result , result ,"int")
 		   			continue
 
@@ -480,7 +481,9 @@ def TAC2spim( three_addr_code , main_procedure_name):
 	   			code.append('\tj float' + str(count + 2))
 
 	   			code.append("float" + str(count + 2) + ':')
+
 	   			float_count += 3
+	   			count+=3
 
  			regtoMem(reg_result , result ,"int")
 
