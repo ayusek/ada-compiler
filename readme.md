@@ -1,139 +1,83 @@
-Name : Ayush Sekhari | Margaux Dorido
-The following is a description of stuff I was able to handle in my implementation. 
+#				Ada Compiler
+###			Ayush Sekhari (ayusek@iitk.ac.in) , Margaux Dorido (margaux.dorido@gmail.com)
 
-Operators: 
-Distinction has been made between the Int and Float type operators, Unless specified , the operators are Int based
-I have also supported a power operator (**). It works only on itegers.
-I have also defined unary operators
+This is a simplified compiler for converting an **Ada Program to MIPS assembly code** which can be directly simulated on a SPIM.  This was build under the supervision of **Prof. Subhajit Roy** as a course project for the course Compiler Design (CS335A) at IIT Kanpur. 
 
-Types  Handles:
-I have handled only Int, Float and char types.
-Not all operations are handled on the char types
-strings have not been handled
+The Project was made in four sub-parts :
 
-Loops :
-We have handled loops on ranges, range objects as well as range types
-Break and continue do not exists for Ada loops
-Loop identifiers can not be used again
-Did not deal with until loops and loops with conditions in the middle
-Array Loops are not defined for now
-Assume loop variables to be global identifiers -> This implies that a loop variable (for eg. in for loop) can not be used again
+1. **Lexer** - Returns the lexemes for the input Ada code
+2. **Parser** - Returns a Parse Tree for the input Ada code by first running the above lexer to get the lexemes for each token
+3. **IRCode Generator** - Returns a List of Three Adress Code for the input Ada code using a CFL for a part of Ada. 
+4. **Spim code Generator** - Returns the assembly code for the given input Ada code which can be directly executed on SPIM. 
 
+-------------------------------------------------------------------------------------------------------
+For running the compiler just execute the respective part\_file.py with the code file as an argument. Eq  ./spimgen/spimgen.py  test_file.adb
 
-Expressions :
-All algebric expressions are handled. 
-While having nested booleans, some temperory variables are emitted but are not used.
-Only short circuit operators are allowed "and then" and "or else"
+-------------------------------------------------------------------------------------------------------
+### Language Features
+#### Basic Data-Types :
+Int, Float and char data types. Not all operations are handled on the char types. Basic level string handling is done. 
+
+####Arrays: 
+1. I am assuming an integral range only. No need to specify the type of range while initiating arrays.
+2. The size of arrays is to be fixed at compile_time.  Dynamic arrays are not supported. 
 
 
-Procedures and Functions : 
-Only two integral/character return value is allowed in procedures
-only five floating point return values are allowed in procedures
+#### Ranges : 
+1. Ranges are specifies as expression .. expression
+2. Only numerical ranges are allowed
+3. Reverse keyword can be used to invert the range specification
 
-I have only defined procedures, support to functions is not yet handled. 
-Expressions are only allowed for in parameters
-Write now, I have handled only in and out variables, so procedure variables are used only to transfer values only. 
-I have not yet put any constraints on their assignments
-Right now, I have also not handled the default value assignment to procedures. This is to be done in p_comp_assoc 
-Also, the offset in each procedure is a local offset in its activation record. 
-New defines data-types may be passed to procedures. 
+####Operators: 
 
-Arrays: 
-I am assuming an integral range only. No need to specify the type of range.
-The size of arrays is to be fixed at compile_time. 
-Arrays are static only. 
+1. Distinction has been made between the Int and Float type operators
+2. Power Operator (**). It works on integers only
+3 .Unary + and - have also been supported
 
+#### Expressions :
+1. All algebric expressions  are handled. 
+2. All boolean operators are short circuit operators i.e. "and then" and "or else"
+3. Xor boolean operator is not supported
 
-Types:
-I have a statement type which is used for type checking in the expressions
-I am handling Int, Float and Bool Data types
+#### Loops :
 
+1.  We have handled loops on ranges, range objects as well as range types
+2. Break and continue statements are supported
+3. Loop identifiers must not be used again in the code
+4. While loop and For loop have been supported
 
-Symbol Table:
-We have not yet added the function overloading feature to out language. 
+####Procedures and Functions : 
+1. A maximum of two  integral/character  and five floating point return values are allowed in procedures 
+2. I have only defined procedures, support to functions is not yet handled. 
+3. Only expressions are allowed in parameters. Objects can not be passed by direct reference.  I have handled only in and out variables, so procedure variables are used only to transfer values only. 
+4. Default values in procedures have been handled. 
 
-Ranges : 
-Ranges are specifies as expression .. expression
-Only numerical ranges are allowed
-Reverse keyword can be used to invert the range specification
-
-operators:
-The two types must be same on the two sides of the operators. ada also does not do any type casting in general. 
-
-Stuff Handled:
-Variable Declaration
-Expression Declaration 
-Procedure Declaration
-Statement Declaration
-Procedure Calling
-type checking
-Type/Subtype Declaration
-
-Temperory variables:
-Their lexemes are of the format of _t. where . is a number 
-
-
-Logical Operators:
-XOR is a logical operator in ada , I have removed it
-
-
-Statement Types :
-Empty statements are not allowed
-
-
-Blocks:
-Exceptions not handled yet
-
-Relevant Test Files :
-test1 -> Expressions
-test2 -> If-else, For Loop, While Loop 
-test3 -> Nested Procedures
-test4 -> Multiple Procedures
-test5 -> Arrays , Subtypes, TypeDefs
-test6 -> Passing Arrays to Functions, Matrix Type Defined
-
-Conversion of emitted statements to MIPS code would be handeled later on. 
-
-
- SPIM code generation :
- The filename must match the main function name or else it would give an error. This is a warning in normal ada but I am treating it as an error. 
-
- SCOPING:
- scoping is not handeled yet
-
- Register Allocation :
+ #### Register Allocation :
  Trivial register allocation is done considering each three adress code statement as a basic block. 
 
- Memory Allocation : 
+#### Memory Allocation : 
  Instead of alocating a complete memory and making offsets in it, Right now, I am just making a new space for each variable. 
  If values are not pre-assigned, then it would take garbage values
 
- Library Support :
- Right now, I have added the following function:
+ #### Library Support :
+The following basic functions have been handled - 
 
- Type Conversions :
- I have allowed basic type conversions of variables from int to float and back. Use the library functions for that support. 
+ * Print_int
+* Print_float
+* Print_char 
+* int\_to\_float
+* float\_to\_int
+* Scan_int
+* Scan_float
+* Scan_char
+* Print_newline #takes number of newlines to be printed. 
 
- #Takes a list of variable
+#### Relevant Test Files :
+* test1 -> Expressions
+* test2 -> If-else, For Loop, While Loop 
+* test3 -> Nested Procedures
+* test4 -> Multiple Procedures
+* test5 -> Arrays , Subtypes, TypeDefs
+* test6 -> Passing Arrays to Functions, Matrix Type Defined
 
- Print_int
- Print_float
- Print_char 
- int_to_float
- float_to_int
- Scan_int
- Scan_float
- Scan_char
-
-
- Print_newline #takes number of newlines to be printed. 
-
- After submission changes:
- make float_count to count or add that line there
- Destination to the assembly code changed
-
- Interesting Test Cases :
- test5.adb - arrays, types and range types
-
-
-
+-------------------------------------------------------------------------------------------------------
