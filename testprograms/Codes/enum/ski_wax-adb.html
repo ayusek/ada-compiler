@@ -1,87 +1,0 @@
-<html>
-<head>
-<title>The Ada Program: ski_wax.adb</title>
-<!-- Automatically created by 'sgml2html'. -->
-</head>
-<body>
-<h1>The Ada Program: ski_wax.adb</h1>
-<pre>
-<font size=-1>  1</font> <b><i><font color=#BB1212>-- ski_wax.adb: determine best ski wax given snow conditions</font></i></b>
-<font size=-1>  2</font> 
-<font size=-1>  3</font> <b><font color=#228B22>with</font></b> <a href="http://www.adahome.com/rm95/rm9x-A-10-01.html">Ada.Text_IO</a>, <a href="http://www.adahome.com/rm95/rm9x-A-10-08.html#20">Ada.Integer_Text_IO</a>;
-<font size=-1>  4</font> <b><font color=#228B22>use</font></b> Ada;
-<font size=-1>  5</font> 
-<font size=-1>  6</font> <b><font color=#228B22>procedure</font></b> Ski_Wax <b><font color=#228B22>is</font></b>
-<font size=-1>  7</font> 
-<font size=-1>  8</font>    <b><font color=#228B22>type</font></b> Snow_Type <b><font color=#228B22>is</font></b> (Powdered, Packed, Crusty);
-<font size=-1>  9</font>    <b><font color=#228B22>type</font></b> Color_Type <b><font color=#228B22>is</font></b>  (White, Green, Blue, Violet, Red, Yellow);
-<font size=-1> 10</font>    <b><font color=#228B22>type</font></b> Variety_Type <b><font color=#228B22>is</font></b> (Special, Standard, Extra);
-<font size=-1> 11</font> 
-<font size=-1> 12</font>    <b><font color=#228B22>package</font></b> Snow_IO <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> Text_IO.Enumeration_IO (Enum=&#62;Snow_Type);
-<font size=-1> 13</font>    <b><font color=#228B22>package</font></b> Color_IO <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> Text_IO.Enumeration_IO (Enum=&#62;Color_Type);
-<font size=-1> 14</font>    <b><font color=#228B22>package</font></b> Variety_IO <b><font color=#228B22>is</font></b> <b><font color=#228B22>new</font></b> Text_IO.Enumeration_IO (Enum=&#62;Variety_Type);
-<font size=-1> 15</font> 
-<font size=-1> 16</font>    Temperature    : <font color=#8B008B>Integer</font>;         <b><i><font color=#BB1212>-- The current outside temperature</font></i></b>
-<font size=-1> 17</font>    Snow_Condition : Snow_Type;       <b><i><font color=#BB1212>-- The condition of the snow</font></i></b>
-<font size=-1> 18</font>    Wax_Color      : Color_Type;      <b><i><font color=#BB1212>-- The wax group selected</font></i></b>
-<font size=-1> 19</font>    Wax_Variety    : Variety_Type;    <b><i><font color=#BB1212>-- The wax variety selected</font></i></b>
-<font size=-1> 20</font> 
-<font size=-1> 21</font> <b><font color=#228B22>begin</font></b>
-<font size=-1> 22</font> 
-<font size=-1> 23</font>    <b><i><font color=#BB1212>-- Obtain Temperature</font></i></b>
-<font size=-1> 24</font>    Text_IO.Put (<font color=#008B8B>"Enter the outside temperature: "</font>);
-<font size=-1> 25</font>    Integer_Text_IO.Get (Temperature);
-<font size=-1> 26</font> 
-<font size=-1> 27</font>    <b><i><font color=#BB1212>-- Obtain Snow Condition</font></i></b>
-<font size=-1> 28</font>    Text_IO.Put (<font color=#008B8B>"Enter the snow condition (Powdered, Packed, Crusty): "</font>);
-<font size=-1> 29</font>    Snow_IO.Get (Snow_Condition);
-<font size=-1> 30</font> 
-<font size=-1> 31</font>    <b><i><font color=#BB1212>-- Echo print</font></i></b>
-<font size=-1> 32</font>    Text_IO.New_Line;
-<font size=-1> 33</font>    Text_IO.Put (<font color=#008B8B>"The current temperature is "</font>);
-<font size=-1> 34</font>    Integer_Text_IO.Put (Item=&#62;Temperature, Width=&#62;<font color=#008B8B>0</font>);
-<font size=-1> 35</font>    Text_IO.New_Line;
-<font size=-1> 36</font>    Text_IO.Put (<font color=#008B8B>"The snow is "</font>);
-<font size=-1> 37</font>    Snow_IO.Put (Item=&#62;Snow_Condition, Set=&#62;Text_IO.Lower_Case);
-<font size=-1> 38</font>    Text_IO.New_Line;
-<font size=-1> 39</font> 
-<font size=-1> 40</font>    <b><i><font color=#BB1212>-- Determine Wax Color</font></i></b>
-<font size=-1> 41</font>    <b><font color=#228B22>if</font></b> Temperature &#62; <font color=#008B8B>38</font> <b><font color=#228B22>then</font></b>
-<font size=-1> 42</font>       Wax_Color := Yellow;
-<font size=-1> 43</font>    <b><font color=#228B22>elsif</font></b> Temperature &#62; <font color=#008B8B>31</font> <b><font color=#228B22>then</font></b>
-<font size=-1> 44</font>       Wax_Color := Red;
-<font size=-1> 45</font>    <b><font color=#228B22>elsif</font></b> Temperature &#62; <font color=#008B8B>26</font> <b><font color=#228B22>then</font></b>
-<font size=-1> 46</font>       Wax_Color := Violet;
-<font size=-1> 47</font>    <b><font color=#228B22>elsif</font></b> Temperature &#62; <font color=#008B8B>18</font> <b><font color=#228B22>then</font></b>
-<font size=-1> 48</font>       Wax_Color := Blue;
-<font size=-1> 49</font>    <b><font color=#228B22>elsif</font></b> Temperature &#62; <font color=#008B8B>5</font> <b><font color=#228B22>then</font></b>
-<font size=-1> 50</font>       Wax_Color := Green;
-<font size=-1> 51</font>    <b><font color=#228B22>else</font></b>
-<font size=-1> 52</font>       Wax_Color := White;
-<font size=-1> 53</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
-<font size=-1> 54</font> 
-<font size=-1> 55</font>    <b><i><font color=#BB1212>-- Determine Wax Variety (White and Yellow only come in Standard)</font></i></b>
-<font size=-1> 56</font>    <b><font color=#228B22>if</font></b> (Wax_Color=White) <b><font color=#228B22>or</font></b> <b><font color=#228B22>else</font></b> (Wax_Color=Yellow) <b><font color=#228B22>then</font></b>
-<font size=-1> 57</font>       Wax_Variety := Standard;
-<font size=-1> 58</font>    <b><font color=#228B22>else</font></b>
-<font size=-1> 59</font>       <b><font color=#228B22>if</font></b> Snow_Condition = Powdered <b><font color=#228B22>then</font></b>
-<font size=-1> 60</font>          Wax_Variety := Special;
-<font size=-1> 61</font>       <b><font color=#228B22>elsif</font></b> Snow_Condition = Packed <b><font color=#228B22>then</font></b>
-<font size=-1> 62</font>          Wax_Variety := Standard;
-<font size=-1> 63</font>       <b><font color=#228B22>else</font></b>
-<font size=-1> 64</font>          Wax_Variety := Extra;
-<font size=-1> 65</font>       <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
-<font size=-1> 66</font>    <b><font color=#228B22>end</font></b> <b><font color=#228B22>if</font></b>;
-<font size=-1> 67</font> 
-<font size=-1> 68</font>    <b><i><font color=#BB1212>-- Output recommended ski wax</font></i></b>
-<font size=-1> 69</font>    Text_IO.New_Line;
-<font size=-1> 70</font>    Text_IO.Put (<font color=#008B8B>"The recommended ski wax is "</font>);
-<font size=-1> 71</font>    Variety_IO.Put (Item=&#62;Wax_Variety, Set=&#62;Text_IO.Lower_Case);
-<font size=-1> 72</font>    Text_IO.Put (<font color=#008B8B>" "</font>);
-<font size=-1> 73</font>    Color_IO.Put (Item=&#62;Wax_Color, Set=&#62;Text_IO.Lower_Case);
-<font size=-1> 74</font>    Text_IO.New_Line;
-<font size=-1> 75</font> 
-<font size=-1> 76</font> <b><font color=#228B22>end</font></b> Ski_Wax;
-</pre>
-</body>
-</html>

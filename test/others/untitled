@@ -1,7 +1,0 @@
-type my_array is array ( 1 .. 10) of integer ;
-subtype hello is integer ; 
-subtype Integer_2 is Integer    range 7 .. 11;  -- bad
- 
-Funny        : array(1..5) of INTEGER;
-
-H : array (1 .. 10 ) of integer ; 
